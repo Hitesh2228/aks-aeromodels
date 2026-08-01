@@ -1,0 +1,43 @@
+---
+import Header from '../components/Header.astro';
+import CartDrawer from '../components/CartDrawer.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy | AKS Aeromodels</title>
+</head>
+<body>
+  <Header />
+  <main class="container page-padding">
+    <div class="glass-panel policy-box">
+      <h1>PRIVACY POLICY</h1>
+      <p class="updated">Last updated: August 2026</p>
+      
+      <section>
+        <h2>1. Information We Collect</h2>
+        <p>We collect customer details such as name, delivery address, phone number, and payment confirmation details strictly to fulfill order shipments and provide technical support.</p>
+      </section>
+
+      <section>
+        <h2>2. Data Security</h2>
+        <p>All transaction details pass through secure 256-bit SSL encrypted domestic and international payment gateways (UPI, Credit/Debit Cards, NetBanking). We do not store raw card numbers or passwords.</p>
+      </section>
+    </div>
+  </main>
+  <CartDrawer />
+  <Footer />
+  <style>
+    .page-padding { padding: 4rem 1.25rem; }
+    .policy-box { padding: 3rem; border-radius: var(--radius-lg); max-width: 900px; margin: 0 auto; line-height: 1.8; color: var(--text-secondary); }
+    .policy-box h1 { color: #fff; margin-bottom: 0.5rem; }
+    .updated { font-size: 0.8rem; color: var(--accent-gold); margin-bottom: 2rem; }
+    .policy-box h2 { color: #fff; font-size: 1.2rem; margin: 1.5rem 0 0.5rem; }
+  </style>
+</body>
+</html>

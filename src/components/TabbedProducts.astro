@@ -1,0 +1,305 @@
+---
+import { PRODUCTS } from '../data/products';
+
+const bestsellers = PRODUCTS.filter(p => p.isBestseller).slice(0, 8);
+const newArrivals = PRODUCTS.filter(p => p.isNewArrival).slice(0, 8);
+---
+
+<section class="tabbed-products-section">
+  <div class="container">
+    
+    <!-- Tab Controls (Bellavita Header) -->
+    <div class="tabs-header">
+      <button class="tab-btn active" data-target="tab-bestsellers">BESTSELLERS</button>
+      <span class="tab-divider">|</span>
+      <button class="tab-btn" data-target="tab-newarrivals">NEW ARRIVALS</button>
+    </div>
+
+    <!-- Bestsellers Grid -->
+    <div class="products-grid tab-content active" id="tab-bestsellers">
+      {bestsellers.map(product => (
+        <div class="product-card glass-panel">
+          <div class="card-media">
+            <span class="badge-bestseller">BESTSELLER</span>
+            {product.discountBadge && <span class="badge-offer">{product.discountBadge}</span>}
+            <a href={`/product/${product.id}`}>
+              <img src={product.image} alt={product.name} class="product-img" loading="lazy" />
+            </a>
+          </div>
+
+          <div class="card-body">
+            <div class="category-tag">{product.categoryLabel}</div>
+            <h3 class="product-title">
+              <a href={`/product/${product.id}`}>{product.name}</a>
+            </h3>
+
+            <!-- Rating & Reviews -->
+            <div class="rating-row">
+              <span class="stars">★ {product.rating}</span>
+              <span class="reviews">({product.reviewsCount} Reviews)</span>
+            </div>
+
+            <!-- Price -->
+            <div class="price-row">
+              <span class="current-price">₹{product.price.toLocaleString('en-IN')}</span>
+              <span class="original-price">₹{product.originalPrice.toLocaleString('en-IN')}</span>
+            </div>
+
+            <!-- Action Button -->
+            <button class="btn-add-cart add-to-cart-btn" data-id={product.id}>
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- New Arrivals Grid -->
+    <div class="products-grid tab-content" id="tab-newarrivals">
+      {newArrivals.map(product => (
+        <div class="product-card glass-panel">
+          <div class="card-media">
+            <span class="badge-offer" style="background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan);">NEW ARRIVAL</span>
+            <a href={`/product/${product.id}`}>
+              <img src={product.image} alt={product.name} class="product-img" loading="lazy" />
+            </a>
+          </div>
+
+          <div class="card-body">
+            <div class="category-tag">{product.categoryLabel}</div>
+            <h3 class="product-title">
+              <a href={`/product/${product.id}`}>{product.name}</a>
+            </h3>
+
+            <div class="rating-row">
+              <span class="stars">★ {product.rating}</span>
+              <span class="reviews">({product.reviewsCount} Reviews)</span>
+            </div>
+
+            <div class="price-row">
+              <span class="current-price">₹{product.price.toLocaleString('en-IN')}</span>
+              <span class="original-price">₹{product.originalPrice.toLocaleString('en-IN')}</span>
+            </div>
+
+            <button class="btn-add-cart add-to-cart-btn" data-id={product.id}>
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- View All CTA -->
+    <div class="view-all-wrapper">
+      <a href="/shop" class="btn-dark">VIEW ALL PRODUCTS</a>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .tabbed-products-section {
+    padding: 5rem 0;
+    background: #08090c;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .tabs-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  .tab-btn {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    transition: var(--transition-fast);
+  }
+  .tab-btn.active {
+    color: #fff;
+    border-bottom: 2px solid var(--accent-gold);
+  }
+  .tab-divider {
+    font-size: 1.8rem;
+    color: var(--text-muted);
+  }
+
+  /* Grid Layout */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.75rem;
+  }
+  .tab-content {
+    display: none;
+  }
+  .tab-content.active {
+    display: grid;
+  }
+
+  /* Product Card */
+  .product-card {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition-smooth);
+    position: relative;
+  }
+  .product-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(230, 200, 117, 0.4);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(230, 200, 117, 0.1);
+  }
+
+  .card-media {
+    position: relative;
+    padding-top: 75%;
+    overflow: hidden;
+    background: #11131a;
+  }
+  .product-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-smooth);
+  }
+  .product-card:hover .product-img {
+    transform: scale(1.06);
+  }
+
+  .badge-bestseller, .badge-offer {
+    position: absolute;
+    top: 0.85rem;
+    z-index: 2;
+  }
+  .badge-bestseller {
+    left: 0.85rem;
+  }
+  .badge-offer {
+    right: 0.85rem;
+  }
+
+  .card-body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  .category-tag {
+    font-size: 0.7rem;
+    color: var(--accent-gold);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.35rem;
+  }
+  .product-title {
+    font-size: 1rem;
+    line-height: 1.35;
+    margin-bottom: 0.6rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 2.7rem;
+  }
+  .product-title a:hover {
+    color: var(--accent-gold);
+  }
+
+  .rating-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    margin-bottom: 0.85rem;
+  }
+  .stars {
+    color: var(--accent-amber);
+    font-weight: 700;
+  }
+  .reviews {
+    color: var(--text-muted);
+  }
+
+  .price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin-bottom: 1.25rem;
+    margin-top: auto;
+  }
+  .current-price {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #fff;
+  }
+  .original-price {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-decoration: line-through;
+  }
+
+  .btn-add-cart {
+    width: 100%;
+    background: #181b26;
+    color: #fff;
+    border: 1px solid var(--border-subtle);
+    padding: 0.75rem;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    transition: var(--transition-fast);
+  }
+  .btn-add-cart:hover {
+    background: linear-gradient(135deg, var(--accent-gold), #b89740);
+    color: #08090c;
+    border-color: var(--accent-gold);
+    box-shadow: 0 4px 15px rgba(230, 200, 117, 0.25);
+  }
+
+  .view-all-wrapper {
+    text-align: center;
+    margin-top: 3.5rem;
+  }
+</style>
+
+<script>
+  import { addToCart } from '../lib/cartStore';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Tab switching
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-target');
+        
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+
+        btn.classList.add('active');
+        document.getElementById(target!)?.classList.add('active');
+      });
+    });
+
+    // Add to cart click handlers
+    document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
+        if (id) {
+          addToCart(id, 1);
+        }
+      });
+    });
+  });
+</script>

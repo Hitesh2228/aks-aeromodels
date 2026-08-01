@@ -1,0 +1,436 @@
+---
+import Header from '../../components/Header.astro';
+import CartDrawer from '../../components/CartDrawer.astro';
+import Footer from '../../components/Footer.astro';
+import { PRODUCTS, getProductById, type Product } from '../../data/products';
+import '../../styles/global.css';
+
+export function getStaticPaths() {
+  return PRODUCTS.map(product => ({
+    params: { id: product.id },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props as { product: Product };
+
+if (!product) {
+  return Astro.redirect('/shop');
+}
+
+const relatedProducts = PRODUCTS
+  .filter(p => p.category === product.category && p.id !== product.id)
+  .slice(0, 4);
+
+// JSON-LD Product Schema for AI Scrapers & Google
+const productSchema = {
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": product.name,
+  "image": [product.image],
+  "description": product.description,
+  "sku": product.id,
+  "brand": {
+    "@type": "Brand",
+    "name": product.categoryLabel
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": `https://aks-aeromodels.com/product/${product.id}`,
+    "priceCurrency": "INR",
+    "price": product.price,
+    "availability": product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+    "itemCondition": "https://schema.org/NewCondition"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": product.rating,
+    "reviewCount": product.reviewsCount
+  }
+};
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{product.name} | AKS Aeromodels</title>
+  <meta name="description" content={product.description} />
+  <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
+</head>
+<body>
+
+  <Header />
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumb-bar">
+    <div class="container">
+      <a href="/">Home</a> / <a href="/shop">Shop</a> / <a href={`/shop?category=${product.category}`}>{product.categoryLabel}</a> / <span class="active">{product.name}</span>
+    </div>
+  </div>
+
+  <main class="container pdp-layout">
+    
+    <!-- Left Column: Product Gallery -->
+    <div class="pdp-gallery-col">
+      <div class="main-image-box glass-panel">
+        {product.discountBadge && <span class="badge-offer pdp-badge">{product.discountBadge}</span>}
+        <img src={product.image} alt={product.name} class="main-pdp-img" id="main-gallery-img" />
+      </div>
+    </div>
+
+    <!-- Right Column: Product Details & Buying Actions -->
+    <div class="pdp-details-col glass-panel">
+      <div class="pdp-category">{product.categoryLabel}</div>
+      <h1 class="pdp-title">{product.name}</h1>
+
+      <!-- Rating & Stock Status -->
+      <div class="pdp-meta-row">
+        <div class="pdp-rating">
+          <span class="stars">★★★★★ {product.rating}</span>
+          <span class="reviews">({product.reviewsCount} Customer Reviews)</span>
+        </div>
+        <div class="stock-status in-stock">
+          <span class="dot"></span> In Stock & Ready to Ship
+        </div>
+      </div>
+
+      <!-- Pricing -->
+      <div class="pdp-price-box">
+        <span class="pdp-price">₹{product.price.toLocaleString('en-IN')}</span>
+        <span class="pdp-old-price">₹{product.originalPrice.toLocaleString('en-IN')}</span>
+        <span class="pdp-save-badge">You Save ₹{(product.originalPrice - product.price).toLocaleString('en-IN')}</span>
+      </div>
+
+      <p class="pdp-desc">{product.description}</p>
+
+      <!-- Purchase Controls -->
+      <div class="purchase-controls">
+        <div class="quantity-selector">
+          <button type="button" class="qty-btn" id="pdp-qty-minus">-</button>
+          <span class="qty-display" id="pdp-qty-val">1</span>
+          <button type="button" class="qty-btn" id="pdp-qty-plus">+</button>
+        </div>
+
+        <button class="btn-primary pdp-add-btn" id="pdp-add-to-cart-trigger" data-id={product.id}>
+          ADD TO CART <span>🛒</span>
+        </button>
+      </div>
+
+      <!-- Key Specifications Table -->
+      <div class="specs-section">
+        <h3 class="specs-heading">TECHNICAL SPECIFICATIONS</h3>
+        <table class="specs-table">
+          <tbody>
+            {Object.entries(product.specs).map(([key, val]) => (
+              <tr>
+                <td class="spec-key">{key}</td>
+                <td class="spec-val">{val}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Shipping & Trust Highlights -->
+      <div class="pdp-trust-bar">
+        <div class="trust-pill">⚡ Dispatch in 24 Hours</div>
+        <div class="trust-pill">📦 Insured Transit</div>
+        <div class="trust-pill">💯 100% Genuine</div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Related Products Section -->
+  {relatedProducts.length > 0 && (
+    <section class="related-section">
+      <div class="container">
+        <h2 class="section-title">YOU MAY ALSO LIKE</h2>
+        <p class="section-subtitle">Recommended accessories and airframes for this setup</p>
+
+        <div class="products-grid">
+          {relatedProducts.map(rel => (
+            <div class="product-card glass-panel">
+              <div class="card-media">
+                <a href={`/product/${rel.id}`}>
+                  <img src={rel.image} alt={rel.name} class="product-img" />
+                </a>
+              </div>
+              <div class="card-body">
+                <div class="category-tag">{rel.categoryLabel}</div>
+                <h3 class="product-title"><a href={`/product/${rel.id}`}>{rel.name}</a></h3>
+                <div class="price-row">
+                  <span class="current-price">₹{rel.price.toLocaleString('en-IN')}</span>
+                </div>
+                <button class="btn-add-cart add-to-cart-btn" data-id={rel.id}>ADD TO CART</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <CartDrawer />
+  <Footer />
+
+  <style>
+    .breadcrumb-bar {
+      background: #090a0e;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.75rem 0;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .breadcrumb-bar a:hover {
+      color: var(--accent-gold);
+    }
+    .breadcrumb-bar .active {
+      color: var(--text-secondary);
+    }
+
+    .pdp-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 3rem;
+      padding: 3rem 1.25rem 5rem;
+    }
+
+    .main-image-box {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      padding-top: 75%;
+      background: #11131a;
+    }
+    .main-pdp-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .pdp-badge {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      z-index: 2;
+    }
+
+    .pdp-details-col {
+      padding: 2.25rem;
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+    }
+    .pdp-category {
+      font-size: 0.75rem;
+      color: var(--accent-gold);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .pdp-title {
+      font-size: 1.8rem;
+      line-height: 1.25;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+
+    .pdp-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 1rem;
+    }
+    .pdp-rating .stars {
+      color: var(--accent-amber);
+      font-weight: 700;
+    }
+    .pdp-rating .reviews {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    .stock-status {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .stock-status .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-green);
+      border-radius: 50%;
+    }
+
+    .pdp-price-box {
+      display: flex;
+      align-items: baseline;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .pdp-price {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #fff;
+      font-family: var(--font-display);
+    }
+    .pdp-old-price {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+    .pdp-save-badge {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-green);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+    }
+
+    .pdp-desc {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .purchase-controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .quantity-selector {
+      display: flex;
+      align-items: center;
+      background: #181b26;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.25rem 0.5rem;
+    }
+    .qty-btn {
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .qty-display {
+      width: 36px;
+      text-align: center;
+      font-weight: 700;
+      color: #fff;
+    }
+    .pdp-add-btn {
+      flex-grow: 1;
+    }
+
+    /* Specs Table */
+    .specs-section {
+      margin-bottom: 2rem;
+    }
+    .specs-heading {
+      font-size: 0.9rem;
+      color: var(--accent-gold);
+      letter-spacing: 0.08em;
+      margin-bottom: 0.75rem;
+    }
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    .specs-table tr {
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .specs-table td {
+      padding: 0.6rem 0;
+    }
+    .spec-key {
+      color: var(--text-muted);
+      width: 40%;
+      font-weight: 600;
+    }
+    .spec-val {
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .pdp-trust-bar {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .trust-pill {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .related-section {
+      padding: 4rem 0 5rem;
+      background: #08090c;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    @media (max-width: 900px) {
+      .pdp-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <script>
+    import { addToCart } from '../../lib/cartStore';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      let qty = 1;
+      const qtyVal = document.getElementById('pdp-qty-val');
+      const minusBtn = document.getElementById('pdp-qty-minus');
+      const plusBtn = document.getElementById('pdp-qty-plus');
+      const addBtn = document.getElementById('pdp-add-to-cart-trigger');
+
+      minusBtn?.addEventListener('click', () => {
+        if (qty > 1) {
+          qty--;
+          if (qtyVal) qtyVal.textContent = qty.toString();
+        }
+      });
+
+      plusBtn?.addEventListener('click', () => {
+        qty++;
+        if (qtyVal) qtyVal.textContent = qty.toString();
+      });
+
+      addBtn?.addEventListener('click', () => {
+        const id = addBtn.getAttribute('data-id');
+        if (id) {
+          addToCart(id, qty);
+        }
+      });
+
+      document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
+          if (id) addToCart(id, 1);
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>

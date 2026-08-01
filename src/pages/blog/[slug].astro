@@ -1,0 +1,123 @@
+---
+import Header from '../../components/Header.astro';
+import CartDrawer from '../../components/CartDrawer.astro';
+import Footer from '../../components/Footer.astro';
+import { POSTS } from './index.astro';
+import '../../styles/global.css';
+
+export function getStaticPaths() {
+  return POSTS.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+// JSON-LD Article Schema
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": post.title,
+  "image": [post.image],
+  "datePublished": "2026-08-01",
+  "author": {
+    "@type": "Person",
+    "name": post.author
+  }
+};
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{post.title} | AKS Aeromodels</title>
+  <meta name="description" content={post.excerpt} />
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+</head>
+<body>
+
+  <Header />
+
+  <main class="container page-padding">
+    <article class="article-layout glass-panel">
+      <div class="article-header">
+        <div class="blog-meta">{post.date} • By {post.author}</div>
+        <h1 class="article-title">{post.title}</h1>
+      </div>
+
+      <img src={post.image} alt={post.title} class="article-featured-img" />
+
+      <div class="article-body">
+        <p class="lead">{post.excerpt}</p>
+        
+        <h2>Step 1: Bench Mounting and Fuel Setup</h2>
+        <p>Before running your engine for the first time, securely bolt it onto a rigid wooden or aluminum test stand. Never attempt to break-in an engine hand-held or in a loose airframe.</p>
+
+        <h2>Step 2: Rich Needle Setting</h2>
+        <p>Open the high-speed needle valve 2.5 to 3 full turns counter-clockwise from closed. Connect 10%-15% nitro fuel with high-quality synthetic/castor oil blend.</p>
+
+        <h2>Step 3: Initial Heat Cycles</h2>
+        <p>Start the engine using an electric starter. Run at full throttle in a rich 4-cycle burble for 2 minutes, then shut down to cool completely. Repeat this thermal cycle 4 to 5 times.</p>
+      </div>
+
+      <div class="article-footer">
+        <a href="/blog" class="btn-dark">← BACK TO ALL ARTICLES</a>
+      </div>
+    </article>
+  </main>
+
+  <CartDrawer />
+  <Footer />
+
+  <style>
+    .page-padding { padding: 4rem 1.25rem; }
+    .article-layout {
+      max-width: 840px;
+      margin: 0 auto;
+      padding: 3rem;
+      border-radius: var(--radius-lg);
+    }
+    .article-header { margin-bottom: 2rem; }
+    .blog-meta { color: var(--accent-gold); font-size: 0.85rem; margin-bottom: 0.5rem; }
+    .article-title { font-size: 2.2rem; color: #fff; line-height: 1.2; }
+
+    .article-featured-img {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      border-radius: var(--radius-md);
+      margin-bottom: 2.5rem;
+    }
+
+    .article-body {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      line-height: 1.85;
+    }
+    .article-body .lead {
+      font-size: 1.2rem;
+      color: #fff;
+      font-weight: 600;
+      margin-bottom: 2rem;
+    }
+    .article-body h2 {
+      color: #fff;
+      font-size: 1.4rem;
+      margin: 2rem 0 1rem;
+    }
+    .article-body p {
+      margin-bottom: 1.5rem;
+    }
+
+    .article-footer {
+      margin-top: 3rem;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 2rem;
+    }
+  </style>
+
+</body>
+</html>

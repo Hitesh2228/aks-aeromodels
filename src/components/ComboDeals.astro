@@ -1,0 +1,162 @@
+---
+---
+
+<section class="combo-deals-section">
+  <div class="container">
+    <h2 class="section-title">CRAZY COMBO DEALS</h2>
+    <p class="section-subtitle">Save up to 35% with curated RC flight bundles and complete power packs</p>
+
+    <div class="combos-grid">
+      
+      <!-- Combo 1 -->
+      <div class="combo-card glass-panel">
+        <div class="combo-banner">
+          <span class="deal-tag">LIMITED QUANTITY</span>
+          <img src="https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?q=80&w=600&auto=format&fit=crop" alt="Flight Starter Combo" />
+        </div>
+        <div class="combo-info">
+          <h3 class="combo-name">FLIGHT STARTER KIT</h3>
+          <p class="combo-items">O.S. Max 0.46 Engine + Futaba 6k Radio + Glow Plug</p>
+          <div class="combo-price-box">
+            <span class="price-label">BUY ALL 3 FOR</span>
+            <span class="combo-price">₹26,999 <small class="old-price">₹34,997</small></span>
+          </div>
+          <button class="btn-primary add-to-cart-btn" data-id="eng-1">CLAIM COMBO DEAL</button>
+        </div>
+      </div>
+
+      <!-- Combo 2 -->
+      <div class="combo-card glass-panel">
+        <div class="combo-banner">
+          <span class="deal-tag highlight">HOT SELLER</span>
+          <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=600&auto=format&fit=crop" alt="Aerobatic Power Combo" />
+        </div>
+        <div class="combo-info">
+          <h3 class="combo-name">GIANT SCALE 3D BUNDLE</h3>
+          <p class="combo-items">Seagull Decathlon 122" + DLE 65 Gas Engine</p>
+          <div class="combo-price-box">
+            <span class="price-label">BUY BOTH FOR</span>
+            <span class="combo-price">₹94,999 <small class="old-price">₹1,27,000</small></span>
+          </div>
+          <button class="btn-primary add-to-cart-btn" data-id="sea-1">CLAIM COMBO DEAL</button>
+        </div>
+      </div>
+
+      <!-- Combo 3 -->
+      <div class="combo-card glass-panel">
+        <div class="combo-banner">
+          <span class="deal-tag">BUILDER SPECIAL</span>
+          <img src="https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?q=80&w=600&auto=format&fit=crop" alt="Balsa Builder Multipack" />
+        </div>
+        <div class="combo-info">
+          <h3 class="combo-name">BALSA BUILDER MULTIPACK</h3>
+          <p class="combo-items">10x AAA Balsa Sheets (Assorted 2mm-10mm Thicknesses)</p>
+          <div class="combo-price-box">
+            <span class="price-label">PACK OF 10 FOR</span>
+            <span class="combo-price">₹2,499 <small class="old-price">₹3,450</small></span>
+          </div>
+          <button class="btn-primary add-to-cart-btn" data-id="bal-1">CLAIM COMBO DEAL</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .combo-deals-section {
+    padding: 5rem 0;
+    background: #090a0f;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .combos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+  .combo-card {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition-smooth);
+  }
+  .combo-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent-amber);
+    box-shadow: 0 15px 35px rgba(245, 158, 11, 0.15);
+  }
+  .combo-banner {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+  }
+  .combo-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-smooth);
+  }
+  .combo-card:hover .combo-banner img {
+    transform: scale(1.05);
+  }
+  .deal-tag {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: #181b26;
+    color: var(--accent-gold);
+    border: 1px solid var(--accent-gold);
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 0.25rem 0.65rem;
+    border-radius: 4px;
+    z-index: 2;
+  }
+  .deal-tag.highlight {
+    background: var(--accent-amber);
+    color: #000;
+    border: none;
+  }
+
+  .combo-info {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  .combo-name {
+    font-size: 1.25rem;
+    margin-bottom: 0.35rem;
+    color: #fff;
+  }
+  .combo-items {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+  }
+  .combo-price-box {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .price-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--accent-amber);
+    letter-spacing: 0.1em;
+  }
+  .combo-price {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #fff;
+    font-family: var(--font-display);
+  }
+  .old-price {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    text-decoration: line-through;
+    font-weight: 500;
+    margin-left: 0.5rem;
+  }
+</style>

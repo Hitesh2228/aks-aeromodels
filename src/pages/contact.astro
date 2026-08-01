@@ -1,0 +1,192 @@
+---
+import Header from '../components/Header.astro';
+import CartDrawer from '../components/CartDrawer.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us | AKS Aeromodels</title>
+  <meta name="description" content="Get in touch with AKS Aeromodels tech support for engine tuning, radio pairing, or order inquiry." />
+</head>
+<body>
+
+  <Header />
+
+  <main class="container page-padding">
+    <div class="contact-grid">
+      
+      <!-- Contact Info Left -->
+      <div class="contact-info glass-panel">
+        <h1 class="contact-title">GET IN TOUCH</h1>
+        <p class="contact-subtitle">Have questions about an engine setup, wingspan compatibility, or your order?</p>
+
+        <div class="info-blocks">
+          <div class="info-block">
+            <span class="info-icon">📍</span>
+            <div>
+              <strong>Head Office & Distribution Hub</strong>
+              <p>Plot No. 417, Udyog Vihar Phase III, Gurgaon, Haryana 122016</p>
+            </div>
+          </div>
+
+          <div class="info-block">
+            <span class="info-icon">📞</span>
+            <div>
+              <strong>Phone & WhatsApp Support</strong>
+              <p>+91-9810154380 (Mon-Sun: 10 AM - 7 PM)</p>
+            </div>
+          </div>
+
+          <div class="info-block">
+            <span class="info-icon">✉️</span>
+            <div>
+              <strong>Email Inquiries</strong>
+              <p>support@aks-aeromodels.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form Right -->
+      <div class="contact-form-card glass-panel">
+        <h2 class="form-title">SEND US A MESSAGE</h2>
+        <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent successfully! Our technical team will reach out within 2 hours.');">
+          <div class="form-group">
+            <label>Your Full Name *</label>
+            <input type="text" placeholder="e.g. Rahul Verma" required class="form-input" />
+          </div>
+
+          <div class="form-group">
+            <label>Email Address *</label>
+            <input type="email" placeholder="name@domain.com" required class="form-input" />
+          </div>
+
+          <div class="form-group">
+            <label>Phone Number / WhatsApp</label>
+            <input type="tel" placeholder="+91 98765 43210" class="form-input" />
+          </div>
+
+          <div class="form-group">
+            <label>Inquiry Topic</label>
+            <select class="form-input">
+              <option>Engine Technical Query</option>
+              <option>Seagull ARF Specs</option>
+              <option>Futaba Radio Pairing</option>
+              <option>Order & Shipping Status</option>
+              <option>GST Bulk Billing</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Message Detail *</label>
+            <textarea rows="4" placeholder="Describe your flight query..." required class="form-input"></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary" style="width: 100%;">SEND MESSAGE <span>→</span></button>
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <CartDrawer />
+  <Footer />
+
+  <style>
+    .page-padding {
+      padding: 4rem 1.25rem;
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 2.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .contact-info, .contact-form-card {
+      padding: 2.5rem;
+      border-radius: var(--radius-lg);
+    }
+    .contact-title {
+      font-size: 2rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .contact-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 2.5rem;
+      line-height: 1.5;
+    }
+
+    .info-blocks {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+    .info-block {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .info-icon {
+      font-size: 1.5rem;
+    }
+    .info-block strong {
+      color: #fff;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+    .info-block p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+    }
+
+    .form-title {
+      font-size: 1.4rem;
+      color: #fff;
+      margin-bottom: 1.5rem;
+    }
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .form-group label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+    }
+    .form-input {
+      background: #181b26;
+      border: 1px solid var(--border-subtle);
+      color: #fff;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .form-input:focus {
+      border-color: var(--accent-gold);
+    }
+
+    @media (max-width: 900px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+</body>
+</html>

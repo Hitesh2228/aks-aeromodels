@@ -1,0 +1,240 @@
+---
+---
+
+<section class="hero-carousel-section">
+  <div class="hero-slider">
+    
+    <!-- Slide 1: Seagull Giant Scale Banner -->
+    <div class="hero-slide active">
+      <div class="hero-bg" style="background-image: linear-gradient(90deg, rgba(8, 9, 12, 0.95) 0%, rgba(8, 9, 12, 0.6) 50%, rgba(8, 9, 12, 0.85) 100%), url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1600&auto=format&fit=crop');"></div>
+      <div class="container hero-content">
+        <div class="hero-text-block">
+          <div class="hero-badge">
+            <span class="fire-icon">🔥</span> 8th ANNIVERSARY SALE — LOWEST PRICE EVER
+          </div>
+          <h1 class="hero-title">
+            SEAGULL <span class="gold-gradient">CHAMPION XXTREME</span> 122" ARF
+          </h1>
+          <p class="hero-description">
+            Precision laser-cut balsa, genuine Oracover film, and carbon-fiber landing gear. Designed for 60-80cc gas engines.
+          </p>
+
+          <div class="hero-offer-box">
+            <div class="offer-pill">
+              <span class="big-offer">BUY ANY 2</span>
+              <span class="sub-offer">AT JUST <strong>₹7,999</strong></span>
+            </div>
+            <div class="offer-pill highlight">
+              <span class="big-offer">BUY ANY 4</span>
+              <span class="sub-offer">AT JUST <strong>₹13,999</strong></span>
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <a href="/shop?category=aeromodels" class="btn-primary">
+              SHOP NOW <span>→</span>
+            </a>
+            <a href="/product/sea-1" class="btn-dark">
+              VIEW SPECS
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-media-card">
+          <div class="featured-tag">BESTSELLER</div>
+          <img 
+            src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=800&auto=format&fit=crop" 
+            alt="Seagull Champion Xxtreme Decathlon" 
+            class="hero-card-img"
+          />
+          <div class="hero-card-footer">
+            <div class="card-title">SEA394 Decathlon 122" V2</div>
+            <div class="card-price">
+              <span class="current">₹68,999</span>
+              <span class="old">₹85,000</span>
+              <span class="save">SAVE 19%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .hero-carousel-section {
+    position: relative;
+    background: #08090c;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .hero-slide {
+    position: relative;
+    padding: 4.5rem 0 5rem;
+    min-height: 540px;
+    display: flex;
+    align-items: center;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.35;
+    filter: blur(2px);
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(230, 200, 117, 0.12);
+    border: 1px solid rgba(230, 200, 117, 0.3);
+    color: var(--accent-gold);
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-full);
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-title {
+    font-size: 3rem;
+    line-height: 1.08;
+    margin-bottom: 1rem;
+    color: #fff;
+  }
+  .gold-gradient {
+    background: linear-gradient(135deg, #fff 0%, var(--accent-gold) 60%, #c4a04d 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-description {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    max-width: 580px;
+    margin-bottom: 2rem;
+  }
+
+  /* Offer Pill Box */
+  .hero-offer-box {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2.25rem;
+    flex-wrap: wrap;
+  }
+  .offer-pill {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px dashed var(--border-subtle);
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+  }
+  .offer-pill.highlight {
+    background: rgba(230, 200, 117, 0.08);
+    border-color: rgba(230, 200, 117, 0.4);
+  }
+  .big-offer {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+  .sub-offer {
+    font-size: 1.1rem;
+    color: #fff;
+  }
+  .sub-offer strong {
+    color: var(--accent-gold);
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  /* Hero Card Right */
+  .hero-media-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    box-shadow: var(--shadow-card);
+    transition: var(--transition-smooth);
+  }
+  .hero-media-card:hover {
+    border-color: var(--accent-gold);
+    box-shadow: var(--shadow-glow);
+  }
+  .featured-tag {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    background: var(--accent-amber);
+    color: #000;
+    font-weight: 800;
+    font-size: 0.7rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    z-index: 2;
+  }
+  .hero-card-img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    margin-bottom: 1rem;
+  }
+  .hero-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .card-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .card-price {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .current {
+    color: var(--accent-gold);
+    font-weight: 800;
+    font-size: 1.1rem;
+  }
+  .old {
+    color: var(--text-muted);
+    text-decoration: line-through;
+    font-size: 0.85rem;
+  }
+  .save {
+    color: var(--accent-green);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  @media (max-width: 900px) {
+    .hero-content {
+      grid-template-columns: 1fr;
+    }
+    .hero-title {
+      font-size: 2.2rem;
+    }
+  }
+</style>

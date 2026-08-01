@@ -1,0 +1,325 @@
+---
+import Header from '../components/Header.astro';
+import CartDrawer from '../components/CartDrawer.astro';
+import Footer from '../components/Footer.astro';
+import { PRODUCTS, CATEGORIES } from '../data/products';
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop Catalog | AKS Aeromodels</title>
+  <meta name="description" content="Browse our complete catalogue of 33+ RC Engines, Futaba Transmitters, Seagull Aeromodels, Balsa Wood, and Accessories." />
+</head>
+<body>
+
+  <Header />
+
+  <div class="shop-hero">
+    <div class="container">
+      <h1 class="shop-title">FLIGHT CATALOGUE & SHOP</h1>
+      <p class="shop-subtitle">Filter by category, engine capacity, wingspan, or component type</p>
+    </div>
+  </div>
+
+  <main class="container shop-layout">
+    
+    <!-- Sidebar Filters -->
+    <aside class="shop-sidebar glass-panel">
+      <h3 class="filter-heading">CATEGORIES</h3>
+      <ul class="category-filter-list">
+        <li>
+          <button class="cat-filter-btn active" data-cat="all">All Products ({PRODUCTS.length})</button>
+        </li>
+        {CATEGORIES.map(cat => {
+          const count = PRODUCTS.filter(p => p.category === cat.id).length;
+          return (
+            <li>
+              <button class="cat-filter-btn" data-cat={cat.id}>
+                {cat.label} ({count})
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+
+      <h3 class="filter-heading" style="margin-top: 2rem;">PRICE RANGE</h3>
+      <div class="price-range-box">
+        <label for="price-slider" id="price-slider-label">Max Price: ₹85,000</label>
+        <input type="range" id="price-slider" min="100" max="85000" step="500" value="85000" class="range-input" />
+      </div>
+
+      <h3 class="filter-heading" style="margin-top: 2rem;">STOCK AVAILABILITY</h3>
+      <label class="checkbox-label">
+        <input type="checkbox" id="instock-only" checked /> In Stock Only
+      </label>
+    </aside>
+
+    <!-- Main Grid Content -->
+    <section class="shop-main">
+      
+      <!-- Top Controls -->
+      <div class="shop-controls glass-panel">
+        <div class="results-count" id="results-count-text">
+          Showing <strong>{PRODUCTS.length}</strong> items
+        </div>
+        
+        <div class="sort-wrapper">
+          <label for="sort-select">Sort By:</label>
+          <select id="sort-select" class="sort-dropdown">
+            <option value="featured">Featured & Bestsellers</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="rating">Highest Rated</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="products-grid" id="catalog-products-grid">
+        {PRODUCTS.map(product => (
+          <div class="product-card glass-panel catalog-item" data-category={product.category} data-price={product.price} data-rating={product.rating} data-name={product.name.toLowerCase()}>
+            <div class="card-media">
+              {product.isBestseller && <span class="badge-bestseller">BESTSELLER</span>}
+              {product.discountBadge && <span class="badge-offer">{product.discountBadge}</span>}
+              <a href={`/product/${product.id}`}>
+                <img src={product.image} alt={product.name} class="product-img" loading="lazy" />
+              </a>
+            </div>
+
+            <div class="card-body">
+              <div class="category-tag">{product.categoryLabel}</div>
+              <h3 class="product-title">
+                <a href={`/product/${product.id}`}>{product.name}</a>
+              </h3>
+
+              <div class="rating-row">
+                <span class="stars">★ {product.rating}</span>
+                <span class="reviews">({product.reviewsCount} Reviews)</span>
+              </div>
+
+              <div class="price-row">
+                <span class="current-price">₹{product.price.toLocaleString('en-IN')}</span>
+                <span class="original-price">₹{product.originalPrice.toLocaleString('en-IN')}</span>
+              </div>
+
+              <button class="btn-add-cart add-to-cart-btn" data-id={product.id}>
+                ADD TO CART
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </section>
+
+  </main>
+
+  <CartDrawer />
+  <Footer />
+
+  <style>
+    .shop-hero {
+      background: linear-gradient(180deg, #0f121b 0%, #08090c 100%);
+      padding: 3rem 0 2rem;
+      border-bottom: 1px solid var(--border-subtle);
+      text-align: center;
+    }
+    .shop-title {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+    .shop-subtitle {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .shop-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 2rem;
+      padding: 3rem 1.25rem 5rem;
+    }
+
+    .shop-sidebar {
+      padding: 1.5rem;
+      border-radius: var(--radius-lg);
+      height: fit-content;
+    }
+    .filter-heading {
+      font-size: 0.85rem;
+      color: var(--accent-gold);
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.4rem;
+    }
+    .category-filter-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .cat-filter-btn {
+      width: 100%;
+      text-align: left;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      padding: 0.4rem 0.6rem;
+      border-radius: var(--radius-sm);
+      transition: var(--transition-fast);
+    }
+    .cat-filter-btn:hover, .cat-filter-btn.active {
+      color: #fff;
+      background: rgba(230, 200, 117, 0.12);
+      font-weight: 700;
+    }
+
+    .price-range-box {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+    .range-input {
+      accent-color: var(--accent-gold);
+      cursor: pointer;
+    }
+    .checkbox-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+
+    /* Controls & Grid */
+    .shop-controls {
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-md);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.75rem;
+    }
+    .results-count {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+    .sort-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+    .sort-dropdown {
+      background: #181b26;
+      color: #fff;
+      border: 1px solid var(--border-subtle);
+      padding: 0.4rem 0.75rem;
+      border-radius: var(--radius-sm);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .shop-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <script>
+    import { addToCart } from '../lib/cartStore';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const items = Array.from(document.querySelectorAll('.catalog-item')) as HTMLElement[];
+      const catBtns = document.querySelectorAll('.cat-filter-btn');
+      const priceSlider = document.getElementById('price-slider') as HTMLInputElement;
+      const priceLabel = document.getElementById('price-slider-label');
+      const sortSelect = document.getElementById('sort-select') as HTMLSelectElement;
+      const resultsText = document.getElementById('results-count-text');
+
+      let currentCat = 'all';
+      let maxPrice = 85000;
+      let currentSort = 'featured';
+
+      // Check URL query parameters (e.g., ?category=engine or ?q=futaba)
+      const urlParams = new URLSearchParams(window.location.search);
+      const categoryParam = urlParams.get('category');
+      const searchQuery = urlParams.get('q')?.toLowerCase() || '';
+
+      if (categoryParam) {
+        currentCat = categoryParam;
+        catBtns.forEach(btn => {
+          btn.classList.toggle('active', btn.getAttribute('data-cat') === currentCat);
+        });
+      }
+
+      function filterAndSort() {
+        let visibleCount = 0;
+
+        items.forEach(item => {
+          const itemCat = item.getAttribute('data-category');
+          const itemPrice = parseInt(item.getAttribute('data-price') || '0', 10);
+          const itemName = item.getAttribute('data-name') || '';
+
+          const matchesCat = currentCat === 'all' || itemCat === currentCat;
+          const matchesPrice = itemPrice <= maxPrice;
+          const matchesSearch = !searchQuery || itemName.includes(searchQuery);
+
+          if (matchesCat && matchesPrice && matchesSearch) {
+            item.style.display = 'flex';
+            visibleCount++;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+
+        if (resultsText) {
+          resultsText.innerHTML = `Showing <strong>${visibleCount}</strong> items`;
+        }
+      }
+
+      catBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          catBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentCat = btn.getAttribute('data-cat') || 'all';
+          filterAndSort();
+        });
+      });
+
+      priceSlider?.addEventListener('input', () => {
+        maxPrice = parseInt(priceSlider.value, 10);
+        if (priceLabel) priceLabel.textContent = `Max Price: ₹${maxPrice.toLocaleString('en-IN')}`;
+        filterAndSort();
+      });
+
+      filterAndSort();
+
+      // Add to cart click
+      document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
+          if (id) addToCart(id, 1);
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>

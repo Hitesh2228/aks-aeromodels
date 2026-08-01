@@ -1,0 +1,138 @@
+---
+import Header from '../../components/Header.astro';
+import CartDrawer from '../../components/CartDrawer.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/global.css';
+
+export const POSTS = [
+  {
+    slug: 'how-to-break-in-nitro-engine',
+    title: 'Complete Guide: How to Break-in an O.S. Max Nitro Engine for Maximum Lifespan',
+    excerpt: 'Step-by-step needle valve adjustment, heat-cycling process, and fuel oil ratios for your new .46 or .65 nitro engine.',
+    date: 'August 1, 2026',
+    author: 'Chief Engineer K. Sharma',
+    image: 'https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?q=80&w=800&auto=format&fit=crop'
+  },
+  {
+    slug: 'choosing-first-seagull-trainer',
+    title: 'Seagull Boomerang V3 vs. Arising Star: Which ARF Trainer Is Right For You?',
+    excerpt: 'Comparing wing loading, dihedral stability, landing gear durability, and repairability for novice pilot setup.',
+    date: 'July 24, 2026',
+    author: 'Captain R. Verma',
+    image: 'https://images.unsplash.com/photo-1527977966376-1c8408f9f108?q=80&w=800&auto=format&fit=crop'
+  },
+  {
+    slug: 'balsa-wood-density-guide',
+    title: 'Understanding Balsa Sheet Densities: Light, Medium, and Hard Wood Selection',
+    excerpt: 'How to pick between 6 lb contest grade balsa for ribs vs 12 lb structural balsa for fuselage formers.',
+    date: 'July 15, 2026',
+    author: 'Build Specialist A. Deshmukh',
+    image: 'https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?q=80&w=800&auto=format&fit=crop'
+  }
+];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RC Flight Blog & Guides | AKS Aeromodels</title>
+  <meta name="description" content="Technical aeromodelling tutorials, engine tuning guides, and scale flight techniques." />
+</head>
+<body>
+
+  <Header />
+
+  <main class="container page-padding">
+    <div class="blog-hero">
+      <h1 class="section-title">RC FLIGHT BLOG & TUTORIALS</h1>
+      <p class="section-subtitle">Expert guides on engine tuning, radio telemetry, balsa building, and flight setup</p>
+    </div>
+
+    <div class="blog-grid">
+      {POSTS.map(post => (
+        <article class="blog-card glass-panel">
+          <div class="blog-media">
+            <img src={post.image} alt={post.title} />
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta">{post.date} • By {post.author}</div>
+            <h2 class="blog-card-title"><a href={`/blog/${post.slug}`}>{post.title}</a></h2>
+            <p class="blog-excerpt">{post.excerpt}</p>
+            <a href={`/blog/${post.slug}`} class="read-more-btn">READ FULL ARTICLE →</a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </main>
+
+  <CartDrawer />
+  <Footer />
+
+  <style>
+    .page-padding { padding: 4rem 1.25rem; }
+    .blog-hero { text-align: center; margin-bottom: 3.5rem; }
+    
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+    .blog-card {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .blog-media {
+      height: 200px;
+      overflow: hidden;
+    }
+    .blog-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition-smooth);
+    }
+    .blog-card:hover .blog-media img {
+      transform: scale(1.06);
+    }
+
+    .blog-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    .blog-meta {
+      font-size: 0.75rem;
+      color: var(--accent-gold);
+      margin-bottom: 0.5rem;
+    }
+    .blog-card-title {
+      font-size: 1.15rem;
+      line-height: 1.35;
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+    .blog-card-title a:hover {
+      color: var(--accent-gold);
+    }
+    .blog-excerpt {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+      flex-grow: 1;
+    }
+    .read-more-btn {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-amber);
+      letter-spacing: 0.05em;
+    }
+  </style>
+
+</body>
+</html>
