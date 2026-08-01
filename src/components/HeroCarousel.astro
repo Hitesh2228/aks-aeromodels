@@ -1,61 +1,53 @@
 ---
 ---
 
-<section class="hero-carousel-section">
-  <div class="hero-slider">
+<section class="bellavita-hero-section">
+  <div class="hero-container">
     
-    <!-- Slide 1: Seagull Giant Scale Banner -->
-    <div class="hero-slide active">
-      <div class="hero-bg" style="background-image: linear-gradient(90deg, rgba(8, 9, 12, 0.95) 0%, rgba(8, 9, 12, 0.6) 50%, rgba(8, 9, 12, 0.85) 100%), url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1600&auto=format&fit=crop');"></div>
-      <div class="container hero-content">
-        <div class="hero-text-block">
-          <div class="hero-badge">
-            <span class="fire-icon">🔥</span> 8th ANNIVERSARY SALE — LOWEST PRICE EVER
-          </div>
-          <h1 class="hero-title">
-            SEAGULL <span class="gold-gradient">CHAMPION XXTREME</span> 122" ARF
-          </h1>
-          <p class="hero-description">
-            Precision laser-cut balsa, genuine Oracover film, and carbon-fiber landing gear. Designed for 60-80cc gas engines.
-          </p>
+    <!-- Hero Main Card (Bellavita Deep Wine Red Luxury Banner) -->
+    <div class="hero-banner-card">
+      <div class="hero-left-offer">
+        <div class="offer-seal">
+          <span class="seal-price">₹80 OFF</span>
+          <span class="seal-sub">ON EVERY ENGINE</span>
+          <span class="seal-timer">FOR 80 MINS ONLY • STARTS FROM 8PM</span>
+        </div>
+      </div>
 
-          <div class="hero-offer-box">
-            <div class="offer-pill">
-              <span class="big-offer">BUY ANY 2</span>
-              <span class="sub-offer">AT JUST <strong>₹7,999</strong></span>
-            </div>
-            <div class="offer-pill highlight">
-              <span class="big-offer">BUY ANY 4</span>
-              <span class="sub-offer">AT JUST <strong>₹13,999</strong></span>
-            </div>
-          </div>
+      <div class="hero-center-products">
+        <img 
+          src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1200&auto=format&fit=crop" 
+          alt="BEAST MODE AEROMODEL COLLECTION" 
+          class="hero-products-img"
+        />
+        <div class="collection-title-badge">
+          <span class="brand-sub">AKS AEROMODELS</span>
+          <span class="coll-name">BEAST MODE COLLECTION</span>
+          <span class="coll-sub">FOR FLIGHT PILOTS</span>
+        </div>
+      </div>
 
-          <div class="hero-actions">
-            <a href="/shop?category=aeromodels" class="btn-primary">
-              SHOP NOW <span>→</span>
-            </a>
-            <a href="/product/sea-1" class="btn-dark">
-              VIEW SPECS
-            </a>
+      <div class="hero-right-promo">
+        <div class="sale-wreath-badge">
+          <span class="wreath-num">8th</span>
+          <span class="wreath-text">ANNIVERSARY SALE</span>
+          <span class="wreath-sub">LOWEST PRICE EVER</span>
+        </div>
+
+        <div class="combo-pill-box">
+          <div class="combo-pill">
+            <div class="pill-title">BUY ANY 2</div>
+            <div class="pill-price"><strike>₹1,998</strike> <strong>₹799</strong></div>
+          </div>
+          <div class="combo-pill">
+            <div class="pill-title">BUY ANY 4</div>
+            <div class="pill-price"><strike>₹3,996</strike> <strong>₹1,399</strong></div>
           </div>
         </div>
 
-        <div class="hero-media-card">
-          <div class="featured-tag">BESTSELLER</div>
-          <img 
-            src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=800&auto=format&fit=crop" 
-            alt="Seagull Champion Xxtreme Decathlon" 
-            class="hero-card-img"
-          />
-          <div class="hero-card-footer">
-            <div class="card-title">SEA394 Decathlon 122" V2</div>
-            <div class="card-price">
-              <span class="current">₹68,999</span>
-              <span class="old">₹85,000</span>
-              <span class="save">SAVE 19%</span>
-            </div>
-          </div>
-        </div>
+        <a href="/shop?category=aeromodels" class="bellavita-shop-btn">
+          SHOP NOW
+        </a>
       </div>
     </div>
 
@@ -63,178 +55,154 @@
 </section>
 
 <style>
-  .hero-carousel-section {
-    position: relative;
-    background: #08090c;
-    overflow: hidden;
+  .bellavita-hero-section {
+    background: #3b0811;
+    background: linear-gradient(135deg, #2b050d 0%, #4a0e17 50%, #31060e 100%);
+    padding: 1.75rem 1.25rem;
     border-bottom: 1px solid var(--border-subtle);
   }
-  .hero-slide {
-    position: relative;
-    padding: 4.5rem 0 5rem;
-    min-height: 540px;
-    display: flex;
-    align-items: center;
+  .hero-container {
+    max-width: 1320px;
+    margin: 0 auto;
   }
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
-    opacity: 0.35;
-    filter: blur(2px);
-  }
-  .hero-content {
-    position: relative;
-    z-index: 2;
+
+  .hero-banner-card {
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 3rem;
+    grid-template-columns: 0.8fr 1.4fr 1fr;
+    gap: 1.5rem;
     align-items: center;
+    padding: 1.5rem 2rem;
+    position: relative;
   }
 
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(230, 200, 117, 0.12);
-    border: 1px solid rgba(230, 200, 117, 0.3);
-    color: var(--accent-gold);
-    font-size: 0.78rem;
-    font-weight: 800;
-    padding: 0.35rem 0.85rem;
-    border-radius: var(--radius-full);
-    margin-bottom: 1.25rem;
-    letter-spacing: 0.05em;
-  }
-
-  .hero-title {
-    font-size: 3rem;
-    line-height: 1.08;
-    margin-bottom: 1rem;
-    color: #fff;
-  }
-  .gold-gradient {
-    background: linear-gradient(135deg, #fff 0%, var(--accent-gold) 60%, #c4a04d 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .hero-description {
-    color: var(--text-secondary);
-    font-size: 1.05rem;
-    line-height: 1.6;
-    max-width: 580px;
-    margin-bottom: 2rem;
-  }
-
-  /* Offer Pill Box */
-  .hero-offer-box {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2.25rem;
-    flex-wrap: wrap;
-  }
-  .offer-pill {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px dashed var(--border-subtle);
-    padding: 0.75rem 1.25rem;
-    border-radius: var(--radius-md);
+  /* Left Offer Seal */
+  .hero-left-offer {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
   }
-  .offer-pill.highlight {
-    background: rgba(230, 200, 117, 0.08);
-    border-color: rgba(230, 200, 117, 0.4);
+  .offer-seal {
+    border: 2px solid #eab308;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-md);
+    background: rgba(0, 0, 0, 0.4);
+    text-align: center;
+    color: #ffffff;
   }
-  .big-offer {
-    font-size: 0.75rem;
+  .seal-price {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
     font-weight: 800;
-    color: var(--text-muted);
-    letter-spacing: 0.1em;
+    color: #eab308;
+    display: block;
+    line-height: 1.1;
   }
-  .sub-offer {
-    font-size: 1.1rem;
-    color: #fff;
+  .seal-sub {
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    display: block;
+    margin-bottom: 0.4rem;
   }
-  .sub-offer strong {
-    color: var(--accent-gold);
+  .seal-timer {
+    font-size: 0.65rem;
+    color: #dddddd;
+    display: block;
   }
 
-  .hero-actions {
-    display: flex;
-    gap: 1rem;
-  }
-
-  /* Hero Card Right */
-  .hero-media-card {
+  /* Center Products */
+  .hero-center-products {
     position: relative;
-    background: var(--bg-card);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-lg);
-    padding: 1.25rem;
-    box-shadow: var(--shadow-card);
-    transition: var(--transition-smooth);
+    text-align: center;
   }
-  .hero-media-card:hover {
-    border-color: var(--accent-gold);
-    box-shadow: var(--shadow-glow);
-  }
-  .featured-tag {
-    position: absolute;
-    top: 1.5rem;
-    left: 1.5rem;
-    background: var(--accent-amber);
-    color: #000;
-    font-weight: 800;
-    font-size: 0.7rem;
-    padding: 0.25rem 0.6rem;
-    border-radius: 4px;
-    z-index: 2;
-  }
-  .hero-card-img {
+  .hero-products-img {
+    max-height: 320px;
     width: 100%;
-    height: 240px;
     object-fit: cover;
     border-radius: var(--radius-md);
-    margin-bottom: 1rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   }
-  .hero-card-footer {
+  .collection-title-badge {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(234, 179, 8, 0.4);
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--radius-md);
+    color: #fff;
+    white-space: nowrap;
+  }
+  .brand-sub { font-size: 0.65rem; color: #eab308; display: block; letter-spacing: 0.1em; }
+  .coll-name { font-size: 1rem; font-weight: 800; display: block; font-family: var(--font-display); }
+  .coll-sub { font-size: 0.65rem; color: #ccc; display: block; }
+
+  /* Right Promo */
+  .hero-right-promo {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
+    text-align: center;
   }
-  .card-title {
-    font-weight: 700;
-    font-size: 0.95rem;
-  }
-  .card-price {
+  .sale-wreath-badge {
+    border: 1.5px dashed #eab308;
+    padding: 0.75rem 1.25rem;
+    border-radius: 50%;
+    width: 130px;
+    height: 130px;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 0.4rem;
+    color: #fff;
+    margin-bottom: 1.25rem;
+    background: rgba(0, 0, 0, 0.3);
   }
-  .current {
-    color: var(--accent-gold);
+  .wreath-num { font-size: 1.6rem; font-weight: 800; color: #eab308; font-family: var(--font-display); line-height: 1; }
+  .wreath-text { font-size: 0.65rem; font-weight: 800; letter-spacing: 0.05em; }
+  .wreath-sub { font-size: 0.55rem; color: #ccc; }
+
+  .combo-pill-box {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .combo-pill {
+    background: #000000;
+    border: 1px solid #eab308;
+    color: #ffffff;
+    padding: 0.5rem 0.85rem;
+    border-radius: var(--radius-sm);
+  }
+  .pill-title { font-size: 0.7rem; font-weight: 800; color: #eab308; letter-spacing: 0.05em; }
+  .pill-price strike { font-size: 0.7rem; color: #888888; }
+  .pill-price strong { font-size: 0.95rem; color: #ffffff; margin-left: 0.2rem; }
+
+  .bellavita-shop-btn {
+    background: #eab308;
+    color: #000000;
     font-weight: 800;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
+    padding: 0.75rem 2.25rem;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.08em;
+    transition: var(--transition-fast);
   }
-  .old {
-    color: var(--text-muted);
-    text-decoration: line-through;
-    font-size: 0.85rem;
-  }
-  .save {
-    color: var(--accent-green);
-    font-size: 0.75rem;
-    font-weight: 700;
+  .bellavita-shop-btn:hover {
+    background: #facc15;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(234, 179, 8, 0.4);
   }
 
   @media (max-width: 900px) {
-    .hero-content {
+    .hero-banner-card {
       grid-template-columns: 1fr;
+      text-align: center;
     }
-    .hero-title {
-      font-size: 2.2rem;
+    .hero-left-offer {
+      align-items: center;
     }
   }
 </style>

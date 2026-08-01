@@ -4,6 +4,7 @@ import HeroCarousel from '../components/HeroCarousel.astro';
 import CategoryGrid from '../components/CategoryGrid.astro';
 import TabbedProducts from '../components/TabbedProducts.astro';
 import ComboDeals from '../components/ComboDeals.astro';
+import ShopByNotes from '../components/ShopByNotes.astro';
 import WhyChooseUs from '../components/WhyChooseUs.astro';
 import CustomerReviews from '../components/CustomerReviews.astro';
 import CartDrawer from '../components/CartDrawer.astro';
@@ -15,7 +16,7 @@ const orgSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "AKS Aeromodels",
-  "url": "https://aks-aeromodels.com",
+  "url": "https://aks-aeromodels.vercel.app",
   "logo": "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=400",
   "contactPoint": {
     "@type": "ContactPoint",
@@ -32,13 +33,8 @@ const orgSchema = {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AKS Aeromodels | India's Premier RC Aircraft, Engines & Radio Store</title>
-  <meta name="description" content="Shop 100% genuine Futaba Radios, O.S. Engines, DLE Gas Engines, Seagull ARF Aeromodels, and contest grade Balsa Wood sheets with pan-India express freight." />
-  
-  <!-- OpenGraph & AI Scraper Schema -->
-  <meta property="og:title" content="AKS Aeromodels | Premium RC Flight Superstore" />
-  <meta property="og:description" content="High performance RC Engines, Aeromodels, Radios, and Balsa Wood Sheets." />
-  <meta property="og:type" content="website" />
+  <title>Bellavita Theme | AKS Aeromodels</title>
+  <meta name="description" content="Shop genuine Futaba Radios, O.S. Engines, DLE Gas Engines, Seagull ARF Aeromodels, and Balsa Wood sheets." />
   <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
 </head>
 <body>
@@ -50,6 +46,7 @@ const orgSchema = {
     <CategoryGrid />
     <TabbedProducts />
     <ComboDeals />
+    <ShopByNotes />
     <WhyChooseUs />
     <CustomerReviews />
   </main>

@@ -1,25 +1,25 @@
 ---
 const REVIEWS = [
   {
-    name: "Capt. Rajesh Sharma",
-    role: "Senior RC Aviator & Scale Pilot",
+    name: "Sanna Thakur",
+    handle: "@sannathakur_",
     rating: 5,
-    text: "AKS Aeromodels has raised the bar for India's aeromodelling community. Purchased the Seagull Decathlon 122\" and DLE 65 gas engine. Excellent packaging, zero wing damage during freight, and true 100% genuine products!",
+    text: "BELLAVITA / AKS AEROMODELS has raised the bar for the industry. Such good quality at very affordable price",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop"
+  },
+  {
+    name: "Capt. Rajesh Sharma",
+    handle: "@rajesh_aviator",
+    rating: 5,
+    text: "Outstanding quality ARF aircraft and O.S. Nitro engines. Zero transit damage and 100% genuine factory warranty!",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop"
   },
   {
     name: "Vikramaditya Rao",
-    role: "IMAC Aerobatic Champion",
+    handle: "@vikram_rc_flier",
     rating: 5,
-    text: "The Futaba 6K radio and T-FHSS receivers are rock solid. No latency, zero signal loss during high-G harrier maneuvers. Outstanding customer support!",
+    text: "Futaba 6K radio pairing was seamless. High speed response and excellent range telemetry!",
     avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop"
-  },
-  {
-    name: "Dr. Ananya Kulkarni",
-    role: "Drone & Aeromodel Researcher",
-    rating: 5,
-    text: "The contest grade AAA balsa sheets are cut to absolute perfection. 2mm and 3mm sheets have uniform density throughout. Best supplier in India!",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop"
   }
 ];
 
@@ -32,40 +32,32 @@ const GALLERY_IMAGES = [
 ];
 ---
 
-<section class="reviews-section">
+<section class="bellavita-reviews-section">
   <div class="container">
-    <h2 class="section-title">WHAT OUR CUSTOMERS HAVE TO SAY</h2>
-    <p class="section-subtitle">Read real feedback from champion pilots, scale builders, and hobbyists across India</p>
+    <h2 class="bellavita-title">WHAT OUR CUSTOMERS HAVE TO SAY</h2>
 
-    <!-- Rating Summary -->
-    <div class="rating-summary">
-      <div class="rating-stars">★★★★★</div>
-      <div class="rating-number">4.9 out of 5.0</div>
-      <div class="rating-total">Based on 1,420+ Verified Reviews</div>
-    </div>
-
-    <!-- Testimonials Grid -->
-    <div class="testimonials-grid">
-      {REVIEWS.map(rev => (
-        <div class="testimonial-card glass-panel">
-          <div class="user-header">
-            <img src={rev.avatar} alt={rev.name} class="user-avatar" />
-            <div>
-              <h3 class="user-name">{rev.name}</h3>
-              <p class="user-role">{rev.role}</p>
-            </div>
-          </div>
-          <div class="card-stars">{'★'.repeat(rev.rating)}</div>
-          <p class="card-quote">"{rev.text}"</p>
+    <!-- Avatar Selection Strip (Bellavita Style) -->
+    <div class="avatars-row">
+      {REVIEWS.map((rev, i) => (
+        <div class={`avatar-item ${i === 0 ? 'active' : ''}`} data-index={i}>
+          <img src={rev.avatar} alt={rev.name} />
         </div>
       ))}
     </div>
 
-    <!-- Lifestyle Gallery Strip (Bellavita Photo Wall) -->
-    <div class="gallery-strip">
+    <!-- Active Quote Box -->
+    <div class="active-quote-box">
+      <div class="stars-gold">★★★★★</div>
+      <p class="quote-text">"{REVIEWS[0].text}"</p>
+      <div class="quote-author">– {REVIEWS[0].name}</div>
+      <div class="quote-handle">{REVIEWS[0].handle}</div>
+    </div>
+
+    <!-- Lifestyle 5-Photo Grid (Bellavita Photo Wall) -->
+    <div class="lifestyle-photo-grid">
       {GALLERY_IMAGES.map((imgUrl, i) => (
-        <div class="gallery-item">
-          <img src={imgUrl} alt={`RC Flight Action ${i+1}`} loading="lazy" />
+        <div class="photo-tile">
+          <img src={imgUrl} alt={`Customer Lifestyle ${i+1}`} loading="lazy" />
         </div>
       ))}
     </div>
@@ -74,102 +66,107 @@ const GALLERY_IMAGES = [
 </section>
 
 <style>
-  .reviews-section {
-    padding: 5rem 0;
-    background: #090a0e;
-    border-bottom: 1px solid var(--border-subtle);
+  .bellavita-reviews-section {
+    padding: 4rem 0 0;
+    background: #fbf9f5;
   }
-
-  .rating-summary {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-  .rating-stars {
-    font-size: 1.8rem;
-    color: var(--accent-amber);
-    margin-bottom: 0.25rem;
-  }
-  .rating-number {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: #fff;
+  .bellavita-title {
     font-family: var(--font-display);
-  }
-  .rating-total {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
+    font-size: 1.6rem;
+    text-align: center;
+    letter-spacing: 0.1em;
+    margin-bottom: 2rem;
+    color: #1a1a1a;
   }
 
-  .testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.75rem;
-    margin-bottom: 4rem;
-  }
-  .testimonial-card {
-    padding: 1.75rem;
-    border-radius: var(--radius-lg);
+  .avatars-row {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
   }
-  .user-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-  .user-avatar {
-    width: 50px;
-    height: 50px;
+  .avatar-item {
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: var(--transition-fast);
+    border: 2px solid transparent;
+  }
+  .avatar-item.active, .avatar-item:hover {
+    opacity: 1;
+    transform: scale(1.15);
+    border-color: #1a1a1a;
+  }
+  .avatar-item img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    border: 2px solid var(--accent-gold);
   }
-  .user-name {
-    font-size: 1.05rem;
-    color: #fff;
+
+  .active-quote-box {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto 3.5rem;
   }
-  .user-role {
-    font-size: 0.75rem;
-    color: var(--accent-gold);
-  }
-  .card-stars {
-    color: var(--accent-amber);
-    font-size: 1.1rem;
+  .stars-gold {
+    color: #eab308;
+    font-size: 1.5rem;
     margin-bottom: 0.75rem;
   }
-  .card-quote {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
+  .quote-text {
+    font-size: 1.05rem;
+    color: #333333;
     line-height: 1.6;
-    font-style: italic;
+    margin-bottom: 0.75rem;
+  }
+  .quote-author {
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: #1a1a1a;
+  }
+  .quote-handle {
+    font-size: 0.75rem;
+    color: #888888;
   }
 
-  /* Gallery Strip */
-  .gallery-strip {
+  /* Photo Grid */
+  .lifestyle-photo-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 0.75rem;
-    border-radius: var(--radius-lg);
+  }
+  .photo-tile {
+    height: 220px;
     overflow: hidden;
   }
-  .gallery-item {
-    height: 180px;
-    overflow: hidden;
-  }
-  .gallery-item img {
+  .photo-tile img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: var(--transition-smooth);
   }
-  .gallery-item:hover img {
+  .photo-tile:hover img {
     transform: scale(1.08);
   }
 
   @media (max-width: 768px) {
-    .gallery-strip {
+    .lifestyle-photo-grid {
       grid-template-columns: repeat(2, 1fr);
     }
   }
 </style>
+
+<script>
+  // Simple review switcher
+  document.addEventListener('DOMContentLoaded', () => {
+    const avatars = document.querySelectorAll('.avatar-item');
+    avatars.forEach(av => {
+      av.addEventListener('click', () => {
+        avatars.forEach(a => a.classList.remove('active'));
+        av.classList.add('active');
+      });
+    });
+  });
+</script>
