@@ -4,7 +4,7 @@ import { PRODUCTS } from '../data/products';
 export const GET: APIRoute = async () => {
   const baseUrl = 'https://aks-aeromodels.com';
   
-  const staticPages = ['', '/shop', '/about', '/contact', '/privacy', '/terms', '/pricing-policy', '/blog'];
+  const staticPages = ['', '/aircrafts', '/shop', '/about', '/contact', '/privacy', '/terms', '/pricing-policy', '/blog'];
   
   const productUrls = PRODUCTS.map(p => `/product/${p.id}`);
   const blogUrls = [
