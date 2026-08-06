@@ -365,17 +365,20 @@ import '../styles/global.css';
           planeGroup.rotation.x = (mouseY - planeGroup.position.y) * 0.15;
         } else {
           // Autopilot Mode: Follow 3D CatmullRom Curve
-          const point = flightCurve.getPointAt(scrollProgress % 1);
-          const tangent = flightCurve.getTangentAt(scrollProgress % 1);
+          const t = Math.max(0.001, Math.min(0.999, scrollProgress));
+          const point = flightCurve.getPointAt(t);
+          const tangent = flightCurve.getTangentAt(t).clone().normalize();
 
           planeGroup.position.copy(point);
 
-          // Bank (roll) into turns
-          const lookAtPos = point.clone().add(tangent);
-          planeGroup.lookAt(lookAtPos);
+          // Point aircraft nose forward along flight vector
+          const lookAtTarget = point.clone().add(tangent);
+          planeGroup.lookAt(lookAtTarget);
+          planeGroup.rotateY(Math.PI); // Rotate 180° so nose faces forward
 
-          const turnBank = Math.sin(scrollProgress * Math.PI * 6) * 0.8;
-          planeGroup.rotation.z += turnBank;
+          // Smooth controlled wing banking into turns
+          const turnBank = Math.sin(t * Math.PI * 3) * 0.35;
+          planeGroup.rotateZ(turnBank);
         }
 
         renderer.render(scene, camera);
