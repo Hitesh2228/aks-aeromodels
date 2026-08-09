@@ -543,36 +543,46 @@ import LoginModal from './LoginModal.astro';
       }
     });
 
-    // Smart Header Scroll Auto-Hide & Reveal + Top Ticker Visibility
+    // Smart Header Scroll Auto-Hide (Scroll Down) & Instant Reveal (Scroll Up)
     let lastScrollY = window.scrollY;
+    let ticking = false;
 
     window.addEventListener('scroll', () => {
-      const currentScrollY = window.scrollY;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
 
-      // Announcement ticker only visible at the very top
-      if (announcementBar) {
-        if (currentScrollY > 30) {
-          announcementBar.classList.add('hide-ticker');
-        } else {
-          announcementBar.classList.remove('hide-ticker');
-        }
+          // Top announcement ticker hiding on scroll
+          if (announcementBar) {
+            if (currentScrollY > 40) {
+              announcementBar.classList.add('hide-ticker');
+            } else {
+              announcementBar.classList.remove('hide-ticker');
+            }
+          }
+
+          // Desktop & Mobile Smart Header Slide Hide (Down) / Reveal (Up)
+          if (currentScrollY > 80) {
+            if (currentScrollY > lastScrollY + 4) {
+              // User scrolling DOWN -> Slide Header UP (Hide)
+              mainHeader?.classList.add('nav-hidden');
+              document.body.classList.add('header-hidden');
+            } else if (currentScrollY < lastScrollY - 4) {
+              // User scrolling UP -> Slide Header DOWN (Reveal)
+              mainHeader?.classList.remove('nav-hidden');
+              document.body.classList.remove('header-hidden');
+            }
+          } else {
+            // At top -> Always visible
+            mainHeader?.classList.remove('nav-hidden');
+            document.body.classList.remove('header-hidden');
+          }
+
+          lastScrollY = currentScrollY;
+          ticking = false;
+        });
+        ticking = true;
       }
-
-      // Hide header on scroll down, reveal immediately on scroll up
-      if (currentScrollY > 120) {
-        if (currentScrollY > lastScrollY + 6) {
-          mainHeader?.classList.add('nav-hidden');
-          document.body.classList.add('header-hidden');
-        } else if (currentScrollY < lastScrollY - 6) {
-          mainHeader?.classList.remove('nav-hidden');
-          document.body.classList.remove('header-hidden');
-        }
-      } else {
-        mainHeader?.classList.remove('nav-hidden');
-        document.body.classList.remove('header-hidden');
-      }
-
-      lastScrollY = currentScrollY;
     }, { passive: true });
 
     // Global Scroll Reveal Observer (Kinetic Motion)
