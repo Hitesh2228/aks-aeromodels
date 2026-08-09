@@ -298,13 +298,50 @@ const newArrivals = PRODUCTS.filter(p => p.isNewArrival).slice(0, 8);
     padding: 0.75rem 3rem;
     border-radius: var(--radius-sm);
     font-weight: 800;
-    font-size: 0.85rem;
-    letter-spacing: 0.08em;
-    transition: var(--transition-fast);
-  }
-  .bellavita-view-all-btn:hover {
-    background: #1a1a1a;
-    color: #ffffff;
+  @media (max-width: 768px) {
+    .bellavita-tabbed-section {
+      padding: 2.5rem 0;
+    }
+    .tabs-header {
+      gap: 0.85rem;
+      margin-bottom: 1.75rem;
+    }
+    .tab-btn, .tab-divider {
+      font-size: 1.15rem;
+    }
+    .products-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.65rem;
+    }
+    .card-body {
+      padding: 0.75rem 0.6rem;
+    }
+    .product-title {
+      font-size: 0.78rem;
+      height: 2.2rem;
+      margin-bottom: 0.35rem;
+    }
+    .rating-row {
+      font-size: 0.7rem;
+      margin-bottom: 0.35rem;
+    }
+    .current-price {
+      font-size: 0.85rem;
+    }
+    .old-price {
+      font-size: 0.72rem;
+    }
+    .bellavita-cart-btn {
+      padding: 0.6rem 0.3rem;
+      font-size: 0.7rem;
+    }
+    .view-all-wrapper {
+      margin-top: 2rem;
+    }
+    .bellavita-view-all-btn {
+      padding: 0.6rem 2rem;
+      font-size: 0.75rem;
+    }
   }
 </style>
 

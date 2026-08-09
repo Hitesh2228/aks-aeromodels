@@ -2,28 +2,33 @@
 const CATEGORY_ITEMS = [
   { 
     id: 'engine', 
-    label: 'ENGINE', 
-    svg: `<svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#3b0811" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="4"/></svg>`
+    label: 'GAS ENGINES', 
+    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=400&auto=format&fit=crop'
   },
   { 
     id: 'radio-receiver', 
-    label: 'RADIO & RECEIVER', 
-    svg: `<svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#3b0811" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="8" width="20" height="14" rx="2"/><path d="M6 8V4l6-2 6 2v4"/><circle cx="8" cy="15" r="2"/><circle cx="16" cy="15" r="2"/></svg>`
+    label: 'RADIOS & RECEIVERS', 
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=400&auto=format&fit=crop'
   },
   { 
     id: 'aeromodels', 
     label: 'SEAGULL AEROMODELS', 
-    svg: `<svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#3b0811" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.7 5.2c.3.4.8.5 1.3.3l.5-.3c.4-.2.6-.6.5-1.1z"/></svg>`
+    image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=400&auto=format&fit=crop'
   },
   { 
     id: 'balsa-wood', 
     label: 'BALSA WOOD', 
-    svg: `<svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#3b0811" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 10h16M4 15h16M10 4v16"/></svg>`
+    image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=400&auto=format&fit=crop'
   },
   { 
     id: 'accessories', 
-    label: 'ACCESSORIES', 
-    svg: `<svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#3b0811" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`
+    label: 'FLIGHT ACCESSORIES', 
+    image: 'https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?q=80&w=400&auto=format&fit=crop'
+  },
+  { 
+    id: 'accessories', 
+    label: 'PROPELLER TOOLS', 
+    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=400&auto=format&fit=crop'
   },
 ];
 ---
@@ -35,8 +40,8 @@ const CATEGORY_ITEMS = [
     <div class="category-cards-grid">
       {CATEGORY_ITEMS.map(cat => (
         <a href={`/shop?category=${cat.id}`} class="category-card-item">
-          <div class="cat-icon-card">
-            <Fragment set:html={cat.svg} />
+          <div class="cat-img-box">
+            <img src={cat.image} alt={cat.label} loading="lazy" />
           </div>
           <span class="cat-label">{cat.label}</span>
         </a>
@@ -47,57 +52,82 @@ const CATEGORY_ITEMS = [
 
 <style>
   .bellavita-categories-section {
-    padding: 3.5rem 0;
-    background: #fbf9f5;
+    padding: 3rem 0;
+    background: #ffffff;
     border-bottom: 1px solid var(--border-subtle);
   }
   .bellavita-title {
     font-family: var(--font-display);
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     text-align: center;
     letter-spacing: 0.1em;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
     color: #1a1a1a;
   }
 
   .category-cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-    gap: 1.5rem;
-    justify-content: center;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.25rem;
   }
   .category-card-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.85rem;
-    transition: var(--transition-smooth);
+    gap: 0.75rem;
+    text-decoration: none;
+    transition: transform 0.3s ease;
   }
   .category-card-item:hover {
     transform: translateY(-4px);
   }
-  .category-card-item:hover .cat-icon-card {
-    border-color: #3b0811;
-    background: #ffffff;
-    box-shadow: 0 8px 20px rgba(59, 8, 17, 0.08);
-  }
-  .cat-icon-card {
-    width: 120px;
-    height: 120px;
-    background: #f3eee7;
-    border: 1.5px solid #e6e0d5;
-    border-radius: var(--radius-md);
+  .cat-img-box {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #f5f4f0;
+    border-radius: 12px;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: var(--transition-fast);
+    padding: 0.75rem;
+    border: 1px solid #e6e0d5;
+    transition: all 0.3s ease;
+  }
+  .category-card-item:hover .cat-img-box {
+    border-color: #3b0811;
+    background: #ffffff;
+    box-shadow: 0 8px 25px rgba(59, 8, 17, 0.1);
+  }
+  .cat-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
   }
   .cat-label {
     font-family: var(--font-main);
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 0.06em;
     color: #1a1a1a;
     text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .bellavita-categories-section {
+      padding: 2rem 0;
+    }
+    .category-cards-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    .bellavita-title {
+      font-size: 1.2rem;
+      margin-bottom: 1.25rem;
+    }
+    .cat-label {
+      font-size: 0.72rem;
+    }
   }
 </style>

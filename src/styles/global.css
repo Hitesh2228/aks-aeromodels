@@ -68,6 +68,12 @@ body {
   position: relative;
 }
 
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 64px !important;
+  }
+}
+
 a {
   color: inherit;
   text-decoration: none;

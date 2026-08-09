@@ -1,6 +1,7 @@
 ---
 import Header from '../../components/Header.astro';
 import CartDrawer from '../../components/CartDrawer.astro';
+import MobileBottomNav from '../../components/MobileBottomNav.astro';
 import Footer from '../../components/Footer.astro';
 import { PRODUCTS, getProductById, type Product } from '../../data/products';
 import { buildShopifyCheckoutUrl } from '../../lib/shopify';
@@ -483,6 +484,7 @@ const productSchema = {
   </div>
 
   <CartDrawer />
+  <MobileBottomNav />
   <Footer />
 
   <style>

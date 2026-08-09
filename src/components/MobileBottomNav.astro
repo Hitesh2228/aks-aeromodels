@@ -1,0 +1,171 @@
+---
+---
+
+<!-- Bellavita Style Floating Mobile Bottom Navigation App Bar -->
+<nav class="bellavita-mobile-bottom-nav" id="mobile-bottom-dock" aria-label="Mobile Navigation">
+  <a href="/" class="nav-dock-item active" id="dock-home">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+    <span>Home</span>
+  </a>
+
+  <a href="/shop" class="nav-dock-item" id="dock-shop">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7"/>
+      <rect x="14" y="3" width="7" height="7"/>
+      <rect x="14" y="14" width="7" height="7"/>
+      <rect x="3" y="14" width="7" height="7"/>
+    </svg>
+    <span>Shop All</span>
+  </a>
+
+  <a href="/aircrafts" class="nav-dock-item" id="dock-deals">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+    </svg>
+    <span>3D Showcase</span>
+  </a>
+
+  <a href="/profile" class="nav-dock-item" id="dock-account">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
+    </svg>
+    <span>Account</span>
+  </a>
+
+  <button type="button" class="nav-dock-item" id="dock-cart-btn" aria-label="Open Cart">
+    <div class="cart-icon-dock-wrap">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 0 1-8 0"/>
+      </svg>
+      <span class="dock-cart-badge" id="dock-cart-badge">0</span>
+    </div>
+    <span>Cart</span>
+  </button>
+</nav>
+
+<style>
+  .bellavita-mobile-bottom-nav {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .bellavita-mobile-bottom-nav {
+      display: flex;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 62px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid #e6e0d5;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+      z-index: 999;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0 0.25rem;
+    }
+
+    .nav-dock-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      color: #666666;
+      text-decoration: none;
+      font-size: 0.68rem;
+      font-weight: 600;
+      background: transparent;
+      border: none;
+      padding: 0.35rem 0.5rem;
+      cursor: pointer;
+      flex: 1;
+      transition: color 0.2s ease;
+    }
+
+    .nav-dock-item:hover, .nav-dock-item.active {
+      color: #3b0811;
+      font-weight: 700;
+    }
+
+    .nav-dock-item svg {
+      transition: transform 0.2s ease;
+    }
+
+    .nav-dock-item.active svg {
+      stroke: #3b0811;
+      transform: translateY(-1px);
+    }
+
+    .cart-icon-dock-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dock-cart-badge {
+      position: absolute;
+      top: -4px;
+      right: -8px;
+      background: #3b0811;
+      color: #ffffff;
+      font-size: 0.62rem;
+      font-weight: 800;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  import { getCartCount } from '../lib/cartStore';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const dockCartBtn = document.getElementById('dock-cart-btn');
+    const dockBadge = document.getElementById('dock-cart-badge');
+    const path = window.location.pathname;
+
+    // Highlight active tab
+    const dockItems = document.querySelectorAll('.nav-dock-item');
+    dockItems.forEach(item => {
+      const href = item.getAttribute('href');
+      if (href) {
+        if (href === '/' && path === '/') {
+          item.classList.add('active');
+        } else if (href !== '/' && path.startsWith(href)) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      }
+    });
+
+    function updateDockBadge() {
+      const count = getCartCount();
+      if (dockBadge) {
+        dockBadge.textContent = count.toString();
+        dockBadge.style.display = count > 0 ? 'flex' : 'none';
+      }
+    }
+
+    dockCartBtn?.addEventListener('click', () => {
+      window.dispatchEvent(new CustomEvent('open-cart-drawer'));
+    });
+
+    window.addEventListener('cart-updated', updateDockBadge);
+    updateDockBadge();
+  });
+</script>
