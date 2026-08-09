@@ -37,9 +37,25 @@ const prepaidPrice = Math.round(product.price * 0.95);
 // Sample Pilot Reviews
 const pilotReviews = [
   { name: "Manav R.", date: "4 months ago", rating: 5, text: "Beautifully engineered component. Smooth idle and outstanding flight response!" },
-  { name: "Neha R.", date: "4 months ago", rating: 5, text: "Balanced performance for all flying styles. Delivered safely to Mumbai in 48 hours." },
+  { name: "Neha R.", date: "4 months ago", rating: 5, text: "Balanced performance for all flying styles. Delivered safely to Nashik in 24 hours." },
   { name: "Siddharth K.", date: "4 months ago", rating: 5, text: "100% genuine factory sealed package. Excellent power output and clean finish." },
   { name: "Shreya N.", date: "7 months ago", rating: 5, text: "Great variety of accessories in the kit. Perfect for field training and competitions." }
+];
+
+// Component Highlights ("Notes in This Set")
+const notesInSet = [
+  { name: "ABL Liner", desc: "Advanced Bimetallic Liner for high heat resistance", icon: "⚙️" },
+  { name: "Ball Bearings", desc: "Dual precision bearings for smooth high RPM", icon: "🌀" },
+  { name: "Power Carb", desc: "21J Dual-needle carburetor for crisp throttle response", icon: "🔥" },
+  { name: "E-4050 Muffler", desc: "High flow quiet silencer included in box", icon: "💨" }
+];
+
+// Usage Applications ("Where To Wear It")
+const usageLocations = [
+  { title: "Aerobatic Competitions", icon: "✈️" },
+  { title: "Flight Training Clubs", icon: "🎯" },
+  { title: "Scale Kit Building", icon: "🛠️" },
+  { title: "Pylon Racing", icon: "🏁" }
 ];
 
 // Structured Data: Schema.org Product & Breadcrumbs
@@ -92,191 +108,195 @@ const productSchema = {
 
   <Header />
 
-  <!-- Breadcrumbs -->
-  <nav class="breadcrumb-bar" aria-label="Breadcrumb">
+  <!-- Breadcrumbs (PDF Clean Minimalist Style) -->
+  <nav class="breadcrumb-strip" aria-label="Breadcrumb">
     <div class="container">
-      <a href="/">Home</a> / <a href="/shop">Products</a> / <a href={`/shop?category=${product.category}`}>{product.categoryLabel}</a> / <span class="active">{product.name}</span>
+      <a href="/">Home</a> <span>›</span> <a href="/shop">Products</a> <span>›</span> <a href={`/shop?category=${product.category}`}>{product.categoryLabel}</a> <span>›</span> <span class="active">{product.name}</span>
     </div>
   </nav>
 
-  <main class="container pdp-main-layout reveal-on-scroll">
+  <main class="container pdp-container reveal-on-scroll">
     
-    <!-- 2-Column Product Showcase -->
-    <div class="pdp-top-grid">
+    <!-- 2-Column Product Showcase (Spacious & Clean PDF Layout) -->
+    <div class="pdp-showcase-grid">
       
-      <!-- Left Column: Main Image & Gallery Thumbnails -->
-      <div class="pdp-gallery-column">
-        <div class="main-image-container">
-          {product.isBestseller && <span class="badge-bestseller pdp-badge-left">BESTSELLER</span>}
-          {product.discountBadge && <span class="badge-offer pdp-badge-right">{product.discountBadge}</span>}
-          <img src={product.image} alt={product.name} class="main-pdp-img" id="main-display-img" />
+      <!-- Left Column: Main Image & Thumbnails (Sticky on Scroll) -->
+      <div class="pdp-sticky-gallery">
+        <div class="pdp-image-stage">
+          {product.isBestseller && <span class="pdp-pill-badge bestseller">BESTSELLER</span>}
+          {product.discountBadge && <span class="pdp-pill-badge offer">{product.discountBadge}</span>}
+          <img src={product.image} alt={product.name} class="pdp-main-img" id="main-display-img" />
         </div>
 
-        <!-- Thumbnails Strip -->
-        <div class="gallery-thumbs-row">
-          <div class="thumb-item active" data-src={product.image}>
+        <!-- Thumbnails Row -->
+        <div class="pdp-thumbs-row">
+          <div class="thumb-box active" data-src={product.image}>
             <img src={product.image} alt="Angle 1" />
           </div>
-          <div class="thumb-item" data-src="https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?q=80&w=600&auto=format&fit=crop">
+          <div class="thumb-box" data-src="https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?q=80&w=600&auto=format&fit=crop">
             <img src="https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?q=80&w=600&auto=format&fit=crop" alt="Angle 2" />
           </div>
-          <div class="thumb-item" data-src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=600&auto=format&fit=crop">
+          <div class="thumb-box" data-src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=600&auto=format&fit=crop">
             <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=600&auto=format&fit=crop" alt="Angle 3" />
           </div>
-          <div class="thumb-item" data-src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=600&auto=format&fit=crop">
+          <div class="thumb-box" data-src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=600&auto=format&fit=crop">
             <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=600&auto=format&fit=crop" alt="Angle 4" />
           </div>
         </div>
       </div>
 
-      <!-- Right Column: Product Buy Info -->
-      <div class="pdp-buy-column">
-        <h1 class="pdp-product-title">{product.name}</h1>
-        <p class="pdp-subtitle-tag">{product.categoryLabel.toUpperCase()} • Contest Grade Specification</p>
+      <!-- Right Column: Product Specs & Buying Actions -->
+      <div class="pdp-details-column">
+        <h1 class="product-heading-title">{product.name}</h1>
+        <p class="product-subtext">{product.specs.Displacement || product.specs.Wingspan || 'Contest Grade'} • For every pilot requirement</p>
 
-        <!-- Rating Pill -->
-        <div class="rating-pill-row">
-          <span class="rating-badge-yellow">★ {product.rating}</span>
-          <span class="rating-count-text">{product.reviewsCount} reviews</span>
-          <button class="btn-share-icon" title="Share Product" onclick="navigator.clipboard?.writeText(window.location.href); alert('Product link copied!');">
+        <!-- Rating Pill & Share -->
+        <div class="rating-row">
+          <span class="rating-star-pill">★ {product.rating}</span>
+          <span class="rating-reviews-count">{product.reviewsCount} reviews</span>
+          <button class="share-btn" title="Share Product Link" onclick="navigator.clipboard?.writeText(window.location.href); alert('Product link copied!');">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
           </button>
         </div>
 
-        <!-- Price Block -->
-        <div class="pdp-pricing-block">
-          <span class="price-main">₹{product.price.toLocaleString('en-IN')}.00</span>
-          <span class="price-old">₹{product.originalPrice.toLocaleString('en-IN')}.00</span>
-          <span class="save-tag">(Save {product.discountBadge || '20%'})</span>
-        </div>
-        <div class="tax-inclusive-lbl">Inclusive of all 18% GST taxes</div>
+        <!-- Pricing Row & Stepper (Exact PDF Alignment) -->
+        <div class="price-stepper-flex">
+          <div class="price-block">
+            <span class="price-actual">₹{product.price.toLocaleString('en-IN')}.00</span>
+            <span class="price-slashed">₹{product.originalPrice.toLocaleString('en-IN')}.00</span>
+            <span class="price-discount-tag">(Save {product.discountBadge || '20%'})</span>
+          </div>
 
-        <!-- Prepaid Discount Box -->
-        <div class="prepaid-discount-box">
-          <span class="prepaid-icon">🏷️</span>
-          <span>Pay only <strong>₹{prepaidPrice.toLocaleString('en-IN')}.00</strong> with Prepaid UPI Discounts ⓘ</span>
-        </div>
-
-        <!-- Quantity & Add to Cart Controls -->
-        <div class="buy-action-controls">
-          <div class="pdp-qty-stepper">
+          <div class="qty-stepper-box">
             <button type="button" class="stepper-btn" id="pdp-qty-dec">-</button>
-            <span class="stepper-val" id="pdp-qty-count">1</span>
+            <span class="stepper-count" id="pdp-qty-count">1</span>
             <button type="button" class="stepper-btn" id="pdp-qty-inc">+</button>
           </div>
+        </div>
+        <div class="tax-note-text">Inclusive of all taxes</div>
 
-          <button class="btn-add-to-cart-pill add-to-cart-btn" id="pdp-main-add-btn" data-id={product.id}>
-            ADD TO CART
-          </button>
+        <!-- Prepaid Discount Callout Banner (Exact PDF Style) -->
+        <div class="prepaid-banner-pill">
+          <span class="tag-icon">🏷️</span>
+          <span>Pay only <strong>₹{prepaidPrice.toLocaleString('en-IN')}.00</strong> with Prepaid Discounts ⓘ</span>
         </div>
 
-        <!-- WhatsApp Quick Order -->
-        <a 
-          href={`https://wa.me/917722009120?text=Hi%20AKS%20Aeromodels,%20I%20want%20to%20order%20${encodeURIComponent(product.name)}`} 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          class="whatsapp-quick-order-btn"
-        >
-          💬 Order Instantly on WhatsApp
-        </a>
+        <!-- TYPE / Variant Selector (Exact PDF Style) -->
+        <div class="variant-selector-block">
+          <label class="variant-label">TYPE — Engine & Kit Option</label>
+          <div class="variant-buttons-row">
+            <button type="button" class="variant-btn active">Standard Factory Edition</button>
+            <button type="button" class="variant-btn">Pro Tuned Edition</button>
+          </div>
+        </div>
 
-        <!-- 4 Line-Art Trust Badges Grid -->
-        <div class="trust-icons-grid">
-          <div class="trust-badge-item">
-            <div class="t-icon-circle">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b0811" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <!-- ADD TO CART Button (Full Width Solid Dark PDF Pill) -->
+        <button class="btn-add-to-cart-pdf add-to-cart-btn" id="pdp-main-add-btn" data-id={product.id}>
+          ADD TO CART
+        </button>
+
+        <!-- 4 Line-Art Trust Badges (Exact PDF Page 1 Row) -->
+        <div class="pdf-trust-badges-row">
+          <div class="trust-badge-cell">
+            <div class="badge-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
             </div>
-            <span>Factory Import</span>
+            <span>Imported Quality</span>
           </div>
 
-          <div class="trust-badge-item">
-            <div class="t-icon-circle">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b0811" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <div class="trust-badge-cell">
+            <div class="badge-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
             <span>100% Genuine</span>
           </div>
 
-          <div class="trust-badge-item">
-            <div class="t-icon-circle">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b0811" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <div class="trust-badge-cell">
+            <div class="badge-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             </div>
-            <span>AMA Compliant</span>
+            <span>AMA Certified</span>
           </div>
 
-          <div class="trust-badge-item">
-            <div class="t-icon-circle">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b0811" stroke-width="1.8"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          <div class="trust-badge-cell">
+            <div class="badge-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
             </div>
-            <span>Insured Freight</span>
+            <span>Assured Delivery</span>
           </div>
         </div>
 
-        <!-- Best Selling Combo Card -->
-        <div class="best-combo-card">
-          <h4 class="combo-title">BEST SELLING COMBO</h4>
-          <div class="combo-flex">
-            <img src={pairedProducts[0].image} alt="Combo item" class="combo-img" />
-            <div class="combo-info">
+        <!-- BEST SELLING COMBOS Card (Exact PDF Style) -->
+        <div class="pdf-combo-card">
+          <h4 class="combo-card-title">BEST SELLING COMBOS</h4>
+          <div class="combo-inner-flex">
+            <img src={pairedProducts[0].image} alt="Combo item" class="combo-thumb" />
+            <div class="combo-details">
               <strong>{product.name} + {pairedProducts[0].name}</strong>
-              <div class="combo-price">
+              <div class="combo-prices">
                 <span>₹{(product.price + pairedProducts[0].price).toLocaleString('en-IN')}.00</span>
                 <small style="text-decoration: line-through; color: #888;">₹{(product.originalPrice + pairedProducts[0].originalPrice).toLocaleString('en-IN')}.00</small>
               </div>
             </div>
-            <button class="btn-combo-add add-to-cart-btn" data-id={product.id}>
-              ADD COMBO
+            <button class="btn-combo-add-pdf add-to-cart-btn" data-id={product.id}>
+              ADD TO CART
             </button>
           </div>
         </div>
 
-        <!-- Spec Cards Highlights Grid ("Notes in This Set") -->
-        <div class="component-notes-section">
-          <h4 class="notes-heading">COMPONENT HIGHLIGHTS IN THIS KIT</h4>
-          <div class="notes-cards-grid">
-            <div class="note-card-box">
-              <span class="note-icon">⚙️</span>
-              <strong>Precision CNC Machined</strong>
-              <small>Hardened alloy shaft</small>
-            </div>
-            <div class="note-card-box">
-              <span class="note-icon">🌀</span>
-              <strong>Dual Ball Bearings</strong>
-              <small>High RPM stability</small>
-            </div>
-            <div class="note-card-box">
-              <span class="note-icon">🔥</span>
-              <strong>Heavy Duty Expansion</strong>
-              <small>Low acoustic signature</small>
-            </div>
+        <!-- Notes in This Set Section (Exact PDF Style) -->
+        <div class="notes-in-set-block">
+          <h3 class="block-heading">Notes in This Set</h3>
+          <div class="notes-grid-4">
+            {notesInSet.map(note => (
+              <div class="note-item-card">
+                <span class="note-emoji">{note.icon}</span>
+                <strong class="note-name">{note.name}</strong>
+                <small class="note-desc">{note.desc}</small>
+              </div>
+            ))}
           </div>
         </div>
 
-        <!-- Where To Fly Applications ("Where To Wear It") -->
-        <div class="applications-section">
-          <h4 class="app-heading">WHERE TO FLY IT & RECOMMENDED USAGE</h4>
-          <div class="app-items-grid">
-            <div class="app-item">✈️ <span>Aerobatic Competitions</span></div>
-            <div class="app-item">🎯 <span>Flight Training Clubs</span></div>
-            <div class="app-item">🛠️ <span>Scale Kit Building</span></div>
-            <div class="app-item">🏁 <span>High Speed Pylon Racing</span></div>
+        <!-- Where To Fly Applications ("Where To Wear It" -> PDF Style) -->
+        <div class="where-to-fly-block">
+          <h3 class="block-heading">Where To Fly It</h3>
+          <div class="where-grid-2">
+            {usageLocations.map(loc => (
+              <div class="where-item">
+                <span>{loc.icon}</span>
+                <strong>{loc.title}</strong>
+              </div>
+            ))}
           </div>
+          <p class="vibes-line">Vibes: <em>Versatile, confident, bold, high-performance flight.</em></p>
         </div>
 
-        <!-- Interactive Collapsible Accordions (Bellavita Accordion Style) -->
-        <div class="pdp-accordions-group">
+        <!-- Interactive Clean Expandable Accordions (PDF Minimal Line Style) -->
+        <div class="pdf-accordion-list">
           
-          <div class="accordion-item is-open">
-            <button type="button" class="acc-trigger">
-              <span>Technical Specifications & Dimensions</span>
-              <span class="acc-icon">+</span>
+          <div class="pdf-acc-row is-open">
+            <button type="button" class="pdf-acc-header">
+              <span>Product Highlights</span>
+              <span class="pdf-acc-icon">+</span>
             </button>
-            <div class="acc-panel">
-              <table class="specs-table">
+            <div class="pdf-acc-content">
+              <p class="acc-paragraph">{product.description}</p>
+            </div>
+          </div>
+
+          <div class="pdf-acc-row">
+            <button type="button" class="pdf-acc-header">
+              <span>Technical Specifications & Dimensions</span>
+              <span class="pdf-acc-icon">+</span>
+            </button>
+            <div class="pdf-acc-content">
+              <table class="clean-specs-table">
                 <tbody>
                   {Object.entries(product.specs).map(([k, v]) => (
                     <tr>
-                      <td class="spec-k">{k}</td>
-                      <td class="spec-v">{v}</td>
+                      <td class="key-col">{k}</td>
+                      <td class="val-col">{v}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -284,38 +304,43 @@ const productSchema = {
             </div>
           </div>
 
-          <div class="accordion-item">
-            <button type="button" class="acc-trigger">
-              <span>In-The-Box Accessories Included</span>
-              <span class="acc-icon">+</span>
+          <div class="pdf-acc-row">
+            <button type="button" class="pdf-acc-header">
+              <span>FAQ</span>
+              <span class="pdf-acc-icon">+</span>
             </button>
-            <div class="acc-panel">
-              <ul class="bullet-list">
-                <li>1x Factory Assembled {product.name} Unit</li>
-                <li>1x High Flow Expansion Silencer & Gasket Set</li>
-                <li>1x Engine Mounting Standoff Set & Hardware</li>
-                <li>1x Official Owner Manual & Tuning Guide</li>
-              </ul>
+            <div class="pdf-acc-content">
+              <p class="acc-paragraph"><strong>Q: Is fuel included in the box?</strong><br/>A: Fuel is shipped separately due to hazardous cargo regulations. We recommend 10-15% nitro fuel blend.</p>
             </div>
           </div>
 
-          <div class="accordion-item">
-            <button type="button" class="acc-trigger">
-              <span>Maintenance, Fuel Ratios & Break-In Steps</span>
-              <span class="acc-icon">+</span>
+          <div class="pdf-acc-row">
+            <button type="button" class="pdf-acc-header">
+              <span>All Ingredients & Material Build</span>
+              <span class="pdf-acc-icon">+</span>
             </button>
-            <div class="acc-panel">
-              <p class="acc-text">Run 4-5 thermal heat cycles on rich needle setting before full throttle flying. Use 10-15% synthetic castor oil blend fuel for maximum bearing protection.</p>
+            <div class="pdf-acc-content">
+              <p class="acc-paragraph">Contest grade balsa wood, aircraft grade aluminum, hardened alloy steel crankshaft, and high temperature ABL cylinder liner.</p>
             </div>
           </div>
 
-          <div class="accordion-item">
-            <button type="button" class="acc-trigger">
-              <span>Shipping, Warranty & 18% GST Credit</span>
-              <span class="acc-icon">+</span>
+          <div class="pdf-acc-row">
+            <button type="button" class="pdf-acc-header">
+              <span>Other Information & Warranty</span>
+              <span class="pdf-acc-icon">+</span>
             </button>
-            <div class="acc-panel">
-              <p class="acc-text">Dispatched in 24 hours from Devlali Camp distribution hub. 100% transit damage insured with 1-Year Official Manufacturer Warranty. Includes 18% GST B2B tax invoice.</p>
+            <div class="pdf-acc-content">
+              <p class="acc-paragraph">Includes 1-Year Official Manufacturer Warranty and 18% GST Input Tax Credit Invoice for B2B orders.</p>
+            </div>
+          </div>
+
+          <div class="pdf-acc-row">
+            <button type="button" class="pdf-acc-header">
+              <span>How To Use & Break-In Steps</span>
+              <span class="pdf-acc-icon">+</span>
+            </button>
+            <div class="pdf-acc-content">
+              <p class="acc-paragraph">Run 4-5 thermal heat cycles on rich needle setting before full throttle flying. Use 10-15% synthetic castor oil blend fuel for maximum bearing protection.</p>
             </div>
           </div>
 
@@ -325,97 +350,114 @@ const productSchema = {
 
     </div>
 
-    <!-- Best Paired With Section -->
-    <section class="pdp-section-block">
-      <h2 class="pdp-section-title">BEST PAIRED WITH</h2>
-      <div class="products-carousel-grid">
+    <!-- BEST PAIRED WITH Section (Centered Spacious PDF Header & Grid) -->
+    <section class="pdp-major-section">
+      <h2 class="pdf-section-heading">BEST PAIRED WITH</h2>
+      
+      <div class="pdf-products-grid-4">
         {pairedProducts.map(item => (
-          <div class="bellavita-card">
-            <div class="card-media">
-              {item.isBestseller && <span class="badge-bestseller">BESTSELLER</span>}
+          <div class="pdf-catalog-card">
+            <div class="card-image-box">
+              {item.isBestseller && <span class="card-badge bestseller">BESTSELLER</span>}
+              {item.discountBadge && <span class="card-badge offer">{item.discountBadge}</span>}
               <a href={`/product/${item.id}`}>
-                <img src={item.image} alt={item.name} class="product-img" />
+                <img src={item.image} alt={item.name} />
               </a>
             </div>
-            <div class="card-body">
-              <div class="subtitle-tag">{item.categoryLabel.toUpperCase()}</div>
-              <h3 class="product-title"><a href={`/product/${item.id}`}>{item.name}</a></h3>
-              <div class="price-row">
-                <span class="current-price">₹{item.price.toLocaleString('en-IN')}.00</span>
-                <span class="old-price">₹{item.originalPrice.toLocaleString('en-IN')}.00</span>
+            <div class="card-content-box">
+              <div class="card-cat-tag">{item.categoryLabel.toUpperCase()}</div>
+              <h3 class="card-item-title"><a href={`/product/${item.id}`}>{item.name}</a></h3>
+              <div class="card-rating-line">★ {item.rating} | ({item.reviewsCount} Reviews)</div>
+              <div class="card-price-line">
+                <span class="p-now">₹{item.price.toLocaleString('en-IN')}</span>
+                <span class="p-was">₹{item.originalPrice.toLocaleString('en-IN')}</span>
               </div>
-              <button class="bellavita-cart-btn add-to-cart-btn" data-id={item.id}>ADD TO CART</button>
+              <button class="pdf-card-cart-btn add-to-cart-btn" data-id={item.id}>ADD TO CART</button>
             </div>
           </div>
         ))}
       </div>
     </section>
 
-    <!-- Pilot Customer Reviews & Rating Breakdown -->
-    <section class="pdp-section-block">
-      <h2 class="pdp-section-title">Customer Reviews</h2>
+    <!-- Customer Reviews Section (Exact PDF Rating Bar & Photo Strip) -->
+    <section class="pdp-major-section">
+      <h2 class="pdf-section-heading">Customer Reviews</h2>
       
-      <div class="reviews-summary-card">
-        <div class="score-col">
-          <div class="score-big">4.87</div>
-          <div class="stars-gold">★★★★★</div>
-          <div class="based-lbl">Based on {product.reviewsCount} reviews</div>
+      <div class="pdf-reviews-summary-flex">
+        <div class="score-summary-box">
+          <div class="big-score-num">4.67</div>
+          <div class="stars-gold-row">★★★★★</div>
+          <div class="total-reviews-text">Based on {product.reviewsCount} reviews</div>
         </div>
 
-        <div class="bars-col">
-          <div class="bar-line"><span>5 Stars</span><div class="track"><div class="fill" style="width: 88%;"></div></div><span>890</span></div>
-          <div class="bar-line"><span>4 Stars</span><div class="track"><div class="fill" style="width: 9%;"></div></div><span>348</span></div>
-          <div class="bar-line"><span>3 Stars</span><div class="track"><div class="fill" style="width: 2%;"></div></div><span>29</span></div>
-          <div class="bar-line"><span>2 Stars</span><div class="track"><div class="fill" style="width: 0%;"></div></div><span>0</span></div>
-          <div class="bar-line"><span>1 Star</span><div class="track"><div class="fill" style="width: 1%;"></div></div><span>2</span></div>
+        <div class="bars-distribution-box">
+          <div class="dist-row"><span>5 Stars</span><div class="dist-track"><div class="dist-fill" style="width: 88%;"></div></div><span>890</span></div>
+          <div class="dist-row"><span>4 Stars</span><div class="dist-track"><div class="dist-fill" style="width: 9%;"></div></div><span>348</span></div>
+          <div class="dist-row"><span>3 Stars</span><div class="dist-track"><div class="dist-fill" style="width: 2%;"></div></div><span>29</span></div>
+          <div class="dist-row"><span>2 Stars</span><div class="dist-track"><div class="dist-fill" style="width: 0%;"></div></div><span>0</span></div>
+          <div class="dist-row"><span>1 Star</span><div class="dist-track"><div class="dist-fill" style="width: 1%;"></div></div><span>2</span></div>
         </div>
 
-        <div class="action-col">
-          <button class="btn-write-review" onclick="alert('Thank you! Review submission form opened.');">
+        <div class="write-review-box">
+          <button class="btn-write-review-pdf" onclick="alert('Thank you! Review submission modal opened.');">
             Write a review
           </button>
         </div>
       </div>
 
-      <!-- Verified Reviews List -->
-      <div class="pilot-reviews-list">
+      <!-- Customer Photos Strip -->
+      <div class="customer-photos-strip">
+        <div class="strip-label">Customer photos & videos</div>
+        <div class="photos-flex">
+          <img src="https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?q=80&w=200&auto=format&fit=crop" alt="Photo 1" />
+          <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=200&auto=format&fit=crop" alt="Photo 2" />
+          <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=200&auto=format&fit=crop" alt="Photo 3" />
+          <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=200&auto=format&fit=crop" alt="Photo 4" />
+          <img src="https://images.unsplash.com/photo-1519074069444-1ba4ea16028d?q=80&w=200&auto=format&fit=crop" alt="Photo 5" />
+        </div>
+      </div>
+
+      <!-- Verified Reviews Cards List -->
+      <div class="pdf-reviews-list">
         {pilotReviews.map(rev => (
-          <div class="pilot-review-card">
-            <div class="rev-header">
-              <div class="rev-stars">★★★★★</div>
-              <span class="rev-date">{rev.date}</span>
-            </div>
-            <div class="rev-author-name">
+          <div class="pdf-review-card">
+            <div class="rev-stars">★★★★★</div>
+            <div class="rev-author">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="#059669"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
               <strong>{rev.name}</strong>
-              <small class="verified-tag">Verified Pilot</small>
             </div>
-            <p class="rev-text">"{rev.text}"</p>
+            <h4 class="rev-title-headline">Elegant & High Performance</h4>
+            <p class="rev-body-text">{rev.text}</p>
+            <span class="rev-time-ago">{rev.date}</span>
           </div>
         ))}
       </div>
+
     </section>
 
-    <!-- You May Also Like Section -->
-    <section class="pdp-section-block">
-      <h2 class="pdp-section-title">YOU MAY ALSO LIKE</h2>
-      <div class="products-carousel-grid">
+    <!-- YOU MAY ALSO LIKE Section (PDF Page 3) -->
+    <section class="pdp-major-section">
+      <h2 class="pdf-section-heading">YOU MAY ALSO LIKE</h2>
+      
+      <div class="pdf-products-grid-4">
         {relatedProducts.map(rel => (
-          <div class="bellavita-card">
-            <div class="card-media">
-              {rel.isBestseller && <span class="badge-bestseller">BESTSELLER</span>}
+          <div class="pdf-catalog-card">
+            <div class="card-image-box">
+              {rel.isBestseller && <span class="card-badge bestseller">BESTSELLER</span>}
+              {rel.discountBadge && <span class="card-badge offer">{rel.discountBadge}</span>}
               <a href={`/product/${rel.id}`}>
-                <img src={rel.image} alt={rel.name} class="product-img" />
+                <img src={rel.image} alt={rel.name} />
               </a>
             </div>
-            <div class="card-body">
-              <div class="subtitle-tag">{rel.categoryLabel.toUpperCase()}</div>
-              <h3 class="product-title"><a href={`/product/${rel.id}`}>{rel.name}</a></h3>
-              <div class="price-row">
-                <span class="current-price">₹{rel.price.toLocaleString('en-IN')}.00</span>
-                <span class="old-price">₹{rel.originalPrice.toLocaleString('en-IN')}.00</span>
+            <div class="card-content-box">
+              <div class="card-cat-tag">{rel.categoryLabel.toUpperCase()}</div>
+              <h3 class="card-item-title"><a href={`/product/${rel.id}`}>{rel.name}</a></h3>
+              <div class="card-rating-line">★ {rel.rating} | ({rel.reviewsCount} Reviews)</div>
+              <div class="card-price-line">
+                <span class="p-now">₹{rel.price.toLocaleString('en-IN')}</span>
+                <span class="p-was">₹{rel.originalPrice.toLocaleString('en-IN')}</span>
               </div>
-              <button class="bellavita-cart-btn add-to-cart-btn" data-id={rel.id}>ADD TO CART</button>
+              <button class="pdf-card-cart-btn add-to-cart-btn" data-id={rel.id}>ADD TO CART</button>
             </div>
           </div>
         ))}
@@ -449,424 +491,436 @@ const productSchema = {
       color: #1a1a1a !important;
     }
 
-    .breadcrumb-bar {
-      background: #f3eee7;
-      border-bottom: 1px solid #e6e0d5;
-      padding: 0.85rem 0;
-      font-size: 0.82rem;
-      color: #666666;
+    /* Minimal Breadcrumb Strip */
+    .breadcrumb-strip {
+      background: transparent;
+      padding: 1.25rem 0;
+      font-size: 0.78rem;
+      color: #777777;
     }
-    .breadcrumb-bar a:hover { color: #3b0811; }
-    .breadcrumb-bar .active { color: #1a1a1a; font-weight: 700; }
+    .breadcrumb-strip a { color: #666666; text-decoration: none; }
+    .breadcrumb-strip a:hover { color: #111111; }
+    .breadcrumb-strip span { margin: 0 0.35rem; color: #aaaaaa; }
+    .breadcrumb-strip .active { color: #111111; font-weight: 600; }
 
-    .pdp-main-layout {
-      padding: 3rem 1.25rem 6rem;
+    .pdp-container {
+      padding: 1rem 1.25rem 6rem;
     }
 
-    .pdp-top-grid {
+    /* 2-Column Showcase Layout */
+    .pdp-showcase-grid {
       display: grid;
-      grid-template-columns: 1fr 1.15fr;
-      gap: 3rem;
-      margin-bottom: 4rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 4.5rem;
       align-items: flex-start;
+      margin-bottom: 5rem;
     }
 
-    /* Gallery Column - Sticky until BEST PAIRED WITH section */
-    .pdp-gallery-column {
+    /* Sticky Gallery Column */
+    .pdp-sticky-gallery {
       position: sticky;
       top: 110px;
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      gap: 1rem;
     }
-    .main-image-container {
+    .pdp-image-stage {
       position: relative;
-      background: #ffffff;
+      background: #f7f4ed;
       border: 1px solid #e6e0d5;
-      border-radius: var(--radius-md);
-      padding-top: 85%;
+      border-radius: var(--radius-sm);
+      padding-top: 100%;
       overflow: hidden;
     }
-    .main-pdp-img {
+    .pdp-main-img {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-    .pdp-badge-left {
+    .pdp-pill-badge {
       position: absolute;
       top: 1rem;
-      left: 1rem;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      letter-spacing: 0.06em;
       z-index: 2;
     }
-    .pdp-badge-right {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      z-index: 2;
-    }
+    .pdp-pill-badge.bestseller { left: 1rem; background: #ea580c; color: #ffffff; }
+    .pdp-pill-badge.offer { right: 1rem; background: #059669; color: #ffffff; }
 
-    .gallery-thumbs-row {
+    .pdp-thumbs-row {
       display: flex;
-      gap: 0.85rem;
+      gap: 0.75rem;
     }
-    .thumb-item {
-      width: 70px;
-      height: 70px;
+    .thumb-box {
+      width: 72px;
+      height: 72px;
       border-radius: var(--radius-sm);
       overflow: hidden;
       border: 1.5px solid #e6e0d5;
-      cursor: pointer;
       background: #ffffff;
+      cursor: pointer;
       transition: var(--transition-fast);
     }
-    .thumb-item.active, .thumb-item:hover {
-      border-color: #3b0811;
+    .thumb-box.active, .thumb-box:hover {
+      border-color: #111111;
       transform: translateY(-2px);
     }
-    .thumb-item img {
+    .thumb-box img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
 
-    /* Buy Column */
-    .pdp-buy-column {
+    /* Details Column */
+    .pdp-details-column {
       display: flex;
       flex-direction: column;
     }
-    .pdp-product-title {
+    .product-heading-title {
       font-family: var(--font-display);
-      font-size: 2rem;
-      font-weight: 800;
+      font-size: 2.2rem;
+      font-weight: 600;
       color: #1a1a1a;
       line-height: 1.25;
       margin-bottom: 0.35rem;
+      letter-spacing: -0.01em;
     }
-    .pdp-subtitle-tag {
-      font-size: 0.82rem;
+    .product-subtext {
+      font-size: 0.88rem;
       color: #666666;
-      font-weight: 700;
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
     }
 
-    .rating-pill-row {
+    .rating-row {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
     }
-    .rating-badge-yellow {
+    .rating-star-pill {
       background: #fef3c7;
       color: #92400e;
       font-weight: 800;
       font-size: 0.8rem;
-      padding: 0.2rem 0.5rem;
+      padding: 0.25rem 0.6rem;
       border-radius: 4px;
     }
-    .rating-count-text {
+    .rating-reviews-count {
       font-size: 0.82rem;
       color: #666666;
     }
-    .btn-share-icon {
+    .share-btn {
       margin-left: auto;
       background: none;
       border: none;
       cursor: pointer;
     }
 
-    .pdp-pricing-block {
+    /* Pricing & Stepper */
+    .price-stepper-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.2rem;
+    }
+    .price-block {
       display: flex;
       align-items: baseline;
       gap: 0.75rem;
-      margin-bottom: 0.2rem;
     }
-    .price-main {
-      font-family: var(--font-display);
-      font-size: 2.2rem;
-      font-weight: 800;
+    .price-actual {
+      font-size: 2.1rem;
+      font-weight: 700;
       color: #1a1a1a;
     }
-    .price-old {
-      font-size: 1.1rem;
+    .price-slashed {
+      font-size: 1.05rem;
       color: #888888;
       text-decoration: line-through;
     }
-    .save-tag {
+    .price-discount-tag {
       font-size: 0.85rem;
       font-weight: 800;
       color: #059669;
     }
-    .tax-inclusive-lbl {
+    .qty-stepper-box {
+      display: flex;
+      align-items: center;
+      border: 1px solid #d6cfc2;
+      border-radius: 4px;
+      background: #ffffff;
+      padding: 0.2rem 0.4rem;
+    }
+    .stepper-btn {
+      width: 28px;
+      height: 28px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #111;
+    }
+    .stepper-count {
+      width: 32px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #111;
+    }
+    .tax-note-text {
       font-size: 0.78rem;
       color: #777777;
       margin-bottom: 1.25rem;
     }
 
-    .prepaid-discount-box {
-      background: #fef3c7;
-      border: 1px solid #fde68a;
-      color: #78350f;
-      padding: 0.65rem 0.85rem;
+    /* Prepaid Discount Banner */
+    .prepaid-banner-pill {
+      background: #fef9c3;
+      border: 1px solid #fde047;
+      color: #713f12;
+      padding: 0.75rem 1rem;
       border-radius: var(--radius-sm);
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.75rem;
     }
 
-    .buy-action-controls {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1rem;
+    /* Variant Selector */
+    .variant-selector-block {
+      margin-bottom: 1.75rem;
     }
-    .pdp-qty-stepper {
+    .variant-label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #666666;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.6rem;
+    }
+    .variant-buttons-row {
       display: flex;
-      align-items: center;
+      gap: 0.85rem;
+    }
+    .variant-btn {
+      padding: 0.75rem 1.25rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: 4px;
+      border: 1px solid #d6cfc2;
       background: #ffffff;
-      border: 1.5px solid #e6e0d5;
-      border-radius: var(--radius-sm);
-      padding: 0.25rem 0.5rem;
-    }
-    .stepper-btn {
-      width: 32px;
-      height: 32px;
-      font-size: 1.2rem;
-      font-weight: 800;
       color: #1a1a1a;
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-    .stepper-val {
-      width: 36px;
-      text-align: center;
-      font-weight: 800;
-      color: #1a1a1a;
-    }
-
-    .btn-add-to-cart-pill {
-      flex: 1;
-      background: #1a1a1a;
-      color: #ffffff;
-      font-weight: 800;
-      font-size: 0.9rem;
-      padding: 0.85rem;
-      border-radius: var(--radius-sm);
-      letter-spacing: 0.05em;
-      border: none;
       cursor: pointer;
       transition: var(--transition-fast);
     }
-    .btn-add-to-cart-pill:hover {
+    .variant-btn.active {
+      background: #111111;
+      color: #ffffff;
+      border-color: #111111;
+    }
+
+    /* Full Width ADD TO CART Pill */
+    .btn-add-to-cart-pdf {
+      width: 100%;
+      background: #111111;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 1.1rem;
+      border-radius: 4px;
+      letter-spacing: 0.08em;
+      border: none;
+      cursor: pointer;
+      text-transform: uppercase;
+      margin-bottom: 2.25rem;
+      transition: var(--transition-fast);
+    }
+    .btn-add-to-cart-pdf:hover {
       background: #3b0811;
       transform: translateY(-2px);
     }
 
-    .whatsapp-quick-order-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      background: rgba(37, 211, 102, 0.12);
-      border: 1.5px solid rgba(37, 211, 102, 0.4);
-      color: #047857;
-      font-weight: 800;
-      font-size: 0.85rem;
-      padding: 0.75rem;
-      border-radius: var(--radius-sm);
-      margin-bottom: 2rem;
-    }
-
-    /* Trust Badges Grid */
-    .trust-icons-grid {
+    /* 4 Trust Badges */
+    .pdf-trust-badges-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 1rem;
       border-top: 1px solid #e6e0d5;
       border-bottom: 1px solid #e6e0d5;
-      padding: 1.5rem 0;
-      margin-bottom: 2rem;
+      padding: 1.75rem 0;
+      margin-bottom: 2.25rem;
     }
-    .trust-badge-item {
+    .trust-badge-cell {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 0.5rem;
       text-align: center;
     }
-    .t-icon-circle {
+    .badge-icon-wrap {
       width: 48px;
       height: 48px;
       border-radius: 50%;
-      background: #f3eee7;
+      background: #ffffff;
       border: 1px solid #e6e0d5;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .trust-badge-item span {
+    .trust-badge-cell span {
       font-size: 0.72rem;
-      font-weight: 700;
-      color: #333333;
+      font-weight: 600;
+      color: #444444;
     }
 
     /* Combo Card */
-    .best-combo-card {
+    .pdf-combo-card {
       background: #ffffff;
       border: 1px solid #e6e0d5;
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-sm);
       padding: 1.25rem;
-      margin-bottom: 2rem;
+      margin-bottom: 2.25rem;
     }
-    .combo-title {
+    .combo-card-title {
       font-size: 0.78rem;
-      font-weight: 800;
-      color: #3b0811;
-      letter-spacing: 0.08em;
-      margin-bottom: 0.75rem;
-    }
-    .combo-flex {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .combo-img {
-      width: 54px;
-      height: 54px;
-      object-fit: cover;
-      border-radius: 4px;
-      border: 1px solid #e6e0d5;
-    }
-    .combo-info { flex-grow: 1; font-size: 0.82rem; }
-    .combo-info strong { display: block; color: #1a1a1a; margin-bottom: 0.2rem; }
-    .combo-price { font-weight: 800; color: #1a1a1a; display: flex; gap: 0.4rem; }
-    .btn-combo-add {
-      background: #f3eee7;
-      color: #3b0811;
-      border: 1px solid #d6cfc2;
-      font-weight: 800;
-      font-size: 0.75rem;
-      padding: 0.5rem 0.85rem;
-      border-radius: 4px;
-    }
-
-    /* Notes Highlights Grid */
-    .component-notes-section {
-      margin-bottom: 2rem;
-    }
-    .notes-heading, .app-heading {
-      font-size: 0.82rem;
       font-weight: 800;
       color: #1a1a1a;
       letter-spacing: 0.06em;
       margin-bottom: 0.85rem;
     }
-    .notes-cards-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.85rem;
+    .combo-inner-flex {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
-    .note-card-box {
+    .combo-thumb { width: 54px; height: 54px; object-fit: cover; border-radius: 4px; border: 1px solid #e6e0d5; }
+    .combo-details { flex-grow: 1; font-size: 0.82rem; }
+    .combo-details strong { display: block; color: #1a1a1a; margin-bottom: 0.2rem; }
+    .combo-prices { font-weight: 700; color: #1a1a1a; display: flex; gap: 0.4rem; }
+    .btn-combo-add-pdf {
+      background: #ffffff;
+      color: #111111;
+      border: 1px solid #111111;
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 0.6rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* Notes in This Set */
+    .notes-in-set-block { margin-bottom: 2.25rem; }
+    .block-heading {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 1.25rem;
+    }
+    .notes-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+    .note-item-card {
       background: #ffffff;
       border: 1px solid #e6e0d5;
-      padding: 0.85rem;
+      padding: 1rem;
       border-radius: var(--radius-sm);
       text-align: center;
     }
-    .note-icon { font-size: 1.4rem; display: block; margin-bottom: 0.25rem; }
-    .note-card-box strong { display: block; font-size: 0.78rem; color: #1a1a1a; }
-    .note-card-box small { font-size: 0.68rem; color: #666666; }
+    .note-emoji { font-size: 1.5rem; display: block; margin-bottom: 0.35rem; }
+    .note-name { display: block; font-size: 0.8rem; color: #1a1a1a; margin-bottom: 0.2rem; }
+    .note-desc { font-size: 0.68rem; color: #666666; }
 
-    /* Usage Applications Grid */
-    .applications-section { margin-bottom: 2rem; }
-    .app-items-grid {
+    /* Where To Fly */
+    .where-to-fly-block { margin-bottom: 2.25rem; }
+    .where-grid-2 {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.75rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+      margin-bottom: 0.85rem;
     }
-    .app-item {
+    .where-item {
       background: #ffffff;
       border: 1px solid #e6e0d5;
-      padding: 0.65rem 0.85rem;
+      padding: 0.85rem 1rem;
       border-radius: var(--radius-sm);
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: #333333;
+      font-size: 0.85rem;
+      color: #1a1a1a;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.6rem;
     }
+    .vibes-line { font-size: 0.82rem; color: #666666; }
 
-    /* Accordions Group */
-    .pdp-accordions-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
+    /* PDF Minimal Accordions (Clean Line Border Style) */
+    .pdf-accordion-list {
+      border-top: 1px solid #e6e0d5;
     }
-    .accordion-item {
-      background: #ffffff;
-      border: 1px solid #e6e0d5;
-      border-radius: var(--radius-sm);
-      overflow: hidden;
+    .pdf-acc-row {
+      border-bottom: 1px solid #e6e0d5;
     }
-    .acc-trigger {
+    .pdf-acc-header {
       width: 100%;
-      padding: 1rem 1.25rem;
+      padding: 1.25rem 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-family: var(--font-main);
-      font-weight: 800;
-      font-size: 0.88rem;
+      font-weight: 600;
+      font-size: 0.95rem;
       color: #1a1a1a;
       background: none;
       border: none;
       cursor: pointer;
+      text-align: left;
     }
-    .acc-icon { font-size: 1.2rem; transition: transform 0.3s ease; }
-    .accordion-item.is-open .acc-icon { transform: rotate(45deg); }
-    
-    .acc-panel {
+    .pdf-acc-icon { font-size: 1.2rem; transition: transform 0.3s ease; }
+    .pdf-acc-row.is-open .pdf-acc-icon { transform: rotate(45deg); }
+    .pdf-acc-content {
       display: none;
-      padding: 0 1.25rem 1.25rem;
-      border-top: 1px solid #f3eee7;
-      font-size: 0.85rem;
+      padding-bottom: 1.25rem;
+      font-size: 0.88rem;
       color: #555555;
+      line-height: 1.65;
     }
-    .accordion-item.is-open .acc-panel {
-      display: block;
-    }
-    .specs-table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
-    .specs-table td { padding: 0.5rem 0; border-bottom: 1px solid #f3eee7; }
-    .spec-k { width: 45%; color: #666666; font-weight: 600; }
-    .spec-v { color: #1a1a1a; font-weight: 700; }
-    .bullet-list { padding-left: 1.2rem; margin-top: 0.5rem; line-height: 1.6; }
+    .pdf-acc-row.is-open .pdf-acc-content { display: block; }
+    .clean-specs-table { width: 100%; border-collapse: collapse; }
+    .clean-specs-table td { padding: 0.4rem 0; border-bottom: 1px dotted #e6e0d5; }
+    .key-col { width: 45%; color: #666; }
+    .val-col { color: #111; font-weight: 700; }
 
-    /* Sections */
-    .pdp-section-block {
-      margin-top: 4rem;
+    /* Major Centered Sections */
+    .pdp-major-section {
+      margin-top: 5rem;
     }
-    .pdp-section-title {
+    .pdf-section-heading {
       font-family: var(--font-display);
-      font-size: 1.5rem;
-      font-weight: 800;
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
       text-align: center;
-      letter-spacing: 0.08em;
-      margin-bottom: 2.25rem;
       color: #1a1a1a;
+      margin-bottom: 3rem;
+      text-transform: uppercase;
     }
 
-    /* Product Cards Grid */
-    .products-carousel-grid {
+    /* Catalog Cards Grid 4 */
+    .pdf-products-grid-4 {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 1.75rem;
     }
-    .bellavita-card {
-      background: #f3eee7;
+    .pdf-catalog-card {
+      background: #ffffff;
       border: 1px solid #e6e0d5;
       border-radius: var(--radius-sm);
       overflow: hidden;
@@ -874,81 +928,76 @@ const productSchema = {
       flex-direction: column;
       transition: var(--transition-smooth);
     }
-    .bellavita-card:hover {
+    .pdf-catalog-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-      border-color: #1a1a1a;
+      border-color: #111111;
     }
-    .card-media {
+    .card-image-box {
       position: relative;
-      padding-top: 75%;
-      background: #ffffff;
+      padding-top: 85%;
+      background: #f7f4ed;
     }
-    .product-img {
+    .card-image-box img {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-    .card-body {
+    .card-badge {
+      position: absolute;
+      top: 0.75rem;
+      font-size: 0.6rem;
+      font-weight: 800;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      z-index: 2;
+    }
+    .card-badge.bestseller { left: 0.75rem; background: #ea580c; color: #fff; }
+    .card-badge.offer { right: 0.75rem; background: #059669; color: #fff; }
+
+    .card-content-box {
       padding: 1.25rem;
       display: flex;
       flex-direction: column;
       flex-grow: 1;
     }
-    .subtitle-tag {
-      font-size: 0.65rem;
-      color: #777777;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      margin-bottom: 0.35rem;
-    }
-    .product-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      line-height: 1.35;
+    .card-cat-tag { font-size: 0.65rem; color: #777; font-weight: 700; margin-bottom: 0.35rem; }
+    .card-item-title {
+      font-size: 0.92rem;
+      font-weight: 600;
       color: #1a1a1a;
-      margin-bottom: 0.6rem;
-      height: 2.6rem;
+      line-height: 1.35;
+      margin-bottom: 0.5rem;
+      height: 2.5rem;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-    .price-row {
-      display: flex;
-      align-items: baseline;
-      gap: 0.6rem;
-      margin-bottom: 1rem;
-    }
-    .current-price {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: #1a1a1a;
-    }
-    .old-price {
-      font-size: 0.85rem;
-      color: #888888;
-      text-decoration: line-through;
-    }
-    .bellavita-cart-btn {
-      background: #1a1a1a;
+    .card-rating-line { font-size: 0.75rem; color: #666; margin-bottom: 0.6rem; }
+    .card-price-line { display: flex; gap: 0.5rem; align-items: baseline; margin-bottom: 1rem; }
+    .p-now { font-size: 1.1rem; font-weight: 700; color: #1a1a1a; }
+    .p-was { font-size: 0.85rem; color: #888; text-decoration: line-through; }
+    .pdf-card-cart-btn {
+      width: 100%;
+      background: #111111;
       color: #ffffff;
-      font-weight: 800;
+      font-weight: 700;
       font-size: 0.8rem;
       padding: 0.75rem;
-      border-radius: var(--radius-sm);
-      text-align: center;
-      width: 100%;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
       margin-top: auto;
     }
 
-    /* Reviews Summary */
-    .reviews-summary-card {
+    /* Customer Reviews Summary */
+    .pdf-reviews-summary-flex {
       background: #ffffff;
       border: 1px solid #e6e0d5;
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-sm);
       padding: 2.5rem;
       display: grid;
       grid-template-columns: 220px 1fr 200px;
@@ -956,45 +1005,53 @@ const productSchema = {
       align-items: center;
       margin-bottom: 2.5rem;
     }
-    .score-col { text-align: center; }
-    .score-big { font-size: 3.8rem; font-weight: 900; font-family: var(--font-display); line-height: 1; color: #1a1a1a; }
-    .stars-gold { color: #f59e0b; font-size: 1.2rem; margin: 0.3rem 0; }
-    .based-lbl { font-size: 0.78rem; color: #666666; }
+    .score-summary-box { text-align: center; }
+    .big-score-num { font-size: 3.8rem; font-weight: 800; font-family: var(--font-display); line-height: 1; color: #1a1a1a; }
+    .stars-gold-row { color: #f59e0b; font-size: 1.2rem; margin: 0.3rem 0; }
+    .total-reviews-text { font-size: 0.78rem; color: #666; }
 
-    .bars-col { display: flex; flex-direction: column; gap: 0.5rem; }
-    .bar-line { display: flex; align-items: center; gap: 1rem; font-size: 0.8rem; color: #555; }
-    .track { flex: 1; height: 8px; background: #e6e0d5; border-radius: 4px; overflow: hidden; }
-    .fill { height: 100%; background: #f59e0b; border-radius: 4px; }
+    .bars-distribution-box { display: flex; flex-direction: column; gap: 0.5rem; }
+    .dist-row { display: flex; align-items: center; gap: 1rem; font-size: 0.8rem; color: #555; }
+    .dist-track { flex: 1; height: 8px; background: #e6e0d5; border-radius: 4px; overflow: hidden; }
+    .dist-fill { height: 100%; background: #f59e0b; border-radius: 4px; }
 
-    .action-col { text-align: center; }
-    .btn-write-review {
-      background: #1a1a1a;
+    .write-review-box { text-align: center; }
+    .btn-write-review-pdf {
+      background: #111111;
       color: #ffffff;
-      font-weight: 800;
+      font-weight: 700;
       font-size: 0.85rem;
       padding: 0.85rem 1.5rem;
-      border-radius: var(--radius-sm);
+      border-radius: 4px;
       border: none;
       cursor: pointer;
     }
 
-    .pilot-reviews-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
-    .pilot-review-card {
+    /* Customer Photos Strip */
+    .customer-photos-strip {
       background: #ffffff;
       border: 1px solid #e6e0d5;
       border-radius: var(--radius-sm);
       padding: 1.5rem;
+      margin-bottom: 2.5rem;
     }
-    .rev-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
-    .rev-stars { color: #f59e0b; font-size: 0.9rem; }
-    .rev-date { font-size: 0.78rem; color: #888888; }
-    .rev-author-name { display: flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; color: #1a1a1a; margin-bottom: 0.6rem; }
-    .verified-tag { color: #059669; font-weight: 800; font-size: 0.72rem; }
-    .rev-text { font-size: 0.9rem; color: #444444; line-height: 1.6; }
+    .strip-label { font-size: 0.82rem; font-weight: 700; color: #1a1a1a; margin-bottom: 1rem; }
+    .photos-flex { display: flex; gap: 1rem; overflow-x: auto; }
+    .photos-flex img { width: 90px; height: 90px; object-fit: cover; border-radius: 4px; border: 1px solid #e6e0d5; }
+
+    /* Verified Pilot Reviews */
+    .pdf-reviews-list { display: flex; flex-direction: column; gap: 1.25rem; }
+    .pdf-review-card {
+      background: #ffffff;
+      border: 1px solid #e6e0d5;
+      border-radius: var(--radius-sm);
+      padding: 1.75rem;
+    }
+    .rev-stars { color: #f59e0b; margin-bottom: 0.5rem; }
+    .rev-author { display: flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; color: #1a1a1a; margin-bottom: 0.5rem; }
+    .rev-title-headline { font-size: 0.95rem; font-weight: 700; color: #1a1a1a; margin-bottom: 0.4rem; }
+    .rev-body-text { font-size: 0.88rem; color: #555; line-height: 1.6; margin-bottom: 0.75rem; }
+    .rev-time-ago { font-size: 0.75rem; color: #888; }
 
     /* Sticky Bottom Bar */
     .sticky-pdp-bar {
@@ -1010,24 +1067,20 @@ const productSchema = {
       transform: translateY(100%);
       transition: transform 0.35s ease;
     }
-    .sticky-pdp-bar.is-visible {
-      transform: translateY(0);
-    }
-    .sticky-bar-flex {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    .sticky-pdp-bar.is-visible { transform: translateY(0); }
+    .sticky-bar-flex { display: flex; justify-content: space-between; align-items: center; }
     .sticky-prod-info { display: flex; align-items: center; gap: 1rem; }
     .sticky-thumb { width: 44px; height: 44px; object-fit: cover; border-radius: 4px; border: 1px solid #e6e0d5; }
     .sticky-name { display: block; font-size: 0.9rem; color: #1a1a1a; }
-    .sticky-price { font-weight: 800; color: #3b0811; font-size: 0.95rem; }
-    .sticky-add-btn { padding: 0.65rem 1.5rem; font-weight: 800; }
+    .sticky-price { font-weight: 700; color: #3b0811; font-size: 0.95rem; }
+    .sticky-add-btn { padding: 0.65rem 1.5rem; font-weight: 700; }
 
     @media (max-width: 900px) {
-      .pdp-top-grid { grid-template-columns: 1fr; }
-      .trust-icons-grid { grid-template-columns: repeat(2, 1fr); }
-      .reviews-summary-card { grid-template-columns: 1fr; text-align: center; }
+      .pdp-showcase-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .pdf-trust-badges-row { grid-template-columns: repeat(2, 1fr); }
+      .notes-grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .pdf-products-grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .pdf-reviews-summary-flex { grid-template-columns: 1fr; text-align: center; }
     }
   </style>
 
@@ -1041,8 +1094,9 @@ const productSchema = {
       const incBtn = document.getElementById('pdp-qty-inc');
       const mainAddBtn = document.getElementById('pdp-main-add-btn');
       const mainImg = document.getElementById('main-display-img') as HTMLImageElement;
-      const thumbs = document.querySelectorAll('.thumb-item');
+      const thumbs = document.querySelectorAll('.thumb-box');
       const stickyBar = document.getElementById('sticky-pdp-bar');
+      const variantBtns = document.querySelectorAll('.variant-btn');
 
       // Gallery Thumbnails Click
       thumbs.forEach(t => {
@@ -1051,6 +1105,14 @@ const productSchema = {
           t.classList.add('active');
           const src = t.getAttribute('data-src');
           if (src && mainImg) mainImg.src = src;
+        });
+      });
+
+      // Variant Selector Toggle
+      variantBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          variantBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
         });
       });
 
@@ -1071,9 +1133,9 @@ const productSchema = {
         if (id) addToCart(id, qty);
       });
 
-      // Accordions Toggle
-      document.querySelectorAll('.accordion-item').forEach(acc => {
-        const btn = acc.querySelector('.acc-trigger');
+      // PDF Line Accordions Toggle
+      document.querySelectorAll('.pdf-acc-row').forEach(acc => {
+        const btn = acc.querySelector('.pdf-acc-header');
         btn?.addEventListener('click', () => {
           acc.classList.toggle('is-open');
         });
