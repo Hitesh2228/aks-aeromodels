@@ -74,33 +74,35 @@ const grandTotal = subtotal + gstTax;
         </div>
 
         <!-- Itemized Products Table -->
-        <table class="inv-items-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>PRODUCT DESCRIPTION</th>
-              <th>HSN / SAC</th>
-              <th>QTY</th>
-              <th>UNIT PRICE (₹)</th>
-              <th>TOTAL (₹)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sampleProducts.map((p, idx) => (
+        <div class="table-responsive-wrapper">
+          <table class="inv-items-table">
+            <thead>
               <tr>
-                <td>{idx + 1}</td>
-                <td>
-                  <strong>{p.name}</strong>
-                  <small style="display: block; color: #666; font-size: 0.75rem;">Category: {p.categoryLabel}</small>
-                </td>
-                <td>88033000</td>
-                <td>1</td>
-                <td>₹{p.price.toLocaleString('en-IN')}.00</td>
-                <td>₹{p.price.toLocaleString('en-IN')}.00</td>
+                <th>#</th>
+                <th>PRODUCT DESCRIPTION</th>
+                <th>HSN / SAC</th>
+                <th>QTY</th>
+                <th>UNIT PRICE (₹)</th>
+                <th>TOTAL (₹)</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {sampleProducts.map((p, idx) => (
+                <tr>
+                  <td>{idx + 1}</td>
+                  <td>
+                    <strong>{p.name}</strong>
+                    <small style="display: block; color: #666; font-size: 0.72rem;">Category: {p.categoryLabel}</small>
+                  </td>
+                  <td>88033000</td>
+                  <td>1</td>
+                  <td>₹{p.price.toLocaleString('en-IN')}.00</td>
+                  <td>₹{p.price.toLocaleString('en-IN')}.00</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         <!-- Summary Totals -->
         <div class="inv-summary-flex">
@@ -338,6 +340,14 @@ const grandTotal = subtotal + gstTax;
       margin-bottom: 0.4rem;
     }
 
+    .table-responsive-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 1.5rem;
+      border-radius: var(--radius-sm);
+    }
+
     @media print {
       :global(header), :global(footer), :global(.main-header), :global(.announcement-bar), :global(.nav-strip), :global(.sub-ticker-strip), :global(.whatsapp-float), .no-print {
         display: none !important;
@@ -357,9 +367,18 @@ const grandTotal = subtotal + gstTax;
     }
 
     @media (max-width: 700px) {
-      .inv-header { flex-direction: column; }
-      .inv-meta-right { text-align: left; margin-top: 1rem; }
-      .inv-addresses-grid, .inv-summary-flex { grid-template-columns: 1fr; }
+      .page-padding { padding: 1rem 0.5rem 4rem !important; }
+      .invoice-paper { padding: 1.25rem 0.85rem !important; width: 100% !important; box-sizing: border-box !important; }
+      .inv-header { flex-direction: column; gap: 1rem; }
+      .inv-meta-right { text-align: left; margin-top: 0.5rem; }
+      .inv-parties-grid, .inv-addresses-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .inv-summary-flex { grid-template-columns: 1fr; gap: 1.5rem; }
+      .inv-items-table { font-size: 0.72rem; min-width: 520px; }
+      .inv-items-table th, .inv-items-table td { padding: 0.5rem 0.6rem; }
+      .invoice-action-bar { flex-direction: column; align-items: stretch; gap: 0.75rem; }
+      .print-btn, .btn-whatsapp-share { width: 100%; text-align: center; justify-content: center; }
+      .inv-company-name { font-size: 1.3rem; }
+      .inv-title { font-size: 1.2rem; }
     }
   </style>
 
