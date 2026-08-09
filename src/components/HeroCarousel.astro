@@ -1,54 +1,151 @@
 ---
+const BANNERS = [
+  {
+    id: 1,
+    badgeTitle: "₹800 OFF ON ENGINES",
+    badgeSub: "FOR LIMITED TIME • SPECIAL OFFER",
+    img: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1200&auto=format&fit=crop",
+    brandSub: "AKS AEROMODELS • NITRO & GAS POWER",
+    collName: "CONTEST GRADE POWERPLANTS",
+    collSub: "O.S. MAX, DLE & SAITO ENGINES",
+    wreathNum: "01",
+    wreathText: "FEATURED ENGINE",
+    pill1Title: "BUY OS MAX",
+    pill1Was: "₹15,999",
+    pill1Now: "₹12,499",
+    pill2Title: "BUY DLE 65",
+    pill2Was: "₹48,999",
+    pill2Now: "₹42,999",
+    ctaLink: "/shop?category=engine",
+    ctaText: "EXPLORE ENGINES"
+  },
+  {
+    id: 2,
+    badgeTitle: "UP TO 25% OFF RADIOS",
+    badgeSub: "FUTABA & FRSKY 2.4GHz SYSTEMS",
+    img: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=1200&auto=format&fit=crop",
+    brandSub: "PRECISION TELEMETRY & CONTROL",
+    collName: "FUTABA 6K & 16IZ TRANSMITTERS",
+    collSub: "ULTRA-LOW LATENCY S-FHSS & FASSTEST",
+    wreathNum: "02",
+    wreathText: "TOP RADIO DEAL",
+    pill1Title: "FUTABA 6K",
+    pill1Was: "₹24,999",
+    pill1Now: "₹19,999",
+    pill2Title: "R3006SB RCVR",
+    pill2Was: "₹6,499",
+    pill2Now: "₹4,999",
+    ctaLink: "/shop?category=radio-receiver",
+    ctaText: "SHOP RADIOS"
+  },
+  {
+    id: 3,
+    badgeTitle: "GIANT SCALE ARF KITS",
+    badgeSub: "PREMIUM SEAGULL AEROMODELS",
+    img: "https://images.unsplash.com/photo-1519074069444-1ba4eff56024?q=80&w=1200&auto=format&fit=crop",
+    brandSub: "SEAGULL MODELS OFFICIAL DISTRIBUTOR",
+    collName: "DECATHLON 122\" & BOOMERANG V3",
+    collSub: "CONTEST BALSA & PLY AIRCRAFT KITS",
+    wreathNum: "03",
+    wreathText: "FLIGHT KITS",
+    pill1Title: "BOOMERANG V3",
+    pill1Was: "₹18,999",
+    pill1Now: "₹15,999",
+    pill2Title: "DECATHLON 122\"",
+    pill2Was: "₹85,000",
+    pill2Now: "₹72,499",
+    ctaLink: "/shop?category=aeromodels",
+    ctaText: "EXPLORE MODELS"
+  },
+  {
+    id: 4,
+    badgeTitle: "AAA GRADE BALSA WOOD",
+    badgeSub: "CONTEST DENSITY LASER CUT SHEETS",
+    img: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?q=80&w=1200&auto=format&fit=crop",
+    brandSub: "RAW MATERIALS & ACCESSORIES",
+    collName: "BALSA SHEETS, STRIPS & SPARS",
+    collSub: "LIGHTWEIGHT GRAIN SELECTION FOR BUILDERS",
+    wreathNum: "04",
+    wreathText: "RAW MATERIALS",
+    pill1Title: "BALSA 2MM",
+    pill1Was: "₹299",
+    pill1Now: "₹199",
+    pill2Title: "SIMULATOR",
+    pill2Was: "₹4,999",
+    pill2Now: "₹3,499",
+    ctaLink: "/shop?category=balsa-wood",
+    ctaText: "SHOP BALSA WOOD"
+  }
+];
 ---
 
 <section class="bellavita-hero-section">
   <div class="hero-container">
     
-    <!-- Hero Main Card (Bellavita Deep Wine Red Luxury Banner) -->
-    <div class="hero-banner-card">
-      <div class="hero-left-offer">
-        <div class="offer-seal">
-          <span class="seal-price">₹80 OFF</span>
-          <span class="seal-sub">ON EVERY ENGINE</span>
-          <span class="seal-timer">FOR 80 MINS ONLY • STARTS FROM 8PM</span>
-        </div>
-      </div>
+    <!-- Hero Slider Track Wrapper -->
+    <div class="hero-slider-stage">
+      
+      <!-- Prev & Next Arrow Controls -->
+      <button class="hero-nav-arrow prev-arr" id="hero-prev-btn" aria-label="Previous Banner">‹</button>
+      <button class="hero-nav-arrow next-arr" id="hero-next-btn" aria-label="Next Banner">›</button>
 
-      <div class="hero-center-products">
-        <img 
-          src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1200&auto=format&fit=crop" 
-          alt="BEAST MODE AEROMODEL COLLECTION" 
-          class="hero-products-img"
-        />
-        <div class="collection-title-badge">
-          <span class="brand-sub">AKS AEROMODELS</span>
-          <span class="coll-name">BEAST MODE COLLECTION</span>
-          <span class="coll-sub">FOR FLIGHT PILOTS</span>
-        </div>
-      </div>
+      <!-- Slides Track -->
+      <div class="hero-slides-track" id="hero-track">
+        {BANNERS.map((banner, index) => (
+          <div class={`hero-banner-card slide-item ${index === 0 ? 'active' : ''}`}>
+            
+            <!-- Left Offer Seal -->
+            <div class="hero-left-offer">
+              <div class="offer-seal">
+                <span class="seal-price">{banner.badgeTitle}</span>
+                <span class="seal-timer">{banner.badgeSub}</span>
+              </div>
+            </div>
 
-      <div class="hero-right-promo">
-        <div class="sale-wreath-badge">
-          <span class="wreath-num">8th</span>
-          <span class="wreath-text">ANNIVERSARY SALE</span>
-          <span class="wreath-sub">LOWEST PRICE EVER</span>
-        </div>
+            <!-- Center Product Showcase -->
+            <div class="hero-center-products">
+              <img src={banner.img} alt={banner.collName} class="hero-products-img" loading="eager" />
+              <div class="collection-title-badge">
+                <span class="brand-sub">{banner.brandSub}</span>
+                <span class="coll-name">{banner.collName}</span>
+                <span class="coll-sub">{banner.collSub}</span>
+              </div>
+            </div>
 
-        <div class="combo-pill-box">
-          <div class="combo-pill">
-            <div class="pill-title">BUY ANY 2</div>
-            <div class="pill-price"><strike>₹1,998</strike> <strong>₹799</strong></div>
+            <!-- Right Promo -->
+            <div class="hero-right-promo">
+              <div class="sale-wreath-badge">
+                <span class="wreath-num">{banner.wreathNum}</span>
+                <span class="wreath-text">{banner.wreathText}</span>
+              </div>
+
+              <div class="combo-pill-box">
+                <div class="combo-pill">
+                  <div class="pill-title">{banner.pill1Title}</div>
+                  <div class="pill-price"><strike>{banner.pill1Was}</strike> <strong>{banner.pill1Now}</strong></div>
+                </div>
+                <div class="combo-pill">
+                  <div class="pill-title">{banner.pill2Title}</div>
+                  <div class="pill-price"><strike>{banner.pill2Was}</strike> <strong>{banner.pill2Now}</strong></div>
+                </div>
+              </div>
+
+              <a href={banner.ctaLink} class="bellavita-shop-btn">
+                {banner.ctaText}
+              </a>
+            </div>
+
           </div>
-          <div class="combo-pill">
-            <div class="pill-title">BUY ANY 4</div>
-            <div class="pill-price"><strike>₹3,996</strike> <strong>₹1,399</strong></div>
-          </div>
-        </div>
-
-        <a href="/shop?category=aeromodels" class="bellavita-shop-btn">
-          SHOP NOW
-        </a>
+        ))}
       </div>
+
+      <!-- Slider Dots Pagination Indicator -->
+      <div class="hero-dots-pagination">
+        {BANNERS.map((_, index) => (
+          <button class={`dot-btn ${index === 0 ? 'active' : ''}`} data-slide={index} aria-label={`Go to slide ${index + 1}`}></button>
+        ))}
+      </div>
+
     </div>
 
   </div>
@@ -60,20 +157,62 @@
     background: linear-gradient(135deg, #2b050d 0%, #4a0e17 50%, #31060e 100%);
     padding: 1.75rem 1.25rem;
     border-bottom: 1px solid var(--border-subtle);
+    position: relative;
+    overflow: hidden;
   }
   .hero-container {
     max-width: 1320px;
     margin: 0 auto;
+    position: relative;
+  }
+
+  .hero-slider-stage {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-slides-track {
+    display: flex;
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 100%;
   }
 
   .hero-banner-card {
+    min-width: 100%;
     display: grid;
     grid-template-columns: 0.8fr 1.4fr 1fr;
     gap: 1.5rem;
     align-items: center;
-    padding: 1.5rem 2rem;
-    position: relative;
+    padding: 1rem 2.5rem 2rem;
+    box-sizing: border-box;
   }
+
+  /* Navigation Arrows */
+  .hero-nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(234, 179, 8, 0.5);
+    color: #eab308;
+    font-size: 2.2rem;
+    line-height: 1;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-fast);
+  }
+  .hero-nav-arrow:hover {
+    background: #eab308;
+    color: #000;
+  }
+  .prev-arr { left: 0.25rem; }
+  .next-arr { right: 0.25rem; }
 
   /* Left Offer Seal */
   .hero-left-offer {
@@ -91,32 +230,27 @@
   }
   .seal-price {
     font-family: var(--font-display);
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: 800;
     color: #eab308;
     display: block;
-    line-height: 1.1;
-  }
-  .seal-sub {
-    font-size: 0.8rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    display: block;
-    margin-bottom: 0.4rem;
+    line-height: 1.15;
+    margin-bottom: 0.2rem;
   }
   .seal-timer {
     font-size: 0.65rem;
     color: #dddddd;
     display: block;
+    letter-spacing: 0.05em;
   }
 
-  /* Center Products */
+  /* Center Products Showcase */
   .hero-center-products {
     position: relative;
     text-align: center;
   }
   .hero-products-img {
-    max-height: 320px;
+    max-height: 310px;
     width: 100%;
     object-fit: cover;
     border-radius: var(--radius-md);
@@ -127,17 +261,17 @@
     bottom: 1rem;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(8px);
     border: 1px solid rgba(234, 179, 8, 0.4);
-    padding: 0.5rem 1.25rem;
+    padding: 0.55rem 1.35rem;
     border-radius: var(--radius-md);
     color: #fff;
     white-space: nowrap;
   }
-  .brand-sub { font-size: 0.65rem; color: #eab308; display: block; letter-spacing: 0.1em; }
-  .coll-name { font-size: 1rem; font-weight: 800; display: block; font-family: var(--font-display); }
-  .coll-sub { font-size: 0.65rem; color: #ccc; display: block; }
+  .brand-sub { font-size: 0.62rem; color: #eab308; display: block; letter-spacing: 0.1em; }
+  .coll-name { font-size: 0.95rem; font-weight: 800; display: block; font-family: var(--font-display); }
+  .coll-sub { font-size: 0.62rem; color: #ccc; display: block; }
 
   /* Right Promo */
   .hero-right-promo {
@@ -148,47 +282,48 @@
   }
   .sale-wreath-badge {
     border: 1.5px dashed #eab308;
-    padding: 0.75rem 1.25rem;
+    padding: 0.65rem 1.15rem;
     border-radius: 50%;
-    width: 130px;
-    height: 130px;
+    width: 110px;
+    height: 110px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     color: #fff;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.15rem;
     background: rgba(0, 0, 0, 0.3);
   }
-  .wreath-num { font-size: 1.6rem; font-weight: 800; color: #eab308; font-family: var(--font-display); line-height: 1; }
-  .wreath-text { font-size: 0.65rem; font-weight: 800; letter-spacing: 0.05em; }
-  .wreath-sub { font-size: 0.55rem; color: #ccc; }
+  .wreath-num { font-size: 1.5rem; font-weight: 800; color: #eab308; font-family: var(--font-display); line-height: 1; }
+  .wreath-text { font-size: 0.6rem; font-weight: 800; letter-spacing: 0.05em; text-align: center; }
 
   .combo-pill-box {
     display: flex;
-    gap: 0.75rem;
-    margin-bottom: 1.25rem;
+    gap: 0.65rem;
+    margin-bottom: 1.15rem;
   }
   .combo-pill {
     background: #000000;
     border: 1px solid #eab308;
     color: #ffffff;
-    padding: 0.5rem 0.85rem;
+    padding: 0.45rem 0.75rem;
     border-radius: var(--radius-sm);
   }
-  .pill-title { font-size: 0.7rem; font-weight: 800; color: #eab308; letter-spacing: 0.05em; }
-  .pill-price strike { font-size: 0.7rem; color: #888888; }
-  .pill-price strong { font-size: 0.95rem; color: #ffffff; margin-left: 0.2rem; }
+  .pill-title { font-size: 0.68rem; font-weight: 800; color: #eab308; letter-spacing: 0.05em; }
+  .pill-price strike { font-size: 0.68rem; color: #888888; }
+  .pill-price strong { font-size: 0.9rem; color: #ffffff; margin-left: 0.2rem; }
 
   .bellavita-shop-btn {
     background: #eab308;
     color: #000000;
     font-weight: 800;
-    font-size: 0.95rem;
-    padding: 0.75rem 2.25rem;
+    font-size: 0.88rem;
+    padding: 0.7rem 2rem;
     border-radius: var(--radius-sm);
     letter-spacing: 0.08em;
     transition: var(--transition-fast);
+    text-decoration: none;
+    display: inline-block;
   }
   .bellavita-shop-btn:hover {
     background: #facc15;
@@ -196,13 +331,99 @@
     box-shadow: 0 6px 20px rgba(234, 179, 8, 0.4);
   }
 
+  /* Dots Pagination */
+  .hero-dots-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 0.75rem;
+  }
+  .dot-btn {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid #eab308;
+    background: transparent;
+    cursor: pointer;
+    transition: var(--transition-fast);
+  }
+  .dot-btn.active {
+    background: #eab308;
+    width: 28px;
+    border-radius: 10px;
+  }
+
   @media (max-width: 900px) {
     .hero-banner-card {
       grid-template-columns: 1fr;
       text-align: center;
+      padding: 1rem;
     }
     .hero-left-offer {
       align-items: center;
     }
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const track = document.getElementById('hero-track');
+    const dots = document.querySelectorAll('.hero-dots-pagination .dot-btn');
+    const prevBtn = document.getElementById('hero-prev-btn');
+    const nextBtn = document.getElementById('hero-next-btn');
+
+    let currentIndex = 0;
+    const totalSlides = 4;
+    let autoSlideInterval: any;
+
+    function goToSlide(index: number) {
+      if (index < 0) index = totalSlides - 1;
+      if (index >= totalSlides) index = 0;
+      currentIndex = index;
+
+      if (track) {
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      }
+
+      dots.forEach((d, i) => {
+        if (i === currentIndex) d.classList.add('active');
+        else d.classList.remove('active');
+      });
+    }
+
+    function startAutoSlide() {
+      stopAutoSlide();
+      autoSlideInterval = setInterval(() => {
+        goToSlide(currentIndex + 1);
+      }, 4000); // Auto slide every 4 seconds
+    }
+
+    function stopAutoSlide() {
+      if (autoSlideInterval) clearInterval(autoSlideInterval);
+    }
+
+    prevBtn?.addEventListener('click', () => {
+      goToSlide(currentIndex - 1);
+      startAutoSlide();
+    });
+
+    nextBtn?.addEventListener('click', () => {
+      goToSlide(currentIndex + 1);
+      startAutoSlide();
+    });
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        goToSlide(i);
+        startAutoSlide();
+      });
+    });
+
+    // Pause on mouse hover
+    const stage = document.querySelector('.hero-slider-stage');
+    stage?.addEventListener('mouseenter', stopAutoSlide);
+    stage?.addEventListener('mouseleave', startAutoSlide);
+
+    startAutoSlide();
+  });
+</script>

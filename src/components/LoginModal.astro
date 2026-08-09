@@ -1,0 +1,392 @@
+---
+---
+
+<!-- Bellavita-Style 2-Column Login/Signup Modal (Exact PDF Screenshot Benchmark) -->
+<div class="login-modal-overlay" id="bellavita-login-modal" aria-hidden="true">
+  <div class="login-modal-box">
+    
+    <!-- Close Button -->
+    <button type="button" class="modal-close-btn" id="close-login-modal" aria-label="Close modal">✕</button>
+
+    <div class="login-modal-grid">
+      
+      <!-- Left Column: Dark Brand & Feature Cards -->
+      <div class="modal-left-col">
+        <div class="brand-header-wrap">
+          <span class="brand-title-lbl">AKS AEROMODELS</span>
+          <span class="powered-tag">Powered by QuickAuth</span>
+        </div>
+
+        <h2 class="modal-left-headline">Login now to avail best offers!</h2>
+
+        <div class="modal-feature-cards">
+          <div class="modal-feat-card">
+            <div class="star-icon">🌟</div>
+            <div class="feat-title">Customer-first</div>
+            <div class="feat-desc">Putting you in the center</div>
+          </div>
+
+          <div class="modal-feat-card">
+            <div class="star-icon">🌟</div>
+            <div class="feat-title">Transparent</div>
+            <div class="feat-desc">Honest from the inside out</div>
+          </div>
+
+          <div class="modal-feat-card">
+            <div class="star-icon">🌟</div>
+            <div class="feat-title">Innovative</div>
+            <div class="feat-desc">Getting the absolute best for you</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Login Form -->
+      <div class="modal-right-col">
+        
+        <h2 class="modal-right-title">Login Here!</h2>
+
+        <form id="modal-login-form" class="modal-form">
+          <!-- Mobile Input Box -->
+          <div class="phone-input-wrap">
+            <div class="flag-prefix">
+              <span>🇮🇳 +91</span>
+            </div>
+            <input 
+              type="tel" 
+              id="user-mobile-input" 
+              class="mobile-input-field" 
+              placeholder="Enter Mobile Number" 
+              pattern="[0-9]{10}"
+              required 
+            />
+          </div>
+
+          <!-- Google 1-Click Option -->
+          <button type="button" class="google-fast-btn" id="modal-google-auth-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+            <span>Or Continue with Google</span>
+          </button>
+
+          <!-- Checkbox -->
+          <label class="offers-checkbox-label">
+            <input type="checkbox" id="notify-offers" checked />
+            <span>Notify me with offers & updates</span>
+          </label>
+
+          <!-- Submit Black Button -->
+          <button type="submit" class="modal-submit-btn">
+            Submit
+          </button>
+        </form>
+
+        <p class="modal-terms-footnote">
+          I accept that I have read & understood your <a href="/privacy">Privacy Policy</a> and <a href="/terms">T&Cs</a>.
+        </p>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+  .login-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  .login-modal-overlay.is-active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .login-modal-box {
+    position: relative;
+    background: #000000;
+    border-radius: 14px;
+    width: 820px;
+    max-width: 95vw;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    transform: translateY(20px) scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .login-modal-overlay.is-active .login-modal-box {
+    transform: translateY(0) scale(1);
+  }
+
+  .modal-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1.25rem;
+    z-index: 10;
+    background: transparent;
+    border: none;
+    color: #666666;
+    font-size: 1.4rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+  .modal-close-btn:hover { color: #111111; }
+
+  .login-modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+  }
+
+  /* Left Column (Black #000000) */
+  .modal-left-col {
+    background: #000000;
+    color: #ffffff;
+    padding: 3rem 2.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid #1f1f1f;
+  }
+
+  .brand-header-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+  .brand-title-lbl {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+  }
+  .powered-tag {
+    font-size: 0.65rem;
+    background: rgba(255, 255, 255, 0.15);
+    color: #eab308;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+
+  .modal-left-headline {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 800;
+    line-height: 1.25;
+    margin-bottom: 2.5rem;
+    color: #ffffff;
+  }
+
+  .modal-feature-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .modal-feat-card {
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+    padding: 0.85rem 1.15rem;
+    background: rgba(255, 255, 255, 0.03);
+    text-align: center;
+  }
+  .star-icon { font-size: 1.1rem; margin-bottom: 0.2rem; }
+  .feat-title { font-size: 0.85rem; font-weight: 800; color: #ffffff; }
+  .feat-desc { font-size: 0.72rem; color: #888888; margin-top: 0.1rem; }
+
+  /* Right Column (White #ffffff) */
+  .modal-right-col {
+    background: #ffffff;
+    color: #1a1a1a;
+    padding: 3.25rem 2.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .modal-right-title {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #000000;
+    margin-bottom: 1.75rem;
+    text-align: center;
+  }
+
+  .modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .phone-input-wrap {
+    display: flex;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #ffffff;
+    transition: border-color 0.2s;
+  }
+  .phone-input-wrap:focus-within {
+    border-color: #000000;
+  }
+
+  .flag-prefix {
+    background: #f9fafb;
+    border-right: 1px solid #e5e7eb;
+    padding: 0.75rem 0.85rem;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .mobile-input-field {
+    width: 100%;
+    border: none;
+    padding: 0.75rem 1rem;
+    font-size: 0.92rem;
+    outline: none;
+    color: #111111;
+  }
+
+  .google-fast-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    padding: 0.7rem;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #374151;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .google-fast-btn:hover { background: #f3f4f6; }
+
+  .offers-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    color: #6b7280;
+    cursor: pointer;
+  }
+  .offers-checkbox-label input { accent-color: #000000; }
+
+  .modal-submit-btn {
+    width: 100%;
+    background: #000000;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.85rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .modal-submit-btn:hover {
+    background: #222222;
+  }
+
+  .modal-terms-footnote {
+    font-size: 0.72rem;
+    color: #9ca3af;
+    text-align: center;
+    margin-top: 1.75rem;
+    line-height: 1.4;
+  }
+  .modal-terms-footnote a {
+    color: #6b7280;
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .login-modal-grid {
+      grid-template-columns: 1fr;
+    }
+    .modal-left-col {
+      display: none;
+    }
+    .modal-right-col {
+      padding: 2.5rem 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('bellavita-login-modal');
+    const closeBtn = document.getElementById('close-login-modal');
+    const form = document.getElementById('modal-login-form');
+    const googleBtn = document.getElementById('modal-google-auth-btn');
+
+    function openModal() {
+      if (modal) {
+        modal.classList.add('is-active');
+        modal.setAttribute('aria-hidden', 'false');
+      }
+    }
+
+    function closeModal() {
+      if (modal) {
+        modal.classList.remove('is-active');
+        modal.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    // Global Event Listener to Open Modal
+    window.addEventListener('open-login-modal', openModal);
+
+    closeBtn?.addEventListener('click', closeModal);
+
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // Handle Form Login Submission
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const mobileInput = document.getElementById('user-mobile-input') as HTMLInputElement;
+      if (mobileInput && mobileInput.value) {
+        // Save pilot session
+        localStorage.setItem('aks_pilot_logged_in', 'true');
+        localStorage.setItem('aks_pilot_name', `Pilot +91 ${mobileInput.value}`);
+        localStorage.setItem('aks_pilot_phone', mobileInput.value);
+
+        closeModal();
+        window.location.href = '/profile';
+      }
+    });
+
+    // Handle Google 1-Click Login
+    googleBtn?.addEventListener('click', () => {
+      localStorage.setItem('aks_pilot_logged_in', 'true');
+      localStorage.setItem('aks_pilot_name', 'Hitesh Aeromodel Pilot');
+      localStorage.setItem('aks_pilot_email', 'hitesh.pilot@gmail.com');
+
+      closeModal();
+      window.location.href = '/profile';
+    });
+  });
+</script>
