@@ -350,11 +350,21 @@ const grandTotal = subtotal + gstTax;
     }
 
     @media print {
-      .no-print, header, footer, .announcement-bar, .nav-strip, .sub-ticker-strip {
+      :global(header), :global(footer), :global(.main-header), :global(.announcement-bar), :global(.nav-strip), :global(.sub-ticker-strip), :global(.whatsapp-float), .no-print {
         display: none !important;
       }
-      .page-padding { padding: 0 !important; }
-      .invoice-paper { border: none !important; box-shadow: none !important; padding: 0 !important; }
+      :global(body) {
+        background: #ffffff !important;
+      }
+      .page-padding {
+        padding: 0 !important;
+      }
+      .invoice-paper {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        width: 100% !important;
+      }
     }
 
     @media (max-width: 700px) {

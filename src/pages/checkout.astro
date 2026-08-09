@@ -1,0 +1,488 @@
+---
+import Header from '../components/Header.astro';
+import CartDrawer from '../components/CartDrawer.astro';
+import Footer from '../components/Footer.astro';
+import { PRODUCTS } from '../data/products';
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Express Flight Checkout | AKS Aeromodels</title>
+  <meta name="description" content="Complete your aeromodelling order with secure UPI, Cards, NetBanking, or COD and instant GST tax invoice." />
+</head>
+<body class="bellavita-page-body">
+
+  <Header />
+
+  <main class="container page-padding reveal-on-scroll">
+    <h1 class="checkout-page-title">EXPRESS FLIGHT CHECKOUT</h1>
+    <p class="checkout-page-sub">Enter shipping details and choose your preferred payment method</p>
+
+    <div class="checkout-layout">
+      
+      <!-- Left Column: Shipping & Payment Form -->
+      <div class="checkout-form-column">
+        
+        <!-- Step 1: Customer Contact & Shipping Address -->
+        <section class="checkout-card glass-panel">
+          <h2 class="card-step-heading">
+            <span class="step-num">1</span> SHIPPING ADDRESS & DETAILS
+          </h2>
+
+          <form id="checkout-shipping-form" class="checkout-form">
+            <div class="form-row-2">
+              <div class="form-group">
+                <label>Full Name *</label>
+                <input type="text" id="cust-name" placeholder="e.g. Capt. Rajesh Sharma" required class="form-input" />
+              </div>
+              <div class="form-group">
+                <label>Phone Number (WhatsApp) *</label>
+                <input type="tel" id="cust-phone" placeholder="+91 98765 43210" required class="form-input" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Email Address *</label>
+              <input type="email" id="cust-email" placeholder="name@domain.com" required class="form-input" />
+            </div>
+
+            <div class="form-group">
+              <label>Complete Delivery Address (House No, Street, Landmark) *</label>
+              <input type="text" id="cust-address" placeholder="e.g. Plot No 45, Near Civil Airport Road" required class="form-input" />
+            </div>
+
+            <div class="form-row-3">
+              <div class="form-group">
+                <label>City / District *</label>
+                <input type="text" id="cust-city" placeholder="Nashik / Mumbai" required class="form-input" />
+              </div>
+              <div class="form-group">
+                <label>State *</label>
+                <input type="text" id="cust-state" placeholder="Maharashtra" required class="form-input" />
+              </div>
+              <div class="form-group">
+                <label>PIN Code *</label>
+                <input type="text" id="cust-pincode" placeholder="422 502" required class="form-input" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>B2B GSTIN Number (Optional for 18% Input Tax Credit)</label>
+              <input type="text" id="cust-gstin" placeholder="27AAAAA0000A1Z5" class="form-input" />
+            </div>
+          </form>
+        </section>
+
+        <!-- Step 2: Payment Options -->
+        <section class="checkout-card glass-panel" style="margin-top: 2rem;">
+          <h2 class="card-step-heading">
+            <span class="step-num">2</span> SELECT PAYMENT METHOD
+          </h2>
+
+          <div class="payment-options-grid">
+            <label class="pay-option-card active">
+              <input type="radio" name="pay-method" value="upi" checked />
+              <div class="pay-content">
+                <strong>⚡ Instant UPI / QR Code (GPay, PhonePe, Paytm)</strong>
+                <small>0% Payment Fee — Instant Dispatch Confirmation</small>
+              </div>
+            </label>
+
+            <label class="pay-option-card">
+              <input type="radio" name="pay-method" value="card" />
+              <div class="pay-content">
+                <strong>💳 Credit / Debit Cards (Visa, Mastercard, RuPay)</strong>
+                <small>Secured 256-bit SSL Payment Gateway</small>
+              </div>
+            </label>
+
+            <label class="pay-option-card">
+              <input type="radio" name="pay-method" value="netbanking" />
+              <div class="pay-content">
+                <strong>🏦 NetBanking (HDFC, SBI, ICICI, Axis)</strong>
+                <small>Direct Bank Transfer</small>
+              </div>
+            </label>
+
+            <label class="pay-option-card">
+              <input type="radio" name="pay-method" value="cod" />
+              <div class="pay-content">
+                <strong>💵 Cash on Delivery (COD)</strong>
+                <small>Pay cash upon delivery at your doorstep</small>
+              </div>
+            </label>
+          </div>
+
+          <button id="place-order-btn" class="btn-primary btn-place-order" style="margin-top: 2rem; width: 100%;">
+            CONFIRM ORDER & GENERATE INVOICE BILL ➔
+          </button>
+        </section>
+
+      </div>
+
+      <!-- Right Column: Order Summary Box -->
+      <aside class="checkout-summary-column">
+        <div class="summary-card glass-panel sticky-summary">
+          <h3 class="summary-title">ORDER SUMMARY</h3>
+          
+          <div class="summary-items-list" id="checkout-items-list">
+            <!-- Hydrated via JS -->
+          </div>
+
+          <div class="summary-totals">
+            <div class="total-row">
+              <span>Item Subtotal:</span>
+              <strong id="chk-subtotal">₹0.00</strong>
+            </div>
+            <div class="total-row">
+              <span>GST Output Tax (18% Included):</span>
+              <strong id="chk-gst">₹0.00</strong>
+            </div>
+            <div class="total-row">
+              <span>Insured Air Freight:</span>
+              <strong style="color: #059669;">FREE</strong>
+            </div>
+            <hr class="summary-divider" />
+            <div class="total-row grand-total-row">
+              <span>TOTAL PAYABLE:</span>
+              <strong id="chk-total" class="grand-price">₹0.00</strong>
+            </div>
+          </div>
+
+          <div class="trust-guarantee-box">
+            <span class="shield-icon">🛡️</span>
+            <div>
+              <strong>100% Transit Protection</strong>
+              <small>Free replacement if damaged during courier transit.</small>
+            </div>
+          </div>
+
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <CartDrawer />
+  <Footer />
+
+  <style>
+    :global(body.bellavita-page-body) {
+      background-color: #fbf9f5 !important;
+      color: #1a1a1a !important;
+    }
+
+    .page-padding {
+      padding: 3rem 1.25rem 5rem;
+    }
+    .checkout-page-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: #1a1a1a;
+      text-align: center;
+      margin-bottom: 0.3rem;
+    }
+    .checkout-page-sub {
+      text-align: center;
+      color: #666666;
+      font-size: 0.95rem;
+      margin-bottom: 3rem;
+    }
+
+    .checkout-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 2.5rem;
+      align-items: flex-start;
+    }
+
+    .checkout-card {
+      background: #ffffff;
+      border: 1px solid #e6e0d5;
+      border-radius: var(--radius-md);
+      padding: 2rem;
+    }
+    .card-step-heading {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      color: #1a1a1a;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 1.5px solid #e6e0d5;
+      padding-bottom: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+    .step-num {
+      background: #3b0811;
+      color: #ffffff;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 800;
+    }
+
+    .checkout-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .form-row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 0.35rem;
+    }
+    .form-input {
+      width: 100%;
+      background: #fbf9f5;
+      border: 1px solid #d6cfc2;
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      color: #1a1a1a;
+      font-size: 0.88rem;
+      outline: none;
+      transition: var(--transition-fast);
+    }
+    .form-input:focus {
+      border-color: #3b0811;
+      background: #ffffff;
+    }
+
+    /* Payment Cards */
+    .payment-options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .pay-option-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      background: #fbf9f5;
+      border: 1.5px solid #e6e0d5;
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+    .pay-option-card:hover, .pay-option-card.active {
+      background: #ffffff;
+      border-color: #3b0811;
+      box-shadow: 0 4px 15px rgba(59, 8, 17, 0.06);
+    }
+    .pay-option-card input {
+      margin-top: 0.2rem;
+      accent-color: #3b0811;
+    }
+    .pay-content strong {
+      display: block;
+      font-size: 0.9rem;
+      color: #1a1a1a;
+    }
+    .pay-content small {
+      font-size: 0.78rem;
+      color: #666666;
+    }
+
+    .btn-place-order {
+      background: #3b0811;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.95rem;
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      letter-spacing: 0.05em;
+    }
+    .btn-place-order:hover {
+      background: #5c121e;
+      transform: translateY(-2px);
+    }
+
+    /* Summary Side */
+    .sticky-summary {
+      position: sticky;
+      top: 90px;
+      background: #ffffff;
+      border: 1px solid #e6e0d5;
+      border-radius: var(--radius-md);
+      padding: 1.75rem;
+    }
+    .summary-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: #3b0811;
+      border-bottom: 1.5px solid #e6e0d5;
+      padding-bottom: 0.6rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .summary-items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      max-height: 280px;
+      overflow-y: auto;
+      margin-bottom: 1.25rem;
+      padding-right: 0.25rem;
+    }
+    :global(.chk-item-row) {
+      display: flex;
+      gap: 0.85rem;
+      align-items: center;
+      font-size: 0.82rem;
+      border-bottom: 1px solid #f3eee7;
+      padding-bottom: 0.6rem;
+    }
+    :global(.chk-item-img) {
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid #e6e0d5;
+    }
+    :global(.chk-item-info) {
+      flex-grow: 1;
+    }
+    :global(.chk-item-name) {
+      font-weight: 700;
+      color: #1a1a1a;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    :global(.chk-item-qty) {
+      color: #666666;
+      font-size: 0.75rem;
+    }
+
+    .summary-totals {
+      font-size: 0.85rem;
+    }
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      color: #555555;
+    }
+    .summary-divider {
+      border: none;
+      border-top: 1px solid #e6e0d5;
+      margin: 0.85rem 0;
+    }
+    .grand-total-row {
+      font-size: 1.05rem;
+      color: #1a1a1a;
+      font-weight: 800;
+    }
+    .grand-price {
+      color: #3b0811;
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+    }
+
+    .trust-guarantee-box {
+      margin-top: 1.5rem;
+      background: #f3eee7;
+      border: 1px solid #e6e0d5;
+      padding: 0.85rem;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .shield-icon { font-size: 1.4rem; }
+    .trust-guarantee-box strong { display: block; font-size: 0.8rem; color: #1a1a1a; }
+    .trust-guarantee-box small { font-size: 0.7rem; color: #666666; }
+
+    @media (max-width: 900px) {
+      .checkout-layout { grid-template-columns: 1fr; }
+      .form-row-2, .form-row-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <script>
+    import { getCartHydrated } from '../lib/cartStore';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const itemsList = document.getElementById('checkout-items-list');
+      const subtotalEl = document.getElementById('chk-subtotal');
+      const gstEl = document.getElementById('chk-gst');
+      const totalEl = document.getElementById('chk-total');
+      const placeOrderBtn = document.getElementById('place-order-btn');
+      const payOptions = document.querySelectorAll('.pay-option-card');
+
+      payOptions.forEach(opt => {
+        opt.addEventListener('click', () => {
+          payOptions.forEach(o => o.classList.remove('active'));
+          opt.classList.add('active');
+          const radio = opt.querySelector('input[type="radio"]') as HTMLInputElement;
+          if (radio) radio.checked = true;
+        });
+      });
+
+      const hydrated = getCartHydrated();
+
+      if (!itemsList) return;
+
+      if (hydrated.length === 0) {
+        itemsList.innerHTML = `<p style="font-size: 0.85rem; color: #888;">Your cart is empty. <a href="/shop" style="color: #3b0811; font-weight: 700;">Browse catalog</a></p>`;
+      } else {
+        const subtotal = hydrated.reduce((acc, cur) => acc + (cur.product.price * cur.quantity), 0);
+        const gst = Math.round(subtotal * 0.18);
+        const total = subtotal;
+
+        if (subtotalEl) subtotalEl.textContent = `₹${subtotal.toLocaleString('en-IN')}.00`;
+        if (gstEl) gstEl.textContent = `₹${gst.toLocaleString('en-IN')}.00`;
+        if (totalEl) totalEl.textContent = `₹${total.toLocaleString('en-IN')}.00`;
+
+        itemsList.innerHTML = hydrated.map(item => `
+          <div class="chk-item-row">
+            <img src="${item.product.image}" alt="${item.product.name}" class="chk-item-img" />
+            <div class="chk-item-info">
+              <div class="chk-item-name">${item.product.name}</div>
+              <div class="chk-item-qty">Qty: ${item.quantity} × ₹${item.product.price.toLocaleString('en-IN')}</div>
+            </div>
+            <strong>₹${(item.product.price * item.quantity).toLocaleString('en-IN')}</strong>
+          </div>
+        `).join('');
+      }
+
+      placeOrderBtn?.addEventListener('click', (e) => {
+        e.preventDefault();
+        const nameInput = (document.getElementById('cust-name') as HTMLInputElement)?.value;
+        const phoneInput = (document.getElementById('cust-phone') as HTMLInputElement)?.value;
+
+        if (!nameInput || !phoneInput) {
+          alert('Please enter your Full Name and Phone Number to complete checkout.');
+          return;
+        }
+
+        alert('Order Placed Successfully! Redirecting to your official Tax Invoice bill...');
+        window.location.href = '/invoice';
+      });
+    });
+  </script>
+
+</body>
+</html>
