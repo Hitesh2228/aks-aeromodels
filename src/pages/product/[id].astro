@@ -351,7 +351,7 @@ const productSchema = {
     </div>
 
     <!-- BEST PAIRED WITH Section (Centered Spacious PDF Header & Grid) -->
-    <section class="pdp-major-section">
+    <section class="pdp-major-section" id="best-paired-section">
       <h2 class="pdf-section-heading">BEST PAIRED WITH</h2>
       
       <div class="pdf-products-grid-4">
@@ -1162,12 +1162,16 @@ const productSchema = {
         });
       });
 
-      // Sticky Bottom Bar Scroll Observer
+      // Sticky Bottom Bar Trigger: Reveals ONLY AFTER BEST PAIRED WITH section ends, auto-hides when scrolling back up
+      const bestPairedSec = document.getElementById('best-paired-section');
+
       window.addEventListener('scroll', () => {
-        if (window.scrollY > 500) {
-          stickyBar?.classList.add('is-visible');
+        if (!stickyBar || !bestPairedSec) return;
+        const rect = bestPairedSec.getBoundingClientRect();
+        if (rect.bottom <= 120) {
+          stickyBar.classList.add('is-visible');
         } else {
-          stickyBar?.classList.remove('is-visible');
+          stickyBar.classList.remove('is-visible');
         }
       }, { passive: true });
     });
