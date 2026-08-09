@@ -484,6 +484,26 @@ import LoginModal from './LoginModal.astro';
       justify-content: space-between;
       align-items: center;
       padding: 0.5rem 1rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .announcement-bar, .sub-ticker-strip, .main-header {
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
+      box-sizing: border-box;
+    }
+    .sub-ticker-flex {
+      flex-direction: column;
+      gap: 0.25rem;
+      text-align: center;
+      padding: 0.25rem 0.5rem;
+    }
+    .countdown-widget {
+      font-size: 0.72rem;
+    }
+    .ticker-left, .ticker-right {
+      display: none;
     }
   }
 </style>
