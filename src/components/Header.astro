@@ -379,11 +379,14 @@
       if (currentScrollY > 120) {
         if (currentScrollY > lastScrollY + 6) {
           mainHeader?.classList.add('nav-hidden');
+          document.body.classList.add('header-hidden');
         } else if (currentScrollY < lastScrollY - 6) {
           mainHeader?.classList.remove('nav-hidden');
+          document.body.classList.remove('header-hidden');
         }
       } else {
         mainHeader?.classList.remove('nav-hidden');
+        document.body.classList.remove('header-hidden');
       }
 
       lastScrollY = currentScrollY;

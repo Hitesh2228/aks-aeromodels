@@ -518,14 +518,20 @@ const productSchema = {
       margin-bottom: 5rem;
     }
 
-    /* Sticky Gallery Column - Fixed 460px Width */
+    /* Sticky Gallery Column - Smooth Dynamic Top Adjustment on Scroll */
     .pdp-sticky-gallery {
       position: sticky;
-      top: 110px;
+      top: 115px;
       width: 460px;
       display: flex;
       flex-direction: column;
       gap: 1rem;
+      transition: top 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* When scrolling DOWN (header hidden), move sticky image right up to top: 1.25rem (Exact PDF Screenshot 1) */
+    :global(body.header-hidden) .pdp-sticky-gallery {
+      top: 1.25rem !important;
     }
     .pdp-image-stage {
       position: relative;
