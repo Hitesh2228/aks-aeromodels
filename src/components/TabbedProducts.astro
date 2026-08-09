@@ -15,9 +15,8 @@ const newArrivals = PRODUCTS.filter(p => p.isNewArrival).slice(0, 8);
       <button class="tab-btn" data-target="tab-newarrivals">NEW ARRIVALS</button>
     </div>
 
-    <!-- Relative Slider Container with Left/Right Navigation Arrows -->
+    <!-- Relative Slider Container -->
     <div class="slider-wrapper-relative">
-      <button class="slider-arrow prev-btn" id="prod-slider-prev" aria-label="Previous Slide">‹</button>
       
       <!-- Bestsellers Grid / Slider -->
       <div class="products-grid tab-content active" id="tab-bestsellers">
@@ -91,8 +90,6 @@ const newArrivals = PRODUCTS.filter(p => p.isNewArrival).slice(0, 8);
           </div>
         ))}
       </div>
-
-      <button class="slider-arrow next-btn" id="prod-slider-next" aria-label="Next Slide">›</button>
     </div>
 
     <!-- View All Button -->

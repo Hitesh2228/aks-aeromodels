@@ -31,8 +31,6 @@ const REVIEWS = [
     <h2 class="bellavita-title">WHAT OUR PILOTS HAVE TO SAY</h2>
 
     <div class="slider-wrapper-relative">
-      <button class="slider-arrow prev-btn" id="reviews-slider-prev" aria-label="Previous Testimonial">‹</button>
-
       <!-- Avatar Selection Strip -->
       <div class="avatars-row">
         {REVIEWS.map((rev, i) => (
@@ -49,8 +47,6 @@ const REVIEWS = [
         <div class="quote-author" id="quote-author-display">– {REVIEWS[0].name}</div>
         <div class="quote-handle" id="quote-handle-display">{REVIEWS[0].handle}</div>
       </div>
-
-      <button class="slider-arrow next-btn" id="reviews-slider-next" aria-label="Next Testimonial">›</button>
     </div>
 
   </div>
