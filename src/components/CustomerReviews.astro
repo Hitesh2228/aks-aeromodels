@@ -126,6 +126,31 @@ const REVIEWS = [
     font-size: 0.8rem;
     color: #777777;
   }
+
+  @media (max-width: 768px) {
+    .bellavita-reviews-section {
+      padding: 2rem 0 1rem;
+    }
+    .bellavita-title {
+      font-size: 1.2rem;
+      margin-bottom: 1.25rem;
+    }
+    .avatars-row {
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .avatar-item {
+      width: 52px;
+      height: 52px;
+    }
+    .active-quote-box {
+      padding: 1.25rem 1rem;
+    }
+    .quote-text {
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+    }
+  }
 </style>
 
 <script>
@@ -152,19 +177,29 @@ const REVIEWS = [
     const textEl = document.getElementById('quote-text-display');
     const authorEl = document.getElementById('quote-author-display');
     const handleEl = document.getElementById('quote-handle-display');
+    let currentIndex = 0;
+
+    function selectReview(idx: number) {
+      avatarItems.forEach(a => a.classList.remove('active'));
+      avatarItems[idx]?.classList.add('active');
+
+      const rev = reviewsData[idx];
+      if (rev && textEl && authorEl && handleEl) {
+        textEl.textContent = `"${rev.text}"`;
+        authorEl.textContent = `– ${rev.name}`;
+        handleEl.textContent = rev.handle;
+      }
+      currentIndex = idx;
+    }
 
     avatarItems.forEach((item, idx) => {
-      item.addEventListener('click', () => {
-        avatarItems.forEach(a => a.classList.remove('active'));
-        item.classList.add('active');
-
-        const rev = reviewsData[idx];
-        if (rev && textEl && authorEl && handleEl) {
-          textEl.textContent = `"${rev.text}"`;
-          authorEl.textContent = `– ${rev.name}`;
-          handleEl.textContent = rev.handle;
-        }
-      });
+      item.addEventListener('click', () => selectReview(idx));
     });
+
+    // Auto-rotate testimonials slider every 4 seconds
+    setInterval(() => {
+      const nextIndex = (currentIndex + 1) % reviewsData.length;
+      selectReview(nextIndex);
+    }, 4000);
   });
 </script>

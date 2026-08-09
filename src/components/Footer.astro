@@ -221,7 +221,7 @@
     align-items: center;
     justify-content: center;
     box-shadow: 0 10px 25px rgba(37, 211, 102, 0.45);
-    z-index: 99;
+    z-index: 1000;
     transition: var(--transition-fast);
   }
   .whatsapp-float:hover {
@@ -231,6 +231,14 @@
   @media (max-width: 990px) {
     .footer-grid {
       grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 768px) {
+    .whatsapp-float {
+      bottom: 74px !important;
+      right: 1rem !important;
+      width: 48px !important;
+      height: 48px !important;
     }
   }
   @media (max-width: 600px) {

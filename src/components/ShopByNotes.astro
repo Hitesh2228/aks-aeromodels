@@ -102,4 +102,40 @@ const NOTES = [
     letter-spacing: 0.06em;
     color: #1a1a1a;
   }
+
+  @media (max-width: 768px) {
+    .bellavita-notes-section {
+      padding: 2rem 0;
+    }
+    .bellavita-title {
+      font-size: 1.2rem;
+      margin-bottom: 1.25rem;
+    }
+    .notes-icons-grid {
+      display: flex !important;
+      overflow-x: auto !important;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 1.25rem;
+      padding: 0.25rem 0.85rem 0.75rem;
+      margin: 0 -0.85rem;
+      justify-content: flex-start;
+      scrollbar-width: none;
+    }
+    .notes-icons-grid::-webkit-scrollbar {
+      display: none;
+    }
+    .note-item {
+      flex: 0 0 82px;
+      scroll-snap-align: center;
+    }
+    .note-circle {
+      width: 64px;
+      height: 64px;
+    }
+    .note-label {
+      font-size: 0.68rem;
+      text-align: center;
+    }
+  }
 </style>

@@ -300,18 +300,33 @@ const newArrivals = PRODUCTS.filter(p => p.isNewArrival).slice(0, 8);
     font-weight: 800;
   @media (max-width: 768px) {
     .bellavita-tabbed-section {
-      padding: 2.5rem 0;
+      padding: 2rem 0;
     }
     .tabs-header {
       gap: 0.85rem;
-      margin-bottom: 1.75rem;
+      margin-bottom: 1.5rem;
     }
     .tab-btn, .tab-divider {
       font-size: 1.15rem;
     }
+    /* Horizontal Touch Slider matching Bellavita Image 1 */
     .products-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.65rem;
+      display: flex !important;
+      overflow-x: auto !important;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 0.85rem;
+      padding: 0.25rem 0.85rem 1rem;
+      margin: 0 -0.85rem;
+      scrollbar-width: none;
+    }
+    .products-grid::-webkit-scrollbar {
+      display: none;
+    }
+    .bellavita-card {
+      flex: 0 0 78%;
+      max-width: 260px;
+      scroll-snap-align: start;
     }
     .card-body {
       padding: 0.75rem 0.6rem;
@@ -336,7 +351,7 @@ const newArrivals = PRODUCTS.filter(p => p.isNewArrival).slice(0, 8);
       font-size: 0.7rem;
     }
     .view-all-wrapper {
-      margin-top: 2rem;
+      margin-top: 1.5rem;
     }
     .bellavita-view-all-btn {
       padding: 0.6rem 2rem;

@@ -120,4 +120,38 @@
     color: #1a1a1a;
     letter-spacing: 0.08em;
   }
+
+  @media (max-width: 768px) {
+    .bellavita-deals-section {
+      padding: 2rem 0;
+    }
+    .bellavita-title {
+      font-size: 1.2rem;
+      margin-bottom: 1.25rem;
+    }
+    .crazy-deals-grid {
+      display: flex !important;
+      overflow-x: auto !important;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 0.85rem;
+      padding: 0.25rem 0.85rem 1rem;
+      margin: 0 -0.85rem;
+      scrollbar-width: none;
+    }
+    .crazy-deals-grid::-webkit-scrollbar {
+      display: none;
+    }
+    .crazy-deal-card {
+      flex: 0 0 82%;
+      max-width: 280px;
+      scroll-snap-align: start;
+    }
+    .deal-media {
+      height: 240px;
+    }
+    .deal-label {
+      font-size: 0.78rem;
+    }
+  }
 </style>
