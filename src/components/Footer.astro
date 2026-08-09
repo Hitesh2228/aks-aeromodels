@@ -55,10 +55,9 @@
           <li><a href="/about">About Us</a></li>
           <li><a href="/contact">Contact Us</a></li>
           <li><a href="/contact">Order Tracking</a></li>
-          <li><a href="/contact">All Products</a></li>
+          <li><a href="/shop">All Products</a></li>
           <li><a href="/contact">FAQ</a></li>
           <li><a href="/sitemap.xml">Sitemap</a></li>
-          <li><a href="/contact">Annual Return</a></li>
         </ul>
       </div>
 
@@ -80,12 +79,10 @@
           <button type="submit" class="news-submit-btn">→</button>
         </form>
         <p class="news-desc">Sign up here to get the latest news, updates and special offers delivered to your inbox.</p>
-        <p class="news-desc">Plus, you'll be the first to know about our discounts!</p>
 
         <div class="social-icons">
           <a href="#" aria-label="Facebook">📘</a>
           <a href="#" aria-label="Twitter">🐦</a>
-          <a href="#" aria-label="Pinterest">📌</a>
           <a href="#" aria-label="Instagram">📸</a>
           <a href="#" aria-label="YouTube">🎥</a>
         </div>
@@ -93,34 +90,9 @@
 
     </div>
 
-    <!-- Scam Alert Warning Box (Exact Bellavita Footer Component) -->
-    <div class="scam-alert-box">
-      <div class="alert-header">
-        <span class="alert-icon">⚠️</span>
-        <strong>Scam Alert</strong>
-      </div>
-      <p class="alert-body">
-        We have noticed a rise in fraudulent activities through calls, SMS, WhatsApp messages, emails, and other mediums.
-      </p>
-      <ul class="alert-bullets">
-        <li>Please be aware that <strong>BELLAVITA / AKS AEROMODELS and its employees never ask for your financial details for contests or deals</strong> outside our official platform. We also never request payments for any promotional activities through unauthorised channels.</li>
-        <li>If you receive any such communication, stay cautious and reach out to us immediately at our customer care number <strong>+91 9810154380</strong> or email us at <strong>support@aks-aeromodels.com</strong>.</li>
-        <li>If you suspect any scam, kindly report it to the Department of Telecommunications (DoT).</li>
-      </ul>
-      <p class="stay-safe">Stay safe!</p>
-    </div>
-
-    <!-- MOST SEARCHED KEYWORDS (Bellavita Tag Cloud) -->
-    <div class="keywords-cloud">
-      <h5 class="cloud-title">MOST SEARCHED KEYWORDS</h5>
-      <p class="cloud-tags">
-        RC Planes | Best engine for men | attar | attar perfume | oud attar | best attar for women | best attar for men | Perfume for men | Vitamin C Face Wash | Perfume for women | Best perfume for women | Perfume set for women | Gift for Men | Face wash for oily skin | Body scrub | Dark circle | Perfume for girls | Dark circles removal cream | Acne face wash | under eye cream | Gift sets for women | Body wash for women | Pocket perfume for men | De tan face pack | Pimple removal cream | Lip scrub | Tan removal face pack | Face wash for acne | Exfoliate scrub | Gift set for men | Coffee Body Scrub | Best long lasting perfume for men | Perfumes for men under 500 | Perfumes for women under 500 | Perfume gift sets | Oud perfume | Ceo perfume | Under eye cream for dark circles | Acne cream | Vitamin c cream for face | Body lotion for women | Long lasting perfume for women | Perfume gift pack for her | Perfume gift pack for him | Charcoal face wash | Body wash for men | Best shower gel for women | Shower Gel for men and Women | Body lotion for dry skin | Body Lotion for men | Body Lotion for women | Shower Gel and Perfume Combo | Shower Travel Kit | Travel Mini Kit | Birthday Gift for Women/Girls | Wedding Gifts for Couples | Gifts for Men Under 500 | Gifts for Women Under 500 | Diwali Gift Ideas | Gifts for Men Under 500 | Gifts for Women Under 500 | Corporate Gifts |
-      </p>
-    </div>
-
     <!-- Copyright Bar -->
     <div class="copyright-bar">
-      <p>© 2026, Bella Vita Organic (IDAM Natural Wellness Pvt. Ltd.) / AKS Aeromodels.</p>
+      <p>© 2026, AKS Aeromodels India. All Rights Reserved.</p>
     </div>
 
   </div>
@@ -148,174 +120,135 @@
   }
   .press-logo {
     font-family: var(--font-display);
+    font-size: 1.1rem;
     font-weight: 800;
-    font-size: 1.4rem;
-    color: #1a1a1a;
-    letter-spacing: 0.05em;
+    color: #888888;
+    letter-spacing: 0.1em;
   }
   .press-logo.highlight {
-    color: #ec4899;
+    color: #e11d48;
   }
 
-  /* Footer Main */
+  /* Main Footer */
   .site-footer {
-    background: #333333;
-    color: #cccccc;
+    background: #262626;
+    color: #ffffff;
     padding: 4rem 0 2rem;
-    font-size: 0.82rem;
+    font-size: 0.85rem;
   }
   .footer-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(5, 1fr);
     gap: 2rem;
-    margin-bottom: 3.5rem;
+    margin-bottom: 3rem;
   }
-
   .col-title {
-    font-size: 0.9rem;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 700;
     color: #ffffff;
     letter-spacing: 0.08em;
     margin-bottom: 1.25rem;
-    font-weight: 800;
   }
   .footer-links {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.6rem;
   }
   .footer-links a {
-    color: #bbbbbb;
+    color: #cccccc;
     transition: var(--transition-fast);
   }
   .footer-links a:hover {
     color: #ffffff;
-    text-decoration: underline;
+    padding-left: 4px;
   }
 
   .contact-details p {
+    color: #cccccc;
+    line-height: 1.6;
     margin-bottom: 0.75rem;
-    line-height: 1.5;
-    color: #bbbbbb;
   }
   .gold-link {
-    color: #ffffff;
-    text-decoration: underline;
+    color: #e6c875;
+    font-weight: 700;
   }
 
   /* Newsletter */
   .newsletter-form {
     display: flex;
-    align-items: center;
-    border-bottom: 1px solid #777777;
-    padding-bottom: 0.35rem;
     margin-bottom: 1rem;
   }
   .news-input {
-    background: transparent;
-    border: none;
-    outline: none;
+    background: #333333;
+    border: 1px solid #444444;
     color: #ffffff;
+    padding: 0.6rem 0.85rem;
+    font-size: 0.8rem;
+    border-radius: 4px 0 0 4px;
     width: 100%;
-    font-size: 0.85rem;
+    outline: none;
   }
   .news-submit-btn {
-    color: #ffffff;
-    font-size: 1.1rem;
+    background: #ffffff;
+    color: #262626;
+    font-weight: 800;
+    padding: 0.6rem 1rem;
+    border-radius: 0 4px 4px 0;
   }
   .news-desc {
-    font-size: 0.78rem;
     color: #aaaaaa;
+    font-size: 0.78rem;
     line-height: 1.4;
     margin-bottom: 0.5rem;
   }
-
   .social-icons {
     display: flex;
     gap: 1rem;
-    font-size: 1.1rem;
     margin-top: 1rem;
+    font-size: 1.2rem;
   }
 
-  /* Scam Alert Box */
-  .scam-alert-box {
-    border: 1px solid #ef4444;
-    border-radius: var(--radius-sm);
-    padding: 1.5rem;
-    margin-bottom: 2.5rem;
-    background: rgba(0, 0, 0, 0.2);
-  }
-  .alert-header {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #ef4444;
-    font-size: 0.95rem;
-    margin-bottom: 0.75rem;
-  }
-  .alert-body {
-    font-size: 0.8rem;
-    color: #dddddd;
-    margin-bottom: 0.75rem;
-  }
-  .alert-bullets {
-    list-style: disc;
-    padding-left: 1.25rem;
-    font-size: 0.78rem;
-    color: #cccccc;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    line-height: 1.5;
-  }
-  .stay-safe {
-    margin-top: 0.75rem;
-    font-weight: 800;
-    color: #ffffff;
-    font-size: 0.8rem;
-  }
-
-  /* Keywords Cloud */
-  .keywords-cloud {
-    border-top: 1px solid #444444;
-    padding-top: 2rem;
-    margin-bottom: 2rem;
-  }
-  .cloud-title {
-    font-size: 0.78rem;
-    color: #ffffff;
-    letter-spacing: 0.08em;
-    margin-bottom: 0.75rem;
-    font-weight: 800;
-  }
-  .cloud-tags {
-    font-size: 0.72rem;
-    color: #888888;
-    line-height: 1.9;
-  }
-
-  /* Copyright */
+  /* Copyright Bar */
   .copyright-bar {
-    border-top: 1px solid #444444;
+    border-top: 1px solid #333333;
     padding-top: 1.5rem;
-    font-size: 0.75rem;
+    text-align: center;
     color: #888888;
+    font-size: 0.8rem;
   }
 
-  /* Floating WhatsApp */
+  /* WhatsApp Float Button */
   .whatsapp-float {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
-    width: 52px;
-    height: 52px;
     background: #25d366;
+    color: #ffffff;
+    width: 54px;
+    height: 54px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.6rem;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    z-index: 999;
+    box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+    z-index: 99;
+    transition: var(--transition-fast);
+  }
+  .whatsapp-float:hover {
+    transform: scale(1.1);
+  }
+
+  @media (max-width: 990px) {
+    .footer-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 600px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
