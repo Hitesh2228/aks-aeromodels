@@ -15,7 +15,7 @@ const newArrivals = PRODUCTS.filter(p => p.isNewArrival).slice(0, 8);
       <button class="tab-btn" data-target="tab-newarrivals">NEW ARRIVALS</button>
     </div>
 
-    <!-- Relative Slider Container -->
+    <!-- Relative Products Container -->
     <div class="slider-wrapper-relative">
       
       <!-- Bestsellers Grid / Slider -->
@@ -90,6 +90,7 @@ const newArrivals = PRODUCTS.filter(p => p.isNewArrival).slice(0, 8);
           </div>
         ))}
       </div>
+
     </div>
 
     <!-- View All Button -->
@@ -138,58 +139,23 @@ const newArrivals = PRODUCTS.filter(p => p.isNewArrival).slice(0, 8);
     width: 100%;
   }
 
-  .slider-arrow {
-    position: absolute;
-    top: 42%;
-    transform: translateY(-50%);
-    width: 42px;
-    height: 42px;
-    background: rgba(255, 255, 255, 0.95);
-    border: 1.5px solid #1a1a1a;
-    border-radius: 50%;
-    color: #1a1a1a;
-    font-size: 1.5rem;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 10;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    transition: all 0.25s ease;
-  }
-  .slider-arrow:hover {
-    background: #1a1a1a;
-    color: #ffffff;
-  }
-  .slider-arrow.prev-btn { left: -16px; }
-  .slider-arrow.next-btn { right: -16px; }
-
-  /* Grid / Slider Container */
+  /* Desktop Grid Container (4 items per row) */
   .products-grid {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    gap: 1.25rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
     padding: 0.5rem 0.25rem 1.25rem;
-    scrollbar-width: none;
-    scroll-behavior: smooth;
-  }
-  .products-grid::-webkit-scrollbar {
-    display: none;
   }
   .tab-content {
     display: none !important;
   }
   .tab-content.active {
-    display: flex !important;
+    display: grid !important;
   }
 
-  /* Card */
+  /* Desktop Card */
   .bellavita-card {
-    flex: 0 0 270px;
-    scroll-snap-align: start;
+    width: 100%;
     background: #f3eee7;
     border: 1px solid #e6e0d5;
     border-radius: var(--radius-sm);
@@ -340,21 +306,29 @@ const newArrivals = PRODUCTS.filter(p => p.isNewArrival).slice(0, 8);
     color: #ffffff;
   }
 
+  /* Mobile Only Touch Horizontal Slider (< 768px) */
   @media (max-width: 768px) {
     .bellavita-tabbed-section { padding: 2rem 0; }
     .tabs-header { gap: 0.85rem; margin-bottom: 1.5rem; }
     .tab-btn, .tab-divider { font-size: 1.15rem; }
-    
-    .slider-arrow.prev-btn { left: 2px; width: 34px; height: 34px; font-size: 1.2rem; }
-    .slider-arrow.next-btn { right: 2px; width: 34px; height: 34px; font-size: 1.2rem; }
 
-    .products-grid {
-      padding: 0.25rem 0.5rem 1rem;
+    .products-grid.tab-content.active {
+      display: flex !important;
+      overflow-x: auto !important;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
       gap: 0.85rem;
+      padding: 0.25rem 0.85rem 1rem;
+      margin: 0 -0.85rem;
+      scrollbar-width: none;
+    }
+    .products-grid::-webkit-scrollbar {
+      display: none;
     }
     .bellavita-card {
       flex: 0 0 78%;
       max-width: 250px;
+      scroll-snap-align: start;
     }
     .card-body { padding: 0.75rem 0.6rem; }
     .product-title { font-size: 0.78rem; height: 2.2rem; margin-bottom: 0.35rem; }
@@ -373,8 +347,6 @@ const newArrivals = PRODUCTS.filter(p => p.isNewArrival).slice(0, 8);
   document.addEventListener('DOMContentLoaded', () => {
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
-    const prevBtn = document.getElementById('prod-slider-prev');
-    const nextBtn = document.getElementById('prod-slider-next');
 
     tabBtns.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -384,17 +356,6 @@ const newArrivals = PRODUCTS.filter(p => p.isNewArrival).slice(0, 8);
         btn.classList.add('active');
         document.getElementById(target!)?.classList.add('active');
       });
-    });
-
-    // Arrow Slider Navigation
-    prevBtn?.addEventListener('click', () => {
-      const activeGrid = document.querySelector('.products-grid.tab-content.active');
-      activeGrid?.scrollBy({ left: -280, behavior: 'smooth' });
-    });
-
-    nextBtn?.addEventListener('click', () => {
-      const activeGrid = document.querySelector('.products-grid.tab-content.active');
-      activeGrid?.scrollBy({ left: 280, behavior: 'smooth' });
     });
 
     document.querySelectorAll('.add-to-cart-btn').forEach(btn => {

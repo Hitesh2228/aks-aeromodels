@@ -72,50 +72,16 @@
     width: 100%;
   }
 
-  .slider-arrow {
-    position: absolute;
-    top: 45%;
-    transform: translateY(-50%);
-    width: 42px;
-    height: 42px;
-    background: rgba(255, 255, 255, 0.95);
-    border: 1.5px solid #1a1a1a;
-    border-radius: 50%;
-    color: #1a1a1a;
-    font-size: 1.5rem;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 10;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    transition: all 0.25s ease;
-  }
-  .slider-arrow:hover {
-    background: #1a1a1a;
-    color: #ffffff;
-  }
-  .slider-arrow.prev-btn { left: -16px; }
-  .slider-arrow.next-btn { right: -16px; }
-
+  /* Desktop Grid Container (3 items per row) */
   .crazy-deals-grid {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
     padding: 0.5rem 0.25rem 1.25rem;
-    scrollbar-width: none;
-    scroll-behavior: smooth;
-  }
-  .crazy-deals-grid::-webkit-scrollbar {
-    display: none;
   }
 
   .crazy-deal-card {
-    flex: 0 0 320px;
-    scroll-snap-align: start;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -166,38 +132,30 @@
     letter-spacing: 0.08em;
   }
 
+  /* Mobile Only Touch Horizontal Slider (< 768px) */
   @media (max-width: 768px) {
     .bellavita-deals-section { padding: 2rem 0; }
     .bellavita-title { font-size: 1.2rem; margin-bottom: 1.25rem; }
 
-    .slider-arrow.prev-btn { left: 2px; width: 34px; height: 34px; font-size: 1.2rem; }
-    .slider-arrow.next-btn { right: 2px; width: 34px; height: 34px; font-size: 1.2rem; }
-
     .crazy-deals-grid {
-      padding: 0.25rem 0.5rem 1rem;
+      display: flex !important;
+      overflow-x: auto !important;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
       gap: 0.85rem;
+      padding: 0.25rem 0.85rem 1rem;
+      margin: 0 -0.85rem;
+      scrollbar-width: none;
+    }
+    .crazy-deals-grid::-webkit-scrollbar {
+      display: none;
     }
     .crazy-deal-card {
       flex: 0 0 82%;
       max-width: 270px;
+      scroll-snap-align: start;
     }
     .deal-media { height: 230px; }
     .deal-label { font-size: 0.78rem; }
   }
 </style>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const prevBtn = document.getElementById('deals-slider-prev');
-    const nextBtn = document.getElementById('deals-slider-next');
-    const container = document.getElementById('deals-slider-container');
-
-    prevBtn?.addEventListener('click', () => {
-      container?.scrollBy({ left: -300, behavior: 'smooth' });
-    });
-
-    nextBtn?.addEventListener('click', () => {
-      container?.scrollBy({ left: 300, behavior: 'smooth' });
-    });
-  });
-</script>
