@@ -183,7 +183,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviewsCount: 142,
     isBestseller: true,
-    image: 'https://images.unsplash.com/photo-1519074069444-1ba4ea16028d?q=80&w=800&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1519074069444-1ba4eff56024?q=80&w=800&auto=format&fit=crop',
     description: 'Extreme 3D aerobatic performer with carbon fiber wing tube, pre-hinged control surfaces, and bright scale graphics.',
     specs: { Wingspan: '77.4 in (196.5 cm)', Engine: '35-40 cc Gas', Control: '6 Servo Channels', Weight: '5.8 kg' },
     inStock: true
@@ -292,7 +292,7 @@ export const PRODUCTS: Product[] = [
     rating: 5.0,
     reviewsCount: 118,
     isBestseller: true,
-    image: 'https://images.unsplash.com/photo-1519074069444-1ba4ea16028d?q=80&w=800&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1519074069444-1ba4eff56024?q=80&w=800&auto=format&fit=crop',
     description: 'Competition grade 50-60cc aerobatic machine. Pre-built with titanium pushrods, ball links, and carbon fiber landing gear.',
     specs: { Wingspan: '82.1 in (208.5 cm)', Engine: '50-60 cc Gas', 'Color Scheme': 'Black & Red', Weight: '7.2 kg' },
     inStock: true
