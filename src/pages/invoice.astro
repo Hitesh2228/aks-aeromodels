@@ -1,0 +1,368 @@
+---
+import Header from '../components/Header.astro';
+import CartDrawer from '../components/CartDrawer.astro';
+import Footer from '../components/Footer.astro';
+import { PRODUCTS } from '../data/products';
+import '../styles/global.css';
+
+const sampleProducts = [PRODUCTS[0], PRODUCTS[5], PRODUCTS[10]];
+const subtotal = sampleProducts.reduce((acc, p) => acc + p.price, 0);
+const gstTax = Math.round(subtotal * 0.18);
+const grandTotal = subtotal + gstTax;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Official Tax Invoice Bill | AKS Aeromodels</title>
+  <meta name="description" content="View and print your official tax invoice bill for your AKS Aeromodels flight order." />
+</head>
+<body class="bellavita-page-body">
+
+  <Header />
+
+  <main class="container page-padding reveal-on-scroll">
+    <div class="invoice-wrapper">
+      
+      <!-- Top Action Bar (Print & WhatsApp Share) -->
+      <div class="invoice-action-bar no-print">
+        <button onclick="window.print()" class="btn-primary print-btn">
+          🖨️ PRINT / DOWNLOAD INVOICE PDF
+        </button>
+        <a href="https://wa.me/917722009120?text=Hi%20AKS%20Aeromodels,%20I%20have%20received%20my%20invoice%20bill%20%23AKS-INV-2026-9842" target="_blank" class="btn-whatsapp-share">
+          💬 Share Bill on WhatsApp
+        </a>
+      </div>
+
+      <!-- Printable Tax Invoice Document -->
+      <div class="invoice-paper" id="printable-invoice">
+        
+        <!-- Header -->
+        <div class="inv-header">
+          <div>
+            <h1 class="inv-company-name">AKS AEROMODELS INDIA</h1>
+            <p class="inv-company-sub">Official Flight & Aeromodelling Distribution</p>
+            <p class="inv-company-addr">Devlali camp, near HP petrol pump, Maharashtra, India 422 502</p>
+            <p class="inv-company-gst"><strong>GSTIN:</strong> 27AAAAA0000A1Z5 | <strong>CIN:</strong> U74999MH2026PTC10982</p>
+          </div>
+          <div class="inv-meta-right">
+            <span class="inv-badge">TAX INVOICE</span>
+            <div class="inv-num-box">
+              <span class="lbl">INVOICE NO:</span>
+              <strong class="val">#AKS-INV-2026-9842</strong>
+            </div>
+            <div class="inv-num-box">
+              <span class="lbl">DATE:</span>
+              <span class="val">09 Aug 2026</span>
+            </div>
+            <div class="inv-num-box">
+              <span class="lbl">PAYMENT METHOD:</span>
+              <span class="val">Prepaid (UPI / Card)</span>
+            </div>
+          </div>
+        </div>
+
+        <hr class="inv-divider" />
+
+        <!-- Bill To & Ship To -->
+        <div class="inv-addresses-grid">
+          <div class="inv-address-box">
+            <h3 class="box-title">BILLED TO (CUSTOMER):</h3>
+            <strong>Capt. Hitesh Pilot</strong>
+            <p>Devlali Camp, Nashik, Maharashtra 422 502</p>
+            <p><strong>Phone:</strong> +91 77220 09120</p>
+            <p><strong>Email:</strong> hitesh.aeromodels@gmail.com</p>
+          </div>
+          <div class="inv-address-box">
+            <h3 class="box-title">DISPATCH LOCATION:</h3>
+            <strong>AKS Aeromodels Central Hub</strong>
+            <p>Devlali camp, near HP petrol pump, Maharashtra, India 422 502</p>
+            <p><strong>Courier:</strong> Insured Air Freight Express</p>
+            <p><strong>Tracking AWB:</strong> #AWB-9871029412</p>
+          </div>
+        </div>
+
+        <!-- Itemized Products Table -->
+        <table class="inv-items-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>PRODUCT DESCRIPTION</th>
+              <th>HSN / SAC</th>
+              <th>QTY</th>
+              <th>UNIT PRICE (₹)</th>
+              <th>TOTAL (₹)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sampleProducts.map((p, idx) => (
+              <tr>
+                <td>{idx + 1}</td>
+                <td>
+                  <strong>{p.name}</strong>
+                  <small style="display: block; color: #666; font-size: 0.75rem;">Category: {p.categoryLabel}</small>
+                </td>
+                <td>88033000</td>
+                <td>1</td>
+                <td>₹{p.price.toLocaleString('en-IN')}.00</td>
+                <td>₹{p.price.toLocaleString('en-IN')}.00</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <!-- Summary Totals -->
+        <div class="inv-summary-flex">
+          <div class="inv-terms-notes">
+            <strong>Terms & Guarantee:</strong>
+            <ul>
+              <li>All engines include 1-Year Official Manufacturer Defect Warranty.</li>
+              <li>Includes 100% Transit Damage Coverage by AKS Aeromodels.</li>
+              <li>Computer generated invoice — No signature required.</li>
+            </ul>
+          </div>
+
+          <div class="inv-totals-box">
+            <div class="t-row"><span>Item Subtotal:</span> <strong>₹{subtotal.toLocaleString('en-IN')}.00</strong></div>
+            <div class="t-row"><span>GST (18% Output Tax):</span> <strong>₹{gstTax.toLocaleString('en-IN')}.00</strong></div>
+            <div class="t-row"><span>Insured Freight Shipping:</span> <strong style="color: #059669;">FREE</strong></div>
+            <hr />
+            <div class="t-row grand-total">
+              <span>FINAL BILL TOTAL:</span>
+              <strong>₹{grandTotal.toLocaleString('en-IN')}.00</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Stamp -->
+        <div class="inv-footer-stamp">
+          <div class="stamp-badge">STAMP VERIFIED</div>
+          <p>Thank you for flying with AKS Aeromodels India!</p>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <CartDrawer />
+  <Footer />
+
+  <style>
+    :global(body.bellavita-page-body) {
+      background-color: #fbf9f5 !important;
+      color: #1a1a1a !important;
+    }
+
+    .page-padding {
+      padding: 3rem 1.25rem 5rem;
+    }
+    .invoice-wrapper {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .invoice-action-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .print-btn {
+      background: #1a1a1a;
+      color: #ffffff;
+      padding: 0.75rem 1.5rem;
+    }
+    .btn-whatsapp-share {
+      background: #25d366;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.88rem;
+      padding: 0.75rem 1.25rem;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Paper styling */
+    .invoice-paper {
+      background: #ffffff;
+      border: 1px solid #d6cfc2;
+      border-radius: var(--radius-md);
+      padding: 3rem;
+      box-shadow: var(--shadow-hover);
+      color: #1a1a1a;
+    }
+
+    .inv-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+    .inv-company-name {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #3b0811;
+      margin-bottom: 0.2rem;
+    }
+    .inv-company-sub {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+    .inv-company-addr, .inv-company-gst {
+      font-size: 0.8rem;
+      color: #555555;
+      margin-top: 0.2rem;
+    }
+
+    .inv-meta-right {
+      text-align: right;
+    }
+    .inv-badge {
+      background: #3b0811;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.75rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      letter-spacing: 0.08em;
+      display: inline-block;
+      margin-bottom: 0.75rem;
+    }
+    .inv-num-box {
+      font-size: 0.82rem;
+      margin-bottom: 0.2rem;
+    }
+    .inv-num-box .lbl { color: #666666; margin-right: 0.4rem; }
+    .inv-num-box .val { color: #1a1a1a; font-weight: 700; }
+
+    .inv-divider {
+      border: none;
+      border-top: 1.5px solid #e6e0d5;
+      margin: 1.75rem 0;
+    }
+
+    .inv-addresses-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    .inv-address-box {
+      background: #fbf9f5;
+      border: 1px solid #e6e0d5;
+      padding: 1.25rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+    }
+    .box-title {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #3b0811;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.5rem;
+    }
+    .inv-address-box p { color: #555555; margin-top: 0.25rem; }
+
+    /* Table */
+    .inv-items-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-bottom: 2rem;
+    }
+    .inv-items-table th {
+      background: #f3eee7;
+      color: #1a1a1a;
+      font-weight: 800;
+      text-align: left;
+      padding: 0.75rem 1rem;
+      border-bottom: 2px solid #d6cfc2;
+      font-size: 0.78rem;
+    }
+    .inv-items-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid #e6e0d5;
+    }
+
+    .inv-summary-flex {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 2rem;
+      align-items: flex-start;
+      margin-bottom: 2rem;
+    }
+    .inv-terms-notes {
+      font-size: 0.78rem;
+      color: #666666;
+      line-height: 1.6;
+    }
+    .inv-terms-notes ul {
+      padding-left: 1.2rem;
+      margin-top: 0.3rem;
+    }
+
+    .inv-totals-box {
+      background: #f3eee7;
+      border: 1px solid #e6e0d5;
+      padding: 1.25rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+    }
+    .t-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      color: #555555;
+    }
+    .t-row.grand-total {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #3b0811;
+      margin-top: 0.5rem;
+      margin-bottom: 0;
+    }
+
+    .inv-footer-stamp {
+      border-top: 1.5px solid #e6e0d5;
+      padding-top: 1.5rem;
+      text-align: center;
+      font-size: 0.82rem;
+      color: #666666;
+    }
+    .stamp-badge {
+      display: inline-block;
+      border: 1.5px solid #059669;
+      color: #059669;
+      font-weight: 800;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      margin-bottom: 0.4rem;
+    }
+
+    @media print {
+      .no-print, header, footer, .announcement-bar, .nav-strip, .sub-ticker-strip {
+        display: none !important;
+      }
+      .page-padding { padding: 0 !important; }
+      .invoice-paper { border: none !important; box-shadow: none !important; padding: 0 !important; }
+    }
+
+    @media (max-width: 700px) {
+      .inv-header { flex-direction: column; }
+      .inv-meta-right { text-align: left; margin-top: 1rem; }
+      .inv-addresses-grid, .inv-summary-flex { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</body>
+</html>

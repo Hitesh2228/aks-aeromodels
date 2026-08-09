@@ -1,0 +1,366 @@
+---
+import Header from '../components/Header.astro';
+import CartDrawer from '../components/CartDrawer.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Profile & Orders | AKS Aeromodels</title>
+  <meta name="description" content="Manage your pilot profile, Google sign-in credentials, shipping address, and order history." />
+</head>
+<body class="bellavita-page-body">
+
+  <Header />
+
+  <main class="container page-padding reveal-on-scroll">
+    <div class="profile-container">
+      
+      <!-- Unauthenticated State (Google Sign-In Trigger) -->
+      <div id="auth-logged-out" class="auth-card glass-panel">
+        <div class="google-icon-box">
+          <svg width="40" height="40" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+        </div>
+        <h1 class="auth-title">SIGN IN WITH GOOGLE</h1>
+        <p class="auth-desc">Sign in with your Gmail account to manage your flight orders, track shipments, and auto-fill GST billing info.</p>
+
+        <button id="google-login-btn" class="btn-google-signin">
+          <svg width="20" height="20" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+          <span>Continue with Google</span>
+        </button>
+      </div>
+
+      <!-- Authenticated Profile View -->
+      <div id="auth-logged-in" class="profile-card-grid style-hidden">
+        
+        <!-- Left: Profile Card -->
+        <div class="user-info-card glass-panel">
+          <div class="avatar-wrapper">
+            <img id="user-avatar-img" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop" alt="User Avatar" class="user-avatar" />
+            <span class="online-badge">✓ Google Verified</span>
+          </div>
+
+          <h2 id="user-display-name" class="user-name">Capt. Hitesh Pilot</h2>
+          <p id="user-display-email" class="user-email">hitesh.aeromodels@gmail.com</p>
+
+          <div class="user-meta-list">
+            <div class="meta-row">
+              <span>Account Type:</span> <strong>Google Pilot Member</strong>
+            </div>
+            <div class="meta-row">
+              <span>Default Shipping:</span> <strong id="user-address">Devlali Camp, Nashik, MH</strong>
+            </div>
+            <div class="meta-row">
+              <span>GSTIN / Tax ID:</span> <strong>27AAAAA0000A1Z5 (Verified)</strong>
+            </div>
+          </div>
+
+          <button id="google-logout-btn" class="btn-logout">
+            Sign Out of Google
+          </button>
+        </div>
+
+        <!-- Right: Recent Order History -->
+        <div class="orders-card glass-panel">
+          <h2 class="section-title-sm">RECENT FLIGHT ORDERS & INVOICES</h2>
+          
+          <div class="order-list">
+            <div class="order-item">
+              <div class="order-header">
+                <div>
+                  <strong class="order-id">#AKS-89421</strong>
+                  <span class="order-date">Date: August 9, 2026</span>
+                </div>
+                <span class="status-badge-green">DISPATCHED</span>
+              </div>
+              <div class="order-details">
+                <p>1x O.S. Max 0.46 AX II Engine + 1x Futaba Radio 6k</p>
+                <div class="order-footer">
+                  <span class="order-price">Total: ₹38,790.00</span>
+                  <a href="/invoice" class="view-invoice-link">View GST Invoice 📄</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="order-item">
+              <div class="order-header">
+                <div>
+                  <strong class="order-id">#AKS-78190</strong>
+                  <span class="order-date">Date: July 28, 2026</span>
+                </div>
+                <span class="status-badge-blue">DELIVERED</span>
+              </div>
+              <div class="order-details">
+                <p>1x Seagull Decathlon 122" V2 ARF Airframe</p>
+                <div class="order-footer">
+                  <span class="order-price">Total: ₹84,990.00</span>
+                  <a href="/invoice" class="view-invoice-link">View GST Invoice 📄</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <CartDrawer />
+  <Footer />
+
+  <style>
+    :global(body.bellavita-page-body) {
+      background-color: #fbf9f5 !important;
+      color: #1a1a1a !important;
+    }
+
+    .page-padding {
+      padding: 4rem 1.25rem 6rem;
+    }
+    .profile-container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .style-hidden {
+      display: none !important;
+    }
+
+    /* Auth Card */
+    .auth-card {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: #ffffff;
+      border: 1px solid #e6e0d5;
+      border-radius: var(--radius-md);
+      max-width: 540px;
+      margin: 0 auto;
+      box-shadow: var(--shadow-card);
+    }
+    .google-icon-box {
+      width: 70px;
+      height: 70px;
+      background: #f3eee7;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+    .auth-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      color: #1a1a1a;
+      margin-bottom: 0.75rem;
+    }
+    .auth-desc {
+      font-size: 0.9rem;
+      color: #666666;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .btn-google-signin {
+      background: #ffffff;
+      color: #374151;
+      border: 1.5px solid #d1d5db;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.85rem 1.75rem;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      transition: var(--transition-fast);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+    .btn-google-signin:hover {
+      background: #f9fafb;
+      border-color: #9ca3af;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Profile Grid */
+    .profile-card-grid {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 2rem;
+    }
+
+    .user-info-card {
+      background: #ffffff;
+      border: 1px solid #e6e0d5;
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      text-align: center;
+    }
+    .avatar-wrapper {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 1.25rem;
+    }
+    .user-avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #3b0811;
+    }
+    .online-badge {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #059669;
+      background: #ecfdf5;
+      padding: 0.2rem 0.5rem;
+      border-radius: 99px;
+      margin-top: 0.4rem;
+    }
+
+    .user-name {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      color: #1a1a1a;
+      margin-bottom: 0.2rem;
+    }
+    .user-email {
+      font-size: 0.82rem;
+      color: #666666;
+      margin-bottom: 1.5rem;
+    }
+
+    .user-meta-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      text-align: left;
+      font-size: 0.82rem;
+      border-top: 1px solid #e6e0d5;
+      border-bottom: 1px solid #e6e0d5;
+      padding: 1rem 0;
+      margin-bottom: 1.5rem;
+    }
+    .meta-row span { color: #666666; display: block; }
+    .meta-row strong { color: #1a1a1a; }
+
+    .btn-logout {
+      background: #f3eee7;
+      color: #ef4444;
+      border: 1px solid #e6e0d5;
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 0.6rem 1.25rem;
+      border-radius: var(--radius-sm);
+      width: 100%;
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+    .btn-logout:hover {
+      background: #fee2e2;
+      border-color: #fca5a5;
+    }
+
+    /* Orders Card */
+    .orders-card {
+      background: #ffffff;
+      border: 1px solid #e6e0d5;
+      border-radius: var(--radius-md);
+      padding: 2rem;
+    }
+    .section-title-sm {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: #3b0811;
+      border-bottom: 1.5px solid #e6e0d5;
+      padding-bottom: 0.6rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .order-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .order-item {
+      background: #fbf9f5;
+      border: 1px solid #e6e0d5;
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+    }
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    .order-id { font-size: 0.9rem; color: #1a1a1a; }
+    .order-date { display: block; font-size: 0.75rem; color: #666666; }
+    .status-badge-green { background: #d1fae5; color: #047857; font-size: 0.7rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 4px; }
+    .status-badge-blue { background: #e0f2fe; color: #0369a1; font-size: 0.7rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 4px; }
+
+    .order-details p { font-size: 0.85rem; color: #333333; margin-bottom: 0.75rem; }
+    .order-footer { display: flex; justify-content: space-between; align-items: center; }
+    .order-price { font-weight: 800; color: #1a1a1a; font-size: 0.95rem; }
+    .view-invoice-link { font-size: 0.8rem; font-weight: 700; color: #3b0811; }
+
+    @media (max-width: 800px) {
+      .profile-card-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const loggedOutBox = document.getElementById('auth-logged-out');
+      const loggedInBox = document.getElementById('auth-logged-in');
+      const loginBtn = document.getElementById('google-login-btn');
+      const logoutBtn = document.getElementById('google-logout-btn');
+
+      // Check localStorage for Google Auth State
+      const isAuth = localStorage.getItem('google_auth_logged_in') === 'true';
+
+      function renderState(authed: boolean) {
+        if (authed) {
+          loggedOutBox?.classList.add('style-hidden');
+          loggedInBox?.classList.remove('style-hidden');
+        } else {
+          loggedOutBox?.classList.remove('style-hidden');
+          loggedInBox?.classList.add('style-hidden');
+        }
+      }
+
+      renderState(isAuth);
+
+      loginBtn?.addEventListener('click', () => {
+        localStorage.setItem('google_auth_logged_in', 'true');
+        alert('Successfully signed in with Google Account!');
+        renderState(true);
+      });
+
+      logoutBtn?.addEventListener('click', () => {
+        localStorage.removeItem('google_auth_logged_in');
+        renderState(false);
+      });
+    });
+  </script>
+
+</body>
+</html>

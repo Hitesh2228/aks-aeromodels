@@ -67,3 +67,9 @@ export function getCartHydrated() {
     };
   }).filter(item => item.product !== undefined);
 }
+
+export function getCartCount(): number {
+  const items = getCartFromStorage();
+  return items.reduce((acc, item) => acc + item.quantity, 0);
+}
+

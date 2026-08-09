@@ -1,4 +1,6 @@
 ---
+import FAQ from './FAQ.astro';
+
 const REVIEWS = [
   {
     name: "Capt. Rajesh Sharma",
@@ -22,17 +24,9 @@ const REVIEWS = [
     avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop"
   }
 ];
-
-const GALLERY_IMAGES = [
-  { url: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=600&auto=format&fit=crop", title: "Scale RC Aerobatics" },
-  { url: "https://images.unsplash.com/photo-1517976487492-5750f3195933?q=80&w=600&auto=format&fit=crop", title: "Turbine Engine Testing" },
-  { url: "https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?q=80&w=600&auto=format&fit=crop", title: "Field Flight Line" },
-  { url: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=600&auto=format&fit=crop", title: "Precision Bench Tuning" },
-  { url: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=600&auto=format&fit=crop", title: "High-Thrust Testing" }
-];
 ---
 
-<section class="bellavita-reviews-section">
+<section class="bellavita-reviews-section reveal-on-scroll">
   <div class="container">
     <h2 class="bellavita-title">WHAT OUR PILOTS HAVE TO SAY</h2>
 
@@ -53,21 +47,15 @@ const GALLERY_IMAGES = [
       <div class="quote-handle" id="quote-handle-display">{REVIEWS[0].handle}</div>
     </div>
 
-    <!-- Lifestyle 5-Photo Grid -->
-    <div class="lifestyle-photo-grid">
-      {GALLERY_IMAGES.map((imgObj, i) => (
-        <div class="photo-tile">
-          <img src={imgObj.url} alt={`Pilot Gallery - ${imgObj.title}`} loading="lazy" />
-        </div>
-      ))}
-    </div>
-
   </div>
 </section>
 
+<!-- Frequently Asked Questions Section (Replaces 5-Photo Grid as requested) -->
+<FAQ />
+
 <style>
   .bellavita-reviews-section {
-    padding: 4rem 0 0;
+    padding: 4rem 0 1rem;
     background: #fbf9f5;
   }
   .bellavita-title {
@@ -109,7 +97,7 @@ const GALLERY_IMAGES = [
   .active-quote-box {
     text-align: center;
     max-width: 680px;
-    margin: 0 auto 3.5rem;
+    margin: 0 auto 1.5rem;
     padding: 2rem;
     background: #ffffff;
     border: 1px solid #e6e0d5;
@@ -137,39 +125,6 @@ const GALLERY_IMAGES = [
   .quote-handle {
     font-size: 0.8rem;
     color: #777777;
-  }
-
-  /* Lifestyle Photo Grid */
-  .lifestyle-photo-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1rem;
-    width: 100%;
-    margin-top: 2rem;
-  }
-  .photo-tile {
-    position: relative;
-    padding-top: 80%;
-    overflow: hidden;
-    border-radius: 8px;
-    background: #e6e0d5;
-  }
-  .photo-tile img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-  }
-  .photo-tile:hover img {
-    transform: scale(1.08);
-  }
-
-  @media (max-width: 900px) {
-    .lifestyle-photo-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
   }
 </style>
 
