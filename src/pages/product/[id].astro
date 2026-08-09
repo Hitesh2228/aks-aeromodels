@@ -468,10 +468,13 @@ const productSchema = {
       grid-template-columns: 1fr 1.15fr;
       gap: 3rem;
       margin-bottom: 4rem;
+      align-items: flex-start;
     }
 
-    /* Gallery Column */
+    /* Gallery Column - Sticky until BEST PAIRED WITH section */
     .pdp-gallery-column {
+      position: sticky;
+      top: 110px;
       display: flex;
       flex-direction: column;
       gap: 1.25rem;
