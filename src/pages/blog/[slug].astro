@@ -37,35 +37,42 @@ const articleSchema = {
   <meta name="description" content={post.excerpt} />
   <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
 </head>
-<body>
+<body class="bellavita-page-body">
 
   <Header />
 
-  <main class="container page-padding">
-    <article class="article-layout glass-panel">
+  <main class="container page-padding reveal-on-scroll">
+    <article class="article-card glass-panel">
+      
       <div class="article-header">
-        <div class="blog-meta">{post.date} • By {post.author}</div>
+        <div class="blog-meta">{post.date} • By {post.author} • {post.readTime}</div>
         <h1 class="article-title">{post.title}</h1>
       </div>
 
-      <img src={post.image} alt={post.title} class="article-featured-img" />
+      <div class="img-wrapper">
+        <img src={post.image} alt={post.title} class="article-featured-img" />
+      </div>
 
       <div class="article-body">
         <p class="lead">{post.excerpt}</p>
         
         <h2>Step 1: Bench Mounting and Fuel Setup</h2>
-        <p>Before running your engine for the first time, securely bolt it onto a rigid wooden or aluminum test stand. Never attempt to break-in an engine hand-held or in a loose airframe.</p>
+        <p>Before running your engine for the first time, securely bolt it onto a rigid wooden or aluminum test stand. Never attempt to break-in an engine hand-held or in an unreinforced airframe.</p>
 
         <h2>Step 2: Rich Needle Setting</h2>
-        <p>Open the high-speed needle valve 2.5 to 3 full turns counter-clockwise from closed. Connect 10%-15% nitro fuel with high-quality synthetic/castor oil blend.</p>
+        <p>Open the high-speed needle valve 2.5 to 3 full turns counter-clockwise from closed. Connect 10%-15% nitro fuel with high-quality synthetic/castor oil blend for optimal lubrication.</p>
 
         <h2>Step 3: Initial Heat Cycles</h2>
-        <p>Start the engine using an electric starter. Run at full throttle in a rich 4-cycle burble for 2 minutes, then shut down to cool completely. Repeat this thermal cycle 4 to 5 times.</p>
+        <p>Start the engine using a high-torque 12V electric starter. Run at full throttle in a rich 4-cycle burble for 2 minutes, then shut down to cool completely. Repeat this thermal cycle 4 to 5 times for optimal compression ring seating.</p>
+
+        <h2>Step 4: Final Needle Fine-Tuning</h2>
+        <p>Lean out the needle valve 2-3 clicks at a time while listening to the RPM rise. Peak the RPM, then back off 200 RPM rich for safe in-flight operating temperatures.</p>
       </div>
 
       <div class="article-footer">
-        <a href="/blog" class="btn-dark">← BACK TO ALL ARTICLES</a>
+        <a href="/blog" class="btn-primary">← BACK TO ALL ARTICLES</a>
       </div>
+
     </article>
   </main>
 
@@ -73,48 +80,70 @@ const articleSchema = {
   <Footer />
 
   <style>
-    .page-padding { padding: 4rem 1.25rem; }
-    .article-layout {
+    :global(body.bellavita-page-body) {
+      background-color: #fbf9f5 !important;
+      color: #1a1a1a !important;
+    }
+
+    .page-padding { padding: 4rem 1.25rem 6rem; }
+    .article-card {
       max-width: 840px;
       margin: 0 auto;
       padding: 3rem;
-      border-radius: var(--radius-lg);
+      background: #ffffff;
+      border: 1px solid #e6e0d5;
+      border-radius: var(--radius-md);
     }
     .article-header { margin-bottom: 2rem; }
-    .blog-meta { color: var(--accent-gold); font-size: 0.85rem; margin-bottom: 0.5rem; }
-    .article-title { font-size: 2.2rem; color: #fff; line-height: 1.2; }
+    .blog-meta { color: #3b0811; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .article-title {
+      font-family: var(--font-display);
+      font-size: 2.1rem;
+      color: #1a1a1a;
+      line-height: 1.25;
+      font-weight: 800;
+    }
 
-    .article-featured-img {
+    .img-wrapper {
       width: 100%;
       height: 380px;
-      object-fit: cover;
       border-radius: var(--radius-md);
+      overflow: hidden;
       margin-bottom: 2.5rem;
+      background: #f3eee7;
+    }
+    .article-featured-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .article-body {
-      color: var(--text-secondary);
+      color: #444444;
       font-size: 1.05rem;
       line-height: 1.85;
     }
     .article-body .lead {
-      font-size: 1.2rem;
-      color: #fff;
+      font-size: 1.15rem;
       font-weight: 600;
+      color: #1a1a1a;
+      border-left: 3px solid #3b0811;
+      padding-left: 1rem;
       margin-bottom: 2rem;
     }
     .article-body h2 {
-      color: #fff;
-      font-size: 1.4rem;
-      margin: 2rem 0 1rem;
-    }
-    .article-body p {
-      margin-bottom: 1.5rem;
+      font-family: var(--font-display);
+      color: #1a1a1a;
+      font-size: 1.35rem;
+      margin: 2rem 0 0.75rem;
+      font-weight: 700;
+      border-bottom: 1px solid #e6e0d5;
+      padding-bottom: 0.4rem;
     }
 
     .article-footer {
       margin-top: 3rem;
-      border-top: 1px solid var(--border-subtle);
+      border-top: 1px solid #e6e0d5;
       padding-top: 2rem;
     }
   </style>

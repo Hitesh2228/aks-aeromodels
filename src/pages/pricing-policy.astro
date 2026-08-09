@@ -10,34 +10,69 @@ import '../styles/global.css';
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pricing Policy | AKS Aeromodels</title>
+  <title>Pricing, Refund, Shipping & GST Policy | AKS Aeromodels</title>
 </head>
-<body>
+<body class="bellavita-page-body">
   <Header />
-  <main class="container page-padding">
-    <div class="glass-panel policy-box">
-      <h1>PRICING & GST POLICY</h1>
+  <main class="container page-padding reveal-on-scroll">
+    <div class="policy-box">
+      <h1 class="policy-title">PRICING, REFUND & GST POLICY</h1>
       <p class="updated">Last updated: August 2026</p>
       
-      <section>
-        <h2>1. Transparent Pricing & GST</h2>
-        <p>All prices listed on AKS Aeromodels are inclusive of applicable GST (Goods and Services Tax). B2B Tax Invoices with GSTIN credit input details are provided automatically for corporate and institute orders.</p>
+      <section class="policy-section">
+        <h2 class="policy-heading">1. Transparent Pricing & 18% GST Credit</h2>
+        <p>All prices listed on AKS Aeromodels are inclusive of applicable Goods and Services Tax (GST). B2B Tax Invoices with GSTIN input credit details are generated automatically for corporate, lab, and engineering college orders.</p>
       </section>
 
-      <section>
-        <h2>2. Promotional Discounts</h2>
-        <p>Bundle discounts ("Crazy Deals"), coupon codes, and seasonal sale pricing are subject to stock availability and promotional deadlines as displayed on the live countdown timer.</p>
+      <section class="policy-section">
+        <h2 class="policy-heading">2. Express Shipping & Transit Damage Guarantee</h2>
+        <p>Orders are dispatched within 24 hours from Devlali Camp, Nashik. All shipments are 100% insured against courier transit damage. If any balsa sheet or airframe arrives damaged, notify us on WhatsApp within 24 hours with an unboxing video for instant free replacement.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2 class="policy-heading">3. Refund & Replacement Policy</h2>
+        <p>Unopened items in original factory packaging can be returned within 7 days of delivery for a full refund or exchange. Defective engines or radio receivers are inspected by our technical team for immediate replacement.</p>
       </section>
     </div>
   </main>
   <CartDrawer />
   <Footer />
+
   <style>
-    .page-padding { padding: 4rem 1.25rem; }
-    .policy-box { padding: 3rem; border-radius: var(--radius-lg); max-width: 900px; margin: 0 auto; line-height: 1.8; color: var(--text-secondary); }
-    .policy-box h1 { color: #fff; margin-bottom: 0.5rem; }
-    .updated { font-size: 0.8rem; color: var(--accent-gold); margin-bottom: 2rem; }
-    .policy-box h2 { color: #fff; font-size: 1.2rem; margin: 1.5rem 0 0.5rem; }
+    :global(body.bellavita-page-body) {
+      background-color: #fbf9f5 !important;
+      color: #1a1a1a !important;
+    }
+    .page-padding { padding: 4rem 1.25rem 6rem; }
+    .policy-box {
+      background: #ffffff;
+      border: 1px solid #e6e0d5;
+      padding: 3rem;
+      border-radius: var(--radius-md);
+      max-width: 900px;
+      margin: 0 auto;
+      line-height: 1.8;
+      color: #333333;
+    }
+    .policy-title {
+      font-family: var(--font-display);
+      color: #3b0811;
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.3rem;
+    }
+    .updated { font-size: 0.85rem; color: #888888; margin-bottom: 2rem; font-weight: 600; }
+    .policy-section { margin-bottom: 1.75rem; }
+    .policy-heading {
+      font-family: var(--font-display);
+      color: #1a1a1a;
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      border-bottom: 1px solid #e6e0d5;
+      padding-bottom: 0.4rem;
+    }
+    .policy-section p { font-size: 0.95rem; color: #555555; }
   </style>
 </body>
 </html>

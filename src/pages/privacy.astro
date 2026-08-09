@@ -12,32 +12,67 @@ import '../styles/global.css';
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Privacy Policy | AKS Aeromodels</title>
 </head>
-<body>
+<body class="bellavita-page-body">
   <Header />
-  <main class="container page-padding">
-    <div class="glass-panel policy-box">
-      <h1>PRIVACY POLICY</h1>
+  <main class="container page-padding reveal-on-scroll">
+    <div class="policy-box">
+      <h1 class="policy-title">PRIVACY POLICY</h1>
       <p class="updated">Last updated: August 2026</p>
       
-      <section>
-        <h2>1. Information We Collect</h2>
-        <p>We collect customer details such as name, delivery address, phone number, and payment confirmation details strictly to fulfill order shipments and provide technical support.</p>
+      <section class="policy-section">
+        <h2 class="policy-heading">1. Information We Collect</h2>
+        <p>We collect customer details such as name, delivery address, WhatsApp phone number, and GSTIN strictly to fulfill order shipments, generate tax invoices, and provide technical engine support.</p>
       </section>
 
-      <section>
-        <h2>2. Data Security</h2>
-        <p>All transaction details pass through secure 256-bit SSL encrypted domestic and international payment gateways (UPI, Credit/Debit Cards, NetBanking). We do not store raw card numbers or passwords.</p>
+      <section class="policy-section">
+        <h2 class="policy-heading">2. Payment Data & 256-bit Security</h2>
+        <p>All transaction details pass through 256-bit SSL encrypted domestic payment gateways (UPI, GPay, Credit/Debit Cards, NetBanking). AKS Aeromodels never stores your raw bank account details or card PINs.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2 class="policy-heading">3. Third-Party Courier Data Usage</h2>
+        <p>Your shipping address and phone number are shared solely with authorized insured courier partners (such as Bluedart, Delhivery, Express Freight) to ensure 100% safe door delivery.</p>
       </section>
     </div>
   </main>
   <CartDrawer />
   <Footer />
+
   <style>
-    .page-padding { padding: 4rem 1.25rem; }
-    .policy-box { padding: 3rem; border-radius: var(--radius-lg); max-width: 900px; margin: 0 auto; line-height: 1.8; color: var(--text-secondary); }
-    .policy-box h1 { color: #fff; margin-bottom: 0.5rem; }
-    .updated { font-size: 0.8rem; color: var(--accent-gold); margin-bottom: 2rem; }
-    .policy-box h2 { color: #fff; font-size: 1.2rem; margin: 1.5rem 0 0.5rem; }
+    :global(body.bellavita-page-body) {
+      background-color: #fbf9f5 !important;
+      color: #1a1a1a !important;
+    }
+    .page-padding { padding: 4rem 1.25rem 6rem; }
+    .policy-box {
+      background: #ffffff;
+      border: 1px solid #e6e0d5;
+      padding: 3rem;
+      border-radius: var(--radius-md);
+      max-width: 900px;
+      margin: 0 auto;
+      line-height: 1.8;
+      color: #333333;
+    }
+    .policy-title {
+      font-family: var(--font-display);
+      color: #3b0811;
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.3rem;
+    }
+    .updated { font-size: 0.85rem; color: #888888; margin-bottom: 2rem; font-weight: 600; }
+    .policy-section { margin-bottom: 1.75rem; }
+    .policy-heading {
+      font-family: var(--font-display);
+      color: #1a1a1a;
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      border-bottom: 1px solid #e6e0d5;
+      padding-bottom: 0.4rem;
+    }
+    .policy-section p { font-size: 0.95rem; color: #555555; }
   </style>
 </body>
 </html>

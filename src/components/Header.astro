@@ -290,6 +290,28 @@
     border-radius: 3px;
   }
 
+  /* Active Nav Link Styling */
+  .nav-item.is-active-link {
+    color: #3b0811 !important;
+    font-weight: 800 !important;
+    border-bottom: 2px solid #3b0811;
+    padding-bottom: 2px;
+  }
+
+  .main-header {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .main-header.nav-hidden {
+    transform: translateY(-100%);
+  }
+
+  .announcement-bar {
+    transition: opacity 0.3s ease;
+  }
+  .announcement-bar.hide-ticker {
+    display: none !important;
+  }
+
   @media (max-width: 900px) {
     .header-grid {
       grid-template-columns: 1fr 1fr;
@@ -309,6 +331,8 @@
   document.addEventListener('DOMContentLoaded', () => {
     const cartTrigger = document.getElementById('cart-drawer-trigger');
     const badge = document.getElementById('cart-count-badge');
+    const mainHeader = document.querySelector('.main-header');
+    const announcementBar = document.querySelector('.announcement-bar');
 
     function updateBadge() {
       const count = getCartCount();
@@ -324,6 +348,46 @@
 
     window.addEventListener('cart-updated', updateBadge);
     updateBadge();
+
+    // Active Nav Highlight
+    const fullUrl = window.location.pathname + window.location.search;
+    const navItems = document.querySelectorAll('.nav-strip .nav-item');
+
+    navItems.forEach(item => {
+      const href = item.getAttribute('href');
+      if (href && (href === fullUrl || (href !== '/' && fullUrl.startsWith(href)))) {
+        item.classList.add('is-active-link');
+      }
+    });
+
+    // Smart Header Scroll Auto-Hide & Reveal + Top Ticker Visibility
+    let lastScrollY = window.scrollY;
+
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY;
+
+      // Announcement ticker only visible at the very top
+      if (announcementBar) {
+        if (currentScrollY > 30) {
+          announcementBar.classList.add('hide-ticker');
+        } else {
+          announcementBar.classList.remove('hide-ticker');
+        }
+      }
+
+      // Hide header on scroll down, reveal immediately on scroll up
+      if (currentScrollY > 120) {
+        if (currentScrollY > lastScrollY + 6) {
+          mainHeader?.classList.add('nav-hidden');
+        } else if (currentScrollY < lastScrollY - 6) {
+          mainHeader?.classList.remove('nav-hidden');
+        }
+      } else {
+        mainHeader?.classList.remove('nav-hidden');
+      }
+
+      lastScrollY = currentScrollY;
+    }, { passive: true });
 
     // Global Scroll Reveal Observer
     const observerOptions = {

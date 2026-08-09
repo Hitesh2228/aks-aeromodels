@@ -11,6 +11,8 @@ export const POSTS = [
     excerpt: 'Step-by-step needle valve adjustment, heat-cycling process, and fuel oil ratios for your new .46 or .65 nitro engine.',
     date: 'August 1, 2026',
     author: 'Chief Engineer K. Sharma',
+    category: 'ENGINE TUNING',
+    readTime: '6 min read',
     image: 'https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?q=80&w=800&auto=format&fit=crop'
   },
   {
@@ -19,15 +21,19 @@ export const POSTS = [
     excerpt: 'Comparing wing loading, dihedral stability, landing gear durability, and repairability for novice pilot setup.',
     date: 'July 24, 2026',
     author: 'Captain R. Verma',
-    image: 'https://images.unsplash.com/photo-1527977966376-1c8408f9f108?q=80&w=800&auto=format&fit=crop'
+    category: 'AIRFRAME COMPARISON',
+    readTime: '8 min read',
+    image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=800&auto=format&fit=crop'
   },
   {
     slug: 'balsa-wood-density-guide',
     title: 'Understanding Balsa Sheet Densities: Light, Medium, and Hard Wood Selection',
-    excerpt: 'How to pick between 6 lb contest grade balsa for ribs vs 12 lb structural balsa for fuselage formers.',
+    excerpt: 'How to pick between 6 lb contest grade balsa for wing ribs vs 12 lb structural balsa for fuselage formers.',
     date: 'July 15, 2026',
     author: 'Build Specialist A. Deshmukh',
-    image: 'https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?q=80&w=800&auto=format&fit=crop'
+    category: 'BUILDING TECHNIQUES',
+    readTime: '5 min read',
+    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop'
   }
 ];
 ---
@@ -37,30 +43,42 @@ export const POSTS = [
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RC Flight Blog & Guides | AKS Aeromodels</title>
-  <meta name="description" content="Technical aeromodelling tutorials, engine tuning guides, and scale flight techniques." />
+  <title>RC Flight Blog & Tutorials | AKS Aeromodels</title>
+  <meta name="description" content="Technical aeromodelling tutorials, engine tuning guides, and scale flight techniques from master pilots." />
 </head>
-<body>
+<body class="bellavita-page-body">
 
   <Header />
 
-  <main class="container page-padding">
+  <main class="container page-padding reveal-on-scroll">
     <div class="blog-hero">
-      <h1 class="section-title">RC FLIGHT BLOG & TUTORIALS</h1>
-      <p class="section-subtitle">Expert guides on engine tuning, radio telemetry, balsa building, and flight setup</p>
+      <h1 class="blog-page-title">RC FLIGHT BLOG & TECHNICAL GUIDES</h1>
+      <p class="blog-page-sub">Master engine tuning, radio telemetry, balsa scratch building, and aerobatic flight dynamics</p>
     </div>
 
     <div class="blog-grid">
       {POSTS.map(post => (
         <article class="blog-card glass-panel">
           <div class="blog-media">
-            <img src={post.image} alt={post.title} />
+            <span class="blog-cat-badge">{post.category}</span>
+            <a href={`/blog/${post.slug}`}>
+              <img src={post.image} alt={post.title} loading="lazy" />
+            </a>
           </div>
           <div class="blog-body">
-            <div class="blog-meta">{post.date} • By {post.author}</div>
-            <h2 class="blog-card-title"><a href={`/blog/${post.slug}`}>{post.title}</a></h2>
+            <div class="blog-meta-row">
+              <span class="meta-date">{post.date}</span>
+              <span class="meta-time">⏱️ {post.readTime}</span>
+            </div>
+            <h2 class="blog-card-title">
+              <a href={`/blog/${post.slug}`}>{post.title}</a>
+            </h2>
             <p class="blog-excerpt">{post.excerpt}</p>
-            <a href={`/blog/${post.slug}`} class="read-more-btn">READ FULL ARTICLE →</a>
+            
+            <div class="blog-footer-row">
+              <span class="author-name">By {post.author}</span>
+              <a href={`/blog/${post.slug}`} class="read-more-btn">READ ARTICLE ➔</a>
+            </div>
           </div>
         </article>
       ))}
@@ -71,32 +89,74 @@ export const POSTS = [
   <Footer />
 
   <style>
-    .page-padding { padding: 4rem 1.25rem; }
+    :global(body.bellavita-page-body) {
+      background-color: #fbf9f5 !important;
+      color: #1a1a1a !important;
+    }
+
+    .page-padding { padding: 4rem 1.25rem 6rem; }
     .blog-hero { text-align: center; margin-bottom: 3.5rem; }
-    
+    .blog-page-title {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #1a1a1a;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.5rem;
+    }
+    .blog-page-sub {
+      color: #666666;
+      font-size: 0.95rem;
+    }
+
     .blog-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2rem;
+      gap: 2.25rem;
     }
     .blog-card {
-      border-radius: var(--radius-lg);
+      background: #ffffff;
+      border: 1px solid #e6e0d5;
+      border-radius: var(--radius-md);
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      transition: var(--transition-smooth);
     }
+    .blog-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      border-color: #3b0811;
+    }
+
     .blog-media {
-      height: 200px;
+      position: relative;
+      height: 220px;
       overflow: hidden;
+      background: #f3eee7;
     }
     .blog-media img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: var(--transition-smooth);
+      transition: transform 0.4s ease;
     }
     .blog-card:hover .blog-media img {
       transform: scale(1.06);
+    }
+
+    .blog-cat-badge {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: #3b0811;
+      color: #ffffff;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      letter-spacing: 0.08em;
+      z-index: 2;
     }
 
     .blog-body {
@@ -105,32 +165,52 @@ export const POSTS = [
       flex-direction: column;
       flex-grow: 1;
     }
-    .blog-meta {
-      font-size: 0.75rem;
-      color: var(--accent-gold);
-      margin-bottom: 0.5rem;
+    .blog-meta-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: #888888;
+      margin-bottom: 0.6rem;
+      font-weight: 600;
     }
+
     .blog-card-title {
+      font-family: var(--font-display);
       font-size: 1.15rem;
+      font-weight: 700;
       line-height: 1.35;
-      color: #fff;
+      color: #1a1a1a;
       margin-bottom: 0.75rem;
     }
     .blog-card-title a:hover {
-      color: var(--accent-gold);
+      color: #3b0811;
     }
+
     .blog-excerpt {
       font-size: 0.88rem;
-      color: var(--text-secondary);
+      color: #555555;
       line-height: 1.6;
-      margin-bottom: 1.25rem;
-      flex-grow: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    .blog-footer-row {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #e6e0d5;
+      padding-top: 1rem;
+    }
+    .author-name {
+      font-size: 0.78rem;
+      color: #666666;
+      font-weight: 700;
     }
     .read-more-btn {
       font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--accent-amber);
-      letter-spacing: 0.05em;
+      font-weight: 800;
+      color: #3b0811;
+      letter-spacing: 0.04em;
     }
   </style>
 

@@ -12,32 +12,67 @@ import '../styles/global.css';
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Terms & Conditions | AKS Aeromodels</title>
 </head>
-<body>
+<body class="bellavita-page-body">
   <Header />
-  <main class="container page-padding">
-    <div class="glass-panel policy-box">
-      <h1>TERMS & CONDITIONS</h1>
+  <main class="container page-padding reveal-on-scroll">
+    <div class="policy-box">
+      <h1 class="policy-title">TERMS & CONDITIONS</h1>
       <p class="updated">Last updated: August 2026</p>
       
-      <section>
-        <h2>1. Aeromodelling Safety & Compliance</h2>
-        <p>Purchasers are responsible for operating radio-controlled aircraft and internal combustion engines in accordance with local aviation safety regulations and field safety guidelines.</p>
+      <section class="policy-section">
+        <h2 class="policy-heading">1. Aeromodelling Safety & Compliance</h2>
+        <p>Purchasers are responsible for operating radio-controlled aircraft, internal combustion glow engines, and petrol engines in accordance with local DGCA aviation safety regulations and AMA field safety guidelines.</p>
       </section>
 
-      <section>
-        <h2>2. Shipping & Freight Insurance</h2>
-        <p>All airframes (especially giant ARF models and fragile balsa sheets) are packed using multi-layer protective packaging. Transit damage claims must be notified within 24 hours of delivery with unboxing video proof.</p>
+      <section class="policy-section">
+        <h2 class="policy-heading">2. Shipping & Insured Freight Coverage</h2>
+        <p>All airframes (especially giant ARF models and fragile balsa wood sheets) are packed using multi-layer reinforced protective packaging. Transit damage claims must be notified within 24 hours of delivery with unboxing video proof.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2 class="policy-heading">3. Warranty & Manufacturer Support</h2>
+        <p>All O.S. Max Glow Engines, DLE Gas Engines, and Futaba Radio Equipment sold on AKS Aeromodels come with an official 1-year manufacturer defect warranty and factory inspection support.</p>
       </section>
     </div>
   </main>
   <CartDrawer />
   <Footer />
+
   <style>
-    .page-padding { padding: 4rem 1.25rem; }
-    .policy-box { padding: 3rem; border-radius: var(--radius-lg); max-width: 900px; margin: 0 auto; line-height: 1.8; color: var(--text-secondary); }
-    .policy-box h1 { color: #fff; margin-bottom: 0.5rem; }
-    .updated { font-size: 0.8rem; color: var(--accent-gold); margin-bottom: 2rem; }
-    .policy-box h2 { color: #fff; font-size: 1.2rem; margin: 1.5rem 0 0.5rem; }
+    :global(body.bellavita-page-body) {
+      background-color: #fbf9f5 !important;
+      color: #1a1a1a !important;
+    }
+    .page-padding { padding: 4rem 1.25rem 6rem; }
+    .policy-box {
+      background: #ffffff;
+      border: 1px solid #e6e0d5;
+      padding: 3rem;
+      border-radius: var(--radius-md);
+      max-width: 900px;
+      margin: 0 auto;
+      line-height: 1.8;
+      color: #333333;
+    }
+    .policy-title {
+      font-family: var(--font-display);
+      color: #3b0811;
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.3rem;
+    }
+    .updated { font-size: 0.85rem; color: #888888; margin-bottom: 2rem; font-weight: 600; }
+    .policy-section { margin-bottom: 1.75rem; }
+    .policy-heading {
+      font-family: var(--font-display);
+      color: #1a1a1a;
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      border-bottom: 1px solid #e6e0d5;
+      padding-bottom: 0.4rem;
+    }
+    .policy-section p { font-size: 0.95rem; color: #555555; }
   </style>
 </body>
 </html>
