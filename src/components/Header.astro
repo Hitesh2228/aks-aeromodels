@@ -39,7 +39,7 @@ import LoginModal from './LoginModal.astro';
 
     <!-- Center: Brand Logo -->
     <a href="/" class="brand-logo">
-      <span class="brand-name">AKS AEROMODELS</span>
+      <span class="brand-name">SKYNODESUAV</span>
     </a>
 
     <!-- Right: User Account & Cart (Line Art Icons) -->
@@ -421,15 +421,15 @@ import LoginModal from './LoginModal.astro';
     const accountBtn = document.getElementById('header-account-btn');
     const accountLabel = document.getElementById('header-account-label');
 
-    const isLoggedIn = localStorage.getItem('aks_pilot_logged_in') === 'true';
-    const pilotName = localStorage.getItem('aks_pilot_name');
+    const isLoggedIn = localStorage.getItem('skynodes_pilot_logged_in') === 'true' || localStorage.getItem('aks_pilot_logged_in') === 'true';
+    const pilotName = localStorage.getItem('skynodes_pilot_name') || localStorage.getItem('aks_pilot_name');
 
     if (isLoggedIn && pilotName && accountLabel) {
       accountLabel.textContent = pilotName.split(' ')[0].toUpperCase();
     }
 
     accountBtn?.addEventListener('click', (e) => {
-      const loggedIn = localStorage.getItem('aks_pilot_logged_in') === 'true';
+      const loggedIn = localStorage.getItem('skynodes_pilot_logged_in') === 'true' || localStorage.getItem('aks_pilot_logged_in') === 'true';
       if (!loggedIn) {
         e.preventDefault();
         window.dispatchEvent(new CustomEvent('open-login-modal'));

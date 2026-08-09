@@ -16,8 +16,8 @@ const grandTotal = subtotal + gstTax;
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Official Tax Invoice Bill | AKS Aeromodels</title>
-  <meta name="description" content="View and print your official tax invoice bill for your AKS Aeromodels flight order." />
+  <title>Official Tax Invoice Bill | SKYNODESUAV</title>
+  <meta name="description" content="View and print your official tax invoice bill for your SKYNODESUAV flight order." />
 </head>
 <body class="bellavita-page-body">
 
@@ -42,42 +42,31 @@ const grandTotal = subtotal + gstTax;
         <!-- Header -->
         <div class="inv-header">
           <div>
-            <h1 class="inv-company-name">AKS AEROMODELS INDIA</h1>
-            <p class="inv-company-sub">Official Flight & Aeromodelling Distribution</p>
-            <p class="inv-company-addr">Devlali camp, near HP petrol pump, Maharashtra, India 422 502</p>
-            <p class="inv-company-gst"><strong>GSTIN:</strong> 27AAAAA0000A1Z5 | <strong>CIN:</strong> U74999MH2026PTC10982</p>
+            <h1 class="inv-company-name">SKYNODESUAV INDIA</h1>
+            <p class="inv-subtitle">Authorized Distributor of O.S. Engines, Futaba, DLE & Seagull Models</p>
+            <p class="inv-address">Plot No. 417, Udyog Vihar Phase III, Gurgaon, Haryana 122016 • GSTIN: 07AAAAA0000A1Z5</p>
           </div>
-          <div class="inv-meta-right">
-            <span class="inv-badge">TAX INVOICE</span>
-            <div class="inv-num-box">
-              <span class="lbl">INVOICE NO:</span>
-              <strong class="val">#AKS-INV-2026-9842</strong>
-            </div>
-            <div class="inv-num-box">
-              <span class="lbl">DATE:</span>
-              <span class="val">09 Aug 2026</span>
-            </div>
-            <div class="inv-num-box">
-              <span class="lbl">PAYMENT METHOD:</span>
-              <span class="val">Prepaid (UPI / Card)</span>
-            </div>
+          <div class="inv-meta-box">
+            <h2 class="inv-title">TAX INVOICE</h2>
+            <p class="inv-meta-row"><span>Invoice No:</span> <strong class="val">#SKY-INV-2026-9842</strong></p>
+            <p class="inv-meta-row"><span>Date:</span> <strong class="val" id="inv-date">09 Aug 2026</strong></p>
+            <p class="inv-meta-row"><span>Payment Status:</span> <strong class="val status-paid">PAID (ONLINE)</strong></p>
           </div>
         </div>
 
         <hr class="inv-divider" />
 
         <!-- Bill To & Ship To -->
-        <div class="inv-addresses-grid">
-          <div class="inv-address-box">
-            <h3 class="box-title">BILLED TO (CUSTOMER):</h3>
-            <strong>Capt. Hitesh Pilot</strong>
-            <p>Devlali Camp, Nashik, Maharashtra 422 502</p>
-            <p><strong>Phone:</strong> +91 77220 09120</p>
-            <p><strong>Email:</strong> hitesh.aeromodels@gmail.com</p>
+        <div class="inv-parties-grid">
+          <div class="party-box">
+            <h3>Billed To (Customer):</h3>
+            <p><strong id="inv-cust-name">Capt. Hitesh Aeromodel Pilot</strong></p>
+            <p id="inv-cust-address">Devlali Camp, Near HP Petrol Pump, Nashik, Maharashtra 422502</p>
+            <p id="inv-cust-phone">Phone: +91-7722009120</p>
           </div>
-          <div class="inv-address-box">
-            <h3 class="box-title">DISPATCH LOCATION:</h3>
-            <strong>AKS Aeromodels Central Hub</strong>
+          <div class="party-box">
+            <h3>Supplier / Dispatch Location:</h3>
+            <p><strong>SKYNODESUAV Central Hub</strong></p>
             <p>Devlali camp, near HP petrol pump, Maharashtra, India 422 502</p>
             <p><strong>Courier:</strong> Insured Air Freight Express</p>
             <p><strong>Tracking AWB:</strong> #AWB-9871029412</p>
@@ -119,8 +108,8 @@ const grandTotal = subtotal + gstTax;
             <strong>Terms & Guarantee:</strong>
             <ul>
               <li>All engines include 1-Year Official Manufacturer Defect Warranty.</li>
-              <li>Includes 100% Transit Damage Coverage by AKS Aeromodels.</li>
-              <li>Computer generated invoice — No signature required.</li>
+              <li>Includes 100% Transit Damage Coverage by SKYNODESUAV.</li>
+              <li>Official 1-Year Manufacturer Warranty included.</li>
             </ul>
           </div>
 
@@ -139,7 +128,7 @@ const grandTotal = subtotal + gstTax;
         <!-- Footer Stamp -->
         <div class="inv-footer-stamp">
           <div class="stamp-badge">STAMP VERIFIED</div>
-          <p>Thank you for flying with AKS Aeromodels India!</p>
+          <p>Thank you for flying with SKYNODESUAV India!</p>
         </div>
 
       </div>

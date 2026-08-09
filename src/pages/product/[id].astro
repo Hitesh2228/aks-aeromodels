@@ -27,7 +27,7 @@ const pairedProducts = PRODUCTS
   .filter(p => p.category !== product.category)
   .slice(0, 4);
 
-const pageTitle = `${product.name} - Buy Online at Best Price in India | AKS Aeromodels`;
+const pageTitle = `${product.name} - Buy Online at Best Price in India | SKYNODESUAV`;
 const metaDescription = `${product.description} Buy ${product.name} online for ₹${product.price.toLocaleString('en-IN')}. Original factory warranty & fast shipping across India.`;
 const canonicalUrl = `https://aks-aeromodels.com/product/${product.id}`;
 const shopifyCheckoutLink = buildShopifyCheckoutUrl([{ product, quantity: 1 }]);
@@ -58,30 +58,30 @@ const usageLocations = [
   { title: "Pylon Racing", icon: "🏁" }
 ];
 
-// Structured Data: Schema.org Product & Breadcrumbs
+// Structured Data (JSON-LD Product Schema for SEO & Rich Results)
 const productSchema = {
   "@context": "https://schema.org/",
   "@type": "Product",
   "name": product.name,
   "image": [product.image],
-  "description": product.description,
+  "description": product.shortDesc,
   "sku": product.id,
-  "mpn": product.id.toUpperCase(),
+  "mpn": product.id,
   "brand": {
     "@type": "Brand",
-    "name": product.categoryLabel === 'Seagull Aeromodels' ? 'Seagull Models' : 'AKS Aeromodels'
+    "name": product.categoryLabel === 'Seagull Aeromodels' ? 'Seagull Models' : 'SKYNODESUAV'
   },
   "offers": {
     "@type": "Offer",
     "url": canonicalUrl,
     "priceCurrency": "INR",
     "price": product.price,
-    "priceValidUntil": "2027-12-31",
+    "priceValidUntil": "2026-12-31",
     "itemCondition": "https://schema.org/NewCondition",
     "availability": product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
     "seller": {
       "@type": "Organization",
-      "name": "AKS Aeromodels"
+      "name": "SKYNODESUAV"
     }
   },
   "aggregateRating": {

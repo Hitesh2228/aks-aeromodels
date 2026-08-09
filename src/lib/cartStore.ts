@@ -6,7 +6,7 @@ export interface CartItemState {
   quantity: number;
 }
 
-const CART_KEY = 'aks_cart_v1';
+const CART_KEY = 'skynodes_cart_v1';
 
 export function getCartFromStorage(): CartItemState[] {
   if (typeof window === 'undefined') return [];

@@ -13,7 +13,7 @@
       <!-- Left Column: Dark Brand & Feature Cards -->
       <div class="modal-left-col">
         <div class="brand-header-wrap">
-          <span class="brand-title-lbl">AKS AEROMODELS</span>
+          <span class="brand-title-lbl">SKYNODESUAV</span>
           <span class="powered-tag">Powered by QuickAuth</span>
         </div>
 
@@ -370,9 +370,9 @@
       const mobileInput = document.getElementById('user-mobile-input') as HTMLInputElement;
       if (mobileInput && mobileInput.value) {
         // Save pilot session
-        localStorage.setItem('aks_pilot_logged_in', 'true');
-        localStorage.setItem('aks_pilot_name', `Pilot +91 ${mobileInput.value}`);
-        localStorage.setItem('aks_pilot_phone', mobileInput.value);
+        localStorage.setItem('skynodes_pilot_logged_in', 'true');
+        localStorage.setItem('skynodes_pilot_name', `Pilot +91 ${mobileInput.value}`);
+        localStorage.setItem('skynodes_pilot_phone', mobileInput.value);
 
         closeModal();
         window.location.href = '/profile';
@@ -381,9 +381,9 @@
 
     // Handle Google 1-Click Login
     googleBtn?.addEventListener('click', () => {
-      localStorage.setItem('aks_pilot_logged_in', 'true');
-      localStorage.setItem('aks_pilot_name', 'Hitesh Aeromodel Pilot');
-      localStorage.setItem('aks_pilot_email', 'hitesh.pilot@gmail.com');
+      localStorage.setItem('skynodes_pilot_logged_in', 'true');
+      localStorage.setItem('skynodes_pilot_name', 'Hitesh Flight Pilot');
+      localStorage.setItem('skynodes_pilot_email', 'hitesh.pilot@skynodesuav.com');
 
       closeModal();
       window.location.href = '/profile';
