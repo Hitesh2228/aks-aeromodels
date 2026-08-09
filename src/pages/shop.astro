@@ -443,6 +443,8 @@ import '../styles/global.css';
       const catBtns = document.querySelectorAll('.cat-filter-btn');
       const priceSlider = document.getElementById('price-slider') as HTMLInputElement;
       const priceLabel = document.getElementById('price-slider-label');
+      const sortSelect = document.getElementById('sort-select') as HTMLSelectElement;
+      const gridContainer = document.getElementById('catalog-products-grid');
       const resultsText = document.getElementById('results-count-text');
 
       let currentCat = 'all';
@@ -457,6 +459,23 @@ import '../styles/global.css';
         catBtns.forEach(btn => {
           btn.classList.toggle('active', btn.getAttribute('data-cat') === currentCat);
         });
+      }
+
+      function sortDOMItems(sortVal: string) {
+        if (!gridContainer) return;
+        const sorted = [...items].sort((a, b) => {
+          const priceA = parseInt(a.getAttribute('data-price') || '0', 10);
+          const priceB = parseInt(b.getAttribute('data-price') || '0', 10);
+          const ratingA = parseFloat(a.getAttribute('data-rating') || '0');
+          const ratingB = parseFloat(b.getAttribute('data-rating') || '0');
+
+          if (sortVal === 'price-low') return priceA - priceB;
+          if (sortVal === 'price-high') return priceB - priceA;
+          if (sortVal === 'rating') return ratingB - ratingA;
+          return 0;
+        });
+
+        sorted.forEach(el => gridContainer.appendChild(el));
       }
 
       function filterAndSort() {
@@ -496,6 +515,11 @@ import '../styles/global.css';
       priceSlider?.addEventListener('input', () => {
         maxPrice = parseInt(priceSlider.value, 10);
         if (priceLabel) priceLabel.textContent = `Max Price: ₹${maxPrice.toLocaleString('en-IN')}`;
+        filterAndSort();
+      });
+
+      sortSelect?.addEventListener('change', () => {
+        sortDOMItems(sortSelect.value);
         filterAndSort();
       });
 

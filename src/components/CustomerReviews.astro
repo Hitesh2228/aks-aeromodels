@@ -1,42 +1,42 @@
 ---
 const REVIEWS = [
   {
-    name: "Sanna Thakur",
-    handle: "@sannathakur_",
-    rating: 5,
-    text: "BELLAVITA / AKS AEROMODELS has raised the bar for the industry. Such good quality at very affordable price",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop"
-  },
-  {
     name: "Capt. Rajesh Sharma",
     handle: "@rajesh_aviator",
     rating: 5,
-    text: "Outstanding quality ARF aircraft and O.S. Nitro engines. Zero transit damage and 100% genuine factory warranty!",
+    text: "AKS AEROMODELS has raised the bar for the aeromodelling industry in India. Outstanding quality ARF aircraft and O.S. Nitro engines with 100% genuine factory warranty!",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop"
   },
   {
     name: "Vikramaditya Rao",
     handle: "@vikram_rc_flier",
     rating: 5,
-    text: "Futaba 6K radio pairing was seamless. High speed response and excellent range telemetry!",
+    text: "Futaba 6K radio pairing was seamless. High speed response, zero signal drop, and telemetry works flawlessly in the field!",
     avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop"
+  },
+  {
+    name: "Sameer Deshmukh",
+    handle: "@sameer_rc_pilot",
+    rating: 5,
+    text: "Ordered the Seagull Extra 330LX ARF. Excellent laser-cut balsa structure and fast dispatch to Nashik in 48 hours!",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop"
   }
 ];
 
 const GALLERY_IMAGES = [
-  "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=400&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1519074069444-1ba4ea16028d?q=80&w=400&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1517976487492-5750f3195933?q=80&w=400&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?q=80&w=400&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=400&auto=format&fit=crop"
+  { url: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=600&auto=format&fit=crop", title: "Scale RC Aerobatics" },
+  { url: "https://images.unsplash.com/photo-1517976487492-5750f3195933?q=80&w=600&auto=format&fit=crop", title: "Turbine Engine Testing" },
+  { url: "https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?q=80&w=600&auto=format&fit=crop", title: "Field Flight Line" },
+  { url: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=600&auto=format&fit=crop", title: "Precision Bench Tuning" },
+  { url: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=600&auto=format&fit=crop", title: "High-Thrust Testing" }
 ];
 ---
 
 <section class="bellavita-reviews-section">
   <div class="container">
-    <h2 class="bellavita-title">WHAT OUR CUSTOMERS HAVE TO SAY</h2>
+    <h2 class="bellavita-title">WHAT OUR PILOTS HAVE TO SAY</h2>
 
-    <!-- Avatar Selection Strip (Bellavita Style) -->
+    <!-- Avatar Selection Strip -->
     <div class="avatars-row">
       {REVIEWS.map((rev, i) => (
         <div class={`avatar-item ${i === 0 ? 'active' : ''}`} data-index={i}>
@@ -48,16 +48,16 @@ const GALLERY_IMAGES = [
     <!-- Active Quote Box -->
     <div class="active-quote-box">
       <div class="stars-gold">★★★★★</div>
-      <p class="quote-text">"{REVIEWS[0].text}"</p>
-      <div class="quote-author">– {REVIEWS[0].name}</div>
-      <div class="quote-handle">{REVIEWS[0].handle}</div>
+      <p class="quote-text" id="quote-text-display">"{REVIEWS[0].text}"</p>
+      <div class="quote-author" id="quote-author-display">– {REVIEWS[0].name}</div>
+      <div class="quote-handle" id="quote-handle-display">{REVIEWS[0].handle}</div>
     </div>
 
-    <!-- Lifestyle 5-Photo Grid (Bellavita Photo Wall) -->
+    <!-- Lifestyle 5-Photo Grid -->
     <div class="lifestyle-photo-grid">
-      {GALLERY_IMAGES.map((imgUrl, i) => (
+      {GALLERY_IMAGES.map((imgObj, i) => (
         <div class="photo-tile">
-          <img src={imgUrl} alt={`Customer Lifestyle ${i+1}`} loading="lazy" />
+          <img src={imgObj.url} alt={`Pilot Gallery - ${imgObj.title}`} loading="lazy" />
         </div>
       ))}
     </div>
@@ -98,7 +98,7 @@ const GALLERY_IMAGES = [
   .avatar-item.active, .avatar-item:hover {
     opacity: 1;
     transform: scale(1.15);
-    border-color: #1a1a1a;
+    border-color: #3b0811;
   }
   .avatar-item img {
     width: 100%;
@@ -110,48 +110,63 @@ const GALLERY_IMAGES = [
     text-align: center;
     max-width: 680px;
     margin: 0 auto 3.5rem;
+    padding: 2rem;
+    background: #ffffff;
+    border: 1px solid #e6e0d5;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
   }
   .stars-gold {
-    color: #eab308;
-    font-size: 1.5rem;
+    color: #f59e0b;
+    font-size: 1.2rem;
     margin-bottom: 0.75rem;
   }
   .quote-text {
-    font-size: 1.05rem;
-    color: #333333;
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-style: italic;
     line-height: 1.6;
-    margin-bottom: 0.75rem;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
   }
   .quote-author {
     font-weight: 800;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: #1a1a1a;
   }
   .quote-handle {
-    font-size: 0.75rem;
-    color: #888888;
+    font-size: 0.8rem;
+    color: #777777;
   }
 
-  /* Photo Grid */
+  /* Lifestyle Photo Grid */
   .lifestyle-photo-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    width: 100%;
+    margin-top: 2rem;
   }
   .photo-tile {
-    height: 220px;
+    position: relative;
+    padding-top: 80%;
     overflow: hidden;
+    border-radius: 8px;
+    background: #e6e0d5;
   }
   .photo-tile img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: var(--transition-smooth);
+    transition: transform 0.4s ease;
   }
   .photo-tile:hover img {
     transform: scale(1.08);
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     .lifestyle-photo-grid {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -159,13 +174,41 @@ const GALLERY_IMAGES = [
 </style>
 
 <script>
-  // Simple review switcher
+  const reviewsData = [
+    {
+      name: "Capt. Rajesh Sharma",
+      handle: "@rajesh_aviator",
+      text: "AKS AEROMODELS has raised the bar for the aeromodelling industry in India. Outstanding quality ARF aircraft and O.S. Nitro engines with 100% genuine factory warranty!"
+    },
+    {
+      name: "Vikramaditya Rao",
+      handle: "@vikram_rc_flier",
+      text: "Futaba 6K radio pairing was seamless. High speed response, zero signal drop, and telemetry works flawlessly in the field!"
+    },
+    {
+      name: "Sameer Deshmukh",
+      handle: "@sameer_rc_pilot",
+      text: "Ordered the Seagull Extra 330LX ARF. Excellent laser-cut balsa structure and fast dispatch to Nashik in 48 hours!"
+    }
+  ];
+
   document.addEventListener('DOMContentLoaded', () => {
-    const avatars = document.querySelectorAll('.avatar-item');
-    avatars.forEach(av => {
-      av.addEventListener('click', () => {
-        avatars.forEach(a => a.classList.remove('active'));
-        av.classList.add('active');
+    const avatarItems = document.querySelectorAll('.avatar-item');
+    const textEl = document.getElementById('quote-text-display');
+    const authorEl = document.getElementById('quote-author-display');
+    const handleEl = document.getElementById('quote-handle-display');
+
+    avatarItems.forEach((item, idx) => {
+      item.addEventListener('click', () => {
+        avatarItems.forEach(a => a.classList.remove('active'));
+        item.classList.add('active');
+
+        const rev = reviewsData[idx];
+        if (rev && textEl && authorEl && handleEl) {
+          textEl.textContent = `"${rev.text}"`;
+          authorEl.textContent = `– ${rev.name}`;
+          handleEl.textContent = rev.handle;
+        }
       });
     });
   });

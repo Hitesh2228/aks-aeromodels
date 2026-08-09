@@ -6,7 +6,10 @@
   <div class="container announcement-content">
     <div class="ticker-left">‹</div>
     <div class="promo-ticker">
-      <span>⏳ <strong>Lowest Prices of the Year</strong> — Limited Time Only</span>
+      <span class="ticker-text">
+        <svg class="line-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <strong>Lowest Prices of the Year</strong> — Limited Time Only
+      </span>
     </div>
     <div class="ticker-right">›</div>
   </div>
@@ -16,10 +19,13 @@
 <header class="main-header sticky-top">
   <div class="container header-grid">
     
-    <!-- Left: Search Bar -->
+    <!-- Left: Search Bar with Line Art SVG Icon -->
     <div class="header-search">
       <form action="/shop" method="GET" class="search-form">
-        <span class="search-icon">🔍</span>
+        <svg class="search-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
         <input 
           type="text" 
           name="q" 
@@ -35,33 +41,37 @@
       <span class="brand-name">AKS AEROMODELS</span>
     </a>
 
-    <!-- Right: User Account & Cart -->
+    <!-- Right: User Account & Cart (Line Art Icons) -->
     <div class="header-actions">
-      <a href="/contact" class="action-icon" title="Account & Support">
-        👤
+      <a href="/contact" class="action-icon" title="Account & Support" aria-label="Account">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
       </a>
       <button id="cart-drawer-trigger" class="cart-icon-btn" aria-label="Open Cart">
-        🛍️ <span class="cart-badge" id="cart-count-badge">0</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span class="cart-badge" id="cart-count-badge">0</span>
       </button>
     </div>
   </div>
 
-  <!-- Category Nav Strip (Bellavita Category Links) -->
+  <!-- Category Nav Strip (Clean Luxury Navigation Links) -->
   <nav class="nav-strip">
     <div class="container nav-links">
-      <a href="/aircrafts" class="nav-item highlight" style="color: #06b6d4;">3D SHOWCASE ✈️</a>
-      <a href="/flight-simulator" class="nav-item highlight" style="color: #ff007f;">FLIGHT SIM 🕹️</a>
-      <a href="/pro-experience" class="nav-item highlight" style="color: #00f2fe;">PRO VISION 🍎</a>
-      <a href="/plane-explorer" class="nav-item highlight" style="color: #eab308;">PART EXPLORER 🧩</a>
-      <a href="/shop?category=all" class="nav-item highlight">CRAZY DEALS</a>
       <a href="/shop?category=all" class="nav-item">SHOP ALL</a>
+      <a href="/shop?category=all" class="nav-item highlight">CRAZY DEALS</a>
       <a href="/shop?category=all" class="nav-item">BESTSELLERS</a>
       <a href="/shop?category=engine" class="nav-item">ENGINES</a>
       <a href="/shop?category=aeromodels" class="nav-item">AEROMODELS</a>
       <a href="/shop?category=radio-receiver" class="nav-item">RADIOS & RECEIVERS</a>
-      <a href="/shop?category=all" class="nav-item">NEW ARRIVALS</a>
       <a href="/shop?category=balsa-wood" class="nav-item">BALSA WOOD</a>
       <a href="/shop?category=accessories" class="nav-item">ACCESSORIES</a>
+      <a href="/aircrafts" class="nav-item showcase-link">3D SHOWCASE ✈️</a>
     </div>
   </nav>
 
@@ -99,54 +109,63 @@
     font-size: 1rem;
     cursor: pointer;
   }
-  .promo-ticker {
-    font-weight: 500;
-    letter-spacing: 0.03em;
+  .ticker-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .line-icon {
+    display: inline-block;
+    vertical-align: middle;
   }
 
   /* Main Header */
+  .main-header {
+    background: #ffffff;
+    border-bottom: 1px solid var(--border-subtle);
+  }
   .sticky-top {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: #ffffff;
-    border-bottom: 1px solid var(--border-subtle);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
   }
   .header-grid {
-    display: flex;
+    display: grid;
+    grid-template-columns: 280px 1fr 280px;
     align-items: center;
-    justify-content: space-between;
-    padding: 0.85rem 1.25rem;
-    gap: 1rem;
+    padding: 1rem 1.25rem;
   }
 
   /* Search */
   .header-search {
-    flex: 1;
-    max-width: 280px;
+    position: relative;
   }
   .search-form {
     display: flex;
     align-items: center;
-    border-bottom: 1.5px solid #1a1a1a;
-    padding-bottom: 0.25rem;
-    gap: 0.4rem;
+    position: relative;
   }
-  .search-icon {
-    font-size: 0.9rem;
-    color: #666666;
+  .search-svg {
+    position: absolute;
+    left: 0;
+    pointer-events: none;
   }
   .search-input {
     width: 100%;
     border: none;
-    outline: none;
+    border-bottom: 1px solid #cccccc;
+    padding: 0.4rem 0.5rem 0.4rem 1.75rem;
     font-size: 0.85rem;
-    color: var(--text-primary);
     background: transparent;
+    outline: none;
+    transition: var(--transition-fast);
+  }
+  .search-input:focus {
+    border-bottom-color: #3b0811;
   }
 
-  /* Brand Logo */
+  /* Logo */
   .brand-logo {
     text-align: center;
   }
@@ -161,29 +180,36 @@
   /* Actions */
   .header-actions {
     display: flex;
-    align-items: center;
-    gap: 1.25rem;
-    flex: 1;
     justify-content: flex-end;
+    align-items: center;
+    gap: 1.5rem;
   }
   .action-icon {
-    font-size: 1.2rem;
-    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-fast);
+  }
+  .action-icon:hover {
+    transform: translateY(-1px);
   }
   .cart-icon-btn {
     position: relative;
-    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
   }
   .cart-badge {
     position: absolute;
     top: -6px;
-    right: -10px;
-    background: #1a1a1a;
+    right: -8px;
+    background: #3b0811;
     color: #ffffff;
     font-size: 0.65rem;
     font-weight: 800;
-    width: 18px;
-    height: 18px;
+    width: 17px;
+    height: 17px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -192,46 +218,50 @@
 
   /* Nav Strip */
   .nav-strip {
+    background: #fbf9f5;
     border-top: 1px solid var(--border-subtle);
     border-bottom: 1px solid var(--border-subtle);
-    background: #ffffff;
+    padding: 0.65rem 0;
   }
   .nav-links {
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     gap: 1.75rem;
-    overflow-x: auto;
-    white-space: nowrap;
-    padding: 0.65rem 1.25rem;
-    scrollbar-width: none;
+    flex-wrap: wrap;
   }
   .nav-item {
-    font-size: 0.78rem;
+    font-family: var(--font-main);
+    font-size: 0.8rem;
     font-weight: 700;
-    color: #333333;
     letter-spacing: 0.06em;
+    color: #333333;
     transition: var(--transition-fast);
   }
   .nav-item:hover {
-    color: var(--accent-burgundy);
+    color: #3b0811;
+  }
+  .nav-item.highlight {
+    color: #e11d48;
+  }
+  .showcase-link {
+    color: #06b6d4 !important;
   }
 
-  /* Sub Ticker Countdown */
+  /* Sub Ticker */
   .sub-ticker-strip {
-    background: #111111;
+    background: #3b0811;
     color: #ffffff;
-    padding: 0.4rem 0;
     font-size: 0.78rem;
+    padding: 0.3rem 0;
   }
   .sub-ticker-flex {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 1.5rem;
   }
   .yellow-dot {
-    color: #eab308;
+    color: #f59e0b;
     margin-right: 0.3rem;
   }
   .countdown-widget {
@@ -241,54 +271,20 @@
     font-weight: 700;
   }
   .time-box {
-    font-family: var(--font-display);
-    font-size: 0.9rem;
-    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
   }
-  .countdown-widget small {
-    color: #aaaaaa;
-    font-weight: 400;
-    font-size: 0.7rem;
-    margin-right: 0.3rem;
+
+  @media (max-width: 900px) {
+    .header-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .header-search {
+      grid-column: 1 / -1;
+      order: 3;
+      margin-top: 0.5rem;
+    }
   }
 </style>
-
-<script>
-  import { getCartFromStorage, openCartDrawer } from '../lib/cartStore';
-
-  function updateBadge() {
-    const items = getCartFromStorage();
-    const count = items.reduce((acc, cur) => acc + cur.quantity, 0);
-    const badge = document.getElementById('cart-count-badge');
-    if (badge) badge.textContent = count.toString();
-  }
-
-  function startTimer() {
-    let seconds = 31339;
-    setInterval(() => {
-      seconds--;
-      if (seconds <= 0) seconds = 86400;
-      const d = Math.floor(seconds / 86400);
-      const h = Math.floor((seconds % 86400) / 3600);
-      const m = Math.floor((seconds % 3600) / 60);
-      const s = seconds % 60;
-      
-      const hEl = document.getElementById('hours');
-      const mEl = document.getElementById('mins');
-      const sEl = document.getElementById('secs');
-      const tickEl = document.getElementById('sec-ticks');
-      
-      if (hEl) hEl.textContent = d.toString().padStart(2, '0');
-      if (mEl) mEl.textContent = h.toString().padStart(2, '0');
-      if (sEl) sEl.textContent = m.toString().padStart(2, '0');
-      if (tickEl) tickEl.textContent = s.toString().padStart(2, '0');
-    }, 1000);
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    updateBadge();
-    startTimer();
-    window.addEventListener('cart-updated', updateBadge);
-    document.getElementById('cart-drawer-trigger')?.addEventListener('click', openCartDrawer);
-  });
-</script>
