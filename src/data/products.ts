@@ -84,7 +84,7 @@ export const PRODUCTS: Product[] = [
     rating: 5.0,
     reviewsCount: 185,
     isBestseller: true,
-    image: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=800&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop',
     description: 'Massive 65cc single cylinder 2-stroke gas engine with electronic CDI ignition. Perfect power plant for 85-92" 3D aerobatic giant scale aircraft.',
     specs: { Displacement: '65 cc', Output: '8.5 HP @ 8,500 RPM', Weight: '1450g', Fuel: 'Unleaded Petrol + 2T Oil' },
     inStock: true
@@ -100,7 +100,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.8,
     reviewsCount: 110,
     isNewArrival: true,
-    image: 'https://images.unsplash.com/photo-1508873696983-2df515122519?q=80&w=800&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800&auto=format&fit=crop',
     description: 'Compact 20cc petrol engine replacing 0.90-1.20 glow engines with massive fuel savings and effortless starting.',
     specs: { Displacement: '20 cc', Output: '2.5 HP @ 9,000 RPM', Weight: '820g', Fuel: 'Gasoline 30:1' },
     inStock: true
@@ -260,7 +260,7 @@ export const PRODUCTS: Product[] = [
     discountBadge: '17% OFF',
     rating: 4.9,
     reviewsCount: 205,
-    image: 'https://images.unsplash.com/photo-1508873696983-2df515122519?q=80&w=800&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop',
     description: 'Classic high-wing trainer aircraft engineered for effortless assembly, high lift airfoil, and stable slow-flight landing.',
     specs: { Wingspan: '63 in (160 cm)', Engine: '.46 Glow Engine', Construction: 'Laser Cut Balsa', Weight: '2.7 kg' },
     inStock: true
@@ -525,7 +525,7 @@ export const PRODUCTS: Product[] = [
     discountBadge: '23% OFF',
     rating: 4.8,
     reviewsCount: 145,
-    image: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=800&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop',
     description: 'High flow aluminum geared rotary hand pump with fuel-proof silicone seals for rapid tank filling.',
     specs: { Flow: 'Direct Gear Drive', Compatibility: 'Nitro & Gasoline', Material: 'CNC Aluminum' },
     inStock: true
@@ -556,7 +556,7 @@ export const PRODUCTS: Product[] = [
     discountBadge: '25% OFF',
     rating: 4.8,
     reviewsCount: 290,
-    image: 'https://images.unsplash.com/photo-1508873696983-2df515122519?q=80&w=800&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop',
     description: 'Heavy duty lock-on ignitor connector with anodized aluminum body accepting standard C-cell battery.',
     specs: { Casing: 'Anodized Red', Battery: 'Takes 1x C-Cell 1.5V', Lock: 'Spring Steel Claw' },
     inStock: true
@@ -601,7 +601,7 @@ export const PRODUCTS: Product[] = [
     discountBadge: '20% OFF',
     rating: 4.8,
     reviewsCount: 65,
-    image: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=800&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop',
     description: 'CNC machined steel propeller drill jig for perfect bolt circle alignment on 30-55cc gas engines.',
     specs: { Pattern: '30-55cc Engine Hubs', Material: 'Hardened Steel', 'Drill Bit': '5mm Included' },
     inStock: true
@@ -616,7 +616,7 @@ export const PRODUCTS: Product[] = [
     discountBadge: '21% OFF',
     rating: 4.9,
     reviewsCount: 40,
-    image: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=800&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop',
     description: 'Giant scale propeller drilling fixture for 100-150cc twin and quad cylinder gas engines.',
     specs: { Pattern: '110-150cc Hub Pattern', Precision: '+/- 0.05mm CNC', Material: 'Tool Steel' },
     inStock: true
@@ -679,7 +679,7 @@ export const PRODUCTS: Product[] = [
     rating: 5.0,
     reviewsCount: 520,
     isBestseller: true,
-    image: 'https://images.unsplash.com/photo-1508873696983-2df515122519?q=80&w=800&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop',
     description: 'The gold standard glow plug for all 2-stroke nitro airplane engines (.12 to .61 size).',
     specs: { 'Heat Range': 'Medium Hot', Type: 'Standard 2-Stroke', Threads: '1/4-32 UNEF' },
     inStock: true
