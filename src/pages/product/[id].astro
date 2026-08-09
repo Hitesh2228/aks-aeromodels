@@ -1175,8 +1175,8 @@ const productSchema = {
         });
       });
 
-      // Add to cart generic buttons
-      document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+      // Add to cart generic buttons (excluding main add button to prevent double addition)
+      document.querySelectorAll('.add-to-cart-btn:not(#pdp-main-add-btn)').forEach(btn => {
         btn.addEventListener('click', (e) => {
           const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
           if (id) addToCart(id, 1);
