@@ -35,15 +35,21 @@ const NOTES = [
   <div class="container">
     <h2 class="bellavita-title">SHOP BY SPECIFICATIONS</h2>
 
-    <div class="notes-icons-grid">
-      {NOTES.map(note => (
-        <a href="/shop" class="note-item">
-          <div class="note-circle">
-            <Fragment set:html={note.svg} />
-          </div>
-          <span class="note-label">{note.label}</span>
-        </a>
-      ))}
+    <div class="slider-wrapper-relative">
+      <button class="slider-arrow prev-btn" id="notes-slider-prev" aria-label="Previous Category">‹</button>
+
+      <div class="notes-icons-grid" id="notes-slider-container">
+        {NOTES.map(note => (
+          <a href="/shop" class="note-item">
+            <div class="note-circle">
+              <Fragment set:html={note.svg} />
+            </div>
+            <span class="note-label">{note.label}</span>
+          </a>
+        ))}
+      </div>
+
+      <button class="slider-arrow next-btn" id="notes-slider-next" aria-label="Next Category">›</button>
     </div>
   </div>
 </section>
@@ -63,18 +69,61 @@ const NOTES = [
     color: #1a1a1a;
   }
 
+  .slider-wrapper-relative {
+    position: relative;
+    width: 100%;
+  }
+
+  .slider-arrow {
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1.5px solid #1a1a1a;
+    border-radius: 50%;
+    color: #1a1a1a;
+    font-size: 1.4rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+    transition: all 0.25s ease;
+  }
+  .slider-arrow:hover {
+    background: #1a1a1a;
+    color: #ffffff;
+  }
+  .slider-arrow.prev-btn { left: -14px; }
+  .slider-arrow.next-btn { right: -14px; }
+
   .notes-icons-grid {
     display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 2rem;
+    padding: 0.5rem 0.25rem 1rem;
     justify-content: center;
-    align-items: center;
-    gap: 2.5rem;
-    flex-wrap: wrap;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
   }
+  .notes-icons-grid::-webkit-scrollbar {
+    display: none;
+  }
+
   .note-item {
+    flex: 0 0 90px;
+    scroll-snap-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.75rem;
+    text-decoration: none;
     transition: var(--transition-smooth);
   }
   .note-item:hover {
@@ -101,41 +150,46 @@ const NOTES = [
     font-weight: 700;
     letter-spacing: 0.06em;
     color: #1a1a1a;
+    text-align: center;
   }
 
   @media (max-width: 768px) {
-    .bellavita-notes-section {
-      padding: 2rem 0;
-    }
-    .bellavita-title {
-      font-size: 1.2rem;
-      margin-bottom: 1.25rem;
-    }
+    .bellavita-notes-section { padding: 2rem 0; }
+    .bellavita-title { font-size: 1.2rem; margin-bottom: 1.25rem; }
+
+    .slider-arrow.prev-btn { left: 2px; width: 32px; height: 32px; font-size: 1.1rem; }
+    .slider-arrow.next-btn { right: 2px; width: 32px; height: 32px; font-size: 1.1rem; }
+
     .notes-icons-grid {
-      display: flex !important;
-      overflow-x: auto !important;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      gap: 1.25rem;
-      padding: 0.25rem 0.85rem 0.75rem;
-      margin: 0 -0.85rem;
       justify-content: flex-start;
-      scrollbar-width: none;
-    }
-    .notes-icons-grid::-webkit-scrollbar {
-      display: none;
+      gap: 1.25rem;
+      padding: 0.25rem 0.5rem 0.75rem;
     }
     .note-item {
-      flex: 0 0 82px;
-      scroll-snap-align: center;
+      flex: 0 0 78px;
     }
     .note-circle {
-      width: 64px;
-      height: 64px;
+      width: 60px;
+      height: 60px;
     }
     .note-label {
       font-size: 0.68rem;
-      text-align: center;
     }
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const prevBtn = document.getElementById('notes-slider-prev');
+    const nextBtn = document.getElementById('notes-slider-next');
+    const container = document.getElementById('notes-slider-container');
+
+    prevBtn?.addEventListener('click', () => {
+      container?.scrollBy({ left: -200, behavior: 'smooth' });
+    });
+
+    nextBtn?.addEventListener('click', () => {
+      container?.scrollBy({ left: 200, behavior: 'smooth' });
+    });
+  });
+</script>

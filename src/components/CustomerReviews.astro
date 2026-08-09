@@ -30,27 +30,33 @@ const REVIEWS = [
   <div class="container">
     <h2 class="bellavita-title">WHAT OUR PILOTS HAVE TO SAY</h2>
 
-    <!-- Avatar Selection Strip -->
-    <div class="avatars-row">
-      {REVIEWS.map((rev, i) => (
-        <div class={`avatar-item ${i === 0 ? 'active' : ''}`} data-index={i}>
-          <img src={rev.avatar} alt={rev.name} />
-        </div>
-      ))}
-    </div>
+    <div class="slider-wrapper-relative">
+      <button class="slider-arrow prev-btn" id="reviews-slider-prev" aria-label="Previous Testimonial">‹</button>
 
-    <!-- Active Quote Box -->
-    <div class="active-quote-box">
-      <div class="stars-gold">★★★★★</div>
-      <p class="quote-text" id="quote-text-display">"{REVIEWS[0].text}"</p>
-      <div class="quote-author" id="quote-author-display">– {REVIEWS[0].name}</div>
-      <div class="quote-handle" id="quote-handle-display">{REVIEWS[0].handle}</div>
+      <!-- Avatar Selection Strip -->
+      <div class="avatars-row">
+        {REVIEWS.map((rev, i) => (
+          <div class={`avatar-item ${i === 0 ? 'active' : ''}`} data-index={i}>
+            <img src={rev.avatar} alt={rev.name} />
+          </div>
+        ))}
+      </div>
+
+      <!-- Active Quote Box -->
+      <div class="active-quote-box">
+        <div class="stars-gold">★★★★★</div>
+        <p class="quote-text" id="quote-text-display">"{REVIEWS[0].text}"</p>
+        <div class="quote-author" id="quote-author-display">– {REVIEWS[0].name}</div>
+        <div class="quote-handle" id="quote-handle-display">{REVIEWS[0].handle}</div>
+      </div>
+
+      <button class="slider-arrow next-btn" id="reviews-slider-next" aria-label="Next Testimonial">›</button>
     </div>
 
   </div>
 </section>
 
-<!-- Frequently Asked Questions Section (Replaces 5-Photo Grid as requested) -->
+<!-- Frequently Asked Questions Section -->
 <FAQ />
 
 <style>
@@ -66,6 +72,39 @@ const REVIEWS = [
     margin-bottom: 2rem;
     color: #1a1a1a;
   }
+
+  .slider-wrapper-relative {
+    position: relative;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .slider-arrow {
+    position: absolute;
+    top: 55%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1.5px solid #1a1a1a;
+    border-radius: 50%;
+    color: #1a1a1a;
+    font-size: 1.5rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    transition: all 0.25s ease;
+  }
+  .slider-arrow:hover {
+    background: #1a1a1a;
+    color: #ffffff;
+  }
+  .slider-arrow.prev-btn { left: -20px; }
+  .slider-arrow.next-btn { right: -20px; }
 
   .avatars-row {
     display: flex;
@@ -128,28 +167,16 @@ const REVIEWS = [
   }
 
   @media (max-width: 768px) {
-    .bellavita-reviews-section {
-      padding: 2rem 0 1rem;
-    }
-    .bellavita-title {
-      font-size: 1.2rem;
-      margin-bottom: 1.25rem;
-    }
-    .avatars-row {
-      gap: 1rem;
-      margin-bottom: 1.25rem;
-    }
-    .avatar-item {
-      width: 52px;
-      height: 52px;
-    }
-    .active-quote-box {
-      padding: 1.25rem 1rem;
-    }
-    .quote-text {
-      font-size: 0.95rem;
-      margin-bottom: 0.75rem;
-    }
+    .bellavita-reviews-section { padding: 2rem 0 1rem; }
+    .bellavita-title { font-size: 1.2rem; margin-bottom: 1.25rem; }
+
+    .slider-arrow.prev-btn { left: -8px; width: 34px; height: 34px; font-size: 1.2rem; }
+    .slider-arrow.next-btn { right: -8px; width: 34px; height: 34px; font-size: 1.2rem; }
+
+    .avatars-row { gap: 1rem; margin-bottom: 1.25rem; }
+    .avatar-item { width: 52px; height: 52px; }
+    .active-quote-box { padding: 1.25rem 1rem; }
+    .quote-text { font-size: 0.95rem; margin-bottom: 0.75rem; }
   }
 </style>
 
@@ -177,6 +204,8 @@ const REVIEWS = [
     const textEl = document.getElementById('quote-text-display');
     const authorEl = document.getElementById('quote-author-display');
     const handleEl = document.getElementById('quote-handle-display');
+    const prevBtn = document.getElementById('reviews-slider-prev');
+    const nextBtn = document.getElementById('reviews-slider-next');
     let currentIndex = 0;
 
     function selectReview(idx: number) {
@@ -196,10 +225,20 @@ const REVIEWS = [
       item.addEventListener('click', () => selectReview(idx));
     });
 
-    // Auto-rotate testimonials slider every 4 seconds
+    prevBtn?.addEventListener('click', () => {
+      const prevIdx = (currentIndex - 1 + reviewsData.length) % reviewsData.length;
+      selectReview(prevIdx);
+    });
+
+    nextBtn?.addEventListener('click', () => {
+      const nextIdx = (currentIndex + 1) % reviewsData.length;
+      selectReview(nextIdx);
+    });
+
+    // Auto-rotate testimonials slider every 4.5 seconds
     setInterval(() => {
       const nextIndex = (currentIndex + 1) % reviewsData.length;
       selectReview(nextIndex);
-    }, 4000);
+    }, 4500);
   });
 </script>
