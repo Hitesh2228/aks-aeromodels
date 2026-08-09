@@ -541,6 +541,7 @@ const productSchema = {
       width: 460px;
       height: 460px;
       overflow: hidden;
+      cursor: zoom-in;
     }
     .pdp-main-img {
       position: absolute;
@@ -548,6 +549,12 @@ const productSchema = {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: center center;
+      will-change: transform, transform-origin;
+    }
+    .pdp-image-stage:hover .pdp-main-img {
+      transform: scale(2.2);
     }
     .pdp-pill-badge {
       position: absolute;
@@ -1110,6 +1117,20 @@ const productSchema = {
       const thumbs = document.querySelectorAll('.thumb-box');
       const stickyBar = document.getElementById('sticky-pdp-bar');
       const variantBtns = document.querySelectorAll('.variant-btn');
+
+      // Mouse move zoom lens effect
+      const stage = document.querySelector('.pdp-image-stage') as HTMLElement;
+      if (stage && mainImg) {
+        stage.addEventListener('mousemove', (e) => {
+          const rect = stage.getBoundingClientRect();
+          const x = ((e.clientX - rect.left) / rect.width) * 100;
+          const y = ((e.clientY - rect.top) / rect.height) * 100;
+          mainImg.style.transformOrigin = `${x}% ${y}%`;
+        });
+        stage.addEventListener('mouseleave', () => {
+          mainImg.style.transformOrigin = 'center center';
+        });
+      }
 
       // Gallery Thumbnails Click
       thumbs.forEach(t => {

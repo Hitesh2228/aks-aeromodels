@@ -12,77 +12,32 @@ import '../styles/global.css';
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shop All Products | AKS Aeromodels</title>
-  <meta name="description" content="Browse 43+ premium RC engines, Futaba transmitters, Seagull aeromodels, balsa wood sheets, and flight accessories." />
+  <meta name="description" content="Browse 43+ premium contest grade RC engines, Futaba transmitters, Seagull aeromodels, balsa wood sheets, and flight accessories." />
 </head>
 <body class="bellavita-shop-body">
 
   <Header />
 
-  <!-- Shop Header Banner -->
-  <div class="bellavita-shop-header">
+  <!-- Breadcrumbs -->
+  <nav class="breadcrumb-strip" aria-label="Breadcrumb">
     <div class="container">
-      <h1 class="shop-page-title">ALL PRODUCTS ({PRODUCTS.length})</h1>
-      <p class="shop-page-subtitle">Explore contest-grade RC engines, transmitters, aeromodels, and balsa wood</p>
+      <a href="/">Home</a> <span>›</span> <span class="active">Shop All Products</span>
     </div>
-  </div>
+  </nav>
 
-  <main class="container shop-layout-container">
+  <main class="container pdf-shop-container reveal-on-scroll">
     
-    <!-- Left Sidebar Filters -->
-    <aside class="shop-filter-sidebar">
-      
-      <!-- Category Filter -->
-      <div class="filter-group">
-        <h3 class="filter-title">CATEGORIES</h3>
-        <ul class="category-filter-list">
-          <li>
-            <button class="cat-filter-btn active" data-cat="all">
-              <span>All Products</span> <strong>({PRODUCTS.length})</strong>
-            </button>
-          </li>
-          {CATEGORIES.map(cat => {
-            const count = PRODUCTS.filter(p => p.category === cat.id).length;
-            return (
-              <li>
-                <button class="cat-filter-btn" data-cat={cat.id}>
-                  <span>{cat.label}</span> <strong>({count})</strong>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+    <!-- Top Title & Sort Action Row -->
+    <div class="shop-title-action-row">
+      <div>
+        <h1 class="shop-pdf-title">Shop All Products</h1>
+        <p class="shop-pdf-count">{PRODUCTS.length} items available in stock</p>
       </div>
 
-      <!-- Price Range Filter -->
-      <div class="filter-group">
-        <h3 class="filter-title">MAX PRICE RANGE</h3>
-        <div class="price-slider-box">
-          <label for="price-slider" id="price-slider-label">Max Price: ₹85,000</label>
-          <input type="range" id="price-slider" min="500" max="85000" step="500" value="85000" class="range-slider" />
-        </div>
-      </div>
-
-      <!-- Stock Availability Filter -->
-      <div class="filter-group">
-        <h3 class="filter-title">AVAILABILITY</h3>
-        <label class="stock-checkbox-label">
-          <input type="checkbox" id="instock-only" checked /> In Stock Only
-        </label>
-      </div>
-    </aside>
-
-    <!-- Main Products Area -->
-    <section class="shop-main-content">
-      
-      <!-- Top Action Bar -->
-      <div class="shop-action-bar">
-        <div class="results-text" id="results-count-text">
-          Showing <strong>{PRODUCTS.length}</strong> items
-        </div>
-
-        <div class="sort-box">
-          <label for="sort-select">Sort By:</label>
-          <select id="sort-select" class="sort-select">
+      <div class="shop-right-actions">
+        <div class="sort-select-wrap">
+          <label for="sort-select" class="sort-lbl">Sort By:</label>
+          <select id="sort-select" class="sort-dropdown">
             <option value="featured">Featured & Bestsellers</option>
             <option value="price-low">Price: Low to High</option>
             <option value="price-high">Price: High to Low</option>
@@ -90,50 +45,92 @@ import '../styles/global.css';
           </select>
         </div>
       </div>
+    </div>
 
-      <!-- Product Cards Grid (Explicit CSS Grid with Clean Column Layout) -->
-      <div class="catalog-grid" id="catalog-products-grid">
-        {PRODUCTS.map(product => (
-          <article 
-            class="catalog-product-card catalog-item" 
-            data-category={product.category} 
-            data-price={product.price} 
-            data-rating={product.rating} 
-            data-name={product.name.toLowerCase()}
-          >
-            <div class="card-image-box">
-              {product.isBestseller && <span class="badge-bestseller">BESTSELLER</span>}
-              {product.discountBadge && <span class="badge-offer">{product.discountBadge}</span>}
-              <a href={`/product/${product.id}`} class="img-link">
-                <img src={product.image} alt={product.name} class="product-img" loading="lazy" />
-              </a>
-            </div>
+    <!-- Category Filter Pills Strip (Exact PDF Page 1 Row) -->
+    <div class="category-pills-strip">
+      <button class="cat-pill-btn active" data-cat="all">All</button>
+      {CATEGORIES.map(cat => (
+        <button class="cat-pill-btn" data-cat={cat.id}>{cat.label}</button>
+      ))}
+    </div>
 
-            <div class="card-content-box">
-              <div class="cat-tag-sub">{product.categoryLabel.toUpperCase()}</div>
-              <h2 class="card-product-title">
-                <a href={`/product/${product.id}`}>{product.name}</a>
-              </h2>
-
-              <div class="rating-row">
-                <span class="stars">★ {product.rating}</span>
-                <span class="reviews">({product.reviewsCount} Reviews)</span>
-              </div>
-
-              <div class="price-row">
-                <span class="current-price">₹{product.price.toLocaleString('en-IN')}</span>
-                <span class="old-price">₹{product.originalPrice.toLocaleString('en-IN')}</span>
-              </div>
-
-              <button class="btn-add-cart add-to-cart-btn" data-id={product.id}>
-                ADD TO CART
-              </button>
-            </div>
-          </article>
-        ))}
+    <!-- Explore With Categories Banner Grid (Exact PDF Page 2 Box) -->
+    <div class="explore-categories-box">
+      <h3 class="explore-heading">Explore With Categories</h3>
+      <div class="explore-grid">
+        <div class="explore-card" data-cat="engine">
+          <span class="exp-icon">⚡</span>
+          <strong>Engines</strong>
+        </div>
+        <div class="explore-card" data-cat="radio-receiver">
+          <span class="exp-icon">📡</span>
+          <strong>Radios & Receivers</strong>
+        </div>
+        <div class="explore-card" data-cat="aeromodels">
+          <span class="exp-icon">✈️</span>
+          <strong>Seagull Models</strong>
+        </div>
+        <div class="explore-card" data-cat="balsa-wood">
+          <span class="exp-icon">🪵</span>
+          <strong>Balsa Wood</strong>
+        </div>
+        <div class="explore-card" data-cat="accessories">
+          <span class="exp-icon">🛠️</span>
+          <strong>Accessories</strong>
+        </div>
       </div>
+    </div>
 
-    </section>
+    <!-- 5-Column Product Cards Grid (Exact PDF Style & Perfectly Aligned Add To Cart Buttons) -->
+    <div class="pdf-shop-grid-5" id="catalog-products-grid">
+      {PRODUCTS.map(product => (
+        <article 
+          class="pdf-shop-card catalog-item" 
+          data-category={product.category} 
+          data-price={product.price} 
+          data-rating={product.rating}
+          data-bestseller={product.isBestseller ? 'true' : 'false'}
+        >
+          <!-- Image Stage -->
+          <div class="card-img-stage">
+            {product.isBestseller && <span class="badge-tag bestseller">BESTSELLER</span>}
+            {product.isNewArrival && <span class="badge-tag new">NEW</span>}
+            {product.discountBadge && <span class="badge-tag offer">{product.discountBadge}</span>}
+            <a href={`/product/${product.id}`}>
+              <img src={product.image} alt={product.name} class="product-thumb-img" loading="lazy" />
+            </a>
+          </div>
+
+          <!-- Card Content Body -->
+          <div class="card-info-body">
+            <div class="card-rating-line">
+              <span class="star-badge-yellow">★ {product.rating}</span>
+              <span class="rating-count-lbl">({product.reviewsCount})</span>
+            </div>
+
+            <div class="card-cat-label">{product.categoryLabel.toUpperCase()}</div>
+            <h2 class="card-title-heading">
+              <a href={`/product/${product.id}`}>{product.name}</a>
+            </h2>
+
+            <div class="saving-green-tag">
+              (Saving ₹{(product.originalPrice - product.price).toLocaleString('en-IN')})
+            </div>
+
+            <div class="price-row-line">
+              <span class="price-now">₹{product.price.toLocaleString('en-IN')}.00</span>
+              <span class="price-was">₹{product.originalPrice.toLocaleString('en-IN')}.00</span>
+            </div>
+
+            <!-- ADD TO CART Button (100% Horizontally Aligned in 1 Line Across Grid Row) -->
+            <button class="pdf-cart-btn-black add-to-cart-btn" data-id={product.id}>
+              Add To Cart
+            </button>
+          </div>
+        </article>
+      ))}
+    </div>
 
   </main>
 
@@ -146,292 +143,254 @@ import '../styles/global.css';
       color: #1a1a1a !important;
     }
 
-    .bellavita-shop-header {
-      background: #f3eee7;
-      border-bottom: 1px solid #e6e0d5;
-      padding: 2.5rem 0;
-      text-align: center;
+    /* Minimal Breadcrumb Strip */
+    .breadcrumb-strip {
+      background: transparent;
+      padding: 1.25rem 0 0.5rem;
+      font-size: 0.78rem;
+      color: #777777;
     }
-    .shop-page-title {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      font-weight: 800;
-      letter-spacing: 0.05em;
-      color: #1a1a1a;
-      margin-bottom: 0.4rem;
-    }
-    .shop-page-subtitle {
-      font-size: 0.95rem;
-      color: #666666;
+    .breadcrumb-strip a { color: #666666; text-decoration: none; }
+    .breadcrumb-strip a:hover { color: #111111; }
+    .breadcrumb-strip span { margin: 0 0.35rem; color: #aaaaaa; }
+    .breadcrumb-strip .active { color: #111111; font-weight: 600; }
+
+    /* Shop Container with Proper PDF Left/Right Margins */
+    .pdf-shop-container {
+      max-width: 1280px !important;
+      margin: 0 auto !important;
+      padding: 1rem 2rem 6rem !important;
     }
 
-    .shop-layout-container {
-      display: grid;
-      grid-template-columns: 260px 1fr;
-      gap: 2.5rem;
-      padding: 3rem 1.25rem 5rem;
-    }
-
-    /* Sidebar Filters */
-    .shop-filter-sidebar {
-      background: #ffffff;
-      border: 1px solid #e6e0d5;
-      border-radius: var(--radius-md);
-      padding: 1.75rem;
-      height: fit-content;
-    }
-    .filter-group {
-      margin-bottom: 2rem;
-    }
-    .filter-group:last-child {
-      margin-bottom: 0;
-    }
-    .filter-title {
-      font-family: var(--font-display);
-      font-size: 0.85rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      color: #3b0811;
-      border-bottom: 1.5px solid #e6e0d5;
-      padding-bottom: 0.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .category-filter-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-    }
-    .cat-filter-btn {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.82rem;
-      color: #555555;
-      padding: 0.5rem 0.65rem;
-      border-radius: var(--radius-sm);
-      transition: var(--transition-fast);
-    }
-    .cat-filter-btn:hover, .cat-filter-btn.active {
-      background: #f3eee7;
-      color: #3b0811;
-      font-weight: 700;
-    }
-
-    .price-slider-box {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      font-size: 0.82rem;
-      color: #555555;
-    }
-    .range-slider {
-      accent-color: #3b0811;
-      cursor: pointer;
-    }
-
-    .stock-checkbox-label {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.82rem;
-      color: #555555;
-      cursor: pointer;
-    }
-
-    /* Main Area */
-    .shop-action-bar {
-      background: #ffffff;
-      border: 1px solid #e6e0d5;
-      border-radius: var(--radius-md);
-      padding: 1rem 1.25rem;
+    /* Title & Sort Action Row */
+    .shop-title-action-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 1.75rem;
     }
-    .results-text {
-      font-size: 0.85rem;
-      color: #555555;
+    .shop-pdf-title {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #1a1a1a;
+      letter-spacing: -0.01em;
     }
-    .sort-box {
+    .shop-pdf-count {
+      font-size: 0.82rem;
+      color: #666666;
+    }
+    .sort-select-wrap {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      font-size: 0.82rem;
-      color: #555555;
+      font-size: 0.85rem;
     }
-    .sort-select {
-      background: #f9f7f2;
+    .sort-lbl { color: #666666; font-weight: 600; }
+    .sort-dropdown {
+      background: #ffffff;
       border: 1px solid #d6cfc2;
+      border-radius: 4px;
       padding: 0.4rem 0.75rem;
-      border-radius: var(--radius-sm);
       font-size: 0.82rem;
       color: #1a1a1a;
       outline: none;
       cursor: pointer;
     }
 
-    /* Grid & Cards (Clean Vertical Card Column Fix) */
-    .catalog-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1.75rem;
+    /* Category Filter Pills Strip (Exact PDF Page 1) */
+    .category-pills-strip {
+      display: flex;
+      gap: 0.65rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      margin-bottom: 2.25rem;
+    }
+    .cat-pill-btn {
+      padding: 0.5rem 1.15rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      border-radius: 4px;
+      border: 1px solid #d6cfc2;
+      background: #ffffff;
+      color: #1a1a1a;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition-fast);
+    }
+    .cat-pill-btn:hover, .cat-pill-btn.active {
+      background: #111111;
+      color: #ffffff;
+      border-color: #111111;
     }
 
-    .catalog-product-card {
-      background: #f3eee7;
+    /* Explore With Categories Banner Grid (Exact PDF Page 2) */
+    .explore-categories-box {
+      background: #f8f5ee;
       border: 1px solid #e6e0d5;
-      border-radius: var(--radius-md);
+      border-radius: 8px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 2.5rem;
+    }
+    .explore-heading {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 1.25rem;
+      text-align: center;
+    }
+    .explore-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1.25rem;
+    }
+    .explore-card {
+      background: #ffffff;
+      border: 1px solid #e6e0d5;
+      border-radius: 6px;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+    .explore-card:hover {
+      transform: translateY(-2px);
+      border-color: #111111;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+    .exp-icon { font-size: 1.5rem; display: block; margin-bottom: 0.35rem; }
+    .explore-card strong { font-size: 0.8rem; color: #1a1a1a; }
+
+    /* 5-Column Product Grid with 100% Horizontally Aligned Add To Cart Buttons */
+    .pdf-shop-grid-5 {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1.25rem;
+    }
+    .pdf-shop-card {
+      background: #ffffff;
+      border: 1px solid #e6e0d5;
+      border-radius: var(--radius-sm);
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      height: 100%;
       transition: var(--transition-smooth);
     }
-    .catalog-product-card.is-hidden {
-      display: none !important;
-    }
-    .catalog-product-card:hover {
+    .pdf-shop-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-      border-color: #1a1a1a;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      border-color: #111111;
     }
 
-    .card-image-box {
+    .card-img-stage {
       position: relative;
-      width: 100%;
-      padding-top: 75%; /* 4:3 Aspect Ratio */
-      background: #ffffff;
-      overflow: hidden;
+      padding-top: 85%;
+      background: #f7f4ed;
     }
-    .img-link {
+    .product-thumb-img {
       position: absolute;
       inset: 0;
-      display: block;
-    }
-    .product-img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.4s ease;
     }
-    .catalog-product-card:hover .product-img {
-      transform: scale(1.05);
-    }
-
-    .badge-bestseller {
+    .badge-tag {
       position: absolute;
-      top: 0.75rem;
-      left: 0.75rem;
-      background: #eab308;
-      color: #000;
-      font-size: 0.65rem;
+      top: 0.6rem;
+      font-size: 0.58rem;
       font-weight: 800;
       padding: 0.2rem 0.5rem;
-      border-radius: 2px;
+      border-radius: 4px;
       z-index: 2;
     }
-    .badge-offer {
-      position: absolute;
-      bottom: 0.75rem;
-      left: 0.75rem;
-      background: #e6f7f5;
-      color: #14b8a6;
-      border: 1px solid rgba(20, 184, 166, 0.3);
-      font-size: 0.7rem;
-      font-weight: 800;
-      padding: 0.2rem 0.5rem;
-      border-radius: 2px;
-      z-index: 2;
-    }
+    .badge-tag.bestseller { left: 0.6rem; background: #ea580c; color: #fff; }
+    .badge-tag.new { left: 0.6rem; background: #2563eb; color: #fff; }
+    .badge-tag.offer { right: 0.6rem; background: #059669; color: #fff; }
 
-    .card-content-box {
-      padding: 1.25rem;
+    /* Card Content Body (Flex Column for Perfectly Aligned Add to Cart Buttons) */
+    .card-info-body {
+      padding: 1rem;
       display: flex;
       flex-direction: column;
       flex-grow: 1;
     }
-    .cat-tag-sub {
-      font-size: 0.65rem;
-      color: #777777;
-      font-weight: 700;
-      letter-spacing: 0.08em;
+    .card-rating-line {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
       margin-bottom: 0.35rem;
     }
-    .card-product-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      line-height: 1.35;
+    .star-badge-yellow {
+      background: #fef3c7;
+      color: #92400e;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+    }
+    .rating-count-lbl { font-size: 0.72rem; color: #777777; }
+
+    .card-cat-label { font-size: 0.65rem; color: #777777; font-weight: 700; margin-bottom: 0.25rem; }
+    .card-title-heading {
+      font-size: 0.88rem;
+      font-weight: 600;
       color: #1a1a1a;
-      margin-bottom: 0.6rem;
-      height: 2.6rem;
+      line-height: 1.35;
+      margin-bottom: 0.4rem;
+      height: 2.5rem;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-    .card-product-title a:hover {
-      color: #3b0811;
-    }
+    .card-title-heading a:hover { color: #3b0811; }
 
-    .rating-row {
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-size: 0.8rem;
-      margin-bottom: 0.85rem;
-    }
-    .stars {
-      color: #f59e0b;
-      font-weight: 700;
-    }
-    .reviews {
-      color: #666666;
+    .saving-green-tag {
       font-size: 0.75rem;
+      font-weight: 700;
+      color: #059669;
+      margin-bottom: 0.4rem;
     }
 
-    .price-row {
+    .price-row-line {
       display: flex;
       align-items: baseline;
-      gap: 0.6rem;
-      margin-bottom: 1.25rem;
+      gap: 0.5rem;
+      margin-bottom: 0.85rem;
     }
-    .current-price {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: #1a1a1a;
-      font-family: var(--font-display);
-    }
-    .old-price {
-      font-size: 0.85rem;
-      color: #888888;
-      text-decoration: line-through;
-    }
+    .price-now { font-size: 1.05rem; font-weight: 700; color: #1a1a1a; }
+    .price-was { font-size: 0.8rem; color: #888888; text-decoration: line-through; }
 
-    .btn-add-cart {
-      margin-top: auto;
-      background: #1a1a1a;
+    /* ADD TO CART Button - 100% Horizontally Aligned in 1 Straight Line Across Grid Row */
+    .pdf-cart-btn-black {
+      margin-top: auto !important;
+      width: 100%;
+      background: #111111;
       color: #ffffff;
-      font-weight: 800;
+      font-weight: 700;
       font-size: 0.8rem;
       padding: 0.75rem;
-      border-radius: var(--radius-sm);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      text-transform: capitalize;
       transition: var(--transition-fast);
-      width: 100%;
     }
-    .btn-add-cart:hover {
+    .pdf-cart-btn-black:hover {
       background: #3b0811;
       transform: translateY(-2px);
     }
 
-    @media (max-width: 900px) {
-      .shop-layout-container {
-        grid-template-columns: 1fr;
-      }
+    @media (max-width: 1100px) {
+      .pdf-shop-grid-5 { grid-template-columns: repeat(3, 1fr); }
+      .explore-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 700px) {
+      .pdf-shop-grid-5 { grid-template-columns: repeat(2, 1fr); }
+      .explore-grid { grid-template-columns: repeat(2, 1fr); }
+      .pdf-shop-container { padding: 1rem 1rem 4rem !important; }
     }
   </style>
 
@@ -439,92 +398,70 @@ import '../styles/global.css';
     import { addToCart } from '../lib/cartStore';
 
     document.addEventListener('DOMContentLoaded', () => {
-      const items = Array.from(document.querySelectorAll('.catalog-item')) as HTMLElement[];
-      const catBtns = document.querySelectorAll('.cat-filter-btn');
-      const priceSlider = document.getElementById('price-slider') as HTMLInputElement;
-      const priceLabel = document.getElementById('price-slider-label');
+      const pills = document.querySelectorAll('.cat-pill-btn');
+      const exploreCards = document.querySelectorAll('.explore-card');
+      const products = document.querySelectorAll('.catalog-item');
       const sortSelect = document.getElementById('sort-select') as HTMLSelectElement;
-      const gridContainer = document.getElementById('catalog-products-grid');
-      const resultsText = document.getElementById('results-count-text');
+      const grid = document.getElementById('catalog-products-grid');
 
-      let currentCat = 'all';
-      let maxPrice = 85000;
-
-      const urlParams = new URLSearchParams(window.location.search);
-      const categoryParam = urlParams.get('category');
-      const searchQuery = urlParams.get('q')?.toLowerCase() || '';
-
-      if (categoryParam) {
-        currentCat = categoryParam;
-        catBtns.forEach(btn => {
-          btn.classList.toggle('active', btn.getAttribute('data-cat') === currentCat);
-        });
-      }
-
-      function sortDOMItems(sortVal: string) {
-        if (!gridContainer) return;
-        const sorted = [...items].sort((a, b) => {
-          const priceA = parseInt(a.getAttribute('data-price') || '0', 10);
-          const priceB = parseInt(b.getAttribute('data-price') || '0', 10);
-          const ratingA = parseFloat(a.getAttribute('data-rating') || '0');
-          const ratingB = parseFloat(b.getAttribute('data-rating') || '0');
-
-          if (sortVal === 'price-low') return priceA - priceB;
-          if (sortVal === 'price-high') return priceB - priceA;
-          if (sortVal === 'rating') return ratingB - ratingA;
-          return 0;
+      function filterCategory(cat: string) {
+        pills.forEach(p => {
+          if (p.getAttribute('data-cat') === cat) p.classList.add('active');
+          else p.classList.remove('active');
         });
 
-        sorted.forEach(el => gridContainer.appendChild(el));
-      }
-
-      function filterAndSort() {
-        let visibleCount = 0;
-
-        items.forEach(item => {
-          const itemCat = item.getAttribute('data-category');
-          const itemPrice = parseInt(item.getAttribute('data-price') || '0', 10);
-          const itemName = item.getAttribute('data-name') || '';
-
-          const matchesCat = currentCat === 'all' || itemCat === currentCat;
-          const matchesPrice = itemPrice <= maxPrice;
-          const matchesSearch = !searchQuery || itemName.includes(searchQuery);
-
-          if (matchesCat && matchesPrice && matchesSearch) {
-            item.classList.remove('is-hidden');
-            visibleCount++;
+        products.forEach(prod => {
+          const itemCat = prod.getAttribute('data-category');
+          if (cat === 'all' || itemCat === cat) {
+            (prod as HTMLElement).style.display = 'flex';
           } else {
-            item.classList.add('is-hidden');
+            (prod as HTMLElement).style.display = 'none';
           }
         });
-
-        if (resultsText) {
-          resultsText.innerHTML = `Showing <strong>${visibleCount}</strong> items`;
-        }
       }
 
-      catBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          catBtns.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          currentCat = btn.getAttribute('data-cat') || 'all';
-          filterAndSort();
+      pills.forEach(p => {
+        p.addEventListener('click', () => {
+          const cat = p.getAttribute('data-cat');
+          if (cat) filterCategory(cat);
         });
       });
 
-      priceSlider?.addEventListener('input', () => {
-        maxPrice = parseInt(priceSlider.value, 10);
-        if (priceLabel) priceLabel.textContent = `Max Price: ₹${maxPrice.toLocaleString('en-IN')}`;
-        filterAndSort();
+      exploreCards.forEach(c => {
+        c.addEventListener('click', () => {
+          const cat = c.getAttribute('data-cat');
+          if (cat) filterCategory(cat);
+        });
       });
 
+      // Filter by URL Query parameter (e.g. ?category=engine)
+      const params = new URLSearchParams(window.location.search);
+      const urlCat = params.get('category');
+      if (urlCat) filterCategory(urlCat);
+
+      // Dynamic Sorting Handler
       sortSelect?.addEventListener('change', () => {
-        sortDOMItems(sortSelect.value);
-        filterAndSort();
+        const val = sortSelect.value;
+        const itemsArr = Array.from(products);
+
+        itemsArr.sort((a, b) => {
+          const priceA = parseFloat(a.getAttribute('data-price') || '0');
+          const priceB = parseFloat(b.getAttribute('data-price') || '0');
+          const ratingA = parseFloat(a.getAttribute('data-rating') || '0');
+          const ratingB = parseFloat(b.getAttribute('data-rating') || '0');
+          const bestA = a.getAttribute('data-bestseller') === 'true' ? 1 : 0;
+          const bestB = b.getAttribute('data-bestseller') === 'true' ? 1 : 0;
+
+          if (val === 'price-low') return priceA - priceB;
+          if (val === 'price-high') return priceB - priceA;
+          if (val === 'rating') return ratingB - ratingA;
+          return bestB - bestA;
+        });
+
+        itemsArr.forEach(item => grid?.appendChild(item));
       });
 
-      filterAndSort();
-
+      // Generic Add To Cart Listener
       document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
