@@ -504,22 +504,25 @@ const productSchema = {
     .breadcrumb-strip .active { color: #111111; font-weight: 600; }
 
     .pdp-container {
-      padding: 1rem 1.25rem 6rem;
+      max-width: 1140px !important;
+      margin: 0 auto !important;
+      padding: 1rem 2.5rem 6rem !important;
     }
 
-    /* 2-Column Showcase Layout */
+    /* 2-Column Showcase Layout with Proper Image Sizing & Margins */
     .pdp-showcase-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 460px 1fr;
       gap: 4.5rem;
       align-items: flex-start;
       margin-bottom: 5rem;
     }
 
-    /* Sticky Gallery Column */
+    /* Sticky Gallery Column - Fixed 460px Width */
     .pdp-sticky-gallery {
       position: sticky;
       top: 110px;
+      width: 460px;
       display: flex;
       flex-direction: column;
       gap: 1rem;
@@ -529,7 +532,8 @@ const productSchema = {
       background: #f7f4ed;
       border: 1px solid #e6e0d5;
       border-radius: var(--radius-sm);
-      padding-top: 100%;
+      width: 460px;
+      height: 460px;
       overflow: hidden;
     }
     .pdp-main-img {
@@ -1076,7 +1080,10 @@ const productSchema = {
     .sticky-add-btn { padding: 0.65rem 1.5rem; font-weight: 700; }
 
     @media (max-width: 900px) {
+      .pdp-container { padding: 1rem 1.25rem 4rem !important; }
       .pdp-showcase-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .pdp-sticky-gallery { width: 100%; position: relative; top: 0; }
+      .pdp-image-stage { width: 100%; height: auto; padding-top: 100%; }
       .pdf-trust-badges-row { grid-template-columns: repeat(2, 1fr); }
       .notes-grid-4 { grid-template-columns: repeat(2, 1fr); }
       .pdf-products-grid-4 { grid-template-columns: repeat(2, 1fr); }
