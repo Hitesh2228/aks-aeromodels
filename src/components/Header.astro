@@ -20,9 +20,17 @@ import LoginModal from './LoginModal.astro';
 <header class="main-header sticky-top">
   <div class="container header-grid">
     
-    <!-- Left: Search Bar with Line Art SVG Icon -->
+    <!-- Left: Search Bar & Mobile Hamburger -->
     <div class="header-search">
-      <form action="/shop" method="GET" class="search-form">
+      <button id="mobile-menu-trigger" class="mobile-hamburger-btn" aria-label="Open Navigation Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+
+      <form action="/shop" method="GET" class="search-form desktop-search-only">
         <svg class="search-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="8"/>
           <line x1="21" y1="21" x2="16.65" y2="16.65"/>
@@ -89,9 +97,44 @@ import LoginModal from './LoginModal.astro';
         <span class="time-box" id="secs">42</span> <small>Min</small>
         <span class="time-box" id="sec-ticks">19</span> <small>Sec</small>
       </div>
+</header>
+
+<!-- Mobile Slide-In Navigation Drawer -->
+<div class="mobile-nav-drawer-overlay" id="mobile-nav-drawer" aria-hidden="true">
+  <div class="mobile-drawer-content">
+    <div class="drawer-top-head">
+      <span class="drawer-brand">SKYNODESUAV</span>
+      <button id="close-mobile-drawer" class="drawer-close-btn" aria-label="Close menu">✕</button>
+    </div>
+
+    <div class="drawer-search-box">
+      <form action="/shop" method="GET">
+        <input type="text" name="search" placeholder="Search engines, radios, balsa..." class="search-input" />
+      </form>
+    </div>
+
+    <div class="drawer-nav-list">
+      <a href="/shop?category=all" class="drawer-nav-item">🛒 SHOP ALL PRODUCTS</a>
+      <a href="/shop?category=all" class="drawer-nav-item highlight">🔥 CRAZY DEALS</a>
+      <a href="/shop?category=engine" class="drawer-nav-item">⚡ ENGINES & POWERPLANTS</a>
+      <a href="/shop?category=aeromodels" class="drawer-nav-item">✈️ SEAGULL AEROMODELS</a>
+      <a href="/shop?category=radio-receiver" class="drawer-nav-item">📡 RADIOS & RECEIVERS</a>
+      <a href="/shop?category=balsa-wood" class="drawer-nav-item">🪵 BALSA WOOD SHEETS</a>
+      <a href="/shop?category=accessories" class="drawer-nav-item">🛠️ FLIGHT ACCESSORIES</a>
+      <a href="/aircrafts" class="drawer-nav-item">🎮 3D FLIGHT SHOWCASE</a>
+      <a href="/blog" class="drawer-nav-item">📰 RC FLIGHT BLOG</a>
+      <a href="/about" class="drawer-nav-item">ℹ️ ABOUT SKYNODESUAV</a>
+      <a href="/contact" class="drawer-nav-item">📞 CONTACT US & FAQ</a>
+      <a href="/profile" class="drawer-nav-item">👤 MY PILOT PROFILE</a>
+    </div>
+
+    <div class="drawer-bottom-contact">
+      <a href="https://wa.me/917722009120" target="_blank" class="drawer-wa-btn">
+        💬 WhatsApp Support (+91-7722009120)
+      </a>
     </div>
   </div>
-</header>
+</div>
 
 <style>
   /* Announcement Bar */
@@ -313,15 +356,134 @@ import LoginModal from './LoginModal.astro';
     display: none !important;
   }
 
-  @media (max-width: 900px) {
+  /* Mobile Hamburger Button */
+  .mobile-hamburger-btn {
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Slide-In Mobile Navigation Drawer */
+  .mobile-nav-drawer-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  .mobile-nav-drawer-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobile-drawer-content {
+    width: 310px;
+    max-width: 85vw;
+    height: 100%;
+    background: #000000;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1.25rem;
+    box-sizing: border-box;
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow-y: auto;
+  }
+  .mobile-nav-drawer-overlay.is-open .mobile-drawer-content {
+    transform: translateX(0);
+  }
+
+  .drawer-top-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #222222;
+  }
+  .drawer-brand {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #eab308;
+  }
+  .drawer-close-btn {
+    background: transparent;
+    border: none;
+    color: #aaaaaa;
+    font-size: 1.3rem;
+    cursor: pointer;
+  }
+
+  .drawer-search-box {
+    margin-bottom: 1.25rem;
+  }
+  .drawer-search-box .search-input {
+    width: 100%;
+    background: #181818;
+    border: 1px solid #333333;
+    border-radius: 6px;
+    padding: 0.65rem 0.85rem;
+    color: #ffffff;
+    font-size: 0.85rem;
+  }
+
+  .drawer-nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 1.5rem;
+  }
+  .drawer-nav-item {
+    padding: 0.75rem 0.85rem;
+    color: #dddddd;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .drawer-nav-item:hover, .drawer-nav-item.highlight {
+    background: #1a1a1a;
+    color: #eab308;
+  }
+
+  .drawer-bottom-contact {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid #222222;
+  }
+  .drawer-wa-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: #25d366;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 0.75rem;
+    border-radius: 6px;
+    text-decoration: none;
+  }
+
+  @media (max-width: 768px) {
+    .mobile-hamburger-btn { display: flex; }
+    .desktop-search-only { display: none; }
+    .nav-strip { display: none; }
+    .account-label { display: none; }
     .header-grid {
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-    .header-search {
-      grid-column: 1 / -1;
-      order: 3;
-      margin-top: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1rem;
     }
   }
 </style>
@@ -415,6 +577,36 @@ import LoginModal from './LoginModal.astro';
         el.classList.add('is-visible');
       }
       observer.observe(el);
+    });
+
+    // Mobile Drawer Open & Close Event Listeners
+    const mobileTrigger = document.getElementById('mobile-menu-trigger');
+    const mobileDrawer = document.getElementById('mobile-nav-drawer');
+    const closeDrawerBtn = document.getElementById('close-mobile-drawer');
+
+    function openMobileDrawer() {
+      if (mobileDrawer) {
+        mobileDrawer.classList.add('is-open');
+        mobileDrawer.setAttribute('aria-hidden', 'false');
+      }
+    }
+
+    function closeMobileDrawer() {
+      if (mobileDrawer) {
+        mobileDrawer.classList.remove('is-open');
+        mobileDrawer.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    mobileTrigger?.addEventListener('click', openMobileDrawer);
+    closeDrawerBtn?.addEventListener('click', closeMobileDrawer);
+
+    mobileDrawer?.addEventListener('click', (e) => {
+      if (e.target === mobileDrawer) closeMobileDrawer();
+    });
+
+    document.querySelectorAll('.drawer-nav-item').forEach(item => {
+      item.addEventListener('click', closeMobileDrawer);
     });
 
     // Account / Login Trigger Modal
