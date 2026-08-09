@@ -43,6 +43,9 @@ const REVIEWS = [
     avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&auto=format&fit=crop"
   }
 ];
+
+// Create 3x cloned array for seamless infinite physical gliding carousel
+const LOOP_REVIEWS = [...REVIEWS, ...REVIEWS, ...REVIEWS];
 ---
 
 <section class="bellavita-reviews-section reveal-on-scroll">
@@ -51,30 +54,21 @@ const REVIEWS = [
 
     <div class="bellavita-review-stage">
       
-      <!-- Fixed 5-Avatar Row on Desktop / 3-Avatar Row on Mobile -->
+      <!-- 5-Avatar Gliding Carousel (Desktop 5 Avatars / Mobile 3 Avatars) -->
       <div class="bellavita-avatar-carousel">
         <button class="carousel-arrow prev-arr" id="rev-arrow-prev" aria-label="Previous Review">←</button>
 
-        <div class="avatars-5-row" id="avatars-5-row">
-          <!-- Slot 0: Far Left (Hidden on Mobile) -->
-          <div class="avatar-card far-left" id="card-0" data-slot="0">
-            <img src={REVIEWS[3].avatar} alt={REVIEWS[3].name} />
-          </div>
-          <!-- Slot 1: Near Left -->
-          <div class="avatar-card near-left" id="card-1" data-slot="1">
-            <img src={REVIEWS[4].avatar} alt={REVIEWS[4].name} />
-          </div>
-          <!-- Slot 2: CENTER ZOOMED ACTIVE -->
-          <div class="avatar-card center-active" id="card-2" data-slot="2">
-            <img src={REVIEWS[0].avatar} alt={REVIEWS[0].name} />
-          </div>
-          <!-- Slot 3: Near Right -->
-          <div class="avatar-card near-right" id="card-3" data-slot="3">
-            <img src={REVIEWS[1].avatar} alt={REVIEWS[1].name} />
-          </div>
-          <!-- Slot 4: Far Right (Hidden on Mobile) -->
-          <div class="avatar-card far-right" id="card-4" data-slot="4">
-            <img src={REVIEWS[2].avatar} alt={REVIEWS[2].name} />
+        <div class="avatar-slider-viewport">
+          <div class="avatar-track-flex" id="avatar-track-flex">
+            {LOOP_REVIEWS.map((rev, idx) => (
+              <div 
+                class="avatar-card-item" 
+                data-index={idx}
+                data-real-index={idx % REVIEWS.length}
+              >
+                <img src={rev.avatar} alt={rev.name} loading="lazy" />
+              </div>
+            ))}
           </div>
         </div>
 
@@ -127,12 +121,12 @@ const REVIEWS = [
     align-items: center;
   }
 
-  /* Carousel Outer Layout */
+  /* Carousel Layout Container */
   .bellavita-avatar-carousel {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
+    gap: 1.5rem;
     width: 100%;
     margin-bottom: 2.5rem;
     position: relative;
@@ -157,67 +151,85 @@ const REVIEWS = [
     transform: scale(1.3);
   }
 
-  /* Exactly 5 Avatar Row Centered */
-  .avatars-5-row {
+  /* Viewport Window (Desktop: 480px fits exactly 5 avatars) */
+  .avatar-slider-viewport {
+    width: 480px;
+    height: 130px;
+    overflow: hidden;
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 2.5rem;
+  }
+
+  /* Physical Gliding Flex Track (GPU Accelerated Translation) */
+  .avatar-track-flex {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin-top: -65px; /* Half of viewport height */
     height: 130px;
   }
 
-  /* Avatar Card Styling */
-  .avatar-card {
+  /* Individual Avatar Cards with Smooth Scale, Width & Opacity Animations */
+  .avatar-card-item {
     cursor: pointer;
     overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: width 0.45s cubic-bezier(0.25, 1, 0.5, 1),
+                height 0.45s cubic-bezier(0.25, 1, 0.5, 1),
+                border-radius 0.45s ease,
+                opacity 0.45s ease,
+                box-shadow 0.45s ease;
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     user-select: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    opacity: 0.4;
   }
-  .avatar-card img {
+  .avatar-card-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     pointer-events: none;
-    transition: opacity 0.25s ease, transform 0.25s ease;
   }
 
-  /* Slot 2: CENTER ZOOMED (110px) */
-  .avatar-card.center-active {
-    width: 110px;
-    height: 110px;
-    border-radius: 28px;
-    opacity: 1;
+  /* Card Positional States */
+  .avatar-card-item.state-center {
+    width: 110px !important;
+    height: 110px !important;
+    border-radius: 28px !important;
+    opacity: 1 !important;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
     border: 2px solid #ffffff;
     z-index: 5;
   }
 
-  /* Slot 1 & 3: Near Left & Near Right (70px) */
-  .avatar-card.near-left,
-  .avatar-card.near-right {
-    width: 70px;
-    height: 70px;
-    border-radius: 20px;
-    opacity: 0.75;
+  .avatar-card-item.state-near {
+    width: 70px !important;
+    height: 70px !important;
+    border-radius: 20px !important;
+    opacity: 0.75 !important;
     z-index: 3;
   }
 
-  /* Slot 0 & 4: Far Left & Far Right (48px) */
-  .avatar-card.far-left,
-  .avatar-card.far-right {
-    width: 48px;
-    height: 48px;
-    border-radius: 14px;
-    opacity: 0.4;
+  .avatar-card-item.state-far {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 14px !important;
+    opacity: 0.4 !important;
     z-index: 1;
   }
 
-  .avatar-card:hover {
+  .avatar-card-item:hover {
     opacity: 1 !important;
   }
 
@@ -261,7 +273,7 @@ const REVIEWS = [
     color: #444444;
   }
 
-  /* Mobile Adjustments (< 768px): Show EXACTLY 3 Avatars (Hide Far Left & Far Right) */
+  /* Responsive Adjustments (< 768px Mobile: Viewport 226px fits EXACTLY 3 Avatars) */
   @media (max-width: 768px) {
     .bellavita-reviews-section {
       padding: 2.5rem 0 1.5rem;
@@ -271,28 +283,33 @@ const REVIEWS = [
       margin-bottom: 2rem;
     }
     .bellavita-avatar-carousel {
-      gap: 0.75rem;
+      gap: 0.4rem;
       margin-bottom: 1.75rem;
     }
-    .avatars-5-row {
-      gap: 1.25rem;
+    .avatar-slider-viewport {
+      width: 226px;
       height: 95px;
     }
-    .avatar-card.center-active {
-      width: 82px;
-      height: 82px;
-      border-radius: 22px;
+    .avatar-track-flex {
+      gap: 1rem;
+      margin-top: -47px;
+      height: 95px;
     }
-    .avatar-card.near-left,
-    .avatar-card.near-right {
-      width: 54px;
-      height: 54px;
-      border-radius: 16px;
+    .avatar-card-item.state-center {
+      width: 82px !important;
+      height: 82px !important;
+      border-radius: 22px !important;
     }
-    /* Hide far-left and far-right avatars so mobile screen has EXACTLY 3 avatars */
-    .avatar-card.far-left,
-    .avatar-card.far-right {
-      display: none !important;
+    .avatar-card-item.state-near {
+      width: 54px !important;
+      height: 54px !important;
+      border-radius: 16px !important;
+    }
+    .avatar-card-item.state-far {
+      width: 36px !important;
+      height: 36px !important;
+      border-radius: 10px !important;
+      opacity: 0.25 !important;
     }
     .review-quote-text {
       font-size: 0.92rem;
@@ -309,47 +326,38 @@ const REVIEWS = [
     {
       name: "Sanna Thakur",
       handle: "sannathakur_",
-      text: "SKYNODESUAV has raised the bar for the aeromodelling industry, Such good quality at very affordable price",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300&auto=format&fit=crop"
+      text: "SKYNODESUAV has raised the bar for the aeromodelling industry, Such good quality at very affordable price"
     },
     {
       name: "Simran Narang",
       handle: "simrannaranggg",
-      text: "One of the best luxury aeromodelling stores and that too at an affordable price",
-      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop"
+      text: "One of the best luxury aeromodelling stores and that too at an affordable price"
     },
     {
       name: "Pulkit Bangia",
       handle: "pulkitbangia",
-      text: "Bought it cause it was so affordable but I never thought the flight quality would be this good as well.",
-      avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=300&auto=format&fit=crop"
+      text: "Bought it cause it was so affordable but I never thought the flight quality would be this good as well."
     },
     {
       name: "Ananya Roy",
       handle: "ananya_rc_flier",
-      text: "The balsa wood density and laser cut precision on Seagull kits is unbelievable. Truly top tier.",
-      avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=300&auto=format&fit=crop"
+      text: "The balsa wood density and laser cut precision on Seagull kits is unbelievable. Truly top tier."
     },
     {
       name: "Karan Malhotra",
       handle: "karan_rc_pilot",
-      text: "O.S. Engines 46AX II performance is super smooth! Zero tuning hassle and instant startup every time.",
-      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&auto=format&fit=crop"
+      text: "O.S. Engines 46AX II performance is super smooth! Zero tuning hassle and instant startup every time."
     }
   ];
 
-  function initFixedReviewSlider() {
-    let centerIndex = 0; // Starts with Sanna Thakur at center
+  function initPhysicalGlidingSlider() {
     const N = reviewsData.length;
+    // Start at middle cloned set index 5 (Sanna Thakur)
+    let currentGlobalIndex = N; 
 
-    const cards = [
-      document.getElementById('card-0'),
-      document.getElementById('card-1'),
-      document.getElementById('card-2'),
-      document.getElementById('card-3'),
-      document.getElementById('card-4')
-    ];
-
+    const viewport = document.querySelector('.avatar-slider-viewport') as HTMLElement;
+    const trackFlex = document.getElementById('avatar-track-flex');
+    const cards = document.querySelectorAll('.avatar-card-item');
     const contentBox = document.getElementById('review-content-box');
     const quoteDisplay = document.getElementById('rev-quote-display');
     const authorDisplay = document.getElementById('rev-author-display');
@@ -357,38 +365,49 @@ const REVIEWS = [
     const prevBtn = document.getElementById('rev-arrow-prev');
     const nextBtn = document.getElementById('rev-arrow-next');
 
-    if (!cards[2]) return;
+    if (!trackFlex || cards.length === 0 || !viewport) return;
 
-    function update5Cards(direction = 'next') {
-      // Review indices for 5 slots: [far-left, near-left, center, near-right, far-right]
-      const indices = [
-        (centerIndex - 2 + N) % N,
-        (centerIndex - 1 + N) % N,
-        centerIndex,
-        (centerIndex + 1) % N,
-        (centerIndex + 2) % N
-      ];
+    function updateGlidingPosition(animate = true) {
+      if (!trackFlex || !viewport) return;
 
-      cards.forEach((card, slotPos) => {
-        const img = card?.querySelector('img');
-        const rev = reviewsData[indices[slotPos]];
-        if (img && rev) {
-          img.style.opacity = '0.2';
-          img.style.transform = direction === 'next' ? 'scale(0.85)' : 'scale(1.15)';
-          
-          setTimeout(() => {
-            img.src = rev.avatar;
-            img.alt = rev.name;
-            img.style.opacity = '1';
-            img.style.transform = 'scale(1)';
-          }, 140);
+      const targetCard = cards[currentGlobalIndex] as HTMLElement;
+      if (!targetCard) return;
+
+      // Update card positional state classes FIRST so their dimensions update
+      cards.forEach((card, idx) => {
+        card.classList.remove('state-center', 'state-near', 'state-far');
+        const diff = Math.abs(idx - currentGlobalIndex);
+        if (diff === 0) {
+          card.classList.add('state-center');
+        } else if (diff === 1) {
+          card.classList.add('state-near');
+        } else {
+          card.classList.add('state-far');
         }
       });
 
-      // Update text quote box below
-      const activeRev = reviewsData[centerIndex];
+      // Calculate physical track translateX so active card sits at EXACT CENTER of viewport
+      const viewportWidth = viewport.offsetWidth;
+      const cardOffsetLeft = targetCard.offsetLeft;
+      const cardWidth = targetCard.offsetWidth;
+
+      // Shift track so card center aligns with viewport center
+      const centerShift = cardOffsetLeft + (cardWidth / 2) - (viewportWidth / 2);
+
+      if (!animate) {
+        trackFlex.style.transition = 'none';
+      } else {
+        trackFlex.style.transition = 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)';
+      }
+
+      trackFlex.style.transform = `translateX(-${centerShift}px)`;
+
+      // Smoothly update quote content below
+      const realIdx = currentGlobalIndex % N;
+      const activeRev = reviewsData[realIdx];
+
       if (activeRev && contentBox) {
-        contentBox.style.opacity = '0.2';
+        contentBox.style.opacity = '0.3';
         contentBox.style.transform = 'translateY(4px)';
 
         setTimeout(() => {
@@ -402,72 +421,75 @@ const REVIEWS = [
       }
     }
 
-    function stepNext() {
-      centerIndex = (centerIndex + 1) % N;
-      update5Cards('next');
+    function goToIndex(newIndex: number) {
+      currentGlobalIndex = newIndex;
+      updateGlidingPosition(true);
+
+      // Infinite loop boundary reset seamlessly
+      if (currentGlobalIndex >= N * 2) {
+        setTimeout(() => {
+          currentGlobalIndex -= N;
+          updateGlidingPosition(false);
+        }, 460);
+      } else if (currentGlobalIndex < N) {
+        setTimeout(() => {
+          currentGlobalIndex += N;
+          updateGlidingPosition(false);
+        }, 460);
+      }
     }
 
-    function stepPrev() {
-      centerIndex = (centerIndex - 1 + N) % N;
-      update5Cards('prev');
-    }
+    // Next Arrow (Sanna Thakur -> Simran Narang -> Pulkit Bangia)
+    nextBtn?.addEventListener('click', () => {
+      goToIndex(currentGlobalIndex + 1);
+    });
 
-    // Arrow clicks
-    nextBtn?.addEventListener('click', stepNext);
-    prevBtn?.addEventListener('click', stepPrev);
+    // Prev Arrow
+    prevBtn?.addEventListener('click', () => {
+      goToIndex(currentGlobalIndex - 1);
+    });
 
-    // Card clicks
-    cards.forEach((card, slotPos) => {
-      card?.addEventListener('click', () => {
-        if (slotPos === 0) {
-          centerIndex = (centerIndex - 2 + N) % N;
-          update5Cards('prev');
-        } else if (slotPos === 1) {
-          centerIndex = (centerIndex - 1 + N) % N;
-          update5Cards('prev');
-        } else if (slotPos === 2) {
-          return; // Already active center
-        } else if (slotPos === 3) {
-          centerIndex = (centerIndex + 1) % N;
-          update5Cards('next');
-        } else if (slotPos === 4) {
-          centerIndex = (centerIndex + 2) % N;
-          update5Cards('next');
-        }
+    // Avatar Card Click
+    cards.forEach((card, idx) => {
+      card.addEventListener('click', () => {
+        goToIndex(idx);
       });
     });
 
-    // Touch Swipe Gestures for Mobile
-    const rowContainer = document.getElementById('avatars-5-row');
+    // Touch Swipe Gesture for Mobile
     let startX = 0;
     let endX = 0;
 
-    rowContainer?.addEventListener('touchstart', (e) => {
+    trackFlex.addEventListener('touchstart', (e) => {
       startX = e.touches[0].clientX;
     }, { passive: true });
 
-    rowContainer?.addEventListener('touchend', (e) => {
+    trackFlex.addEventListener('touchend', (e) => {
       endX = e.changedTouches[0].clientX;
       const diff = startX - endX;
       if (diff > 35) {
-        stepNext();
+        goToIndex(currentGlobalIndex + 1);
       } else if (diff < -35) {
-        stepPrev();
+        goToIndex(currentGlobalIndex - 1);
       }
     }, { passive: true });
 
-    // Auto rotation every 4.5 seconds
-    setInterval(stepNext, 4500);
+    // Auto rotate every 4.5 seconds
+    setInterval(() => {
+      goToIndex(currentGlobalIndex + 1);
+    }, 4500);
 
-    // Initial render
-    update5Cards('next');
+    // Initial positioning
+    requestAnimationFrame(() => {
+      updateGlidingPosition(false);
+    });
   }
 
   // Auto initialize on DOM and Astro page load
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initFixedReviewSlider);
+    document.addEventListener('DOMContentLoaded', initPhysicalGlidingSlider);
   } else {
-    initFixedReviewSlider();
+    initPhysicalGlidingSlider();
   }
-  document.addEventListener('astro:page-load', initFixedReviewSlider);
+  document.addEventListener('astro:page-load', initPhysicalGlidingSlider);
 </script>
