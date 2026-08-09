@@ -422,14 +422,18 @@ const productSchema = {
       <div class="pdf-reviews-list">
         {pilotReviews.map(rev => (
           <div class="pdf-review-card">
-            <div class="rev-stars">★★★★★</div>
-            <div class="rev-author">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#059669"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-              <strong>{rev.name}</strong>
+            <div class="rev-card-top-header">
+              <div class="rev-author-stars">
+                <div class="rev-stars">★★★★★</div>
+                <div class="rev-author">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#059669"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                  <strong>{rev.name}</strong>
+                </div>
+              </div>
+              <span class="rev-time-ago">{rev.date}</span>
             </div>
             <h4 class="rev-title-headline">Elegant & High Performance</h4>
             <p class="rev-body-text">{rev.text}</p>
-            <span class="rev-time-ago">{rev.date}</span>
           </div>
         ))}
       </div>
@@ -1069,11 +1073,18 @@ const productSchema = {
       border-radius: var(--radius-sm);
       padding: 1.75rem;
     }
-    .rev-stars { color: #f59e0b; margin-bottom: 0.5rem; }
-    .rev-author { display: flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; color: #1a1a1a; margin-bottom: 0.5rem; }
+    .rev-card-top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+    }
+    .rev-author-stars { display: flex; flex-direction: column; gap: 0.25rem; }
+    .rev-stars { color: #f59e0b; font-size: 0.95rem; }
+    .rev-author { display: flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; color: #1a1a1a; }
     .rev-title-headline { font-size: 0.95rem; font-weight: 700; color: #1a1a1a; margin-bottom: 0.4rem; }
-    .rev-body-text { font-size: 0.88rem; color: #555; line-height: 1.6; margin-bottom: 0.75rem; }
-    .rev-time-ago { font-size: 0.75rem; color: #888; }
+    .rev-body-text { font-size: 0.88rem; color: #555; line-height: 1.6; }
+    .rev-time-ago { font-size: 0.78rem; color: #888888; font-weight: 600; text-align: right; white-space: nowrap; }
 
     /* Sticky Bottom Bar */
     .sticky-pdp-bar {

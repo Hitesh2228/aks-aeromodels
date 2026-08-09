@@ -546,47 +546,39 @@ import LoginModal from './LoginModal.astro';
       }
     });
 
-    // Smart Header Scroll Auto-Hide (Scroll Down) & Instant Reveal (Scroll Up)
-    let lastScrollY = window.scrollY;
-    let ticking = false;
+    // Smart Header Scroll Auto-Hide (Scroll Down) & Instant Smooth Reveal (Scroll Up)
+    let lastScrollY = window.pageYOffset || document.documentElement.scrollTop;
 
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const currentScrollY = window.scrollY;
+    function handleHeaderScroll() {
+      const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
 
-          // Top announcement ticker hiding on scroll
-          if (announcementBar) {
-            if (currentScrollY > 40) {
-              announcementBar.classList.add('hide-ticker');
-            } else {
-              announcementBar.classList.remove('hide-ticker');
-            }
-          }
-
-          // Desktop & Mobile Smart Header Slide Hide (Down) / Reveal (Up)
-          if (currentScrollY > 80) {
-            if (currentScrollY > lastScrollY + 4) {
-              // User scrolling DOWN -> Slide Header UP (Hide)
-              mainHeader?.classList.add('nav-hidden');
-              document.body.classList.add('header-hidden');
-            } else if (currentScrollY < lastScrollY - 4) {
-              // User scrolling UP -> Slide Header DOWN (Reveal)
-              mainHeader?.classList.remove('nav-hidden');
-              document.body.classList.remove('header-hidden');
-            }
-          } else {
-            // At top -> Always visible
-            mainHeader?.classList.remove('nav-hidden');
-            document.body.classList.remove('header-hidden');
-          }
-
-          lastScrollY = currentScrollY;
-          ticking = false;
-        });
-        ticking = true;
+      // Top announcement ticker hiding on scroll
+      if (announcementBar) {
+        if (currentScrollY > 40) {
+          announcementBar.classList.add('hide-ticker');
+        } else {
+          announcementBar.classList.remove('hide-ticker');
+        }
       }
-    }, { passive: true });
+
+      if (currentScrollY <= 60) {
+        // At top of page -> Always reveal header
+        mainHeader?.classList.remove('nav-hidden');
+        document.body.classList.remove('header-hidden');
+      } else if (currentScrollY > lastScrollY + 2) {
+        // User scrolling DOWN -> Hide Header smoothly
+        mainHeader?.classList.add('nav-hidden');
+        document.body.classList.add('header-hidden');
+      } else if (currentScrollY < lastScrollY - 2) {
+        // User scrolling UP -> Immediately Reveal Header smoothly!
+        mainHeader?.classList.remove('nav-hidden');
+        document.body.classList.remove('header-hidden');
+      }
+
+      lastScrollY = currentScrollY;
+    }
+
+    window.addEventListener('scroll', handleHeaderScroll, { passive: true });
 
     // Global Scroll Reveal Observer (Kinetic Motion)
     const observerOptions = {
