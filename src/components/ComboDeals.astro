@@ -10,41 +10,53 @@
         
         <!-- Deal 1 -->
         <a href="/shop" class="crazy-deal-card">
-          <div class="deal-media">
-            <div class="deal-badge-strip">
-              <span class="deal-tag-sub">Buy Any</span>
-              <span class="deal-tag-main">6 for ₹1298</span>
-              <span class="deal-tag-only">Only</span>
+          <div class="deal-card-inner">
+            <div class="deal-badge-header">
+              <span class="deal-tag-sub">BUY ANY</span>
+              <span class="deal-tag-main">6 FOR ₹1298</span>
+              <span class="deal-tag-only">ONLY</span>
             </div>
-            <img src="https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?q=80&w=600&auto=format&fit=crop" alt="SELF LOVE KIT" />
+            
+            <div class="deal-media">
+              <img src="https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?q=80&w=600&auto=format&fit=crop" alt="SELF LOVE KIT" />
+            </div>
+            
+            <div class="deal-label">SELF LOVE KIT</div>
           </div>
-          <div class="deal-label">SELF LOVE KIT</div>
         </a>
 
         <!-- Deal 2 -->
         <a href="/shop" class="crazy-deal-card">
-          <div class="deal-media">
-            <div class="deal-badge-strip">
-              <span class="deal-tag-sub">Buy Any</span>
-              <span class="deal-tag-main">3 for ₹1298</span>
-              <span class="deal-tag-only">Only</span>
+          <div class="deal-card-inner">
+            <div class="deal-badge-header">
+              <span class="deal-tag-sub">BUY ANY</span>
+              <span class="deal-tag-main">3 FOR ₹1298</span>
+              <span class="deal-tag-only">ONLY</span>
             </div>
-            <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=600&auto=format&fit=crop" alt="ULTIMATE FLIGHT BOX" />
+            
+            <div class="deal-media">
+              <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=600&auto=format&fit=crop" alt="ULTIMATE FLIGHT BOX" />
+            </div>
+            
+            <div class="deal-label">ULTIMATE FLIGHT BOX</div>
           </div>
-          <div class="deal-label">ULTIMATE FLIGHT BOX</div>
         </a>
 
         <!-- Deal 3 -->
         <a href="/shop" class="crazy-deal-card">
-          <div class="deal-media">
-            <div class="deal-badge-strip">
-              <span class="deal-tag-sub">Buy Any</span>
-              <span class="deal-tag-main">2 for ₹649</span>
-              <span class="deal-tag-only">Only</span>
+          <div class="deal-card-inner">
+            <div class="deal-badge-header">
+              <span class="deal-tag-sub">BUY ANY</span>
+              <span class="deal-tag-main">2 FOR ₹649</span>
+              <span class="deal-tag-only">ONLY</span>
             </div>
-            <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=600&auto=format&fit=crop" alt="BADE MIYA CHHOTE MIYA" />
+            
+            <div class="deal-media">
+              <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=600&auto=format&fit=crop" alt="BADE MIYA CHHOTE MIYA" />
+            </div>
+            
+            <div class="deal-label">BADE MIYA CHHOTE MIYA</div>
           </div>
-          <div class="deal-label">BADE MIYA CHHOTE MIYA</div>
         </a>
 
       </div>
@@ -83,36 +95,75 @@
 
   .crazy-deal-card {
     width: 100%;
+    text-decoration: none;
+    display: flex;
+  }
+
+  /* Bellavita Clean Card Inner Box - Zero Overlap */
+  .deal-card-inner {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    padding: 1.25rem;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-decoration: none;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .crazy-deal-card:hover {
+  .crazy-deal-card:hover .deal-card-inner {
     transform: translateY(-4px);
+    border-color: #d1d1d1;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
   }
 
-  /* Bellavita Soft Off-White Framed Image Stage */
-  .deal-media {
-    position: relative;
+  /* Top Badge Header (Positioned Cleanly Above Image - ZERO OVERLAP) */
+  .deal-badge-header {
     width: 100%;
-    height: 290px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fdf8f4;
+    border: 1px solid #dfab85;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+  }
+  .deal-tag-sub {
+    font-size: 0.65rem;
+    color: #777777;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+  .deal-tag-main {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #111111;
+    font-family: var(--font-display);
+    line-height: 1.2;
+    margin: 0.15rem 0;
+  }
+  .deal-tag-only {
+    font-size: 0.62rem;
+    color: #777777;
+    font-weight: 600;
+  }
+
+  /* Bellavita Soft Off-White Image Stage */
+  .deal-media {
+    width: 100%;
+    height: 220px;
     background: #f4f4f6;
-    border: 1px solid #eaeaea;
-    border-radius: 8px;
+    border-radius: 6px;
     overflow: hidden;
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1.25rem;
+    padding: 1rem;
     box-sizing: border-box;
-    transition: all 0.25s ease;
-  }
-  .crazy-deal-card:hover .deal-media {
-    border-color: #d1d1d1;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
   }
   .deal-media img {
     width: 100%;
@@ -125,28 +176,12 @@
     transform: scale(1.04);
   }
 
-  .deal-badge-strip {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    display: flex;
-    flex-direction: column;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(4px);
-    padding: 0.4rem 0.85rem;
-    border-radius: 4px;
-    border: 1px solid #dfab85;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  }
-  .deal-tag-sub { font-size: 0.65rem; color: #666; font-weight: 700; text-transform: uppercase; }
-  .deal-tag-main { font-size: 1.2rem; font-weight: 800; color: #111111; font-family: var(--font-display); line-height: 1.1; }
-  .deal-tag-only { font-size: 0.65rem; color: #666; text-align: right; }
-
   .deal-label {
     font-size: 0.88rem;
     font-weight: 700;
     color: #111111;
     letter-spacing: 0.08em;
+    text-align: center;
   }
 
   /* Mobile Only Touch Horizontal Slider (< 768px) */
@@ -172,7 +207,7 @@
       max-width: 270px;
       scroll-snap-align: start;
     }
-    .deal-media { height: 230px; }
+    .deal-media { height: 180px; }
     .deal-label { font-size: 0.78rem; }
   }
 </style>
