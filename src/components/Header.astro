@@ -87,9 +87,9 @@ import LoginModal from './LoginModal.astro';
   <div class="sub-ticker-strip">
     <div class="container sub-ticker-flex">
       <div class="ticker-message">
-        <span class="yellow-dot">●</span> <strong>Buzz Offer Ends</strong> Extra ₹80 off — Hurry!
+        <span class="yellow-dot">●</span> <strong>Buzz Offer Ends</strong> — Extra ₹80 OFF on all orders!
       </div>
-      <div class="countdown-widget">
+      <div class="countdown-widget desktop-countdown-only">
         <span class="time-box" id="hours">00</span> <small>Days</small>
         <span class="time-box" id="mins">08</span> <small>Hrs</small>
         <span class="time-box" id="secs">42</span> <small>Min</small>
@@ -355,7 +355,7 @@ import LoginModal from './LoginModal.astro';
     font-weight: 700;
   }
 
-  /* Sub Ticker */
+  /* Sub Ticker Bar */
   .sub-ticker-strip {
     background: #3b0811;
     color: #ffffff;
@@ -517,6 +517,9 @@ import LoginModal from './LoginModal.astro';
 
   /* Responsive Rules */
   @media (max-width: 900px) {
+    .header-grid {
+      padding: 0.85rem 1.25rem !important; /* Generous bezel clearance for hamburger & cart icons */
+    }
     .mobile-hamburger-btn {
       display: block;
     }
@@ -531,6 +534,20 @@ import LoginModal from './LoginModal.astro';
     }
     .brand-name {
       font-size: 1.25rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .sub-ticker-flex {
+      justify-content: center !important;
+      text-align: center;
+    }
+    .desktop-countdown-only {
+      display: none !important; /* Hide bulky timer blocks on mobile to eliminate clutter */
+    }
+    .sub-ticker-strip {
+      padding: 0.35rem 1rem;
+      font-size: 0.74rem;
     }
   }
 </style>
