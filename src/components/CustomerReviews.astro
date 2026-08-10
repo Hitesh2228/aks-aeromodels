@@ -221,13 +221,16 @@ const REVIEWS = [
     opacity: 1 !important;
   }
 
-  /* Center Review Content Box */
+  /* Center Review Content Box (Fixed Min-Height to Eliminate Layout Fluctuation) */
   .center-review-content {
     text-align: center;
     max-width: 620px;
+    width: 100%;
+    min-height: 145px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 0.65rem;
     transition: opacity 0.3s ease, transform 0.3s ease;
   }
@@ -243,6 +246,10 @@ const REVIEWS = [
     line-height: 1.6;
     margin: 0;
     font-weight: 400;
+    min-height: 3.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .review-author-name {
     font-style: italic;
@@ -294,9 +301,13 @@ const REVIEWS = [
     .avatar-card.far-right {
       display: none !important;
     }
+    .center-review-content {
+      min-height: 135px;
+    }
     .review-quote-text {
       font-size: 0.92rem;
       padding: 0 0.5rem;
+      min-height: 2.8rem;
     }
     .review-author-name {
       font-size: 0.85rem;
