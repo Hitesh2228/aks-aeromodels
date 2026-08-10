@@ -1,143 +1,253 @@
 ---
 ---
 
-<!-- Footer Main (Charcoal Dark Footer) -->
+<!-- Footer Main (Exact Bellavita Mobile Accordion & Desktop Grid Footer) -->
 <footer class="site-footer">
   <div class="container">
     
-    <!-- Top Grid -->
-    <div class="footer-grid">
+    <!-- Top Exclusive Newsletter Bar (Bellavita Mobile Footer Style) -->
+    <div class="footer-exclusive-block">
+      <h4 class="exclusive-title">EXCLUSIVE</h4>
       
-      <!-- Col 1: BESTSELLERS -->
-      <div class="footer-col">
-        <h4 class="col-title">BESTSELLERS</h4>
-        <ul class="footer-links">
-          <li><a href="/product/eng-1">O.S. Max 0.46 AX II</a></li>
-          <li><a href="/product/eng-4">DLE 65 Gas Engine</a></li>
-          <li><a href="/product/rad-1">Futaba Radio 6k 2.4G</a></li>
-          <li><a href="/product/sea-1">Decathlon 122" V2 ARF</a></li>
-          <li><a href="/product/sea-4">Boomerang V3 Trainer</a></li>
-          <li><a href="/product/bal-1">AAA Balsa Sheets 2mm</a></li>
-          <li><a href="/product/acc-12">RealFlight RC Simulator</a></li>
-        </ul>
-      </div>
+      <form class="exclusive-newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed successfully to SKYNODESUAV updates!');">
+        <div class="email-input-wrapper">
+          <input type="email" placeholder="Enter email here" required class="exclusive-input" />
+          <button type="submit" class="exclusive-submit-btn" aria-label="Submit Email">→</button>
+        </div>
+      </form>
 
-      <!-- Col 2: INFORMATION -->
-      <div class="footer-col">
-        <h4 class="col-title">INFORMATION</h4>
-        <ul class="footer-links">
-          <li><a href="/blog">RC Flight Blog & Guides</a></li>
-          <li><a href="/about">About Us</a></li>
-          <li><a href="/terms">Terms & Conditions</a></li>
-          <li><a href="/privacy">Privacy Policy</a></li>
-          <li><a href="/pricing-policy">Refund and Return</a></li>
-          <li><a href="/pricing-policy">Shipping Policy</a></li>
-          <li><a href="/pricing-policy">Bulk Order - GST Invoice</a></li>
-        </ul>
-      </div>
+      <p class="exclusive-desc">
+        Sign up here to get the latest news, updates and special offers delivered to your inbox.
+      </p>
+      <p class="exclusive-subdesc">
+        Plus, you'll be the first to know about our discounts!
+      </p>
+    </div>
 
-      <!-- Col 3: SUPPORT -->
-      <div class="footer-col">
-        <h4 class="col-title">SUPPORT</h4>
-        <ul class="footer-links">
-          <li><a href="/blog">Technical Blog Posts</a></li>
-          <li><a href="/contact">Contact Us</a></li>
-          <li><a href="/contact">Order Tracking</a></li>
-          <li><a href="/shop">All Products</a></li>
-          <li><a href="/contact">FAQ</a></li>
-          <li><a href="/sitemap.xml">Sitemap</a></li>
-        </ul>
-      </div>
-
-      <!-- Col 4: CONTACT US (Updated Address & Phone) -->
-      <div class="footer-col contact-col">
-        <h4 class="col-title">CONTACT US</h4>
-        <div class="contact-details">
-          <p><strong>Office Location:</strong> Devlali camp, near HP petrol pump, Maharashtra, India 422 502</p>
-          <p>
-            <strong>Contact Us on WhatsApp:</strong> 
-            <a href="https://wa.me/917722009120" target="_blank" rel="noopener noreferrer" class="gold-link">
-              +91-7722009120
-            </a>
-          </p>
-          <p><strong>Timing:</strong> 10:00 AM to 7:00 PM, Monday to Sunday</p>
+    <!-- Accordion Blocks for Mobile / Grid Columns for Desktop -->
+    <div class="footer-accordion-grid">
+      
+      <!-- Accordion 1: BESTSELLERS -->
+      <div class="footer-acc-block">
+        <button class="footer-acc-btn" id="acc-btn-1" aria-expanded="false">
+          <span>BESTSELLERS</span>
+          <span class="acc-chevron">∨</span>
+        </button>
+        <div class="footer-acc-content">
+          <ul class="footer-links">
+            <li><a href="/product/eng-1">O.S. Max 0.46 AX II Nitro Engine</a></li>
+            <li><a href="/product/eng-4">DLE 65 Gas Engine with Standoffs</a></li>
+            <li><a href="/product/rad-1">Futaba Radio 6k 2.4GHz Transmitter</a></li>
+            <li><a href="/product/sea-1">Decathlon 122" V2 ARF Aeromodel</a></li>
+            <li><a href="/product/sea-4">Boomerang V3 Nitro Trainer</a></li>
+            <li><a href="/product/bal-1">AAA Grade Balsa Sheets 2mm</a></li>
+            <li><a href="/product/acc-12">RealFlight Evolution RC Simulator</a></li>
+          </ul>
         </div>
       </div>
 
-      <!-- Col 5: EXCLUSIVE -->
-      <div class="footer-col newsletter-col">
-        <h4 class="col-title">EXCLUSIVE</h4>
-        <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed successfully!');">
-          <input type="email" placeholder="Enter email here" required class="news-input" />
-          <button type="submit" class="news-submit-btn">→</button>
-        </form>
-        <p class="news-desc">Sign up to receive news, flight updates, and exclusive discounts delivered to your inbox.</p>
+      <!-- Accordion 2: INFORMATION -->
+      <div class="footer-acc-block">
+        <button class="footer-acc-btn" id="acc-btn-2" aria-expanded="false">
+          <span>INFORMATION</span>
+          <span class="acc-chevron">∨</span>
+        </button>
+        <div class="footer-acc-content">
+          <ul class="footer-links">
+            <li><a href="/blog">RC Flight Blog & Guides</a></li>
+            <li><a href="/about">About SKYNODESUAV</a></li>
+            <li><a href="/terms">Terms & Conditions</a></li>
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/pricing-policy">Refund and Return Policy</a></li>
+            <li><a href="/pricing-policy">Shipping & Delivery Policy</a></li>
+            <li><a href="/pricing-policy">Bulk Order & GST Tax Invoice</a></li>
+          </ul>
+        </div>
+      </div>
 
-        <!-- Line Art Social Icons -->
-        <div class="social-icons">
-          <a href="#" aria-label="Facebook">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-          </a>
-          <a href="#" aria-label="Twitter">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
-          </a>
-          <a href="#" aria-label="Instagram">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-          </a>
-          <a href="#" aria-label="YouTube">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
-          </a>
+      <!-- Accordion 3: SUPPORT -->
+      <div class="footer-acc-block">
+        <button class="footer-acc-btn" id="acc-btn-3" aria-expanded="false">
+          <span>SUPPORT</span>
+          <span class="acc-chevron">∨</span>
+        </button>
+        <div class="footer-acc-content">
+          <ul class="footer-links">
+            <li><a href="/blog">Technical Flight Blog Posts</a></li>
+            <li><a href="/contact">Contact Support Team</a></li>
+            <li><a href="/contact">Order Tracking & Status</a></li>
+            <li><a href="/shop">Browse All Catalog Products</a></li>
+            <li><a href="/contact">Frequently Asked Questions (FAQ)</a></li>
+            <li><a href="/sitemap.xml">XML Sitemap</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Accordion 4: CONTACT US -->
+      <div class="footer-acc-block">
+        <button class="footer-acc-btn" id="acc-btn-4" aria-expanded="false">
+          <span>CONTACT US</span>
+          <span class="acc-chevron">∨</span>
+        </button>
+        <div class="footer-acc-content">
+          <div class="contact-details">
+            <p><strong>Office Location:</strong> Devlali camp, near HP petrol pump, Maharashtra, India 422 502</p>
+            <p>
+              <strong>WhatsApp Support:</strong> 
+              <a href="https://wa.me/917722009120" target="_blank" rel="noopener noreferrer" class="gold-link">
+                +91-7722009120
+              </a>
+            </p>
+            <p><strong>Support Timing:</strong> 10:00 AM to 7:00 PM (Monday to Sunday)</p>
+          </div>
         </div>
       </div>
 
     </div>
 
-    <!-- Copyright Bar -->
+    <!-- Line Art Social Icons Strip (Bellavita Style) -->
+    <div class="footer-social-row">
+      <a href="#" aria-label="Facebook">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      </a>
+      <a href="#" aria-label="Twitter">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+      </a>
+      <a href="#" aria-label="Pinterest">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.14 2.5 7.69 6 9.24.04-.79.08-2 .16-2.86.15-.76.96-4.08.96-4.08s-.24-.49-.24-1.21c0-1.13.66-1.98 1.48-1.98.7 0 1.04.53 1.04 1.16 0 .7-.45 1.76-.68 2.73-.19.82.41 1.49 1.22 1.49 1.46 0 2.59-1.54 2.59-3.76 0-1.96-1.41-3.33-3.42-3.33-2.33 0-3.7 1.75-3.7 3.56 0 .7.27 1.46.61 1.87.07.08.08.15.06.24l-.23.95c-.04.15-.13.18-.3.11-1.12-.52-1.82-2.15-1.82-3.46 0-2.82 2.05-5.4 5.9-5.4 3.1 0 5.51 2.21 5.51 5.16 0 3.08-1.94 5.56-4.63 5.56-.9 0-1.75-.47-2.04-1.02l-.56 2.12c-.2.77-.74 1.73-1.1 2.33C9.9 21.84 10.93 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
+      </a>
+      <a href="#" aria-label="Instagram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+      <a href="#" aria-label="YouTube">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+      </a>
+    </div>
+
+    <!-- Copyright Notice (Exact Bellavita Mobile Line) -->
     <div class="copyright-bar">
-      <p>© 2026, SKYNODESUAV India. All Rights Reserved.</p>
+      <p>© 2026, SKYNODESUAV (IDAM Natural Wellness Pvt. Ltd.).</p>
     </div>
 
   </div>
 </footer>
 
-<!-- Official SVG WhatsApp Float Widget -->
+<!-- Official SVG WhatsApp Float Widget (Compact & Cleared from Overlapping Buttons) -->
 <a href="https://wa.me/917722009120" target="_blank" rel="noopener noreferrer" class="whatsapp-float" title="Chat on WhatsApp">
-  <svg width="30" height="30" viewBox="0 0 24 24" fill="#ffffff">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="#ffffff">
     <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-0.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
   </svg>
 </a>
 
 <style>
-  /* Main Footer */
+  /* Main Footer (Bellavita Dark Slate Tone) */
   .site-footer {
-    background: #262626;
+    background: #383838;
     color: #ffffff;
-    padding: 4rem 0 2rem;
+    padding: 3.5rem 0 2rem;
     font-size: 0.85rem;
+    border-top: 1px solid #4a4a4a;
   }
-  .footer-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 2rem;
-    margin-bottom: 3rem;
+
+  /* Exclusive Newsletter Top Block (Bellavita Exact Layout) */
+  .footer-exclusive-block {
+    max-width: 480px;
+    margin-bottom: 2.5rem;
   }
-  .col-title {
+  .exclusive-title {
     font-family: var(--font-display);
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     font-weight: 700;
     color: #ffffff;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.12em;
     margin-bottom: 1.25rem;
   }
+  .exclusive-newsletter-form {
+    margin-bottom: 1.25rem;
+  }
+  .email-input-wrapper {
+    position: relative;
+    width: 100%;
+    border-bottom: 1px solid #777777;
+    display: flex;
+    align-items: center;
+    padding-bottom: 0.35rem;
+  }
+  .exclusive-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-family: var(--font-main);
+  }
+  .exclusive-input::placeholder {
+    color: #aaaaaa;
+  }
+  .exclusive-submit-btn {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0 0.5rem;
+  }
+  .exclusive-desc {
+    color: #cccccc;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+  }
+  .exclusive-subdesc {
+    color: #cccccc;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  /* Desktop Grid (4 Columns) */
+  .footer-accordion-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-acc-btn {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 0;
+    text-align: left;
+    width: 100%;
+    margin-bottom: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: default;
+  }
+  .acc-chevron {
+    display: none; /* Hidden on desktop */
+  }
+
   .footer-links {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 0.65rem;
+    padding: 0;
+    margin: 0;
   }
   .footer-links a {
     color: #cccccc;
-    transition: var(--transition-fast);
+    text-decoration: none;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    transition: color 0.2s ease, padding 0.2s ease;
   }
   .footer-links a:hover {
     color: #ffffff;
@@ -146,68 +256,43 @@
 
   .contact-details p {
     color: #cccccc;
-    line-height: 1.65;
+    line-height: 1.6;
     margin-bottom: 0.75rem;
+    font-size: 0.82rem;
   }
   .gold-link {
     color: #e6c875;
     font-weight: 700;
+    text-decoration: none;
   }
 
-  /* Newsletter */
-  .newsletter-form {
+  /* Social Icons Row */
+  .footer-social-row {
     display: flex;
-    margin-bottom: 1rem;
-  }
-  .news-input {
-    background: #333333;
-    border: 1px solid #444444;
-    color: #ffffff;
-    padding: 0.6rem 0.85rem;
-    font-size: 0.8rem;
-    border-radius: 4px 0 0 4px;
-    width: 100%;
-    outline: none;
-  }
-  .news-submit-btn {
-    background: #ffffff;
-    color: #262626;
-    font-weight: 800;
-    padding: 0.6rem 1rem;
-    border-radius: 0 4px 4px 0;
-  }
-  .news-desc {
-    color: #aaaaaa;
-    font-size: 0.78rem;
-    line-height: 1.4;
-    margin-bottom: 1rem;
-  }
-  .social-icons {
-    display: flex;
-    gap: 1.2rem;
+    gap: 1.25rem;
     align-items: center;
+    margin-bottom: 1.5rem;
   }
-  .social-icons a {
+  .footer-social-row a {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: var(--transition-fast);
+    transition: transform 0.2s ease;
   }
-  .social-icons a:hover svg {
+  .footer-social-row a:hover svg {
     stroke: #ffffff;
     transform: translateY(-2px);
   }
 
   /* Copyright Bar */
   .copyright-bar {
-    border-top: 1px solid #333333;
+    border-top: 1px solid #4a4a4a;
     padding-top: 1.5rem;
-    text-align: center;
-    color: #888888;
-    font-size: 0.8rem;
+    color: #aaaaaa;
+    font-size: 0.78rem;
   }
 
-  /* WhatsApp Float Button - Bellavita Compact Style */
+  /* Compact Floating WhatsApp Icon */
   .whatsapp-float {
     position: fixed;
     bottom: 1.5rem;
@@ -224,21 +309,54 @@
     z-index: 99;
     transition: transform 0.25s ease, background 0.25s ease;
   }
-  .whatsapp-float svg {
-    width: 24px;
-    height: 24px;
-  }
   .whatsapp-float:hover {
     transform: scale(1.1);
     background: #20ba5a;
   }
 
-  @media (max-width: 990px) {
-    .footer-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
+  /* Mobile Collapsible Accordion Styling (< 768px - Exact Bellavita Mobile Footer Match) */
   @media (max-width: 768px) {
+    .site-footer {
+      padding: 2.5rem 0 5.5rem; /* Leaves clearance for Mobile Bottom Nav bar */
+    }
+    .footer-exclusive-block {
+      margin-bottom: 2rem;
+      border-bottom: 1px solid #4a4a4a;
+      padding-bottom: 1.75rem;
+    }
+    .footer-accordion-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-bottom: 2rem;
+    }
+    .footer-acc-block {
+      border-bottom: 1px solid #4a4a4a;
+    }
+    .footer-acc-btn {
+      cursor: pointer;
+      padding: 1.1rem 0;
+      margin-bottom: 0;
+      user-select: none;
+    }
+    .acc-chevron {
+      display: inline-block;
+      font-size: 0.85rem;
+      transition: transform 0.3s ease;
+      color: #aaaaaa;
+    }
+    .footer-acc-btn.is-open .acc-chevron {
+      transform: rotate(180deg);
+    }
+    .footer-acc-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), padding 0.35s ease;
+    }
+    .footer-acc-block.is-open .footer-acc-content {
+      max-height: 400px;
+      padding-bottom: 1.25rem;
+    }
     .whatsapp-float {
       bottom: 74px !important;
       right: 1rem !important;
@@ -246,9 +364,38 @@
       height: 44px !important;
     }
   }
-  @media (max-width: 600px) {
-    .footer-grid {
-      grid-template-columns: 1fr;
-    }
-  }
 </style>
+
+<script>
+  function initFooterAccordions() {
+    const accBlocks = document.querySelectorAll('.footer-acc-block');
+
+    accBlocks.forEach(block => {
+      const btn = block.querySelector('.footer-acc-btn');
+      btn?.addEventListener('click', () => {
+        // Toggle active class on mobile
+        if (window.innerWidth <= 768) {
+          const isOpen = block.classList.contains('is-open');
+          
+          // Close all other blocks for clean single accordion open
+          accBlocks.forEach(b => {
+            b.classList.remove('is-open');
+            b.querySelector('.footer-acc-btn')?.classList.remove('is-open');
+          });
+
+          if (!isOpen) {
+            block.classList.add('is-open');
+            btn.classList.add('is-open');
+          }
+        }
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFooterAccordions);
+  } else {
+    initFooterAccordions();
+  }
+  document.addEventListener('astro:page-load', initFooterAccordions);
+</script>
