@@ -1,0 +1,787 @@
+---
+import Header from '../components/Header.astro';
+import CartDrawer from '../components/CartDrawer.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SKYNODES 2D RC Flight Simulator Game | Aeromodelling Arcade</title>
+  <meta name="description" content="Play the official SKYNODES 2D RC Aeromodel Flight Simulator! Fly Seagull Planes, pass through golden aerobatic rings, score points, and unlock ₹500 discount coupons!" />
+</head>
+<body class="simulator-body">
+
+  <Header />
+
+  <main class="sim-main-container">
+    
+    <!-- Game Header Bar -->
+    <div class="sim-game-header">
+      <div class="sim-title-wrap">
+        <span class="sim-badge">🎮 OFFICIAL RC SIMULATOR</span>
+        <h1 class="sim-heading">SKYNODES AIRBORNE ACE 2D</h1>
+        <p class="sim-sub">Use Keyboard Controls (<kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> or <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> + <kbd>Space</kbd> Boost) to fly through aerobatic rings!</p>
+      </div>
+    </div>
+
+    <!-- Canvas & HUD Container -->
+    <div class="sim-stage-box">
+      
+      <!-- Top HUD Overlay -->
+      <div class="sim-hud-bar" id="game-hud">
+        <div class="hud-stat">
+          <span class="hud-label">ALTITUDE</span>
+          <span class="hud-val" id="hud-alt">0 m</span>
+        </div>
+        <div class="hud-stat">
+          <span class="hud-label">AIRSPEED</span>
+          <span class="hud-val" id="hud-speed">0 km/h</span>
+        </div>
+        <div class="hud-stat">
+          <span class="hud-label">RINGS PASSED</span>
+          <span class="hud-val gold-txt" id="hud-rings">0 / 10</span>
+        </div>
+        <div class="hud-stat">
+          <span class="hud-label">SCORE</span>
+          <span class="hud-val" id="hud-score">0 PTS</span>
+        </div>
+      </div>
+
+      <!-- Main Game Canvas -->
+      <canvas id="flight-canvas" width="1000" height="520"></canvas>
+
+      <!-- Start Overlay Modal -->
+      <div class="sim-overlay-screen" id="start-screen">
+        <div class="sim-modal-content">
+          <div class="modal-badge">🛩️ SELECT YOUR RC AIRCRAFT</div>
+          <h2 class="modal-title">DEVLALI CAMP AIRSTRIP SIMULATOR</h2>
+          <p class="modal-desc">Fly through 10 Golden Aerobatic Rings in the sky! Reach 1,000+ points to unlock an exclusive **₹500 OFF Discount Coupon** for your next SKYNODES purchase.</p>
+          
+          <div class="plane-select-grid">
+            <div class="plane-card active" data-plane="seagull">
+              <div class="plane-icon">✈️</div>
+              <div class="plane-name">Seagull Decathlon 122"</div>
+              <div class="plane-spec">Engine: O.S. Max 0.46 AX II | Speed: Normal | Control: Stable</div>
+            </div>
+            <div class="plane-card" data-plane="edge3d">
+              <div class="plane-icon">🚀</div>
+              <div class="plane-name">Edge 540 3D Aerobatic</div>
+              <div class="plane-spec">Engine: DLE 60cc Twin Gas | Speed: Fast | Control: Agility</div>
+            </div>
+          </div>
+
+          <div class="controls-guide">
+            <div class="guide-item"><strong>PITCH UP:</strong> <kbd>W</kbd> or <kbd>↑</kbd></div>
+            <div class="guide-item"><strong>PITCH DOWN:</strong> <kbd>S</kbd> or <kbd>↓</kbd></div>
+            <div class="guide-item"><strong>THROTTLE UP:</strong> <kbd>D</kbd> or <kbd>→</kbd></div>
+            <div class="guide-item"><strong>THROTTLE DOWN:</strong> <kbd>A</kbd> or <kbd>←</kbd></div>
+            <div class="guide-item"><strong>TURBO BOOST:</strong> <kbd>Spacebar</kbd></div>
+          </div>
+
+          <button id="start-game-btn" class="btn-start-fly">
+            ▶ TAKE OFF & FLY NOW
+          </button>
+        </div>
+      </div>
+
+      <!-- Game Over / Victory Screen -->
+      <div class="sim-overlay-screen style-hidden" id="gameover-screen">
+        <div class="sim-modal-content victory-box">
+          <div class="modal-badge gold-bg">🏆 FLIGHT ACCOMPLISHED!</div>
+          <h2 class="modal-title" id="final-rating">TOP GUN PILOT ACE</h2>
+          <p class="modal-desc">You successfully flew your RC Aeromodel through Devlali sky gates!</p>
+          
+          <div class="score-summary-grid">
+            <div class="score-item">
+              <span>FINAL SCORE</span>
+              <strong id="final-score-val">1250 PTS</strong>
+            </div>
+            <div class="score-item">
+              <span>RINGS CLEARED</span>
+              <strong id="final-rings-val">10 / 10</strong>
+            </div>
+          </div>
+
+          <!-- Coupon Reward Box -->
+          <div class="coupon-reward-box">
+            <div class="coupon-title">🎁 CONGRATULATIONS! YOUR REWARD COUPON:</div>
+            <div class="coupon-code-lbl" id="reward-code-display">PILOTACE500</div>
+            <div class="coupon-sub">Use code at checkout to get ₹500 OFF on any O.S. Engine, Futaba Radio, or Seagull ARF plane!</div>
+          </div>
+
+          <div class="modal-actions">
+            <button id="restart-game-btn" class="btn-restart-fly">
+              🔄 FLY AGAIN
+            </button>
+            <a href="/shop" class="btn-shop-reward">
+              🛒 USE COUPON IN SHOP
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile On-Screen Touch Controls -->
+      <div class="mobile-touch-controls">
+        <div class="touch-dpad">
+          <button type="button" class="touch-btn" id="btn-up">▲ PITCH UP</button>
+          <button type="button" class="touch-btn" id="btn-down">▼ PITCH DOWN</button>
+        </div>
+        <div class="touch-actions">
+          <button type="button" class="touch-btn action-boost" id="btn-boost">🚀 BOOST</button>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <CartDrawer />
+  <Footer />
+
+  <style>
+    :global(body.simulator-body) {
+      background-color: #0b0f19 !important;
+      color: #ffffff !important;
+    }
+    
+    .sim-main-container {
+      padding: 2.5rem 1rem 5rem;
+      max-width: 1060px;
+      margin: 0 auto;
+    }
+
+    .sim-game-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .sim-badge {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      background: rgba(234, 179, 8, 0.15);
+      color: #facc15;
+      padding: 0.35rem 0.85rem;
+      border-radius: 99px;
+      border: 1px solid rgba(234, 179, 8, 0.3);
+      display: inline-block;
+      margin-bottom: 0.75rem;
+    }
+    .sim-heading {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.05em;
+    }
+    .sim-sub {
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+    kbd {
+      background: #1e293b;
+      border: 1px solid #475569;
+      color: #f8fafc;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      font-family: monospace;
+    }
+
+    /* Stage & Canvas Box */
+    .sim-stage-box {
+      position: relative;
+      background: #000000;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid #1e293b;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+    }
+
+    #flight-canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: linear-gradient(to bottom, #0f172a 0%, #1e3a8a 50%, #38bdf8 100%);
+    }
+
+    /* Top HUD Bar */
+    .sim-hud-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 10;
+    }
+    .hud-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .hud-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #94a3b8;
+      letter-spacing: 0.08em;
+    }
+    .hud-val {
+      font-family: monospace;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #38bdf8;
+    }
+    .gold-txt { color: #facc15; }
+
+    /* Overlay Screens */
+    .sim-overlay-screen {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      z-index: 20;
+    }
+    .style-hidden {
+      display: none !important;
+    }
+
+    .sim-modal-content {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 2.5rem;
+      max-width: 560px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+    .modal-badge {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      padding: 0.3rem 0.75rem;
+      border-radius: 99px;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .gold-bg { background: rgba(234, 179, 8, 0.15); color: #facc15; }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: #ffffff;
+      margin-bottom: 0.75rem;
+    }
+    .modal-desc {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      line-height: 1.5;
+      margin-bottom: 1.75rem;
+    }
+
+    /* Plane Select */
+    .plane-select-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .plane-card {
+      background: #1e293b;
+      border: 1.5px solid #334155;
+      border-radius: 10px;
+      padding: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+    .plane-card.active, .plane-card:hover {
+      border-color: #38bdf8;
+      background: #1e293b;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+    }
+    .plane-icon { font-size: 1.5rem; margin-bottom: 0.4rem; }
+    .plane-name { font-size: 0.85rem; font-weight: 800; color: #ffffff; margin-bottom: 0.2rem; }
+    .plane-spec { font-size: 0.68rem; color: #94a3b8; line-height: 1.3; }
+
+    /* Controls Guide */
+    .controls-guide {
+      background: #1e293b;
+      border-radius: 8px;
+      padding: 0.85rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-bottom: 1.75rem;
+      text-align: left;
+      font-size: 0.75rem;
+      color: #cbd5e1;
+    }
+
+    .btn-start-fly, .btn-restart-fly {
+      width: 100%;
+      background: #38bdf8;
+      color: #0f172a;
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 0.9rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 0.05em;
+    }
+    .btn-start-fly:hover, .btn-restart-fly:hover {
+      background: #7dd3fc;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(56, 189, 248, 0.4);
+    }
+
+    /* Score Summary */
+    .score-summary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .score-item {
+      background: #1e293b;
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .score-item span { font-size: 0.72rem; color: #94a3b8; display: block; margin-bottom: 0.25rem; }
+    .score-item strong { font-size: 1.3rem; color: #facc15; font-family: monospace; }
+
+    .coupon-reward-box {
+      background: linear-gradient(135deg, #1e1b4b 0%, #311b92 100%);
+      border: 1.5px dashed #818cf8;
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+    .coupon-title { font-size: 0.75rem; font-weight: 800; color: #c7d2fe; margin-bottom: 0.4rem; }
+    .coupon-code-lbl { font-family: monospace; font-size: 1.75rem; font-weight: 900; color: #facc15; letter-spacing: 0.15em; margin: 0.25rem 0; }
+    .coupon-sub { font-size: 0.72rem; color: #a5b4fc; }
+
+    .modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .btn-shop-reward {
+      background: #facc15;
+      color: #0f172a;
+      font-weight: 800;
+      font-size: 0.9rem;
+      padding: 0.9rem;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .btn-shop-reward:hover {
+      background: #fef08a;
+      transform: translateY(-2px);
+    }
+
+    /* Mobile Touch Controls */
+    .mobile-touch-controls {
+      display: none;
+      padding: 0.85rem;
+      background: #0f172a;
+      border-top: 1px solid #1e293b;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .touch-btn {
+      background: #1e293b;
+      color: #ffffff;
+      border: 1px solid #334155;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.82rem;
+      touch-action: manipulation;
+    }
+    .action-boost { background: #38bdf8; color: #0f172a; border: none; }
+
+    @media (max-width: 768px) {
+      .mobile-touch-controls { display: flex; }
+      .plane-select-grid { grid-template-columns: 1fr; }
+      .controls-guide { grid-template-columns: 1fr; }
+      .sim-heading { font-size: 1.4rem; }
+    }
+  </style>
+
+  <script>
+    function initFlightSimulator() {
+      const canvas = document.getElementById('flight-canvas') as HTMLCanvasElement;
+      if (!canvas) return;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      // HUD elements
+      const hudAlt = document.getElementById('hud-alt');
+      const hudSpeed = document.getElementById('hud-speed');
+      const hudRings = document.getElementById('hud-rings');
+      const hudScore = document.getElementById('hud-score');
+
+      // Screens
+      const startScreen = document.getElementById('start-screen');
+      const gameoverScreen = document.getElementById('gameover-screen');
+      const startBtn = document.getElementById('start-game-btn');
+      const restartBtn = document.getElementById('restart-game-btn');
+
+      // Plane cards selection
+      const planeCards = document.querySelectorAll('.plane-card');
+      let selectedPlane = 'seagull';
+
+      planeCards.forEach(card => {
+        card.addEventListener('click', () => {
+          planeCards.forEach(c => c.classList.remove('active'));
+          card.classList.add('active');
+          selectedPlane = card.getAttribute('data-plane') || 'seagull';
+        });
+      });
+
+      // Sound Engine (Web Audio API Synth)
+      let audioCtx: AudioContext | null = null;
+      let engineOsc: OscillatorNode | null = null;
+      let engineGain: GainNode | null = null;
+
+      function startEngineSound() {
+        try {
+          if (!audioCtx) {
+            audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+          }
+          if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+          }
+          engineOsc = audioCtx.createOscillator();
+          engineGain = audioCtx.createGain();
+
+          engineOsc.type = 'sawtooth';
+          engineOsc.frequency.setValueAtTime(110, audioCtx.currentTime); // O.S. Engine Idle RPM frequency
+
+          engineGain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+
+          engineOsc.connect(engineGain);
+          engineGain.connect(audioCtx.destination);
+          engineOsc.start();
+        } catch (e) {
+          console.log('Web Audio API audio note:', e);
+        }
+      }
+
+      function updateEngineSound(throttle: number) {
+        if (engineOsc && audioCtx) {
+          const freq = 100 + throttle * 280; // RPM synth pitch change
+          engineOsc.frequency.setTargetAtTime(freq, audioCtx.currentTime, 0.1);
+        }
+      }
+
+      function playRingSound() {
+        if (!audioCtx) return;
+        try {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5 tone
+          osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15); // A5 tone
+          gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+          gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.15);
+        } catch (e) {}
+      }
+
+      // Game Physics State
+      let gameActive = false;
+      let planeX = 120;
+      let planeY = 380;
+      let planeAngle = 0; // In radians
+      let airspeed = 40; // km/h
+      let altitude = 40;
+      let score = 0;
+      let ringsCollected = 0;
+      let totalRings = 10;
+
+      // Key States
+      const keys = {
+        up: false,
+        down: false,
+        left: false,
+        right: false,
+        boost: false
+      };
+
+      window.addEventListener('keydown', (e) => {
+        if (['KeyW', 'ArrowUp'].includes(e.code)) keys.up = true;
+        if (['KeyS', 'ArrowDown'].includes(e.code)) keys.down = true;
+        if (['KeyA', 'ArrowLeft'].includes(e.code)) keys.left = true;
+        if (['KeyD', 'ArrowRight'].includes(e.code)) keys.right = true;
+        if (['Space'].includes(e.code)) keys.boost = true;
+      });
+
+      window.addEventListener('keyup', (e) => {
+        if (['KeyW', 'ArrowUp'].includes(e.code)) keys.up = false;
+        if (['KeyS', 'ArrowDown'].includes(e.code)) keys.down = false;
+        if (['KeyA', 'ArrowLeft'].includes(e.code)) keys.left = false;
+        if (['KeyD', 'ArrowRight'].includes(e.code)) keys.right = false;
+        if (['Space'].includes(e.code)) keys.boost = false;
+      });
+
+      // Mobile Touch Listeners
+      const btnUp = document.getElementById('btn-up');
+      const btnDown = document.getElementById('btn-down');
+      const btnBoost = document.getElementById('btn-boost');
+
+      btnUp?.addEventListener('touchstart', (e) => { e.preventDefault(); keys.up = true; });
+      btnUp?.addEventListener('touchend', (e) => { e.preventDefault(); keys.up = false; });
+      btnDown?.addEventListener('touchstart', (e) => { e.preventDefault(); keys.down = true; });
+      btnDown?.addEventListener('touchend', (e) => { e.preventDefault(); keys.down = false; });
+      btnBoost?.addEventListener('touchstart', (e) => { e.preventDefault(); keys.boost = true; });
+      btnBoost?.addEventListener('touchend', (e) => { e.preventDefault(); keys.boost = false; });
+
+      // Sky Golden Ring Checkpoints
+      interface Ring {
+        x: number;
+        y: number;
+        radius: number;
+        passed: boolean;
+      }
+      let rings: Ring[] = [];
+
+      function spawnRings() {
+        rings = [];
+        for (let i = 0; i < totalRings; i++) {
+          rings.push({
+            x: 600 + i * 450,
+            y: 120 + Math.sin(i * 1.5) * 140 + Math.random() * 80,
+            radius: 36,
+            passed: false
+          });
+        }
+      }
+
+      function resetGame() {
+        planeX = 120;
+        planeY = 380;
+        planeAngle = 0;
+        airspeed = 45;
+        score = 0;
+        ringsCollected = 0;
+        spawnRings();
+      }
+
+      function startGame() {
+        resetGame();
+        startScreen?.classList.add('style-hidden');
+        gameoverScreen?.classList.add('style-hidden');
+        gameActive = true;
+        startEngineSound();
+      }
+
+      function endGame() {
+        gameActive = false;
+        if (engineOsc) {
+          try { engineOsc.stop(); } catch (e) {}
+        }
+        
+        const finalScoreVal = document.getElementById('final-score-val');
+        const finalRingsVal = document.getElementById('final-rings-val');
+        if (finalScoreVal) finalScoreVal.textContent = `${score} PTS`;
+        if (finalRingsVal) finalRingsVal.textContent = `${ringsCollected} / ${totalRings}`;
+
+        gameoverScreen?.classList.remove('style-hidden');
+      }
+
+      startBtn?.addEventListener('click', startGame);
+      restartBtn?.addEventListener('click', startGame);
+
+      // Main 60fps Physics & Render Loop
+      function gameLoop() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Sky Parallax Background Gradient
+        const skyGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+        skyGrad.addColorStop(0, '#0f172a');
+        skyGrad.addColorStop(0.6, '#1e3a8a');
+        skyGrad.addColorStop(1, '#38bdf8');
+        ctx.fillStyle = skyGrad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw Clouds
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.18)';
+        for (let i = 0; i < 5; i++) {
+          const cx = ((Date.now() * 0.02 + i * 220) % (canvas.width + 200)) - 100;
+          const cy = 80 + (i % 3) * 60;
+          ctx.beginPath();
+          ctx.arc(cx, cy, 35, 0, Math.PI * 2);
+          ctx.arc(cx + 25, cy - 10, 45, 0, Math.PI * 2);
+          ctx.arc(cx + 55, cy, 35, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Draw Ground / Devlali Runway Strip
+        ctx.fillStyle = '#166534'; // Green airfield grass
+        ctx.fillRect(0, canvas.height - 70, canvas.width, 70);
+
+        // Runway tarmac line
+        ctx.fillStyle = '#334155';
+        ctx.fillRect(0, canvas.height - 45, canvas.width, 35);
+        ctx.fillStyle = '#facc15';
+        for (let r = 0; r < canvas.width; r += 60) {
+          ctx.fillRect(r, canvas.height - 30, 30, 4);
+        }
+
+        if (gameActive) {
+          // Flight Dynamics Physics
+          if (keys.up) planeAngle -= 0.04;
+          if (keys.down) planeAngle += 0.04;
+
+          // Limit pitch angle (-60 deg to +60 deg)
+          planeAngle = Math.max(-Math.PI / 3, Math.min(Math.PI / 3, planeAngle));
+
+          // Speed & Thrust
+          let currentSpeed = keys.boost ? 85 : (keys.right ? 65 : (keys.left ? 30 : 45));
+          if (selectedPlane === 'edge3d') currentSpeed *= 1.25;
+
+          airspeed = airspeed * 0.95 + currentSpeed * 0.05;
+          updateEngineSound(airspeed / 100);
+
+          // Position updates
+          planeX += Math.cos(planeAngle) * (airspeed * 0.08);
+          planeY += Math.sin(planeAngle) * (airspeed * 0.06);
+
+          // Gravity pull down slightly
+          planeY += 0.4;
+
+          // Boundaries
+          if (planeY < 40) planeY = 40;
+          if (planeY > canvas.height - 80) {
+            planeY = canvas.height - 80;
+            // Touched ground / Runway Landing
+            if (ringsCollected > 0) {
+              score += 250; // Bonus Landing Score
+              endGame();
+            }
+          }
+
+          // Camera Scroll Offset simulation (move rings towards plane)
+          const scrollSpeed = Math.cos(planeAngle) * (airspeed * 0.12);
+
+          // Update HUD
+          altitude = Math.round(canvas.height - 70 - planeY);
+          if (hudAlt) hudAlt.textContent = `${altitude} m`;
+          if (hudSpeed) hudSpeed.textContent = `${Math.round(airspeed)} km/h`;
+          if (hudRings) hudRings.textContent = `${ringsCollected} / ${totalRings}`;
+          if (hudScore) hudScore.textContent = `${score} PTS`;
+
+          // Process & Render Aerobatic Golden Rings
+          rings.forEach(ring => {
+            ring.x -= scrollSpeed;
+
+            // Render Ring
+            ctx.save();
+            ctx.lineWidth = 6;
+            ctx.strokeStyle = ring.passed ? '#22c55e' : '#facc15';
+            ctx.shadowColor = ring.passed ? '#22c55e' : '#facc15';
+            ctx.shadowBlur = 12;
+            ctx.beginPath();
+            ctx.arc(ring.x, ring.y, ring.radius, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.restore();
+
+            // Collision Detection with Plane
+            if (!ring.passed) {
+              const dx = planeX - ring.x;
+              const dy = planeY - ring.y;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+              if (dist < ring.radius + 15) {
+                ring.passed = true;
+                ringsCollected++;
+                score += 150;
+                playRingSound();
+
+                if (ringsCollected >= totalRings) {
+                  score += 500; // Complete bonus
+                  endGame();
+                }
+              }
+            }
+          });
+
+          // Draw RC Airplane Sprite & Thrust Particle Trail
+          ctx.save();
+          ctx.translate(planeX, planeY);
+          ctx.rotate(planeAngle);
+
+          // Propeller Spinner & Thrust Particle
+          if (keys.boost) {
+            ctx.fillStyle = '#ef4444';
+            ctx.beginPath();
+            ctx.arc(-24, 0, Math.random() * 6 + 4, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
+          // Plane Fuselage & Wings
+          ctx.fillStyle = selectedPlane === 'edge3d' ? '#ef4444' : '#eab308';
+          ctx.beginPath();
+          ctx.ellipse(0, 0, 22, 6, 0, 0, Math.PI * 2); // Body
+          ctx.fill();
+
+          // Wings
+          ctx.fillStyle = '#1e293b';
+          ctx.fillRect(-6, -18, 8, 36); // Main Wing
+
+          // Tail Wing
+          ctx.fillRect(-18, -8, 5, 16);
+
+          // Propeller Disk Spin
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.arc(22, 0, 10, 0, Math.PI * 2);
+          ctx.stroke();
+
+          ctx.restore();
+        }
+
+        requestAnimationFrame(gameLoop);
+      }
+
+      gameLoop();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initFlightSimulator);
+    } else {
+      initFlightSimulator();
+    }
+    document.addEventListener('astro:page-load', initFlightSimulator);
+  </script>
+
+</body>
+</html>
