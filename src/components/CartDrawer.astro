@@ -43,7 +43,7 @@
         <a href="/invoice" id="generate-invoice-btn" class="btn-invoice-link">
           📄 VIEW TAX BILL / INVOICE
         </a>
-        <a href="/checkout" id="shopify-checkout-btn" class="btn-primary checkout-btn" target="_blank" rel="noopener">
+        <a href="/checkout" id="shopify-checkout-btn" class="btn-primary checkout-btn">
           PROCEED TO SECURE CHECKOUT <span>🔒</span>
         </a>
       </div>
@@ -339,7 +339,7 @@
     }
 
     if (checkoutLink) {
-      checkoutLink.href = buildShopifyCheckoutUrl(hydrated);
+      checkoutLink.href = '/checkout';
     }
 
     if (hydrated.length === 0) {

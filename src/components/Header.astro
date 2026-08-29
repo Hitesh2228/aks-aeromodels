@@ -585,6 +585,16 @@ import LoginModal from './LoginModal.astro';
       window.dispatchEvent(new CustomEvent('open-cart-drawer'));
     });
 
+    // Account / Login Modal Trigger
+    const accountBtn = document.getElementById('header-account-btn');
+    accountBtn?.addEventListener('click', (e) => {
+      const isLoggedIn = localStorage.getItem('google_auth_logged_in') === 'true';
+      if (!isLoggedIn) {
+        e.preventDefault();
+        window.dispatchEvent(new CustomEvent('open-login-modal'));
+      }
+    });
+
     function updateCartBadge() {
       const badge = document.getElementById('cart-count-badge');
       if (badge) {
