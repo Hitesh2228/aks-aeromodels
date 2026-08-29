@@ -124,7 +124,7 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
 // Helper: Convert Shopify product to standard site Product format
 export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
   return {
-    id: sp.safeId || sp.id,
+    id: sp.handle || sp.safeId || sp.id,
     handle: sp.handle,
     name: sp.title,
     category: 'aeromodels',
@@ -151,7 +151,70 @@ export async function getCombinedProducts(): Promise<Product[]> {
   return [...convertedShopify, ...staticProducts];
 }
 
-// 2. Generate Shopify Direct Checkout URL or Cart Permalink
+// 2. Sync Cart / Order to Shopify Storefront API
+export async function syncCartToShopifyStorefront(order: {
+  customer: { name: string; email: string; phone: string; address: string; city: string; state: string; pincode: string };
+  items: Array<{ product: Product; quantity: number }>;
+  paymentMethod: string;
+}) {
+  try {
+    const lines = order.items.map(item => {
+      let variantId = item.product?.variantId || item.product?.id || "";
+      if (!variantId.startsWith('gid://')) {
+        const num = variantId.replace(/[^0-9]/g, '');
+        variantId = num ? `gid://shopify/ProductVariant/${num}` : `gid://shopify/ProductVariant/10344047804692`;
+      }
+      return {
+        merchandiseId: variantId,
+        quantity: item.quantity || 1
+      };
+    });
+
+    const mutation = `
+      mutation createCart($input: CartInput!) {
+        cartCreate(input: $input) {
+          cart {
+            id
+            checkoutUrl
+          }
+          userErrors {
+            field
+            message
+          }
+        }
+      }
+    `;
+
+    const variables = {
+      input: {
+        lines,
+        buyerIdentity: {
+          email: order.customer.email || 'pilot@skynodesuav.com',
+          phone: order.customer.phone ? `+91${order.customer.phone.replace(/[^0-9]/g, '').slice(-10)}` : undefined,
+          deliveryAddressPreferences: [{
+            deliveryAddress: {
+              address1: order.customer.address || 'Devlali Camp',
+              city: order.customer.city || 'Nashik',
+              province: order.customer.state || 'Maharashtra',
+              zip: order.customer.pincode || '422502',
+              country: 'IN',
+              firstName: order.customer.name.split(' ')[0] || order.customer.name,
+              lastName: order.customer.name.split(' ').slice(1).join(' ') || 'Pilot'
+            }
+          }]
+        }
+      }
+    };
+
+    const res = await fetchShopifyStorefront(mutation, variables);
+    return res?.cartCreate?.cart || null;
+  } catch (err) {
+    console.error('[Shopify Cart Sync Exception]', err);
+    return null;
+  }
+}
+
+// 3. Generate Shopify Direct Checkout URL or Cart Permalink
 export function buildShopifyCheckoutUrl(cartItems: any[]): string {
   if (!cartItems || cartItems.length === 0) {
     return `https://${SHOPIFY_DOMAIN}/cart`;

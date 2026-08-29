@@ -422,7 +422,8 @@ import '../styles/global.css';
   </style>
 
   <script>
-    import { getCartHydrated } from '../lib/cartStore';
+    import { getCartHydrated, saveCartToStorage } from '../lib/cartStore';
+    import { syncCartToShopifyStorefront } from '../lib/shopify';
 
     document.addEventListener('DOMContentLoaded', () => {
       const itemsList = document.getElementById('checkout-items-list');
@@ -468,17 +469,68 @@ import '../styles/global.css';
         `).join('');
       }
 
-      placeOrderBtn?.addEventListener('click', (e) => {
+      placeOrderBtn?.addEventListener('click', async (e) => {
         e.preventDefault();
-        const nameInput = (document.getElementById('cust-name') as HTMLInputElement)?.value;
-        const phoneInput = (document.getElementById('cust-phone') as HTMLInputElement)?.value;
+        const name = (document.getElementById('cust-name') as HTMLInputElement)?.value.trim();
+        const phone = (document.getElementById('cust-phone') as HTMLInputElement)?.value.trim();
+        const email = (document.getElementById('cust-email') as HTMLInputElement)?.value.trim();
+        const address = (document.getElementById('cust-address') as HTMLInputElement)?.value.trim();
+        const city = (document.getElementById('cust-city') as HTMLInputElement)?.value.trim();
+        const state = (document.getElementById('cust-state') as HTMLInputElement)?.value.trim();
+        const pincode = (document.getElementById('cust-pincode') as HTMLInputElement)?.value.trim();
+        const gstin = (document.getElementById('cust-gstin') as HTMLInputElement)?.value.trim();
 
-        if (!nameInput || !phoneInput) {
-          alert('Please enter your Full Name and Phone Number to complete checkout.');
+        if (!name || !phone || !email || !address || !city || !pincode) {
+          alert('Please fill in all required Shipping Address details (*).');
           return;
         }
 
-        alert('Order Placed Successfully! Redirecting to your official Tax Invoice bill...');
+        const selectedPayRadio = document.querySelector('input[name="pay-method"]:checked') as HTMLInputElement;
+        const payMethodVal = selectedPayRadio?.value || 'cod';
+
+        const subtotal = hydrated.reduce((acc, cur) => acc + (cur.product.price * cur.quantity), 0);
+        const gst = Math.round(subtotal * 0.18);
+        const total = subtotal;
+
+        const orderId = `#SKY-INV-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+        const awb = `#AWB-987${Math.floor(100000 + Math.random() * 900000)}`;
+        const todayDate = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+        const paymentLabel = payMethodVal === 'cod' ? 'CASH ON DELIVERY (COD)' : 'PAID (ONLINE)';
+        const statusLabel = payMethodVal === 'cod' ? 'PENDING (COD UPON DELIVERY)' : 'PAID (ONLINE)';
+
+        const orderObj = {
+          orderId,
+          date: todayDate,
+          customer: { name, phone, email, address, city, state, pincode, gstin },
+          items: hydrated,
+          subtotal,
+          gst,
+          total,
+          paymentMethod: paymentLabel,
+          status: statusLabel,
+          awb
+        };
+
+        // Save order to localStorage
+        localStorage.setItem('skynodes_last_order', JSON.stringify(orderObj));
+        
+        try {
+          const existingHistory = JSON.parse(localStorage.getItem('skynodes_orders_history') || '[]');
+          localStorage.setItem('skynodes_orders_history', JSON.stringify([orderObj, ...existingHistory]));
+        } catch (err) {}
+
+        // Async sync to Shopify Storefront API
+        try {
+          await syncCartToShopifyStorefront(orderObj);
+        } catch (err) {
+          console.error('[Shopify Sync Warning]', err);
+        }
+
+        // Clear cart
+        saveCartToStorage([]);
+
+        alert(`Order ${orderId} Placed Successfully! (${paymentLabel})\nRedirecting to your Tax Invoice Bill...`);
         window.location.href = '/invoice';
       });
     });
