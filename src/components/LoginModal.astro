@@ -1,7 +1,7 @@
 ---
 ---
 
-<!-- Bellavita 2-Column Luxury Login/Signup Modal -->
+<!-- Bellavita 2-Column Luxury Login/Signup/Forgot Password Modal -->
 <div class="login-modal-overlay" id="bellavita-login-modal" aria-hidden="true">
   <div class="login-modal-box">
     
@@ -14,55 +14,58 @@
       <div class="modal-left-col">
         <div class="brand-header-wrap">
           <span class="brand-title-lbl">SKYNODESUAV</span>
-          <span class="powered-tag">Powered by QuickAuth</span>
+          <span class="powered-tag">Official Pilot Portal</span>
         </div>
 
-        <h2 class="modal-left-headline">Login now to avail best offers!</h2>
+        <h2 class="modal-left-headline" id="left-col-headline">Join SKYNODES UAV Pilot Club!</h2>
 
         <div class="modal-feature-cards">
           <div class="modal-feat-card">
-            <div class="star-icon">🌟</div>
-            <div class="feat-title">Customer-first</div>
-            <div class="feat-desc">Putting you in the center</div>
+            <div class="star-icon">⚡</div>
+            <div class="feat-title">Fast Express Shipping</div>
+            <div class="feat-desc">24h dispatch across India</div>
           </div>
 
           <div class="modal-feat-card">
-            <div class="star-icon">🌟</div>
-            <div class="feat-title">Transparent</div>
-            <div class="feat-desc">Honest from the inside out</div>
+            <div class="star-icon">🔒</div>
+            <div class="feat-title">Shopify Secure Gateway</div>
+            <div class="feat-desc">Direct 100% encrypted checkout</div>
           </div>
 
           <div class="modal-feat-card">
-            <div class="star-icon">🌟</div>
-            <div class="feat-title">Innovative</div>
-            <div class="feat-desc">Getting the absolute best for you</div>
+            <div class="star-icon">🏅</div>
+            <div class="feat-title">Official Pilot Rewards</div>
+            <div class="feat-desc">Earn points on every order</div>
           </div>
         </div>
       </div>
 
-      <!-- Right Column: Login Form -->
+      <!-- Right Column: Interactive Auth Modes (Login / Sign Up / Forgot Password) -->
       <div class="modal-right-col">
         
-        <h2 class="modal-right-title">Login Here!</h2>
+        <!-- Auth Mode Tabs Header -->
+        <div class="auth-tabs-header">
+          <button type="button" class="auth-tab-btn active" id="tab-login-btn">LOGIN</button>
+          <button type="button" class="auth-tab-btn" id="tab-signup-btn">SIGN UP</button>
+        </div>
 
-        <form id="modal-login-form" class="modal-form">
-          <!-- Mobile Input Box -->
-          <div class="phone-input-wrap">
-            <div class="flag-prefix">
-              <span>🇮🇳 +91</span>
+        <!-- Mode 1: LOGIN FORM -->
+        <form id="modal-login-form" class="modal-form auth-mode-panel active">
+          <div class="form-input-group">
+            <label class="form-label">Email or Phone Number</label>
+            <input type="text" id="login-identifier" class="form-input-field" placeholder="Enter Email or 10-digit Phone" required />
+          </div>
+
+          <div class="form-input-group">
+            <div class="label-row">
+              <label class="form-label">Password</label>
+              <button type="button" class="link-btn" id="trigger-forgot-btn">Forgot Password?</button>
             </div>
-            <input 
-              type="tel" 
-              id="user-mobile-input" 
-              class="mobile-input-field" 
-              placeholder="Enter Mobile Number" 
-              pattern="[0-9]{10}"
-              required 
-            />
+            <input type="password" id="login-password" class="form-input-field" placeholder="Enter Password" required />
           </div>
 
           <!-- Google 1-Click Option -->
-          <button type="button" class="google-fast-btn" id="modal-google-auth-btn">
+          <button type="button" class="google-fast-btn" id="modal-google-login-btn">
             <svg width="18" height="18" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -72,20 +75,54 @@
             <span>Or Continue with Google</span>
           </button>
 
-          <!-- Checkbox -->
-          <label class="offers-checkbox-label">
-            <input type="checkbox" id="notify-offers" checked />
-            <span>Notify me with offers & updates</span>
-          </label>
+          <button type="submit" class="modal-submit-btn">LOGIN TO ACCOUNT</button>
+        </form>
 
-          <!-- Submit Black Button -->
-          <button type="submit" class="modal-submit-btn">
-            Submit
-          </button>
+        <!-- Mode 2: SIGN UP FORM -->
+        <form id="modal-signup-form" class="modal-form auth-mode-panel">
+          <div class="form-input-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" id="signup-fullname" class="form-input-field" placeholder="Enter Full Name" required />
+          </div>
+
+          <div class="form-input-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="signup-email" class="form-input-field" placeholder="pilot@skynodesuav.com" required />
+          </div>
+
+          <div class="form-input-group">
+            <label class="form-label">Phone Number (+91)</label>
+            <input type="tel" id="signup-phone" class="form-input-field" placeholder="9876543210" pattern="[0-9]{10}" required />
+          </div>
+
+          <div class="form-input-group">
+            <label class="form-label">Create Password</label>
+            <input type="password" id="signup-password" class="form-input-field" placeholder="At least 6 characters" minlength="6" required />
+          </div>
+
+          <button type="submit" class="modal-submit-btn">CREATE PILOT ACCOUNT</button>
+        </form>
+
+        <!-- Mode 3: FORGOT PASSWORD FORM -->
+        <form id="modal-forgot-form" class="modal-form auth-mode-panel">
+          <p class="forgot-instructions">Enter your registered email address or phone number below. We will send you an instant Password Reset OTP link.</p>
+          
+          <div class="form-input-group">
+            <label class="form-label">Registered Email or Phone</label>
+            <input type="text" id="forgot-identifier" class="form-input-field" placeholder="Enter your email or phone" required />
+          </div>
+
+          <button type="submit" class="modal-submit-btn">SEND RESET OTP LINK</button>
+
+          <div id="forgot-success-msg" class="success-alert-box" style="display: none;">
+            ✅ Reset OTP sent successfully! Check your email inbox or SMS.
+          </div>
+
+          <button type="button" class="back-to-login-btn" id="back-from-forgot">← Back to Login</button>
         </form>
 
         <p class="modal-terms-footnote">
-          I accept that I have read & understood your <a href="/privacy">Privacy Policy</a> and <a href="/terms">T&Cs</a>.
+          By continuing, you agree to SKYNODES UAV's <a href="/privacy">Privacy Policy</a> & <a href="/terms">Terms of Service</a>.
         </p>
 
       </div>
@@ -150,7 +187,6 @@
     grid-template-columns: 1fr 1.05fr;
   }
 
-  /* Left Column (Black #000000) */
   .modal-left-col {
     background: #000000;
     color: #ffffff;
@@ -197,13 +233,12 @@
     flex-direction: column;
     gap: 1rem;
   }
-
   .modal-feat-card {
     border: 1px solid #2a2a2a;
     border-radius: 10px;
     padding: 0.85rem 1.15rem;
     background: rgba(255, 255, 255, 0.03);
-    text-align: center;
+    text-align: left;
   }
   .star-icon { font-size: 1.1rem; margin-bottom: 0.2rem; }
   .feat-title { font-size: 0.85rem; font-weight: 800; color: #ffffff; }
@@ -213,58 +248,91 @@
   .modal-right-col {
     background: #ffffff;
     color: #1a1a1a;
-    padding: 3.25rem 2.5rem 2.5rem;
+    padding: 2.5rem 2.25rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
 
-  .modal-right-title {
-    font-family: var(--font-display);
-    font-size: 1.45rem;
-    font-weight: 800;
-    color: #000000;
+  /* Auth Mode Tabs Header */
+  .auth-tabs-header {
+    display: flex;
+    gap: 1rem;
+    border-bottom: 2px solid #f0f0f0;
     margin-bottom: 1.75rem;
-    text-align: center;
+  }
+  .auth-tab-btn {
+    background: none;
+    border: none;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #888888;
+    padding-bottom: 0.5rem;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    position: relative;
+  }
+  .auth-tab-btn.active {
+    color: #000000;
+  }
+  .auth-tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #000000;
+    border-radius: 2px;
   }
 
-  .modal-form {
+  .auth-mode-panel {
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .auth-mode-panel.active {
+    display: flex;
+  }
+
+  .form-input-group {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 0.35rem;
   }
-
-  .phone-input-wrap {
+  .label-row {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .form-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #333333;
+  }
+  .link-btn {
+    background: none;
+    border: none;
+    font-size: 0.72rem;
+    color: #2563eb;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0;
+  }
+  .link-btn:hover { text-decoration: underline; }
+
+  .form-input-field {
+    width: 100%;
+    padding: 0.75rem 0.85rem;
     border: 1px solid #d1d5db;
     border-radius: 6px;
-    overflow: hidden;
-    background: #ffffff;
+    font-size: 0.88rem;
+    outline: none;
     transition: border-color 0.2s;
   }
-  .phone-input-wrap:focus-within {
+  .form-input-field:focus {
     border-color: #000000;
-  }
-
-  .flag-prefix {
-    background: #f9fafb;
-    border-right: 1px solid #e5e7eb;
-    padding: 0.75rem 0.85rem;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #374151;
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-  }
-
-  .mobile-input-field {
-    flex: 1;
-    border: none;
-    padding: 0.75rem 0.85rem;
-    font-size: 0.9rem;
-    outline: none;
-    color: #111111;
   }
 
   .google-fast-btn {
@@ -285,22 +353,13 @@
   }
   .google-fast-btn:hover { background: #f3f4f6; }
 
-  .offers-checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.78rem;
-    color: #6b7280;
-    cursor: pointer;
-  }
-  .offers-checkbox-label input { accent-color: #000000; }
-
   .modal-submit-btn {
     width: 100%;
     background: #000000;
     color: #ffffff;
-    font-weight: 700;
-    font-size: 0.95rem;
+    font-weight: 800;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
     padding: 0.85rem;
     border-radius: 6px;
     border: none;
@@ -311,11 +370,37 @@
     background: #222222;
   }
 
+  .forgot-instructions {
+    font-size: 0.82rem;
+    color: #555555;
+    line-height: 1.5;
+  }
+  .success-alert-box {
+    background: #ecfdf5;
+    border: 1px solid #10b981;
+    color: #065f46;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-top: 0.5rem;
+  }
+  .back-to-login-btn {
+    background: none;
+    border: none;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #111111;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+
   .modal-terms-footnote {
     font-size: 0.72rem;
     color: #9ca3af;
     text-align: center;
-    margin-top: 1.75rem;
+    margin-top: 1.5rem;
     line-height: 1.4;
   }
   .modal-terms-footnote a {
@@ -323,13 +408,12 @@
     text-decoration: underline;
   }
 
-  /* Mobile View (< 768px): Stack Dark Feature Header + Form (No simple downgrade) */
   @media (max-width: 768px) {
     .login-modal-grid {
       grid-template-columns: 1fr;
     }
     .modal-left-col {
-      padding: 2rem 1.5rem 1.5rem;
+      padding: 1.75rem 1.25rem 1.25rem;
       border-right: none;
       border-bottom: 1px solid #222222;
     }
@@ -337,14 +421,11 @@
       font-size: 1.15rem;
       margin-bottom: 1.25rem;
     }
-    .modal-feature-cards {
-      gap: 0.5rem;
-    }
     .modal-feat-card {
       padding: 0.6rem 0.85rem;
     }
     .modal-right-col {
-      padding: 2rem 1.5rem;
+      padding: 1.75rem 1.25rem;
     }
   }
 </style>
@@ -353,8 +434,17 @@
   function initLoginModal() {
     const modal = document.getElementById('bellavita-login-modal');
     const closeBtn = document.getElementById('close-login-modal');
-    const form = document.getElementById('modal-login-form');
-    const googleBtn = document.getElementById('modal-google-auth-btn');
+    const tabLogin = document.getElementById('tab-login-btn');
+    const tabSignup = document.getElementById('tab-signup-btn');
+
+    const loginForm = document.getElementById('modal-login-form');
+    const signupForm = document.getElementById('modal-signup-form');
+    const forgotForm = document.getElementById('modal-forgot-form');
+
+    const triggerForgot = document.getElementById('trigger-forgot-btn');
+    const backFromForgot = document.getElementById('back-from-forgot');
+    const googleLoginBtn = document.getElementById('modal-google-login-btn');
+    const forgotSuccessMsg = document.getElementById('forgot-success-msg');
 
     function openModal() {
       if (modal) {
@@ -370,31 +460,79 @@
       }
     }
 
-    // Attach Global Listener
+    function switchMode(mode: 'login' | 'signup' | 'forgot') {
+      loginForm?.classList.remove('active');
+      signupForm?.classList.remove('active');
+      forgotForm?.classList.remove('active');
+
+      tabLogin?.classList.remove('active');
+      tabSignup?.classList.remove('active');
+
+      if (mode === 'login') {
+        loginForm?.classList.add('active');
+        tabLogin?.classList.add('active');
+      } else if (mode === 'signup') {
+        signupForm?.classList.add('active');
+        tabSignup?.classList.add('active');
+      } else if (mode === 'forgot') {
+        forgotForm?.classList.add('active');
+      }
+    }
+
     window.removeEventListener('open-login-modal', openModal);
     window.addEventListener('open-login-modal', openModal);
 
     closeBtn?.addEventListener('click', closeModal);
-
     modal?.addEventListener('click', (e) => {
       if (e.target === modal) closeModal();
     });
 
-    // Handle Form Login Submission
-    form?.addEventListener('submit', (e) => {
+    tabLogin?.addEventListener('click', () => switchMode('login'));
+    tabSignup?.addEventListener('click', () => switchMode('signup'));
+    triggerForgot?.addEventListener('click', () => switchMode('forgot'));
+    backFromForgot?.addEventListener('click', () => switchMode('login'));
+
+    // Handle Login Submit
+    loginForm?.addEventListener('submit', (e) => {
       e.preventDefault();
-      const mobileInput = document.getElementById('user-mobile-input') as HTMLInputElement;
-      if (mobileInput && mobileInput.value) {
+      const identifier = (document.getElementById('login-identifier') as HTMLInputElement)?.value;
+      if (identifier) {
         localStorage.setItem('google_auth_logged_in', 'true');
-        localStorage.setItem('skynodes_pilot_phone', mobileInput.value);
+        localStorage.setItem('skynodes_pilot_user', identifier);
         closeModal();
         window.location.href = '/profile';
       }
     });
 
-    // Handle Google 1-Click Login
-    googleBtn?.addEventListener('click', () => {
+    // Handle Sign Up Submit
+    signupForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = (document.getElementById('signup-fullname') as HTMLInputElement)?.value;
+      const email = (document.getElementById('signup-email') as HTMLInputElement)?.value;
+      const phone = (document.getElementById('signup-phone') as HTMLInputElement)?.value;
+
+      if (name && email) {
+        localStorage.setItem('google_auth_logged_in', 'true');
+        localStorage.setItem('skynodes_pilot_name', name);
+        localStorage.setItem('skynodes_pilot_email', email);
+        localStorage.setItem('skynodes_pilot_phone', phone);
+        closeModal();
+        window.location.href = '/profile';
+      }
+    });
+
+    // Handle Forgot Password Submit
+    forgotForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (forgotSuccessMsg) {
+        forgotSuccessMsg.style.display = 'block';
+      }
+    });
+
+    // Handle Google 1-Click
+    googleLoginBtn?.addEventListener('click', () => {
       localStorage.setItem('google_auth_logged_in', 'true');
+      localStorage.setItem('skynodes_pilot_name', 'Verified Google Pilot');
       closeModal();
       window.location.href = '/profile';
     });
