@@ -4,7 +4,7 @@ import CartDrawer from '../../components/CartDrawer.astro';
 import MobileBottomNav from '../../components/MobileBottomNav.astro';
 import Footer from '../../components/Footer.astro';
 import { type Product } from '../../data/products';
-import { getCombinedProducts, buildShopifyCheckoutUrl } from '../../lib/shopify';
+import { getCombinedProducts } from '../../lib/shopify';
 import '../../styles/global.css';
 
 export async function getStaticPaths() {
@@ -44,7 +44,6 @@ const pairedProducts = allProducts
 const pageTitle = `${product.name} - Buy Online at Best Price in India | SKYNODESUAV`;
 const metaDescription = `${product.description} Buy ${product.name} online for ₹${product.price.toLocaleString('en-IN')}. Original factory warranty & fast shipping across India.`;
 const canonicalUrl = `https://aks-aeromodels.com/product/${product.id}`;
-const shopifyCheckoutLink = buildShopifyCheckoutUrl([{ product, quantity: 1 }]);
 
 const prepaidPrice = Math.round(product.price * 0.95);
 
@@ -78,7 +77,7 @@ const productSchema = {
   "@type": "Product",
   "name": product.name,
   "image": [product.image],
-  "description": product.shortDesc,
+  "description": product.description,
   "sku": product.id,
   "mpn": product.id,
   "brand": {

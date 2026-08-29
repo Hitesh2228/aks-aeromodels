@@ -2,7 +2,6 @@
 import Header from '../components/Header.astro';
 import CartDrawer from '../components/CartDrawer.astro';
 import Footer from '../components/Footer.astro';
-import { PRODUCTS } from '../data/products';
 import '../styles/global.css';
 ---
 
@@ -499,7 +498,7 @@ import '../styles/global.css';
         const paymentLabel = payMethodVal === 'cod' ? 'CASH ON DELIVERY (COD)' : 'PAID (ONLINE)';
         const statusLabel = payMethodVal === 'cod' ? 'PENDING (COD UPON DELIVERY)' : 'PAID (ONLINE)';
 
-        const orderObj = {
+        const orderObj: Record<string, any> = {
           orderId,
           date: todayDate,
           customer: { name, phone, email, address, city, state, pincode, gstin },
@@ -509,7 +508,8 @@ import '../styles/global.css';
           total,
           paymentMethod: paymentLabel,
           status: statusLabel,
-          awb
+          awb,
+          shopifyCheckoutUrl: ''
         };
 
         // Save order to localStorage

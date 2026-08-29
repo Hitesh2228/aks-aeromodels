@@ -152,13 +152,9 @@ export async function getCombinedProducts(): Promise<Product[]> {
 }
 
 // 2. Sync Cart / Order to Shopify Storefront API and Return Official Checkout URL
-export async function syncCartToShopifyStorefront(order: {
-  customer: { name: string; email: string; phone: string; address: string; city: string; state: string; pincode: string };
-  items: Array<{ product: Product; quantity: number }>;
-  paymentMethod: string;
-}): Promise<string> {
+export async function syncCartToShopifyStorefront(order: any): Promise<string> {
   try {
-    const lines = order.items.map(item => {
+    const lines = (order.items || []).map((item: any) => {
       let variantId = item.product?.variantId || item.product?.id || "";
       if (!variantId.startsWith('gid://')) {
         const num = variantId.replace(/[^0-9]/g, '');

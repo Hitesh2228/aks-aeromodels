@@ -243,15 +243,15 @@ import '../styles/global.css';
       scene.add(mainGroup);
 
       // Individual Parts for Dynamic Color & Assembly Animation
-      let fuselageMat: THREE.MeshStandardMaterial;
-      let propMesh: THREE.Object3D;
-      let engineMesh: THREE.Object3D;
-      let canopyMesh: THREE.Object3D;
-      let leftWingMesh: THREE.Object3D;
-      let rightWingMesh: THREE.Object3D;
-      let tailMesh: THREE.Object3D;
+      let fuselageMat: any;
+      let propMesh: any;
+      let engineMesh: any;
+      let canopyMesh: any;
+      let leftWingMesh: any;
+      let rightWingMesh: any;
+      let tailMesh: any;
 
-      function buildProAirplane(): THREE.Group {
+      function buildProAirplane(): any {
         const root = new THREE.Group();
 
         // PBR Fuselage Material
@@ -343,7 +343,7 @@ import '../styles/global.css';
 
       // Load GLB or build pro model
       const loader = new GLTFLoader();
-      loader.load('/airplane.glb', (gltf) => {
+      loader.load('/airplane.glb', (gltf: any) => {
         const loadedModel = gltf.scene;
         const box = new THREE.Box3().setFromObject(loadedModel);
         const size = box.getSize(new THREE.Vector3());
@@ -407,9 +407,9 @@ import '../styles/global.css';
       let isWireframe = false;
       document.getElementById('apple-wireframe-toggle')?.addEventListener('click', () => {
         isWireframe = !isWireframe;
-        mainGroup.traverse((child) => {
-          if ((child as THREE.Mesh).isMesh) {
-            ((child as THREE.Mesh).material as THREE.MeshStandardMaterial).wireframe = isWireframe;
+        mainGroup.traverse((child: any) => {
+          if (child.isMesh && child.material) {
+            child.material.wireframe = isWireframe;
           }
         });
       });

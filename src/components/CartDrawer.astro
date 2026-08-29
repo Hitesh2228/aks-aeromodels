@@ -307,10 +307,8 @@
 
 <script>
   import { getCartHydrated, updateCartQuantity } from '../lib/cartStore';
-  import { buildShopifyCheckoutUrl } from '../lib/shopify';
 
   function renderDrawer() {
-    const overlay = document.getElementById('cart-drawer-overlay');
     const itemsList = document.getElementById('drawer-items-list');
     const countEl = document.getElementById('drawer-item-count');
     const subtotalEl = document.getElementById('drawer-subtotal');

@@ -388,7 +388,7 @@ import '../styles/global.css';
       scene.add(aircraftGroup);
 
       // Procedural Cyberpunk Jet Fighter Generator (Fallback if GLB unavailable)
-      function createAdvancedAircraft(): THREE.Group {
+      function createAdvancedAircraft(): any {
         const group = new THREE.Group();
 
         // Fuselage Body
@@ -487,7 +487,7 @@ import '../styles/global.css';
       const loader = new GLTFLoader();
       loader.load(
         '/airplane.glb',
-        (gltf) => {
+        (gltf: any) => {
           const loadedModel = gltf.scene;
           const box = new THREE.Box3().setFromObject(loadedModel);
           const size = box.getSize(new THREE.Vector3());
@@ -561,7 +561,8 @@ import '../styles/global.css';
             });
 
             // Play subtle UI tick sound on scroll threshold
-            if (Math.floor(progress * 10) !== Math.floor(self.previous * 10)) {
+            const prevVal = (self as any).previous || 0;
+            if (Math.floor(progress * 10) !== Math.floor(prevVal * 10)) {
               sfx.playBeep(900 + progress * 400, 'sine', 0.04);
             }
           }
