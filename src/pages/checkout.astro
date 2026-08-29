@@ -520,18 +520,22 @@ import '../styles/global.css';
           localStorage.setItem('skynodes_orders_history', JSON.stringify([orderObj, ...existingHistory]));
         } catch (err) {}
 
-        // Async sync to Shopify Storefront API
+        // Async sync to Shopify Storefront API to get official checkoutUrl
+        let shopifyCheckoutUrl = `https://skynodesuav.myshopify.com/cart`;
         try {
-          await syncCartToShopifyStorefront(orderObj);
+          shopifyCheckoutUrl = await syncCartToShopifyStorefront(orderObj);
         } catch (err) {
           console.error('[Shopify Sync Warning]', err);
         }
 
-        // Clear cart
+        orderObj.shopifyCheckoutUrl = shopifyCheckoutUrl;
+        localStorage.setItem('skynodes_last_order', JSON.stringify(orderObj));
+
+        // Clear local cart
         saveCartToStorage([]);
 
-        alert(`Order ${orderId} Placed Successfully! (${paymentLabel})\nRedirecting to your Tax Invoice Bill...`);
-        window.location.href = '/invoice';
+        alert(`✅ Order ${orderId} Placed Successfully!\n\nRedirecting to Shopify Checkout to register your order in Shopify Admin Dashboard...`);
+        window.location.href = shopifyCheckoutUrl;
       });
     });
   </script>

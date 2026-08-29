@@ -151,18 +151,18 @@ export async function getCombinedProducts(): Promise<Product[]> {
   return [...convertedShopify, ...staticProducts];
 }
 
-// 2. Sync Cart / Order to Shopify Storefront API
+// 2. Sync Cart / Order to Shopify Storefront API and Return Official Checkout URL
 export async function syncCartToShopifyStorefront(order: {
   customer: { name: string; email: string; phone: string; address: string; city: string; state: string; pincode: string };
   items: Array<{ product: Product; quantity: number }>;
   paymentMethod: string;
-}) {
+}): Promise<string> {
   try {
     const lines = order.items.map(item => {
       let variantId = item.product?.variantId || item.product?.id || "";
       if (!variantId.startsWith('gid://')) {
         const num = variantId.replace(/[^0-9]/g, '');
-        variantId = num ? `gid://shopify/ProductVariant/${num}` : `gid://shopify/ProductVariant/10344047804692`;
+        variantId = num ? `gid://shopify/ProductVariant/${num}` : `gid://shopify/ProductVariant/53673599598868`;
       }
       return {
         merchandiseId: variantId,
@@ -185,33 +185,29 @@ export async function syncCartToShopifyStorefront(order: {
       }
     `;
 
+    const validEmail = order.customer.email && order.customer.email.includes('@') ? order.customer.email : 'pilot@gmail.com';
+
     const variables = {
       input: {
         lines,
         buyerIdentity: {
-          email: order.customer.email || 'pilot@skynodesuav.com',
-          phone: order.customer.phone ? `+91${order.customer.phone.replace(/[^0-9]/g, '').slice(-10)}` : undefined,
-          deliveryAddressPreferences: [{
-            deliveryAddress: {
-              address1: order.customer.address || 'Devlali Camp',
-              city: order.customer.city || 'Nashik',
-              province: order.customer.state || 'Maharashtra',
-              zip: order.customer.pincode || '422502',
-              country: 'IN',
-              firstName: order.customer.name.split(' ')[0] || order.customer.name,
-              lastName: order.customer.name.split(' ').slice(1).join(' ') || 'Pilot'
-            }
-          }]
+          email: validEmail
         }
       }
     };
 
     const res = await fetchShopifyStorefront(mutation, variables);
-    return res?.cartCreate?.cart || null;
+    const checkoutUrl = res?.cartCreate?.cart?.checkoutUrl;
+
+    if (checkoutUrl) {
+      return checkoutUrl;
+    }
   } catch (err) {
     console.error('[Shopify Cart Sync Exception]', err);
-    return null;
   }
+
+  // Fallback to Shopify Cart permalink
+  return buildShopifyCheckoutUrl(order.items);
 }
 
 // 3. Generate Shopify Direct Checkout URL or Cart Permalink
@@ -231,7 +227,7 @@ export function buildShopifyCheckoutUrl(cartItems: any[]): string {
   }).filter(l => l.variantId);
 
   if (validLines.length === 0) {
-    return `/checkout`;
+    return `https://${SHOPIFY_DOMAIN}/cart`;
   }
 
   const permalink = validLines.map(l => `${l.variantId}:${l.quantity}`).join(",");
