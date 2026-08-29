@@ -74,8 +74,10 @@ const PRODUCTS = (shopifyProducts && shopifyProducts.length > 0)
         >
           <!-- Image Stage -->
           <div class="card-img-stage">
-            {product.isBestseller && <span class="badge-tag bestseller">BESTSELLER</span>}
-            {product.isNewArrival && <span class="badge-tag new">NEW</span>}
+            <div class="badges-wrapper">
+              {product.isBestseller && <span class="badge-tag bestseller">BESTSELLER</span>}
+              {product.isNewArrival && <span class="badge-tag new">NEW</span>}
+            </div>
             {product.discountBadge && <span class="badge-tag offer">{product.discountBadge}</span>}
             <a href={`/product/${product.id}`}>
               <img src={product.image} alt={product.name} class="product-thumb-img" loading="lazy" />
@@ -250,20 +252,29 @@ const PRODUCTS = (shopifyProducts && shopifyProducts.length > 0)
       transform: scale(1.04);
     }
 
-    .badge-tag {
+    .badges-wrapper {
       position: absolute;
       top: 0.6rem;
+      left: 0.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      align-items: flex-start;
+      z-index: 2;
+    }
+
+    .badge-tag {
       font-size: 0.62rem;
       font-weight: 700;
       padding: 3px 8px;
       border-radius: 3px;
-      z-index: 2;
       letter-spacing: 0.05em;
       text-transform: uppercase;
+      display: inline-block;
     }
-    .badge-tag.bestseller { left: 0.6rem; background: #dfab85; color: #ffffff; }
-    .badge-tag.new { left: 0.6rem; background: #67c5a9; color: #ffffff; }
-    .badge-tag.offer { right: 0.6rem; background: #67c5a9; color: #ffffff; }
+    .badge-tag.bestseller { background: #dfab85; color: #ffffff; }
+    .badge-tag.new { background: #67c5a9; color: #ffffff; }
+    .badge-tag.offer { position: absolute; top: 0.6rem; right: 0.6rem; background: #67c5a9; color: #ffffff; z-index: 2; }
 
     /* Card Content Body */
     .card-info-body {

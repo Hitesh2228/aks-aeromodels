@@ -123,6 +123,9 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
 
 // Helper: Convert Shopify product to standard site Product format
 export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
+  const origPrice = Math.round(sp.price * 1.2);
+  const pctOff = Math.round(((origPrice - sp.price) / origPrice) * 100);
+
   return {
     id: sp.handle || sp.safeId || sp.id,
     handle: sp.handle,
@@ -130,12 +133,12 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
     category: 'aeromodels',
     categoryLabel: sp.vendor || 'SKYNODES UAV',
     price: Math.round(sp.price),
-    originalPrice: Math.round(sp.price * 1.2),
-    discountBadge: 'SHOPIFY LIVE',
+    originalPrice: origPrice,
+    discountBadge: pctOff > 0 ? `${pctOff}% OFF` : undefined,
     rating: 4.9,
     reviewsCount: 35 + idx * 4,
-    isBestseller: idx % 2 === 0,
-    isNewArrival: idx % 3 === 0,
+    isBestseller: false, // Controlled via Shopify Admin tags
+    isNewArrival: false,
     image: sp.imageUrl,
     description: sp.description || 'Official SKYNODES UAV product synced live from Shopify Storefront.',
     specs: { Vendor: sp.vendor, Type: sp.productType, Status: sp.availableForSale ? 'In Stock' : 'Out of Stock' },
