@@ -712,48 +712,71 @@ import '../styles/global.css';
         if (!userOrdersList) return;
         try {
           const rawHistory = localStorage.getItem('skynodes_orders_history');
-          const history = rawHistory ? JSON.parse(rawHistory) : [];
+          let history = rawHistory ? JSON.parse(rawHistory) : [];
 
           if (history.length === 0) {
-            userOrdersList.innerHTML = `
-              <div class="order-item">
-                <div class="order-header">
-                  <div>
-                    <strong class="order-id">#AKS-89421</strong>
-                    <span class="order-date">Date: August 9, 2026</span>
-                  </div>
-                  <span class="status-badge-green">DISPATCHED</span>
-                </div>
-                <div class="order-details">
-                  <p>1x O.S. Max 0.46 AX II Engine + 1x Futaba Radio 6k</p>
-                  <div class="order-footer">
-                    <span class="order-price">Total: ₹38,790.00</span>
-                    <a href="/invoice" class="view-invoice-link">View GST Invoice 📄</a>
-                  </div>
-                </div>
-              </div>
-            `;
-            return;
+            history = [
+              {
+                orderId: '#SKY-INV-2026-8942',
+                date: '25 Aug 2026',
+                paymentMethod: 'PAID (ONLINE)',
+                status: 'DISPATCHED',
+                awb: '#AWB-9876543',
+                total: 38790,
+                customer: { name: localStorage.getItem('skynodes_pilot_name') || 'Capt. Hitesh Pilot', address: 'Devlali Camp, Nashik, MH' },
+                items: [
+                  { quantity: 1, product: { name: 'O.S. Max 0.46 AX II Nitro Engine', price: 18990 } },
+                  { quantity: 1, product: { name: 'Futaba 6K 6-Channel Radio System', price: 19800 } }
+                ]
+              },
+              {
+                orderId: '#SKY-INV-2026-7819',
+                date: '12 Aug 2026',
+                paymentMethod: 'CASH ON DELIVERY (COD)',
+                status: 'DELIVERED',
+                awb: '#AWB-9871122',
+                total: 84990,
+                customer: { name: localStorage.getItem('skynodes_pilot_name') || 'Capt. Hitesh Pilot', address: 'Devlali Camp, Nashik, MH' },
+                items: [
+                  { quantity: 1, product: { name: 'Seagull Decathlon 122" V2 ARF Airframe', price: 84990 } }
+                ]
+              }
+            ];
           }
 
-          userOrdersList.innerHTML = history.map((ord: any) => `
+          userOrdersList.innerHTML = history.map((ord: any, idx: number) => `
             <div class="order-item">
               <div class="order-header">
                 <div>
                   <strong class="order-id">${ord.orderId}</strong>
-                  <span class="order-date">Date: ${ord.date}</span>
+                  <span class="order-date">Date: ${ord.date} • AWB: ${ord.awb || '#AWB-TRACKING'}</span>
                 </div>
-                <span class="${ord.paymentMethod?.includes('COD') ? 'status-badge-blue' : 'status-badge-green'}">${ord.paymentMethod?.includes('COD') ? 'PENDING COD' : 'CONFIRMED'}</span>
+                <span class="${ord.paymentMethod?.includes('COD') ? 'status-badge-blue' : 'status-badge-green'}">${ord.paymentMethod?.includes('COD') ? 'PENDING COD' : 'DELIVERED'}</span>
               </div>
               <div class="order-details">
-                <p>${ord.items ? ord.items.map((i: any) => `${i.quantity}x ${i.product.name}`).join(' + ') : 'Aeromodelling Equipment'}</p>
+                <p style="font-weight: 700; color: #111; margin-bottom: 0.3rem;">Items Ordered:</p>
+                <ul style="margin: 0 0 0.8rem 1.2rem; font-size: 0.8rem; color: #444;">
+                  ${ord.items ? ord.items.map((i: any) => `<li>${i.quantity}x ${i.product?.name || 'Equipment'} (₹${((i.product?.price || 0) * i.quantity).toLocaleString('en-IN')})</li>`).join('') : '<li>Aeromodelling Equipment</li>'}
+                </ul>
                 <div class="order-footer">
                   <span class="order-price">Total: ₹${(ord.total || 0).toLocaleString('en-IN')}.00</span>
-                  <a href="/invoice" class="view-invoice-link">View GST Invoice 📄</a>
+                  <button class="btn-view-order-inv view-invoice-link" data-index="${idx}" style="background:none; border:none; cursor:pointer; font-weight:700;">View GST Invoice 📄</button>
                 </div>
               </div>
             </div>
           `).join('');
+
+          userOrdersList.querySelectorAll('.btn-view-order-inv').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+              const index = parseInt((e.currentTarget as HTMLElement).getAttribute('data-index') || '0', 10);
+              const selectedOrder = history[index];
+              if (selectedOrder) {
+                localStorage.setItem('skynodes_last_order', JSON.stringify(selectedOrder));
+                window.location.href = '/invoice';
+              }
+            });
+          });
+
         } catch (e) {}
       }
 
