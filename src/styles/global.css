@@ -267,16 +267,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-page);
+  background: #f1f1f1;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ccc4b4;
+  background: #aaaaaa;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-gold);
+  background: #666666;
 }
 
 /* Global Scroll Reveal Animations - Always Visible Default */

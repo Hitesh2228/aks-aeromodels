@@ -393,7 +393,50 @@ const PRODUCTS = (shopifyProducts && shopifyProducts.length > 0)
 
     const params = new URLSearchParams(window.location.search);
     const urlCat = params.get('category');
-    if (urlCat) filterCategory(urlCat);
+    const urlFilter = params.get('filter');
+    const urlSearch = params.get('search')?.toLowerCase().trim();
+
+    if (urlSearch) {
+      pills.forEach(p => p.classList.remove('active'));
+      products.forEach(prod => {
+        const title = (prod.querySelector('.catalog-title')?.textContent || '').toLowerCase();
+        const catLabel = (prod.querySelector('.cat-tag')?.textContent || '').toLowerCase();
+        const category = (prod.getAttribute('data-category') || '').toLowerCase();
+        
+        if (title.includes(urlSearch) || catLabel.includes(urlSearch) || category.includes(urlSearch)) {
+          (prod as HTMLElement).style.display = 'flex';
+        } else {
+          (prod as HTMLElement).style.display = 'none';
+        }
+      });
+
+      const headerTitleEl = document.querySelector('.shop-hero-title');
+      if (headerTitleEl) {
+        headerTitleEl.textContent = `Search Results for "${params.get('search')}"`;
+      }
+    } else if (urlFilter === 'crazy-deals') {
+      pills.forEach(p => p.classList.remove('active'));
+      products.forEach(prod => {
+        const discountTag = prod.querySelector('.discount-tag');
+        (prod as HTMLElement).style.display = discountTag ? 'flex' : 'none';
+      });
+      const headerTitleEl = document.querySelector('.shop-hero-title');
+      if (headerTitleEl) {
+        headerTitleEl.textContent = `🔥 Crazy Deals & Offers`;
+      }
+    } else if (urlFilter === 'bestsellers') {
+      pills.forEach(p => p.classList.remove('active'));
+      products.forEach(prod => {
+        const isBestseller = prod.getAttribute('data-bestseller') === 'true';
+        (prod as HTMLElement).style.display = isBestseller ? 'flex' : 'none';
+      });
+      const headerTitleEl = document.querySelector('.shop-hero-title');
+      if (headerTitleEl) {
+        headerTitleEl.textContent = `⭐ Best Selling Products`;
+      }
+    } else if (urlCat) {
+      filterCategory(urlCat);
+    }
 
     sortSelect?.addEventListener('change', () => {
       const val = sortSelect.value;

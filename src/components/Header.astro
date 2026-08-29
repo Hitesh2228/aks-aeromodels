@@ -72,8 +72,8 @@ import LoginModal from './LoginModal.astro';
   <nav class="nav-strip">
     <div class="container nav-links">
       <a href="/shop?category=all" class="nav-item">SHOP ALL</a>
-      <a href="/shop?category=all" class="nav-item highlight">CRAZY DEALS</a>
-      <a href="/shop?category=all" class="nav-item">BESTSELLERS</a>
+      <a href="/shop?filter=crazy-deals" class="nav-item highlight">CRAZY DEALS</a>
+      <a href="/shop?filter=bestsellers" class="nav-item">BESTSELLERS</a>
       <a href="/shop?category=engine" class="nav-item">ENGINES</a>
       <a href="/shop?category=aeromodels" class="nav-item">AEROMODELS</a>
       <a href="/shop?category=radio-receiver" class="nav-item">RADIOS & RECEIVERS</a>
@@ -340,6 +340,11 @@ import LoginModal from './LoginModal.astro';
     align-items: center;
     gap: 1.75rem;
     overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .nav-links::-webkit-scrollbar {
+    display: none;
   }
   .nav-item {
     font-size: 0.78rem;
@@ -635,9 +640,17 @@ import LoginModal from './LoginModal.astro';
 
         item.classList.remove('active');
 
-        if (href.includes('category=')) {
-          if (currentSearch && href.includes(currentSearch)) {
-            item.classList.add('active');
+        if (currentPath === '/shop') {
+          if (href.includes('filter=')) {
+            if (currentSearch && currentSearch.includes(href.split('?')[1])) {
+              item.classList.add('active');
+            }
+          } else if (href.includes('category=')) {
+            if ((!currentSearch || currentSearch === '?category=all') && href === '/shop?category=all') {
+              item.classList.add('active');
+            } else if (currentSearch && currentSearch !== '?category=all' && href.endsWith(currentSearch)) {
+              item.classList.add('active');
+            }
           }
         } else if (href === currentPath || href === fullUrl) {
           item.classList.add('active');
