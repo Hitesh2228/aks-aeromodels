@@ -34,6 +34,15 @@ import '../styles/global.css';
             <span class="step-num">1</span> SHIPPING ADDRESS & DETAILS
           </h2>
 
+          <!-- Saved Address 1-Click Picker -->
+          <div id="checkout-saved-addresses-wrap" style="display: none; margin-bottom: 1.5rem; background: #f0fdf4; border: 1px solid #a7f3d0; border-radius: 10px; padding: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <strong style="font-size: 0.85rem; color: #065f46;">📍 1-CLICK FILL FROM YOUR SAVED ADDRESSES:</strong>
+              <a href="/profile" style="font-size: 0.75rem; color: #059669; text-decoration: underline; font-weight: 700;">Manage Address Book</a>
+            </div>
+            <div id="checkout-saved-addresses-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem;"></div>
+          </div>
+
           <form id="checkout-shipping-form" class="checkout-form">
             <div class="form-row-2">
               <div class="form-group">
@@ -469,6 +478,54 @@ import '../styles/global.css';
           </div>
         `).join('');
       }
+
+      function initSavedAddressesOnCheckout() {
+        const wrap = document.getElementById('checkout-saved-addresses-wrap');
+        const grid = document.getElementById('checkout-saved-addresses-grid');
+        if (!wrap || !grid) return;
+
+        try {
+          const raw = localStorage.getItem('skynodes_saved_addresses');
+          const list = raw ? JSON.parse(raw) : [];
+
+          if (list.length > 0) {
+            wrap.style.display = 'block';
+            grid.innerHTML = list.map((a: any) => `
+              <button type="button" class="btn-select-checkout-addr" data-id="${a.id}" style="text-align: left; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0.65rem; cursor: pointer; transition: all 0.2s;">
+                <strong style="display: block; font-size: 0.78rem; color: #1e293b;">${a.label} ${a.isDefault ? '(Default)' : ''}</strong>
+                <small style="display: block; font-size: 0.72rem; color: #64748b; line-height: 1.3; margin-top: 0.2rem;">${a.name} - ${a.street}, ${a.city} (${a.pincode})</small>
+              </button>
+            `).join('');
+
+            const fillForm = (a: any) => {
+              (document.getElementById('cust-name') as HTMLInputElement).value = a.name || '';
+              (document.getElementById('cust-phone') as HTMLInputElement).value = a.phone || '';
+              (document.getElementById('cust-address') as HTMLInputElement).value = a.street || '';
+              (document.getElementById('cust-city') as HTMLInputElement).value = a.city || '';
+              (document.getElementById('cust-state') as HTMLInputElement).value = a.state || 'Maharashtra';
+              (document.getElementById('cust-pincode') as HTMLInputElement).value = a.pincode || '';
+
+              const savedEmail = localStorage.getItem('skynodes_pilot_email');
+              if (savedEmail) (document.getElementById('cust-email') as HTMLInputElement).value = savedEmail;
+              const savedGstin = localStorage.getItem('skynodes_pilot_gstin');
+              if (savedGstin) (document.getElementById('cust-gstin') as HTMLInputElement).value = savedGstin;
+            };
+
+            const defaultAddr = list.find((a: any) => a.isDefault) || list[0];
+            if (defaultAddr) fillForm(defaultAddr);
+
+            grid.querySelectorAll('.btn-select-checkout-addr').forEach(btn => {
+              btn.addEventListener('click', (e) => {
+                const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
+                const target = list.find((a: any) => a.id === id);
+                if (target) fillForm(target);
+              });
+            });
+          }
+        } catch (e) {}
+      }
+
+      initSavedAddressesOnCheckout();
 
       placeOrderBtn?.addEventListener('click', async (e) => {
         e.preventDefault();

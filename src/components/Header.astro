@@ -595,6 +595,27 @@ import LoginModal from './LoginModal.astro';
       }
     });
 
+    function updateHeaderAccountState() {
+      const accountLabel = document.getElementById('header-account-label');
+      const accountBtn = document.getElementById('header-account-btn') as HTMLAnchorElement;
+      const isLoggedIn = localStorage.getItem('google_auth_logged_in') === 'true';
+
+      if (accountLabel) {
+        if (isLoggedIn) {
+          const name = localStorage.getItem('skynodes_pilot_name') || localStorage.getItem('skynodes_pilot_user') || 'PILOT';
+          const firstName = name.split(' ')[0].toUpperCase();
+          accountLabel.textContent = `🟢 HI, ${firstName}`;
+          if (accountBtn) accountBtn.href = '/profile';
+        } else {
+          accountLabel.textContent = 'ACCOUNT / LOGIN';
+          if (accountBtn) accountBtn.href = '/profile';
+        }
+      }
+    }
+    updateHeaderAccountState();
+    window.addEventListener('storage', updateHeaderAccountState);
+    window.addEventListener('user-logged-in', updateHeaderAccountState);
+
     function updateCartBadge() {
       const badge = document.getElementById('cart-count-badge');
       if (badge) {

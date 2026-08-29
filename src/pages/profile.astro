@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import CartDrawer from '../components/CartDrawer.astro';
+import LoginModal from '../components/LoginModal.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 ---
@@ -10,17 +11,18 @@ import '../styles/global.css';
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pilot Profile & Orders | SKYNODESUAV</title>
-  <meta name="description" content="Manage your pilot profile, Google sign-in credentials, shipping address, and order history." />
+  <title>Pilot Profile & Address Book | SKYNODESUAV</title>
+  <meta name="description" content="Manage your pilot profile, saved delivery addresses, and order history." />
 </head>
 <body class="bellavita-page-body">
 
   <Header />
+  <LoginModal />
 
   <main class="container page-padding reveal-on-scroll">
     <div class="profile-container">
       
-      <!-- Unauthenticated State: Rich Bellavita 2-Column Login & Signup Card Benchmark -->
+      <!-- Unauthenticated State -->
       <div id="auth-logged-out" class="rich-login-card">
         <div class="login-card-grid">
           
@@ -28,38 +30,37 @@ import '../styles/global.css';
           <div class="card-left-col">
             <div class="brand-header-wrap">
               <span class="brand-title-lbl">SKYNODESUAV</span>
-              <span class="powered-tag">Powered by QuickAuth</span>
+              <span class="powered-tag">Official Pilot Portal</span>
             </div>
 
-            <h2 class="card-left-headline">Login now to avail best offers!</h2>
+            <h2 class="card-left-headline">Login to manage profile & saved addresses!</h2>
 
             <div class="card-feature-cards">
               <div class="card-feat-item">
-                <div class="star-icon">🌟</div>
-                <div class="feat-title">Customer-first</div>
-                <div class="feat-desc">Putting you in the center</div>
+                <div class="star-icon">⚡</div>
+                <div class="feat-title">1-Click Express Checkout</div>
+                <div class="feat-desc">Pre-fill saved addresses instantly</div>
               </div>
 
               <div class="card-feat-item">
-                <div class="star-icon">🌟</div>
-                <div class="feat-title">Transparent</div>
-                <div class="feat-desc">Honest from the inside out</div>
+                <div class="star-icon">📍</div>
+                <div class="feat-title">Saved Address Book</div>
+                <div class="feat-desc">Store up to 5 delivery locations</div>
               </div>
 
               <div class="card-feat-item">
-                <div class="star-icon">🌟</div>
-                <div class="feat-title">Innovative</div>
-                <div class="feat-desc">Getting the absolute best for you</div>
+                <div class="star-icon">📄</div>
+                <div class="feat-title">GST Tax Invoices</div>
+                <div class="feat-desc">Download past orders & tax bills</div>
               </div>
             </div>
           </div>
 
           <!-- Right Column: Login Form -->
           <div class="card-right-col">
-            <h2 class="card-right-title">Login Here!</h2>
+            <h2 class="card-right-title">Pilot Login Portal</h2>
 
             <form id="profile-page-login-form" class="card-form">
-              <!-- Mobile Input Box -->
               <div class="phone-input-wrap">
                 <div class="flag-prefix">
                   <span>🇮🇳 +91</span>
@@ -74,7 +75,6 @@ import '../styles/global.css';
                 />
               </div>
 
-              <!-- Google 1-Click Option -->
               <button type="button" class="google-fast-btn" id="page-google-auth-btn">
                 <svg width="18" height="18" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -85,21 +85,8 @@ import '../styles/global.css';
                 <span>Or Continue with Google</span>
               </button>
 
-              <!-- Checkbox -->
-              <label class="offers-checkbox-label">
-                <input type="checkbox" checked />
-                <span>Notify me with offers & updates</span>
-              </label>
-
-              <!-- Submit Black Button -->
-              <button type="submit" class="card-submit-btn">
-                Submit
-              </button>
+              <button type="submit" class="card-submit-btn">LOGIN TO PILOT PORTAL</button>
             </form>
-
-            <p class="card-terms-footnote">
-              I accept that I have read & understood your <a href="/privacy">Privacy Policy</a> and <a href="/terms">T&Cs</a>.
-            </p>
           </div>
 
         </div>
@@ -108,11 +95,11 @@ import '../styles/global.css';
       <!-- Authenticated Profile View -->
       <div id="auth-logged-in" class="profile-card-grid style-hidden">
         
-        <!-- Left: Profile Card -->
+        <!-- Left: Profile Info Card -->
         <div class="user-info-card glass-panel">
           <div class="avatar-wrapper">
             <img id="user-avatar-img" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop" alt="User Avatar" class="user-avatar" />
-            <span class="online-badge">✓ Verified Pilot</span>
+            <span class="online-badge">🟢 Logged In Pilot</span>
           </div>
 
           <h2 id="user-display-name" class="user-name">Capt. Hitesh Pilot</h2>
@@ -120,58 +107,50 @@ import '../styles/global.css';
 
           <div class="user-meta-list">
             <div class="meta-row">
-              <span>Account Type:</span> <strong>Google Pilot Member</strong>
+              <span>Mobile Phone:</span> <strong id="user-display-phone">+91 98765 43210</strong>
             </div>
             <div class="meta-row">
-              <span>Default Shipping:</span> <strong id="user-address">Devlali Camp, Nashik, MH</strong>
-            </div>
-            <div class="meta-row">
-              <span>GSTIN / Tax ID:</span> <strong>27AAAAA0000A1Z5 (Verified)</strong>
+              <span>GSTIN / Tax ID:</span> <strong id="user-display-gstin">27AAAAA0000A1Z5 (Verified)</strong>
             </div>
           </div>
 
-          <button id="google-logout-btn" class="btn-logout">
-            Sign Out of Account
-          </button>
+          <div class="profile-actions-flex">
+            <button id="open-edit-profile-btn" class="btn-secondary-action">
+              ✏️ Edit Profile Details
+            </button>
+            <button id="google-logout-btn" class="btn-logout">
+              Sign Out
+            </button>
+          </div>
         </div>
 
-        <!-- Right: Recent Order History -->
-        <div class="orders-card glass-panel">
-          <h2 class="section-title-sm">RECENT FLIGHT ORDERS & INVOICES</h2>
+        <!-- Right: Saved Delivery Addresses (Max 5) & Order History -->
+        <div class="right-content-column">
           
-          <div class="order-list">
-            <div class="order-item">
-              <div class="order-header">
-                <div>
-                  <strong class="order-id">#AKS-89421</strong>
-                  <span class="order-date">Date: August 9, 2026</span>
-                </div>
-                <span class="status-badge-green">DISPATCHED</span>
+          <!-- Saved Delivery Addresses Section -->
+          <div class="addresses-card glass-panel">
+            <div class="section-header-flex">
+              <div>
+                <h2 class="section-title-sm">📍 SAVED DELIVERY ADDRESSES</h2>
+                <p class="section-subtitle">Store up to 5 addresses for 1-click checkout</p>
               </div>
-              <div class="order-details">
-                <p>1x O.S. Max 0.46 AX II Engine + 1x Futaba Radio 6k</p>
-                <div class="order-footer">
-                  <span class="order-price">Total: ₹38,790.00</span>
-                  <a href="/invoice" class="view-invoice-link">View GST Invoice 📄</a>
-                </div>
-              </div>
+              <button id="add-address-trigger-btn" class="btn-add-address">
+                ➕ Add Address
+              </button>
             </div>
 
-            <div class="order-item">
-              <div class="order-header">
-                <div>
-                  <strong class="order-id">#AKS-78190</strong>
-                  <span class="order-date">Date: July 28, 2026</span>
-                </div>
-                <span class="status-badge-blue">DELIVERED</span>
-              </div>
-              <div class="order-details">
-                <p>1x Seagull Decathlon 122" V2 ARF Airframe</p>
-                <div class="order-footer">
-                  <span class="order-price">Total: ₹84,990.00</span>
-                  <a href="/invoice" class="view-invoice-link">View GST Invoice 📄</a>
-                </div>
-              </div>
+            <!-- Address Cards Grid -->
+            <div id="saved-addresses-grid" class="addresses-grid">
+              <!-- Hydrated via JS -->
+            </div>
+          </div>
+
+          <!-- Recent Flight Orders Section -->
+          <div class="orders-card glass-panel" style="margin-top: 2rem;">
+            <h2 class="section-title-sm">RECENT FLIGHT ORDERS & INVOICES</h2>
+            
+            <div id="user-orders-list" class="order-list">
+              <!-- Hydrated via JS -->
             </div>
           </div>
 
@@ -181,6 +160,83 @@ import '../styles/global.css';
 
     </div>
   </main>
+
+  <!-- Modal 1: Edit Profile Modal -->
+  <div class="custom-modal-overlay" id="edit-profile-modal">
+    <div class="custom-modal-box">
+      <div class="modal-header">
+        <h3>✏️ Edit Pilot Profile Details</h3>
+        <button type="button" class="close-modal-x" id="close-edit-profile-x">✕</button>
+      </div>
+      <form id="edit-profile-form" class="modal-form-body">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="edit-name" class="modal-input" required />
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="edit-email" class="modal-input" required />
+        </div>
+        <div class="form-group">
+          <label>Phone Number (+91)</label>
+          <input type="tel" id="edit-phone" class="modal-input" pattern="[0-9]{10}" required />
+        </div>
+        <div class="form-group">
+          <label>GSTIN Number (Optional)</label>
+          <input type="text" id="edit-gstin" class="modal-input" placeholder="27AAAAA0000A1Z5" />
+        </div>
+        <button type="submit" class="modal-save-btn">SAVE PROFILE CHANGES</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Add / Edit Saved Address Modal -->
+  <div class="custom-modal-overlay" id="address-modal">
+    <div class="custom-modal-box">
+      <div class="modal-header">
+        <h3 id="address-modal-title">📍 Add New Delivery Address</h3>
+        <button type="button" class="close-modal-x" id="close-address-modal-x">✕</button>
+      </div>
+      <form id="address-form" class="modal-form-body">
+        <input type="hidden" id="addr-edit-id" value="" />
+        <div class="form-group">
+          <label>Address Tag / Label (e.g. Home, Workshop, Airfield, Office)</label>
+          <input type="text" id="addr-label" class="modal-input" placeholder="e.g. 🏠 Home or 🛩️ Airfield Club" required />
+        </div>
+        <div class="form-group">
+          <label>Recipient Name</label>
+          <input type="text" id="addr-name" class="modal-input" placeholder="e.g. Capt. Hitesh Sharma" required />
+        </div>
+        <div class="form-group">
+          <label>Phone Number (+91)</label>
+          <input type="tel" id="addr-phone" class="modal-input" placeholder="9876543210" pattern="[0-9]{10}" required />
+        </div>
+        <div class="form-group">
+          <label>Complete Street Address (House No, Building, Landmark)</label>
+          <input type="text" id="addr-street" class="modal-input" placeholder="Plot 45, Devlali Camp, Near HP Petrol Pump" required />
+        </div>
+        <div class="form-row-3">
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" id="addr-city" class="modal-input" placeholder="Nashik" required />
+          </div>
+          <div class="form-group">
+            <label>State</label>
+            <input type="text" id="addr-state" class="modal-input" placeholder="Maharashtra" required />
+          </div>
+          <div class="form-group">
+            <label>PIN Code</label>
+            <input type="text" id="addr-pincode" class="modal-input" placeholder="422502" required />
+          </div>
+        </div>
+        <label class="checkbox-label-row">
+          <input type="checkbox" id="addr-is-default" />
+          <span>Set as Default Delivery Address</span>
+        </label>
+        <button type="submit" class="modal-save-btn">SAVE ADDRESS TO BOOK</button>
+      </form>
+    </div>
+  </div>
 
   <CartDrawer />
   <Footer />
@@ -195,7 +251,7 @@ import '../styles/global.css';
       padding: 3.5rem 1.25rem 6rem;
     }
     .profile-container {
-      max-width: 920px;
+      max-width: 1100px;
       margin: 0 auto;
     }
 
@@ -203,7 +259,6 @@ import '../styles/global.css';
       display: none !important;
     }
 
-    /* Rich 2-Column Login & Signup Card */
     .rich-login-card {
       background: #000000;
       border-radius: 14px;
@@ -217,7 +272,6 @@ import '../styles/global.css';
       grid-template-columns: 1fr 1.05fr;
     }
 
-    /* Left Column (Dark #000000) */
     .card-left-col {
       background: #000000;
       color: #ffffff;
@@ -227,350 +281,630 @@ import '../styles/global.css';
       justify-content: space-between;
       border-right: 1px solid #1f1f1f;
     }
-
-    .brand-header-wrap {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 2rem;
-    }
-    .brand-title-lbl {
-      font-family: var(--font-display);
-      font-size: 1.2rem;
-      font-weight: 800;
-      color: #ffffff;
-      letter-spacing: -0.01em;
-    }
-    .powered-tag {
-      font-size: 0.65rem;
-      background: rgba(255, 255, 255, 0.15);
-      color: #eab308;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      font-weight: 700;
-    }
-
-    .card-left-headline {
-      font-family: var(--font-display);
-      font-size: 1.4rem;
-      font-weight: 800;
-      line-height: 1.25;
-      margin-bottom: 2.5rem;
-      color: #ffffff;
-    }
-
-    .card-feature-cards {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .card-feat-item {
-      border: 1px solid #2a2a2a;
-      border-radius: 10px;
-      padding: 0.85rem 1.15rem;
-      background: rgba(255, 255, 255, 0.03);
-      text-align: center;
-    }
+    .brand-header-wrap { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; }
+    .brand-title-lbl { font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; color: #ffffff; }
+    .powered-tag { font-size: 0.65rem; background: rgba(255, 255, 255, 0.15); color: #eab308; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; }
+    .card-left-headline { font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; line-height: 1.25; margin-bottom: 2.5rem; color: #ffffff; }
+    .card-feature-cards { display: flex; flex-direction: column; gap: 1rem; }
+    .card-feat-item { border: 1px solid #2a2a2a; border-radius: 10px; padding: 0.85rem 1.15rem; background: rgba(255, 255, 255, 0.03); text-align: left; }
     .star-icon { font-size: 1.1rem; margin-bottom: 0.2rem; }
     .feat-title { font-size: 0.85rem; font-weight: 800; color: #ffffff; }
     .feat-desc { font-size: 0.72rem; color: #888888; margin-top: 0.1rem; }
 
-    /* Right Column (White #ffffff) */
-    .card-right-col {
-      background: #ffffff;
-      color: #1a1a1a;
-      padding: 3.25rem 2.5rem 2.5rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
+    .card-right-col { background: #ffffff; color: #1a1a1a; padding: 3.25rem 2.5rem 2.5rem; display: flex; flex-direction: column; justify-content: center; }
+    .card-right-title { font-family: var(--font-display); font-size: 1.45rem; font-weight: 800; color: #000000; margin-bottom: 1.75rem; text-align: center; }
+    .card-form { display: flex; flex-direction: column; gap: 1.25rem; }
+    .phone-input-wrap { display: flex; border: 1px solid #d1d5db; border-radius: 6px; overflow: hidden; background: #ffffff; }
+    .flag-prefix { background: #f9fafb; border-right: 1px solid #e5e7eb; padding: 0.75rem 0.85rem; font-size: 0.85rem; font-weight: 700; color: #374151; display: flex; align-items: center; }
+    .mobile-input-field { flex: 1; border: none; padding: 0.75rem 0.85rem; font-size: 0.9rem; outline: none; }
+    .google-fast-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.6rem; background: #f9fafb; border: 1px solid #e5e7eb; padding: 0.75rem; border-radius: 6px; font-size: 0.82rem; font-weight: 700; color: #374151; cursor: pointer; }
+    .card-submit-btn { width: 100%; background: #000000; color: #ffffff; font-weight: 800; font-size: 0.9rem; padding: 0.85rem; border-radius: 6px; border: none; cursor: pointer; }
 
-    .card-right-title {
-      font-family: var(--font-display);
-      font-size: 1.45rem;
-      font-weight: 800;
-      color: #000000;
-      margin-bottom: 1.75rem;
-      text-align: center;
-    }
-
-    .card-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
-
-    .phone-input-wrap {
-      display: flex;
-      border: 1px solid #d1d5db;
-      border-radius: 6px;
-      overflow: hidden;
-      background: #ffffff;
-      transition: border-color 0.2s;
-    }
-    .phone-input-wrap:focus-within {
-      border-color: #000000;
-    }
-
-    .flag-prefix {
-      background: #f9fafb;
-      border-right: 1px solid #e5e7eb;
-      padding: 0.75rem 0.85rem;
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: #374151;
-      display: flex;
-      align-items: center;
-      white-space: nowrap;
-    }
-
-    .mobile-input-field {
-      flex: 1;
-      border: none;
-      padding: 0.75rem 0.85rem;
-      font-size: 0.9rem;
-      outline: none;
-      color: #111111;
-    }
-
-    .google-fast-btn {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      padding: 0.75rem;
-      border-radius: 6px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #374151;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .google-fast-btn:hover { background: #f3f4f6; }
-
-    .offers-checkbox-label {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.78rem;
-      color: #6b7280;
-      cursor: pointer;
-    }
-    .offers-checkbox-label input { accent-color: #000000; }
-
-    .card-submit-btn {
-      width: 100%;
-      background: #000000;
-      color: #ffffff;
-      font-weight: 700;
-      font-size: 0.95rem;
-      padding: 0.85rem;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .card-submit-btn:hover {
-      background: #222222;
-    }
-
-    .card-terms-footnote {
-      font-size: 0.72rem;
-      color: #9ca3af;
-      text-align: center;
-      margin-top: 1.75rem;
-      line-height: 1.4;
-    }
-    .card-terms-footnote a {
-      color: #6b7280;
-      text-decoration: underline;
-    }
-
-    /* Profile Grid */
+    /* Authenticated Profile Layout */
     .profile-card-grid {
       display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 2rem;
+      grid-template-columns: 340px 1fr;
+      gap: 1.75rem;
+      align-items: start;
     }
 
     .user-info-card {
       background: #ffffff;
       border: 1px solid #e6e0d5;
-      border-radius: var(--radius-md);
-      padding: 2rem;
+      border-radius: 14px;
+      padding: 2rem 1.5rem;
       text-align: center;
-    }
-    .avatar-wrapper {
-      position: relative;
-      width: 100px;
-      height: 100px;
-      margin: 0 auto 1.25rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
     }
     .user-avatar {
-      width: 100%;
-      height: 100%;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid #3b0811;
+      border: 3px solid #000000;
+      margin-bottom: 0.75rem;
     }
     .online-badge {
-      display: block;
-      font-size: 0.68rem;
-      font-weight: 800;
-      color: #059669;
+      display: inline-block;
       background: #ecfdf5;
-      padding: 0.2rem 0.5rem;
-      border-radius: 99px;
-      margin-top: 0.4rem;
+      color: #065f46;
+      border: 1px solid #10b981;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: 20px;
+      margin-bottom: 0.75rem;
     }
-
     .user-name {
       font-family: var(--font-display);
       font-size: 1.3rem;
-      color: #1a1a1a;
-      margin-bottom: 0.2rem;
+      font-weight: 800;
+      color: #000000;
     }
     .user-email {
       font-size: 0.82rem;
       color: #666666;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
     }
 
     .user-meta-list {
+      border-top: 1px solid #eeeeee;
+      border-bottom: 1px solid #eeeeee;
+      padding: 1rem 0;
+      margin-bottom: 1.25rem;
+      text-align: left;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-      text-align: left;
-      font-size: 0.82rem;
-      border-top: 1px solid #e6e0d5;
-      border-bottom: 1px solid #e6e0d5;
-      padding: 1rem 0;
-      margin-bottom: 1.5rem;
+      gap: 0.6rem;
     }
-    .meta-row span { color: #666666; display: block; }
-    .meta-row strong { color: #1a1a1a; }
+    .meta-row {
+      font-size: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+    }
+    .meta-row span { color: #888888; }
+    .meta-row strong { color: #111111; font-weight: 700; }
+
+    .profile-actions-flex {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .btn-secondary-action {
+      width: 100%;
+      background: #f3f4f6;
+      border: 1px solid #d1d5db;
+      color: #111111;
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 0.65rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .btn-secondary-action:hover { background: #e5e7eb; }
 
     .btn-logout {
-      background: #f3eee7;
-      color: #ef4444;
-      border: 1px solid #e6e0d5;
-      font-weight: 700;
-      font-size: 0.8rem;
-      padding: 0.6rem 1.25rem;
-      border-radius: var(--radius-sm);
       width: 100%;
+      background: #fef2f2;
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 0.65rem;
+      border-radius: 6px;
       cursor: pointer;
-      transition: var(--transition-fast);
     }
-    .btn-logout:hover {
-      background: #fee2e2;
-      border-color: #fca5a5;
-    }
+    .btn-logout:hover { background: #fee2e2; }
 
-    /* Orders Card */
-    .orders-card {
+    /* Saved Delivery Addresses Cards */
+    .addresses-card, .orders-card {
       background: #ffffff;
       border: 1px solid #e6e0d5;
-      border-radius: var(--radius-md);
+      border-radius: 14px;
       padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    }
+    .section-header-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
     }
     .section-title-sm {
       font-family: var(--font-display);
       font-size: 1.1rem;
-      color: #3b0811;
-      border-bottom: 1.5px solid #e6e0d5;
-      padding-bottom: 0.6rem;
-      margin-bottom: 1.5rem;
+      font-weight: 800;
+      color: #000000;
+      letter-spacing: 0.02em;
+    }
+    .section-subtitle {
+      font-size: 0.76rem;
+      color: #666666;
+      margin-top: 0.15rem;
     }
 
-    .order-list {
+    .btn-add-address {
+      background: #000000;
+      color: #ffffff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.5rem 0.85rem;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-add-address:disabled {
+      background: #cccccc;
+      cursor: not-allowed;
+    }
+
+    .addresses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .address-box {
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 1.15rem;
+      background: #fafafa;
+      position: relative;
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      justify-content: space-between;
     }
-    .order-item {
-      background: #fbf9f5;
-      border: 1px solid #e6e0d5;
-      border-radius: var(--radius-sm);
+    .address-box.is-default-card {
+      border-color: #10b981;
+      background: #f0fdf4;
+    }
+    .addr-tag-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    .addr-tag-name {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #111111;
+    }
+    .default-tag-badge {
+      font-size: 0.65rem;
+      background: #10b981;
+      color: #ffffff;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+    .addr-body-text {
+      font-size: 0.78rem;
+      color: #4b5563;
+      line-height: 1.45;
+      margin-bottom: 1rem;
+    }
+    .addr-actions {
+      display: flex;
+      gap: 0.5rem;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 0.75rem;
+    }
+    .btn-addr-mini {
+      background: none;
+      border: 1px solid #d1d5db;
+      padding: 0.3rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #374151;
+      cursor: pointer;
+    }
+    .btn-addr-mini:hover { background: #f3f4f6; }
+    .btn-addr-delete { color: #dc2626; border-color: #fca5a5; }
+    .btn-addr-delete:hover { background: #fef2f2; }
+
+    /* Modal Styling */
+    .custom-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 1.25rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s, visibility 0.25s;
     }
-    .order-header {
+    .custom-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .custom-modal-box {
+      background: #ffffff;
+      border-radius: 12px;
+      width: 520px;
+      max-width: 95vw;
+      padding: 1.75rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    }
+    .modal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 0.75rem;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid #f0f0f0;
+      padding-bottom: 0.75rem;
     }
-    .order-id { font-size: 0.9rem; color: #1a1a1a; }
-    .order-date { display: block; font-size: 0.75rem; color: #666666; }
-    .status-badge-green { background: #d1fae5; color: #047857; font-size: 0.7rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 4px; }
-    .status-badge-blue { background: #e0f2fe; color: #0369a1; font-size: 0.7rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 4px; }
+    .modal-header h3 { font-size: 1.05rem; font-weight: 800; color: #111111; }
+    .close-modal-x { background: none; border: none; font-size: 1.2rem; color: #888; cursor: pointer; }
+    .modal-form-body { display: flex; flex-direction: column; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.3rem; }
+    .form-group label { font-size: 0.76rem; font-weight: 700; color: #374151; }
+    .modal-input { width: 100%; padding: 0.65rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.85rem; outline: none; }
+    .modal-input:focus { border-color: #000000; }
+    .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; }
+    .checkbox-label-row { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; font-weight: 700; color: #374151; cursor: pointer; }
+    .modal-save-btn { background: #000000; color: #ffffff; font-weight: 800; font-size: 0.85rem; padding: 0.75rem; border-radius: 6px; border: none; cursor: pointer; margin-top: 0.5rem; }
 
-    .order-details p { font-size: 0.85rem; color: #333333; margin-bottom: 0.75rem; }
-    .order-footer { display: flex; justify-content: space-between; align-items: center; }
-    .order-price { font-weight: 800; color: #1a1a1a; font-size: 0.95rem; }
-    .view-invoice-link { font-size: 0.8rem; font-weight: 700; color: #3b0811; }
+    /* Order List Styling */
+    .order-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
+    .order-item { border: 1px solid #e5e7eb; border-radius: 10px; padding: 1.15rem; background: #fafafa; }
+    .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+    .order-id { font-family: var(--font-display); font-size: 0.95rem; color: #111; }
+    .order-date { font-size: 0.75rem; color: #777; display: block; }
+    .status-badge-green { background: #ecfdf5; color: #059669; font-size: 0.65rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid #10b981; }
+    .status-badge-blue { background: #eff6ff; color: #2563eb; font-size: 0.65rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid #3b82f6; }
+    .order-details p { font-size: 0.82rem; color: #444; margin-bottom: 0.75rem; }
+    .order-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; font-weight: 700; }
+    .view-invoice-link { color: #2563eb; text-decoration: underline; }
 
-    @media (max-width: 768px) {
-      .login-card-grid { grid-template-columns: 1fr; }
-      .card-left-col { padding: 2rem 1.5rem 1.5rem; border-right: none; border-bottom: 1px solid #222222; }
-      .card-left-headline { font-size: 1.15rem; margin-bottom: 1.25rem; }
-      .card-right-col { padding: 2rem 1.5rem; }
+    @media (max-width: 900px) {
       .profile-card-grid { grid-template-columns: 1fr; }
+      .login-card-grid { grid-template-columns: 1fr; }
+      .form-row-3 { grid-template-columns: 1fr; }
     }
   </style>
 
   <script>
-    function initProfileAuth() {
-      const loggedOutBox = document.getElementById('auth-logged-out');
-      const loggedInBox = document.getElementById('auth-logged-in');
-      const pageForm = document.getElementById('profile-page-login-form');
-      const googleBtn = document.getElementById('page-google-auth-btn');
+    interface AddressItem {
+      id: string;
+      label: string;
+      name: string;
+      phone: string;
+      street: string;
+      city: string;
+      state: string;
+      pincode: string;
+      isDefault: boolean;
+    }
+
+    function initProfilePage() {
+      const loggedOutDiv = document.getElementById('auth-logged-out');
+      const loggedInDiv = document.getElementById('auth-logged-in');
+
+      const userDisplayName = document.getElementById('user-display-name');
+      const userDisplayEmail = document.getElementById('user-display-email');
+      const userDisplayPhone = document.getElementById('user-display-phone');
+      const userDisplayGstin = document.getElementById('user-display-gstin');
       const logoutBtn = document.getElementById('google-logout-btn');
 
-      const isAuth = localStorage.getItem('google_auth_logged_in') === 'true';
+      const editProfileBtn = document.getElementById('open-edit-profile-btn');
+      const editProfileModal = document.getElementById('edit-profile-modal');
+      const closeEditProfileX = document.getElementById('close-edit-profile-x');
+      const editProfileForm = document.getElementById('edit-profile-form');
 
-      function renderState(authed: boolean) {
-        if (authed) {
-          loggedOutBox?.classList.add('style-hidden');
-          loggedInBox?.classList.remove('style-hidden');
+      const addAddressBtn = document.getElementById('add-address-trigger-btn') as HTMLButtonElement;
+      const addressModal = document.getElementById('address-modal');
+      const closeAddrModalX = document.getElementById('close-address-modal-x');
+      const addressForm = document.getElementById('address-form');
+      const addressesGrid = document.getElementById('saved-addresses-grid');
+
+      const userOrdersList = document.getElementById('user-orders-list');
+
+      function getSavedAddresses(): AddressItem[] {
+        try {
+          const raw = localStorage.getItem('skynodes_saved_addresses');
+          if (raw) return JSON.parse(raw);
+        } catch (e) {}
+        
+        // Default seed address
+        const seed: AddressItem[] = [{
+          id: 'addr_seed_1',
+          label: '🏠 Main Flying Base',
+          name: localStorage.getItem('skynodes_pilot_name') || 'Capt. Hitesh Pilot',
+          phone: localStorage.getItem('skynodes_pilot_phone') || '9876543210',
+          street: 'Devlali Camp, Near HP Petrol Pump',
+          city: 'Nashik',
+          state: 'Maharashtra',
+          pincode: '422502',
+          isDefault: true
+        }];
+        localStorage.setItem('skynodes_saved_addresses', JSON.stringify(seed));
+        return seed;
+      }
+
+      function saveAddresses(list: AddressItem[]) {
+        localStorage.setItem('skynodes_saved_addresses', JSON.stringify(list));
+        renderAddresses();
+      }
+
+      function renderAddresses() {
+        const list = getSavedAddresses();
+        if (addAddressBtn) {
+          addAddressBtn.disabled = list.length >= 5;
+          addAddressBtn.textContent = list.length >= 5 ? 'Max 5 Reached' : '➕ Add Address';
+        }
+
+        if (!addressesGrid) return;
+
+        if (list.length === 0) {
+          addressesGrid.innerHTML = `<p style="font-size: 0.82rem; color: #888;">No saved addresses yet. Click "+ Add Address" to store up to 5 delivery locations.</p>`;
+          return;
+        }
+
+        addressesGrid.innerHTML = list.map(addr => `
+          <div class="address-box ${addr.isDefault ? 'is-default-card' : ''}">
+            <div>
+              <div class="addr-tag-row">
+                <span class="addr-tag-name">${addr.label}</span>
+                ${addr.isDefault ? '<span class="default-tag-badge">DEFAULT</span>' : ''}
+              </div>
+              <div class="addr-body-text">
+                <strong>${addr.name}</strong> (${addr.phone})<br/>
+                ${addr.street}, ${addr.city}, ${addr.state} - ${addr.pincode}
+              </div>
+            </div>
+            <div class="addr-actions">
+              ${!addr.isDefault ? `<button class="btn-addr-mini btn-set-default" data-id="${addr.id}">Set Default</button>` : ''}
+              <button class="btn-addr-mini btn-edit-addr" data-id="${addr.id}">✏️ Edit</button>
+              <button class="btn-addr-mini btn-addr-delete" data-id="${addr.id}">🗑️ Delete</button>
+            </div>
+          </div>
+        `).join('');
+
+        // Action Listeners
+        addressesGrid.querySelectorAll('.btn-set-default').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
+            const updated = getSavedAddresses().map(a => ({ ...a, isDefault: a.id === id }));
+            saveAddresses(updated);
+          });
+        });
+
+        addressesGrid.querySelectorAll('.btn-edit-addr').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
+            const target = getSavedAddresses().find(a => a.id === id);
+            if (target) {
+              (document.getElementById('addr-edit-id') as HTMLInputElement).value = target.id;
+              (document.getElementById('addr-label') as HTMLInputElement).value = target.label;
+              (document.getElementById('addr-name') as HTMLInputElement).value = target.name;
+              (document.getElementById('addr-phone') as HTMLInputElement).value = target.phone;
+              (document.getElementById('addr-street') as HTMLInputElement).value = target.street;
+              (document.getElementById('addr-city') as HTMLInputElement).value = target.city;
+              (document.getElementById('addr-state') as HTMLInputElement).value = target.state;
+              (document.getElementById('addr-pincode') as HTMLInputElement).value = target.pincode;
+              (document.getElementById('addr-is-default') as HTMLInputElement).checked = target.isDefault;
+
+              (document.getElementById('address-modal-title') as HTMLElement).textContent = '✏️ Edit Saved Address';
+              addressModal?.classList.add('active');
+            }
+          });
+        });
+
+        addressesGrid.querySelectorAll('.btn-addr-delete').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
+            if (confirm('Are you sure you want to delete this address?')) {
+              const updated = getSavedAddresses().filter(a => a.id !== id);
+              if (updated.length > 0 && !updated.some(a => a.isDefault)) {
+                updated[0].isDefault = true;
+              }
+              saveAddresses(updated);
+            }
+          });
+        });
+      }
+
+      function renderOrders() {
+        if (!userOrdersList) return;
+        try {
+          const rawHistory = localStorage.getItem('skynodes_orders_history');
+          const history = rawHistory ? JSON.parse(rawHistory) : [];
+
+          if (history.length === 0) {
+            userOrdersList.innerHTML = `
+              <div class="order-item">
+                <div class="order-header">
+                  <div>
+                    <strong class="order-id">#AKS-89421</strong>
+                    <span class="order-date">Date: August 9, 2026</span>
+                  </div>
+                  <span class="status-badge-green">DISPATCHED</span>
+                </div>
+                <div class="order-details">
+                  <p>1x O.S. Max 0.46 AX II Engine + 1x Futaba Radio 6k</p>
+                  <div class="order-footer">
+                    <span class="order-price">Total: ₹38,790.00</span>
+                    <a href="/invoice" class="view-invoice-link">View GST Invoice 📄</a>
+                  </div>
+                </div>
+              </div>
+            `;
+            return;
+          }
+
+          userOrdersList.innerHTML = history.map((ord: any) => `
+            <div class="order-item">
+              <div class="order-header">
+                <div>
+                  <strong class="order-id">${ord.orderId}</strong>
+                  <span class="order-date">Date: ${ord.date}</span>
+                </div>
+                <span class="${ord.paymentMethod?.includes('COD') ? 'status-badge-blue' : 'status-badge-green'}">${ord.paymentMethod?.includes('COD') ? 'PENDING COD' : 'CONFIRMED'}</span>
+              </div>
+              <div class="order-details">
+                <p>${ord.items ? ord.items.map((i: any) => `${i.quantity}x ${i.product.name}`).join(' + ') : 'Aeromodelling Equipment'}</p>
+                <div class="order-footer">
+                  <span class="order-price">Total: ₹${(ord.total || 0).toLocaleString('en-IN')}.00</span>
+                  <a href="/invoice" class="view-invoice-link">View GST Invoice 📄</a>
+                </div>
+              </div>
+            </div>
+          `).join('');
+        } catch (e) {}
+      }
+
+      function checkAuth() {
+        const isLoggedIn = localStorage.getItem('google_auth_logged_in') === 'true';
+
+        if (isLoggedIn) {
+          loggedOutDiv?.classList.add('style-hidden');
+          loggedInDiv?.classList.remove('style-hidden');
+
+          const name = localStorage.getItem('skynodes_pilot_name') || localStorage.getItem('skynodes_pilot_user') || 'Capt. Hitesh Pilot';
+          const email = localStorage.getItem('skynodes_pilot_email') || 'hitesh.aeromodels@gmail.com';
+          const phone = localStorage.getItem('skynodes_pilot_phone') || '+91 98765 43210';
+          const gstin = localStorage.getItem('skynodes_pilot_gstin') || '27AAAAA0000A1Z5 (Verified)';
+
+          if (userDisplayName) userDisplayName.textContent = name;
+          if (userDisplayEmail) userDisplayEmail.textContent = email;
+          if (userDisplayPhone) userDisplayPhone.textContent = phone;
+          if (userDisplayGstin) userDisplayGstin.textContent = gstin;
+
+          renderAddresses();
+          renderOrders();
         } else {
-          loggedOutBox?.classList.remove('style-hidden');
-          loggedInBox?.classList.add('style-hidden');
+          loggedOutDiv?.classList.remove('style-hidden');
+          loggedInDiv?.classList.add('style-hidden');
         }
       }
 
-      renderState(isAuth);
+      checkAuth();
 
-      pageForm?.addEventListener('submit', (e) => {
+      // Logout Event
+      logoutBtn?.addEventListener('click', () => {
+        localStorage.removeItem('google_auth_logged_in');
+        window.dispatchEvent(new CustomEvent('user-logged-in'));
+        window.location.reload();
+      });
+
+      // Edit Profile Modal Handler
+      editProfileBtn?.addEventListener('click', () => {
+        (document.getElementById('edit-name') as HTMLInputElement).value = localStorage.getItem('skynodes_pilot_name') || 'Capt. Hitesh Pilot';
+        (document.getElementById('edit-email') as HTMLInputElement).value = localStorage.getItem('skynodes_pilot_email') || 'hitesh.aeromodels@gmail.com';
+        (document.getElementById('edit-phone') as HTMLInputElement).value = localStorage.getItem('skynodes_pilot_phone') || '9876543210';
+        (document.getElementById('edit-gstin') as HTMLInputElement).value = localStorage.getItem('skynodes_pilot_gstin') || '27AAAAA0000A1Z5';
+
+        editProfileModal?.classList.add('active');
+      });
+
+      closeEditProfileX?.addEventListener('click', () => {
+        editProfileModal?.classList.remove('active');
+      });
+
+      editProfileForm?.addEventListener('submit', (e) => {
         e.preventDefault();
-        const mobileInput = document.getElementById('page-user-mobile-input') as HTMLInputElement;
-        if (mobileInput && mobileInput.value) {
-          localStorage.setItem('google_auth_logged_in', 'true');
-          renderState(true);
+        const name = (document.getElementById('edit-name') as HTMLInputElement).value.trim();
+        const email = (document.getElementById('edit-email') as HTMLInputElement).value.trim();
+        const phone = (document.getElementById('edit-phone') as HTMLInputElement).value.trim();
+        const gstin = (document.getElementById('edit-gstin') as HTMLInputElement).value.trim();
+
+        if (name && email) {
+          localStorage.setItem('skynodes_pilot_name', name);
+          localStorage.setItem('skynodes_pilot_email', email);
+          localStorage.setItem('skynodes_pilot_phone', phone);
+          localStorage.setItem('skynodes_pilot_gstin', gstin);
+
+          editProfileModal?.classList.remove('active');
+          window.dispatchEvent(new CustomEvent('user-logged-in'));
+          checkAuth();
+          alert('✅ Profile details updated successfully!');
         }
       });
 
-      googleBtn?.addEventListener('click', () => {
-        localStorage.setItem('google_auth_logged_in', 'true');
-        renderState(true);
+      // Add Address Modal Handler
+      addAddressBtn?.addEventListener('click', () => {
+        if (getSavedAddresses().length >= 5) {
+          alert('Maximum 5 saved addresses allowed.');
+          return;
+        }
+        (document.getElementById('addr-edit-id') as HTMLInputElement).value = '';
+        (document.getElementById('addr-label') as HTMLInputElement).value = '';
+        (document.getElementById('addr-name') as HTMLInputElement).value = localStorage.getItem('skynodes_pilot_name') || '';
+        (document.getElementById('addr-phone') as HTMLInputElement).value = localStorage.getItem('skynodes_pilot_phone') || '';
+        (document.getElementById('addr-street') as HTMLInputElement).value = '';
+        (document.getElementById('addr-city') as HTMLInputElement).value = '';
+        (document.getElementById('addr-state') as HTMLInputElement).value = 'Maharashtra';
+        (document.getElementById('addr-pincode') as HTMLInputElement).value = '';
+        (document.getElementById('addr-is-default') as HTMLInputElement).checked = getSavedAddresses().length === 0;
+
+        (document.getElementById('address-modal-title') as HTMLElement).textContent = '📍 Add New Delivery Address';
+        addressModal?.classList.add('active');
       });
 
-      logoutBtn?.addEventListener('click', () => {
-        localStorage.removeItem('google_auth_logged_in');
-        renderState(false);
+      closeAddrModalX?.addEventListener('click', () => {
+        addressModal?.classList.remove('active');
+      });
+
+      addressForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const editId = (document.getElementById('addr-edit-id') as HTMLInputElement).value;
+        const label = (document.getElementById('addr-label') as HTMLInputElement).value.trim();
+        const name = (document.getElementById('addr-name') as HTMLInputElement).value.trim();
+        const phone = (document.getElementById('addr-phone') as HTMLInputElement).value.trim();
+        const street = (document.getElementById('addr-street') as HTMLInputElement).value.trim();
+        const city = (document.getElementById('addr-city') as HTMLInputElement).value.trim();
+        const state = (document.getElementById('addr-state') as HTMLInputElement).value.trim();
+        const pincode = (document.getElementById('addr-pincode') as HTMLInputElement).value.trim();
+        const isDefault = (document.getElementById('addr-is-default') as HTMLInputElement).checked;
+
+        let list = getSavedAddresses();
+
+        if (editId) {
+          list = list.map(a => a.id === editId ? { id: editId, label, name, phone, street, city, state, pincode, isDefault } : (isDefault ? { ...a, isDefault: false } : a));
+        } else {
+          if (isDefault) {
+            list = list.map(a => ({ ...a, isDefault: false }));
+          }
+          list.push({
+            id: `addr_${Date.now()}`,
+            label, name, phone, street, city, state, pincode, isDefault
+          });
+        }
+
+        saveAddresses(list);
+        addressModal?.classList.remove('active');
+        alert('✅ Address saved to your Pilot Address Book!');
+      });
+
+      // Inline Auth Form
+      document.getElementById('profile-page-login-form')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const mobile = (document.getElementById('page-user-mobile-input') as HTMLInputElement)?.value;
+        if (mobile) {
+          localStorage.setItem('google_auth_logged_in', 'true');
+          localStorage.setItem('skynodes_pilot_phone', mobile);
+          window.dispatchEvent(new CustomEvent('user-logged-in'));
+          checkAuth();
+        }
+      });
+
+      document.getElementById('page-google-auth-btn')?.addEventListener('click', () => {
+        localStorage.setItem('google_auth_logged_in', 'true');
+        window.dispatchEvent(new CustomEvent('user-logged-in'));
+        checkAuth();
       });
     }
 
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initProfileAuth);
+      document.addEventListener('DOMContentLoaded', initProfilePage);
     } else {
-      initProfileAuth();
+      initProfilePage();
     }
-    document.addEventListener('astro:page-load', initProfileAuth);
+    document.addEventListener('astro:page-load', initProfilePage);
   </script>
 
 </body>
