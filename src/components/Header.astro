@@ -79,8 +79,6 @@ import LoginModal from './LoginModal.astro';
       <a href="/shop?category=radio-receiver" class="nav-item">RADIOS & RECEIVERS</a>
       <a href="/shop?category=balsa-wood" class="nav-item">BALSA WOOD</a>
       <a href="/shop?category=accessories" class="nav-item">ACCESSORIES</a>
-      <a href="/aircrafts" class="nav-item showcase-link">3D SHOWCASE ✈️</a>
-      <a href="/flight-simulator" class="nav-item game-link">🎮 RC SIMULATOR GAME</a>
     </div>
   </nav>
 
@@ -154,11 +152,6 @@ import LoginModal from './LoginModal.astro';
       <a href="/shop?category=accessories" class="drawer-nav-item">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
         <span>FLIGHT ACCESSORIES</span>
-      </a>
-
-      <a href="/aircrafts" class="drawer-nav-item">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-        <span>3D FLIGHT SHOWCASE</span>
       </a>
 
       <a href="/blog" class="drawer-nav-item">
@@ -336,7 +329,9 @@ import LoginModal from './LoginModal.astro';
 
   /* Nav Strip Desktop */
   .nav-strip {
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid #f0f0f0 !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
     padding: 0.6rem 0;
   }
   .nav-links {

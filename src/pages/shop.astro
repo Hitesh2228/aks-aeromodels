@@ -4,29 +4,12 @@ import CartDrawer from '../components/CartDrawer.astro';
 import MobileBottomNav from '../components/MobileBottomNav.astro';
 import Footer from '../components/Footer.astro';
 import { PRODUCTS as staticProducts, CATEGORIES } from '../data/products';
-import { getAllShopifyProducts } from '../lib/shopify';
+import { getAllShopifyProducts, mapShopifyToProduct } from '../lib/shopify';
 import '../styles/global.css';
 
 const shopifyProducts = await getAllShopifyProducts();
 const PRODUCTS = (shopifyProducts && shopifyProducts.length > 0)
-  ? shopifyProducts.map((sp, idx) => ({
-      id: sp.id,
-      variantId: sp.variantId,
-      name: sp.title,
-      category: 'aeromodels',
-      categoryLabel: sp.vendor || 'SKYNODES UAV',
-      price: Math.round(sp.price),
-      originalPrice: Math.round(sp.price * 1.2),
-      discountBadge: 'SHOPIFY LIVE',
-      rating: 4.9,
-      reviewsCount: 35 + idx * 4,
-      isBestseller: idx % 2 === 0,
-      isNewArrival: idx % 3 === 0,
-      image: sp.imageUrl,
-      description: sp.description || 'Official SKYNODES UAV product synced live from Shopify Storefront.',
-      specs: { Vendor: sp.vendor, Type: sp.productType, Status: sp.availableForSale ? 'In Stock' : 'Out of Stock' },
-      inStock: sp.availableForSale
-    }))
+  ? shopifyProducts.map((sp, idx) => mapShopifyToProduct(sp, idx))
   : staticProducts;
 ---
 
