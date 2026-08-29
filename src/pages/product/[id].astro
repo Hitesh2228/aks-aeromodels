@@ -3,28 +3,41 @@ import Header from '../../components/Header.astro';
 import CartDrawer from '../../components/CartDrawer.astro';
 import MobileBottomNav from '../../components/MobileBottomNav.astro';
 import Footer from '../../components/Footer.astro';
-import { PRODUCTS, getProductById, type Product } from '../../data/products';
-import { buildShopifyCheckoutUrl } from '../../lib/shopify';
+import { type Product } from '../../data/products';
+import { getCombinedProducts, buildShopifyCheckoutUrl } from '../../lib/shopify';
 import '../../styles/global.css';
 
-export function getStaticPaths() {
-  return PRODUCTS.map(product => ({
-    params: { id: product.id },
-    props: { product },
-  }));
+export async function getStaticPaths() {
+  const allProducts = await getCombinedProducts();
+  const paths: any[] = [];
+  const addedIds = new Set<string>();
+
+  for (const product of allProducts) {
+    if (product.id && !addedIds.has(product.id)) {
+      paths.push({ params: { id: product.id }, props: { product } });
+      addedIds.add(product.id);
+    }
+    if (product.handle && !addedIds.has(product.handle)) {
+      paths.push({ params: { id: product.handle }, props: { product } });
+      addedIds.add(product.handle);
+    }
+  }
+
+  return paths;
 }
 
 const { product } = Astro.props as { product: Product };
+const allProducts = await getCombinedProducts();
 
 if (!product) {
   return Astro.redirect('/shop');
 }
 
-const relatedProducts = PRODUCTS
+const relatedProducts = allProducts
   .filter(p => p.category === product.category && p.id !== product.id)
   .slice(0, 4);
 
-const pairedProducts = PRODUCTS
+const pairedProducts = allProducts
   .filter(p => p.category !== product.category)
   .slice(0, 4);
 

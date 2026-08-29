@@ -366,74 +366,88 @@ const PRODUCTS = (shopifyProducts && shopifyProducts.length > 0)
     }
   </style>
 
-  <script>
-    import { addToCart } from '../lib/cartStore';
+<script id="shop-products-json" type="application/json" is:inline set:html={JSON.stringify(PRODUCTS)}></script>
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const pills = document.querySelectorAll('.cat-pill-btn');
-      const products = document.querySelectorAll('.catalog-item');
-      const sortSelect = document.getElementById('sort-select') as HTMLSelectElement;
-      const grid = document.getElementById('catalog-products-grid');
+<script>
+  import { addToCart, registerProductsCache } from '../lib/cartStore';
 
-      function filterCategory(cat: string) {
-        pills.forEach(p => {
-          if (p.getAttribute('data-cat') === cat) p.classList.add('active');
-          else p.classList.remove('active');
-        });
+  function initShopControls() {
+    const jsonEl = document.getElementById('shop-products-json');
+    if (jsonEl?.textContent) {
+      try {
+        const prods = JSON.parse(jsonEl.textContent);
+        registerProductsCache(prods);
+      } catch (e) {}
+    }
 
-        products.forEach(prod => {
-          const itemCat = prod.getAttribute('data-category');
-          if (cat === 'all' || itemCat === cat) {
-            (prod as HTMLElement).style.display = 'flex';
-          } else {
-            (prod as HTMLElement).style.display = 'none';
-          }
-        });
-      }
+    const pills = document.querySelectorAll('.cat-pill-btn');
+    const products = document.querySelectorAll('.catalog-item');
+    const sortSelect = document.getElementById('sort-select') as HTMLSelectElement;
+    const grid = document.getElementById('catalog-products-grid');
 
+    function filterCategory(cat: string) {
       pills.forEach(p => {
-        p.addEventListener('click', () => {
-          const cat = p.getAttribute('data-cat');
-          if (cat) filterCategory(cat);
-        });
+        if (p.getAttribute('data-cat') === cat) p.classList.add('active');
+        else p.classList.remove('active');
       });
 
-      // Filter by URL Query parameter (e.g. ?category=engine)
-      const params = new URLSearchParams(window.location.search);
-      const urlCat = params.get('category');
-      if (urlCat) filterCategory(urlCat);
-
-      // Dynamic Sorting Handler
-      sortSelect?.addEventListener('change', () => {
-        const val = sortSelect.value;
-        const itemsArr = Array.from(products);
-
-        itemsArr.sort((a, b) => {
-          const priceA = parseFloat(a.getAttribute('data-price') || '0');
-          const priceB = parseFloat(b.getAttribute('data-price') || '0');
-          const ratingA = parseFloat(a.getAttribute('data-rating') || '0');
-          const ratingB = parseFloat(b.getAttribute('data-rating') || '0');
-          const bestA = a.getAttribute('data-bestseller') === 'true' ? 1 : 0;
-          const bestB = b.getAttribute('data-bestseller') === 'true' ? 1 : 0;
-
-          if (val === 'price-low') return priceA - priceB;
-          if (val === 'price-high') return priceB - priceA;
-          if (val === 'rating') return ratingB - ratingA;
-          return bestB - bestA;
-        });
-
-        itemsArr.forEach(item => grid?.appendChild(item));
+      products.forEach(prod => {
+        const itemCat = prod.getAttribute('data-category');
+        if (cat === 'all' || itemCat === cat) {
+          (prod as HTMLElement).style.display = 'flex';
+        } else {
+          (prod as HTMLElement).style.display = 'none';
+        }
       });
+    }
 
-      // Generic Add To Cart Listener
-      document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
-          if (id) addToCart(id, 1);
-        });
+    pills.forEach(p => {
+      p.addEventListener('click', () => {
+        const cat = p.getAttribute('data-cat');
+        if (cat) filterCategory(cat);
       });
     });
-  </script>
+
+    const params = new URLSearchParams(window.location.search);
+    const urlCat = params.get('category');
+    if (urlCat) filterCategory(urlCat);
+
+    sortSelect?.addEventListener('change', () => {
+      const val = sortSelect.value;
+      const itemsArr = Array.from(products);
+
+      itemsArr.sort((a, b) => {
+        const priceA = parseFloat(a.getAttribute('data-price') || '0');
+        const priceB = parseFloat(b.getAttribute('data-price') || '0');
+        const ratingA = parseFloat(a.getAttribute('data-rating') || '0');
+        const ratingB = parseFloat(b.getAttribute('data-rating') || '0');
+        const bestA = a.getAttribute('data-bestseller') === 'true' ? 1 : 0;
+        const bestB = b.getAttribute('data-bestseller') === 'true' ? 1 : 0;
+
+        if (val === 'price-low') return priceA - priceB;
+        if (val === 'price-high') return priceB - priceA;
+        if (val === 'rating') return ratingB - ratingA;
+        return bestB - bestA;
+      });
+
+      itemsArr.forEach(item => grid?.appendChild(item));
+    });
+
+    document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
+        if (id) addToCart(id, 1);
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initShopControls);
+  } else {
+    initShopControls();
+  }
+  document.addEventListener('astro:page-load', initShopControls);
+</script>
 
 </body>
 </html>

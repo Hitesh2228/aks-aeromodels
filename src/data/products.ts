@@ -1,5 +1,7 @@
 export interface Product {
   id: string;
+  handle?: string;
+  variantId?: string;
   name: string;
   category: 'engine' | 'radio-receiver' | 'aeromodels' | 'balsa-wood' | 'accessories';
   categoryLabel: string;

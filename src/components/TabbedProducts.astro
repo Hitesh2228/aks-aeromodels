@@ -382,10 +382,20 @@ const newArrivals = PRODUCTS.filter(p => p.isNewArrival).slice(0, 8);
   }
 </style>
 
-<script>
-  import { addToCart } from '../lib/cartStore';
+<script id="tabbed-products-json" type="application/json" is:inline set:html={JSON.stringify(PRODUCTS)}></script>
 
-  document.addEventListener('DOMContentLoaded', () => {
+<script>
+  import { addToCart, registerProductsCache } from '../lib/cartStore';
+
+  function initTabbedProducts() {
+    const jsonEl = document.getElementById('tabbed-products-json');
+    if (jsonEl?.textContent) {
+      try {
+        const prods = JSON.parse(jsonEl.textContent);
+        registerProductsCache(prods);
+      } catch (e) {}
+    }
+
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
 
@@ -405,5 +415,12 @@ const newArrivals = PRODUCTS.filter(p => p.isNewArrival).slice(0, 8);
         if (id) addToCart(id, 1);
       });
     });
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTabbedProducts);
+  } else {
+    initTabbedProducts();
+  }
+  document.addEventListener('astro:page-load', initTabbedProducts);
 </script>

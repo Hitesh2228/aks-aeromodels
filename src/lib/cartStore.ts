@@ -1,12 +1,13 @@
 import { PRODUCTS, type Product } from '../data/products';
-import { buildShopifyCheckoutUrl } from './shopify';
 
 export interface CartItemState {
   productId: string;
   quantity: number;
+  productData?: Product;
 }
 
-const CART_KEY = 'skynodes_cart_v1';
+const CART_KEY = 'skynodes_cart_v2';
+const PRODUCTS_CACHE_KEY = 'skynodes_products_cache_v1';
 
 export function getCartFromStorage(): CartItemState[] {
   if (typeof window === 'undefined') return [];
@@ -28,14 +29,62 @@ export function saveCartToStorage(items: CartItemState[]) {
   }
 }
 
-export function addToCart(productId: string, quantity = 1) {
+export function registerProductsCache(products: Product[]) {
+  if (typeof window === 'undefined' || !products || products.length === 0) return;
+  try {
+    const existingRaw = localStorage.getItem(PRODUCTS_CACHE_KEY);
+    const existing: Record<string, Product> = existingRaw ? JSON.parse(existingRaw) : {};
+    products.forEach(p => {
+      existing[p.id] = p;
+      if (p.handle) existing[p.handle] = p;
+    });
+    localStorage.setItem(PRODUCTS_CACHE_KEY, JSON.stringify(existing));
+  } catch (e) {}
+}
+
+export function getCachedProduct(id: string): Product | undefined {
+  const staticFound = PRODUCTS.find(p => p.id === id || p.handle === id);
+  if (staticFound) return staticFound;
+
+  if (typeof window !== 'undefined') {
+    try {
+      const raw = localStorage.getItem(PRODUCTS_CACHE_KEY);
+      if (raw) {
+        const cache: Record<string, Product> = JSON.parse(raw);
+        if (cache[id]) return cache[id];
+      }
+    } catch (e) {}
+  }
+  return undefined;
+}
+
+export function addToCart(productOrId: string | Product, quantity = 1) {
   const current = getCartFromStorage();
+  
+  let productId: string;
+  let productObj: Product | undefined;
+
+  if (typeof productOrId === 'string') {
+    productId = productOrId;
+    productObj = getCachedProduct(productId);
+  } else {
+    productId = productOrId.id;
+    productObj = productOrId;
+    registerProductsCache([productObj]);
+  }
+
   const existingIndex = current.findIndex(i => i.productId === productId);
   if (existingIndex > -1) {
     current[existingIndex].quantity += quantity;
+    if (productObj) current[existingIndex].productData = productObj;
   } else {
-    current.push({ productId, quantity });
+    current.push({
+      productId,
+      quantity,
+      productData: productObj
+    });
   }
+
   saveCartToStorage(current);
   openCartDrawer();
 }
@@ -60,16 +109,15 @@ export function openCartDrawer() {
 export function getCartHydrated() {
   const raw = getCartFromStorage();
   return raw.map(item => {
-    const product = PRODUCTS.find(p => p.id === item.productId);
+    const product = item.productData || getCachedProduct(item.productId);
     return {
       product: product!,
       quantity: item.quantity
     };
-  }).filter(item => item.product !== undefined);
+  }).filter(item => item.product !== undefined && item.product !== null);
 }
 
 export function getCartCount(): number {
   const items = getCartFromStorage();
   return items.reduce((acc, item) => acc + item.quantity, 0);
 }
-

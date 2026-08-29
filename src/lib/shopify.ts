@@ -1,5 +1,8 @@
+import { PRODUCTS as staticProducts, type Product } from '../data/products';
+
 export interface ShopifyProduct {
   id: string;
+  safeId: string;
   title: string;
   handle: string;
   description: string;
@@ -96,11 +99,15 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
     const node = edge.node;
     const variantNode = node.variants?.edges?.[0]?.node;
     const imageNode = node.images?.edges?.[0]?.node;
+    const rawId = node.id;
+    const numericId = rawId.includes('/') ? rawId.split('/').pop() : rawId;
+    const safeId = `shopify-${numericId}`;
 
     return {
       id: node.id,
+      safeId,
       title: node.title,
-      handle: node.handle,
+      handle: node.handle || safeId,
       description: node.description || "",
       vendor: node.vendor || "SKYNODES UAV",
       productType: node.productType || "Aeromodel",
@@ -114,16 +121,44 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
   });
 }
 
+// Helper: Convert Shopify product to standard site Product format
+export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
+  return {
+    id: sp.safeId || sp.id,
+    handle: sp.handle,
+    name: sp.title,
+    category: 'aeromodels',
+    categoryLabel: sp.vendor || 'SKYNODES UAV',
+    price: Math.round(sp.price),
+    originalPrice: Math.round(sp.price * 1.2),
+    discountBadge: 'SHOPIFY LIVE',
+    rating: 4.9,
+    reviewsCount: 35 + idx * 4,
+    isBestseller: idx % 2 === 0,
+    isNewArrival: idx % 3 === 0,
+    image: sp.imageUrl,
+    description: sp.description || 'Official SKYNODES UAV product synced live from Shopify Storefront.',
+    specs: { Vendor: sp.vendor, Type: sp.productType, Status: sp.availableForSale ? 'In Stock' : 'Out of Stock' },
+    inStock: sp.availableForSale,
+    variantId: sp.variantId
+  };
+}
+
+// Get Combined Products for Static Routes & Registry
+export async function getCombinedProducts(): Promise<Product[]> {
+  const shopifyList = await getAllShopifyProducts();
+  const convertedShopify = shopifyList.map((sp, idx) => mapShopifyToProduct(sp, idx));
+  return [...convertedShopify, ...staticProducts];
+}
+
 // 2. Generate Shopify Direct Checkout URL or Cart Permalink
 export function buildShopifyCheckoutUrl(cartItems: any[]): string {
   if (!cartItems || cartItems.length === 0) {
     return `https://${SHOPIFY_DOMAIN}/cart`;
   }
 
-  // Filter items that have Shopify variant IDs
   const validLines = cartItems.map(item => {
     let variantId = item.product?.variantId || item.variantId || item.product?.id || "";
-    // Clean numeric ID if full GraphQL GID
     if (variantId.includes("ProductVariant/")) {
       variantId = variantId.split("ProductVariant/")[1];
     } else if (variantId.includes("Product/")) {

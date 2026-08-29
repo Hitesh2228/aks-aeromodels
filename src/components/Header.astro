@@ -218,7 +218,7 @@ import LoginModal from './LoginModal.astro';
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border-subtle);
+    border-bottom: 1px solid #f0f0f0;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -565,7 +565,24 @@ import LoginModal from './LoginModal.astro';
 </style>
 
 <script>
+  import { getCartCount } from '../lib/cartStore';
+
   function initHeaderControls() {
+    // Cart Drawer Open Trigger
+    const cartTrigger = document.getElementById('cart-drawer-trigger');
+    cartTrigger?.addEventListener('click', () => {
+      window.dispatchEvent(new CustomEvent('open-cart-drawer'));
+    });
+
+    function updateCartBadge() {
+      const badge = document.getElementById('cart-count-badge');
+      if (badge) {
+        badge.textContent = String(getCartCount());
+      }
+    }
+    window.addEventListener('cart-updated', updateCartBadge);
+    updateCartBadge();
+
     // Mobile Drawer Controls
     const trigger = document.getElementById('mobile-menu-trigger');
     const drawer = document.getElementById('mobile-nav-drawer');
@@ -584,14 +601,12 @@ import LoginModal from './LoginModal.astro';
     function handleScroll() {
       const currentScrollY = window.scrollY;
 
-      // Add solid white background + shadow after scrolling 60px past banner
       if (currentScrollY > 60) {
         header?.classList.add('is-scrolled');
       } else {
         header?.classList.remove('is-scrolled');
       }
 
-      // Hide header when scrolling DOWN, reveal when scrolling UP
       if (currentScrollY > 120 && currentScrollY > lastScrollY) {
         document.body.classList.add('header-hidden');
       } else {
