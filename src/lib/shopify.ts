@@ -126,12 +126,29 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
   const origPrice = Math.round(sp.price * 1.2);
   const pctOff = Math.round(((origPrice - sp.price) / origPrice) * 100);
 
+  const catList: Array<{ id: 'engine' | 'radio-receiver' | 'aeromodels' | 'balsa-wood' | 'accessories'; label: string }> = [
+    { id: 'engine', label: 'Engine' },
+    { id: 'radio-receiver', label: 'Radio & Receiver' },
+    { id: 'aeromodels', label: 'Seagull Aeromodels' },
+    { id: 'balsa-wood', label: 'Balsa Wood' },
+    { id: 'accessories', label: 'Aeromodel Accessories' }
+  ];
+
+  const titleLower = (sp.title || '').toLowerCase();
+  const typeLower = (sp.productType || '').toLowerCase();
+
+  let assignedCat = catList[idx % catList.length];
+  if (titleLower.includes('engine') || typeLower.includes('engine') || titleLower.includes('gas') || titleLower.includes('nitro')) assignedCat = catList[0];
+  else if (titleLower.includes('radio') || titleLower.includes('receiver') || titleLower.includes('futaba') || titleLower.includes('transmitter')) assignedCat = catList[1];
+  else if (titleLower.includes('balsa') || titleLower.includes('wood') || titleLower.includes('sheet')) assignedCat = catList[3];
+  else if (titleLower.includes('servo') || titleLower.includes('propeller') || titleLower.includes('accessory') || titleLower.includes('tool')) assignedCat = catList[4];
+
   return {
     id: sp.handle || sp.safeId || sp.id,
     handle: sp.handle,
     name: sp.title,
-    category: 'aeromodels',
-    categoryLabel: sp.vendor || 'SKYNODES UAV',
+    category: assignedCat.id,
+    categoryLabel: assignedCat.label,
     price: Math.round(sp.price),
     originalPrice: origPrice,
     discountBadge: pctOff > 0 ? `${pctOff}% OFF` : undefined,
