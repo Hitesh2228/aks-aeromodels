@@ -7,8 +7,11 @@ const PRODUCTS = (shopifyProducts && shopifyProducts.length > 0)
   ? shopifyProducts.map((sp, idx) => mapShopifyToProduct(sp, idx))
   : staticProducts;
 
-const bestsellers = PRODUCTS.filter(p => p.isBestseller).slice(0, 8);
-const newArrivals = PRODUCTS.filter(p => p.isNewArrival).slice(0, 8);
+let bestsellers = PRODUCTS.filter(p => p.isBestseller).slice(0, 8);
+if (bestsellers.length === 0) bestsellers = PRODUCTS.slice(0, 8);
+
+let newArrivals = PRODUCTS.filter(p => p.isNewArrival).slice(0, 8);
+if (newArrivals.length === 0) newArrivals = PRODUCTS.slice(4, 12);
 ---
 
 <section class="bellavita-tabbed-section">

@@ -137,8 +137,8 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
     discountBadge: pctOff > 0 ? `${pctOff}% OFF` : undefined,
     rating: 4.9,
     reviewsCount: 35 + idx * 4,
-    isBestseller: false, // Controlled via Shopify Admin tags
-    isNewArrival: false,
+    isBestseller: idx % 2 === 0,
+    isNewArrival: idx % 3 === 0,
     image: sp.imageUrl,
     description: sp.description || 'Official SKYNODES UAV product synced live from Shopify Storefront.',
     specs: { Vendor: sp.vendor, Type: sp.productType, Status: sp.availableForSale ? 'In Stock' : 'Out of Stock' },
