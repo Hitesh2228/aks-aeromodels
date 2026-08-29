@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import CartDrawer from '../components/CartDrawer.astro';
+import LoginModal from '../components/LoginModal.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 ---
@@ -16,6 +17,7 @@ import '../styles/global.css';
 <body class="bellavita-page-body">
 
   <Header />
+  <LoginModal />
 
   <main class="container page-padding reveal-on-scroll">
     <h1 class="checkout-page-title">EXPRESS FLIGHT CHECKOUT</h1>
@@ -481,6 +483,14 @@ import '../styles/global.css';
 
         if (!name || !phone || !email || !address || !city || !pincode) {
           alert('Please fill in all required Shipping Address details (*).');
+          return;
+        }
+
+        // Require Login or Sign-up before final order confirmation
+        const isLoggedIn = localStorage.getItem('google_auth_logged_in') === 'true';
+        if (!isLoggedIn) {
+          alert('🔐 Account Login or Sign Up required to complete your order!\n\nOpening Pilot Portal...');
+          window.dispatchEvent(new CustomEvent('open-login-modal'));
           return;
         }
 
