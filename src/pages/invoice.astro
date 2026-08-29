@@ -34,9 +34,6 @@ const grandTotal = subtotal + gstTax;
         <a href="https://wa.me/917722009120" id="inv-wa-share-btn" target="_blank" class="btn-whatsapp-share">
           💬 Send Invoice Copy to WhatsApp Support
         </a>
-        <a id="inv-shopify-record-btn" href="#" target="_blank" class="btn-primary" style="background: #059669; display: none; text-decoration: none;">
-          🛍️ RECORD ORDER IN SHOPIFY ADMIN ➔
-        </a>
       </div>
 
       <!-- Printable Tax Invoice Document -->
@@ -447,12 +444,6 @@ const grandTotal = subtotal + gstTax;
         if (waBtn) {
           const msg = encodeURIComponent(`Hi SKYNODES UAV Support, I have placed Order ${order.orderId} for ₹${order.total.toLocaleString('en-IN')} via ${order.paymentMethod}. Name: ${order.customer.name}, Phone: ${order.customer.phone}. Please confirm dispatch.`);
           waBtn.href = `https://wa.me/917722009120?text=${msg}`;
-        }
-
-        const shopifyBtn = document.getElementById('inv-shopify-record-btn') as HTMLAnchorElement;
-        if (shopifyBtn && order.shopifyCheckoutUrl) {
-          shopifyBtn.href = order.shopifyCheckoutUrl;
-          shopifyBtn.style.display = 'inline-flex';
         }
       } catch (e) {
         console.error('Invoice hydration failed:', e);
