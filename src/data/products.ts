@@ -28,7 +28,7 @@ export const CATEGORIES = [
 ];
 
 export const PRODUCTS: Product[] = [
-  // --- ENGINES ---
+  // --- 1. ENGINES ---
   {
     id: 'eng-1',
     name: 'O.S. Max 0.46 AX II Nitro Engine',
@@ -42,13 +42,13 @@ export const PRODUCTS: Product[] = [
     isBestseller: true,
     image: 'https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?q=80&w=800&auto=format&fit=crop',
     description: 'The legendary O.S. Max 0.46 AX II delivers exceptional power-to-weight ratio, ultra-smooth idle, and bulletproof reliability for .40-.46 size trainers and sport models. Designed with advanced ABL cylinder liner technology and 40K carburetor.',
-    specs: { Displacement: '7.45 cc', Power: '1.65 hp @ 16,000 RPM', Weight: '378g', Fuel: 'Nitro Glow', Manufacturer: 'O.S. Engines Japan', Compatibility: '.40-.46 Size Airframes' },
+    specs: { Displacement: '7.45 cc (0.455 cu in)', Power: '1.65 hp @ 16,000 RPM', Weight: '378g (13.3 oz)', Fuel: 'Nitro Glow (10-20%)', Manufacturer: 'O.S. Engines Japan', Compatibility: '.40-.46 Size Airframes' },
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'eng-2',
-    name: 'O.S. MAX-65AX (E-4050 Silencer)',
+    name: 'O.S. MAX-65AX (E-4050)',
     category: 'engine',
     categoryLabel: 'Engine',
     price: 18999,
@@ -59,13 +59,13 @@ export const PRODUCTS: Product[] = [
     isNewArrival: true,
     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop',
     description: 'High-displacement 2-stroke glow engine featuring Advanced Bimetallic Liner (ABL) technology and the high-efficiency E-4050 quiet silencer for maximum top-end thrust.',
-    specs: { Displacement: '10.63 cc', Power: '1.73 hp @ 16,000 RPM', Weight: '497g', Muffler: 'E-4050 Quiet Silencer', Manufacturer: 'O.S. Engines Japan' },
+    specs: { Displacement: '10.63 cc (0.649 cu in)', Power: '1.73 hp @ 16,000 RPM', Weight: '497g', Muffler: 'E-4050 Quiet Silencer', Manufacturer: 'O.S. Engines Japan' },
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'eng-3',
-    name: 'O.S. MAX-65AX (E-4010A Silencer)',
+    name: 'O.S. MAX-65AX (E-4010A)',
     category: 'engine',
     categoryLabel: 'Engine',
     price: 19499,
@@ -75,13 +75,13 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 62,
     image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop',
     description: 'Heavy duty 2-stroke glow engine fitted with E-4010A standard expansion chamber silencer for high RPM performance and scale aeromodelling competitions.',
-    specs: { Displacement: '10.63 cc', Power: '1.75 hp @ 16,500 RPM', Weight: '510g', Muffler: 'E-4010A Expansion Chamber', Origin: 'Japan' },
+    specs: { Displacement: '10.63 cc (0.649 cu in)', Power: '1.75 hp @ 16,500 RPM', Weight: '510g', Muffler: 'E-4010A Expansion Chamber', Origin: 'Japan' },
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'eng-4',
-    name: 'DLE 65 Gas Engine with Standoffs & Ignition',
+    name: 'DLE 65 cc Gas Engine',
     category: 'engine',
     categoryLabel: 'Engine',
     price: 34999,
@@ -92,13 +92,13 @@ export const PRODUCTS: Product[] = [
     isBestseller: true,
     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop',
     description: 'Massive 65cc single cylinder 2-stroke gas engine with electronic CDI ignition and aluminum mounting standoffs. Perfect power plant for 85-92" 3D aerobatic giant scale aircraft.',
-    specs: { Displacement: '65 cc', Output: '8.5 HP @ 8,500 RPM', Weight: '1450g', Fuel: 'Unleaded Petrol + 2T Oil (30:1 Ratio)', Ignition: 'Electronic CDI Auto Advance' },
+    specs: { Displacement: '65 cc', Output: '8.5 HP @ 8,500 RPM', Weight: '1450g', Fuel: 'Unleaded Petrol + 2T Oil (30:1)', Ignition: 'Electronic CDI Auto Advance' },
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'eng-5',
-    name: 'DLE 20cc Gas Engine (Rear Exhaust)',
+    name: 'DLE 20 cc Gas Engine',
     category: 'engine',
     categoryLabel: 'Engine',
     price: 19999,
@@ -114,10 +114,10 @@ export const PRODUCTS: Product[] = [
     youtubeVideoId: 'l4J81G3H5e0'
   },
 
-  // --- RADIO AND RECEIVER ---
+  // --- 2. RADIO AND RECEIVER ---
   {
     id: 'rad-1',
-    name: 'Futaba Radio 6k 2.4GHz T-FHSS Transmitter',
+    name: 'Futaba Radio 6k',
     category: 'radio-receiver',
     categoryLabel: 'Radio & Receiver',
     price: 16999,
@@ -127,14 +127,14 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 210,
     isBestseller: true,
     image: 'https://images.unsplash.com/photo-1581092162384-8987c1d64718?q=80&w=800&auto=format&fit=crop',
-    description: '6-Channel computerized computer transmitter with real-time telemetry, telemetry speech output, backlit LCD display, and 30-model internal memory for RC airplanes, gliders, and helicopters.',
+    description: '6-Channel computerized transmitter with real-time telemetry, telemetry speech output, backlit LCD display, and 30-model internal memory for RC airplanes, gliders, and helicopters.',
     specs: { Channels: '6', Protocol: 'T-FHSS Air / S-FHSS', Display: '128x64 Backlit LCD', Telemetry: 'Real-Time Voice Speech', Manufacturer: 'Futaba Corporation Japan' },
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'rad-2',
-    name: 'Futaba TM 18-R9001SB Module System',
+    name: 'Futaba TM 18-R9001SB',
     category: 'radio-receiver',
     categoryLabel: 'Radio & Receiver',
     price: 22499,
@@ -150,7 +150,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'rad-3',
-    name: 'Futaba Receiver R3008 SB 2.4G T-FHSS',
+    name: 'RECEIVER R3008 SB 2.4G',
     category: 'radio-receiver',
     categoryLabel: 'Radio & Receiver',
     price: 5499,
@@ -166,10 +166,10 @@ export const PRODUCTS: Product[] = [
     youtubeVideoId: 'l4J81G3H5e0'
   },
 
-  // --- SEAGULL AEROMODELS ---
+  // --- 3. SEAGULL AEROMODELS ---
   {
     id: 'sea-1',
-    name: 'SEA394 Champion Xxtreme Decathlon 122" V2 ARF (60-80cc)',
+    name: 'SEA394 Champion Xxtreme Decathlon 122" V2 ARF 60-80cc',
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 68999,
@@ -186,7 +186,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sea-2',
-    name: 'SEA383.AE Edge 540 V2 77.4" Wing Span (35-40cc)',
+    name: 'SEA383.AE Edge 540 V2 77.4" Wing Span 35-40 CC',
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 42999,
@@ -203,7 +203,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sea-3',
-    name: 'SEA401B "UK-Air Force" Pilatus PC-9 60.6" ARF 10cc',
+    name: 'SEA401B "UK-Air Force" Pilatus PC-9 60.6" ARF 10CC',
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 24999,
@@ -220,7 +220,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sea-4',
-    name: 'SEA27N Boomerang V3 Trainer 61" ARF .46 2-Stroke',
+    name: 'SEA27N Boomerang V3 Trainer 61" ARF .46 2 Stroke',
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 15999,
@@ -253,7 +253,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sea-6',
-    name: 'SEA387 YAK 54 3D ARF 64" (20-26cc)',
+    name: 'SEA387 YAK 54 3D ARF 64" ARF 20-26CC',
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 31999,
@@ -269,7 +269,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sea-7',
-    name: 'SEA03N Arising Star V2 Trainer 63" ARF .46 2-Stroke',
+    name: 'SEA03N Arising Star V2 Trainer 63" ARF .46 2 Stroke',
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 16499,
@@ -285,7 +285,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sea-8',
-    name: 'SEA389 Ultimate Bi-Plane 54.3" ARF 20cc',
+    name: 'SEA389 Ultimate Bi-Plane 54.3" ARF 20CC',
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 36999,
@@ -302,7 +302,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sea-9',
-    name: 'SEA274N Extra 330LX 3D 82.1" ARF 50-60cc (Black/Red)',
+    name: 'SEA274N Extra 330LX 3D 82.1" ARF 50-60 CC Black/Red',
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 54999,
@@ -319,7 +319,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sea-10',
-    name: 'SEA274Y Extra 330LX 3D 82.1" ARF 50-60cc (Yellow)',
+    name: 'SEA274 Y EXTRA 330 LX 3D 82.1" ARF 50-60CC YELLOW',
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 54999,
@@ -335,7 +335,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sea-11',
-    name: 'SEA363 Zivko Edge 540 V3 92" ARF 60cc',
+    name: 'SEA363 Zivko Edge 540 V3 92" ARF 60CC',
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 64999,
@@ -351,7 +351,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sea-12',
-    name: 'SEA360 YAK 54 73" ARF (35-40cc 3D)',
+    name: 'SEA360 YAK 54 73" ARF 35-40cc 3D',
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 39999,
@@ -366,10 +366,10 @@ export const PRODUCTS: Product[] = [
     youtubeVideoId: 'l4J81G3H5e0'
   },
 
-  // --- BALSA WOOD (100MM * 1000MM) ---
+  // --- 4. BALSA WOOD 100MM * 1000MM ---
   {
     id: 'bal-1',
-    name: 'AAA Grade Balsa Sheet 2mm (100x1000mm)',
+    name: 'Balsa Sheet 2 mm (100x1000mm)',
     category: 'balsa-wood',
     categoryLabel: 'Balsa Wood',
     price: 180,
@@ -385,7 +385,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'bal-2',
-    name: 'AAA Grade Balsa Sheet 3mm (100x1000mm)',
+    name: 'Balsa Sheet 3 mm (100x1000mm)',
     category: 'balsa-wood',
     categoryLabel: 'Balsa Wood',
     price: 220,
@@ -401,7 +401,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'bal-3',
-    name: 'AAA Grade Balsa Sheet 4mm (100x1000mm)',
+    name: 'Balsa Sheet 4 mm (100x1000mm)',
     category: 'balsa-wood',
     categoryLabel: 'Balsa Wood',
     price: 260,
@@ -416,7 +416,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'bal-4',
-    name: 'AAA Grade Balsa Sheet 5mm (100x1000mm)',
+    name: 'Balsa Sheet 5 mm (100x1000mm)',
     category: 'balsa-wood',
     categoryLabel: 'Balsa Wood',
     price: 310,
@@ -431,7 +431,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'bal-5',
-    name: 'AAA Grade Balsa Sheet 6mm (100x1000mm)',
+    name: 'Balsa Sheet 6 mm (100x1000mm)',
     category: 'balsa-wood',
     categoryLabel: 'Balsa Wood',
     price: 360,
@@ -446,7 +446,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'bal-6',
-    name: 'AAA Grade Balsa Sheet 8mm (100x1000mm)',
+    name: 'Balsa Sheet 8 mm (100x1000mm)',
     category: 'balsa-wood',
     categoryLabel: 'Balsa Wood',
     price: 440,
@@ -461,7 +461,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'bal-7',
-    name: 'AAA Grade Balsa Sheet 10mm (100x1000mm)',
+    name: 'Balsa Sheet 10 mm (100x1000mm)',
     category: 'balsa-wood',
     categoryLabel: 'Balsa Wood',
     price: 520,
@@ -476,7 +476,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'bal-8',
-    name: 'AAA Grade Balsa Sheet 12mm (100x1000mm)',
+    name: 'Balsa Sheet 12 mm (100x1000mm)',
     category: 'balsa-wood',
     categoryLabel: 'Balsa Wood',
     price: 610,
@@ -491,7 +491,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'bal-9',
-    name: 'AAA Grade Balsa Sheet 15mm (100x1000mm)',
+    name: 'Balsa Sheet 15 mm (100x1000mm)',
     category: 'balsa-wood',
     categoryLabel: 'Balsa Wood',
     price: 750,
@@ -506,10 +506,10 @@ export const PRODUCTS: Product[] = [
     inStock: true
   },
 
-  // --- AEROMODEL ACCESSORIES ---
+  // --- 5. AEROMODEL ACCESSORIES ---
   {
     id: 'acc-1',
-    name: 'Futaba Servo S-U300 Digital Standard Servo',
+    name: 'futaba servo S-U300',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 1899,
@@ -525,7 +525,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-2',
-    name: 'Futaba Trainer Cord M-M Top (Male to Male)',
+    name: 'Futaba trainer coard m-m top',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 1499,
@@ -540,7 +540,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-3',
-    name: 'Manual Hand Fuel Pump (Glow & Gasoline)',
+    name: 'hand fuel pump',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 1299,
@@ -555,7 +555,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-4',
-    name: 'High Torque 12V Electric Starter for 15-50cc',
+    name: 'high torque 12v starter',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 3899,
@@ -571,7 +571,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-5',
-    name: 'Glow Starter C-Size Battery Aluminum Casing',
+    name: 'Glow starter c size',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 899,
@@ -586,7 +586,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-6',
-    name: 'Glow Nitro Driver Panel & Battery Meter',
+    name: 'Glow nitro driver',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 2499,
@@ -601,7 +601,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-7',
-    name: 'Rechargeable Glow Plug Ignitor with AC Charger',
+    name: 'Glow plug ignitor',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 1399,
@@ -616,7 +616,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-8',
-    name: 'Drill Guide Tool Set 30-55 mm Propeller Template',
+    name: 'Drill guid 30-55',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 1199,
@@ -631,7 +631,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-9',
-    name: 'Drill Guide Tool Set 110 to 150 mm Propeller Template',
+    name: 'Drill guide 110 to 150',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 1799,
@@ -646,7 +646,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-10',
-    name: '12V Electric High-Flow Fuel Pump',
+    name: '12 v electric fuel pump',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 2199,
@@ -661,7 +661,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-11',
-    name: 'DU-BRO Tygon Gas Tubing (Large 30 Foot Spool)',
+    name: "DU-BRO Tygon gas tubing,large 30' spool",
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 2899,
@@ -672,12 +672,12 @@ export const PRODUCTS: Product[] = [
     isBestseller: true,
     image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=800&auto=format&fit=crop',
     description: 'Genuine DU-BRO USA Tygon gasoline fuel tubing. Never hardens or cracks over time.',
-    specs: { Length: '30 Feet Spool', Diameter: '1/8" ID x 1/4" OD', Fuel: 'Gasoline & Kerosene' },
+    specs: { Length: "30' Spool", Diameter: '1/8" ID x 1/4" OD', Fuel: 'Gasoline & Kerosene' },
     inStock: true
   },
   {
     id: 'acc-12',
-    name: 'RealFlight RC Flight Simulator with InterLink DX Controller',
+    name: 'Real flight simulator',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 14999,
@@ -693,7 +693,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-13',
-    name: 'O.S. Glow Plug No. 8 (Standard Medium Hot)',
+    name: 'O.S. Glow Plug no .8',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 599,
@@ -709,7 +709,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-14',
-    name: 'BR-4000 Digital Battery / Servo / Receiver Checker',
+    name: 'BR-4000 Battery/Servo/Receiver Checker',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 2199,
