@@ -79,6 +79,11 @@ const PRODUCTS = (shopifyProducts && shopifyProducts.length > 0)
               {product.isNewArrival && <span class="badge-tag new">NEW</span>}
             </div>
             {product.discountBadge && <span class="badge-tag offer">{product.discountBadge}</span>}
+            <button type="button" class="btn-heart-wishlist wishlist-toggle-btn" data-id={product.id} aria-label="Add to Wishlist" title="Save to Wishlist">
+              <svg class="heart-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.78-8.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
             <a href={`/product/${product.id}`}>
               <img src={product.image} alt={product.name} class="product-thumb-img" loading="lazy" />
             </a>
@@ -274,7 +279,33 @@ const PRODUCTS = (shopifyProducts && shopifyProducts.length > 0)
     }
     .badge-tag.bestseller { background: #dfab85; color: #ffffff; }
     .badge-tag.new { background: #67c5a9; color: #ffffff; }
-    .badge-tag.offer { position: absolute; top: 0.6rem; right: 0.6rem; background: #67c5a9; color: #ffffff; z-index: 2; }
+    .badge-tag.offer { position: absolute; top: 0.6rem; right: 2.8rem; background: #67c5a9; color: #ffffff; z-index: 2; }
+
+    .btn-heart-wishlist {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.6rem;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 5;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+    .btn-heart-wishlist:hover {
+      transform: scale(1.1);
+      background: #ffffff;
+    }
+    .btn-heart-wishlist.active svg {
+      fill: #dc2626;
+      stroke: #dc2626;
+    }
 
     /* Card Content Body */
     .card-info-body {
@@ -364,15 +395,40 @@ const PRODUCTS = (shopifyProducts && shopifyProducts.length > 0)
 
 <script>
   import { addToCart, registerProductsCache } from '../lib/cartStore';
+  import { toggleWishlist, isInWishlist } from '../lib/wishlistStore';
 
   function initShopControls() {
     const jsonEl = document.getElementById('shop-products-json');
+    let productsList: any[] = [];
     if (jsonEl?.textContent) {
       try {
-        const prods = JSON.parse(jsonEl.textContent);
-        registerProductsCache(prods);
+        productsList = JSON.parse(jsonEl.textContent);
+        registerProductsCache(productsList);
       } catch (e) {}
     }
+
+    // Sync Wishlist Hearts
+    const heartBtns = document.querySelectorAll('.wishlist-toggle-btn');
+    heartBtns.forEach(btn => {
+      const pId = btn.getAttribute('data-id');
+      if (pId && isInWishlist(pId)) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!pId) return;
+        const targetProd = productsList.find((p: any) => p.id === pId);
+        if (targetProd) {
+          const isAdded = toggleWishlist(targetProd);
+          if (isAdded) btn.classList.add('active');
+          else btn.classList.remove('active');
+        }
+      });
+    });
 
     const pills = document.querySelectorAll('.cat-pill-btn');
     const products = document.querySelectorAll('.catalog-item');

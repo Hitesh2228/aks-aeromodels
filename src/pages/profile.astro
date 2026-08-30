@@ -145,6 +145,21 @@ import '../styles/global.css';
             </div>
           </div>
 
+          <!-- Saved Wishlist Items Section -->
+          <div class="wishlist-card glass-panel" id="wishlist-section" style="margin-top: 2rem;">
+            <div class="section-header-flex">
+              <div>
+                <h2 class="section-title-sm">❤️ MY SAVED WISHLIST (<span id="profile-wishlist-count">0</span>)</h2>
+                <p class="section-subtitle">Your favorite engines, airframes, and radio equipment</p>
+              </div>
+            </div>
+
+            <!-- Wishlist Items Grid -->
+            <div id="profile-wishlist-grid" class="profile-wishlist-grid">
+              <!-- Hydrated via JS -->
+            </div>
+          </div>
+
           <!-- Recent Flight Orders Section -->
           <div class="orders-card glass-panel" style="margin-top: 2rem;">
             <h2 class="section-title-sm">RECENT FLIGHT ORDERS & INVOICES</h2>
@@ -397,12 +412,81 @@ import '../styles/global.css';
     .btn-logout:hover { background: #fee2e2; }
 
     /* Saved Delivery Addresses Cards */
-    .addresses-card, .orders-card {
+    .addresses-card, .orders-card, .wishlist-card {
       background: #ffffff;
       border: 1px solid #e6e0d5;
       border-radius: 14px;
       padding: 2rem;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Saved Wishlist Grid */
+    .profile-wishlist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+    }
+    .wishlist-item-card {
+      background: #ffffff;
+      border: 1px solid #e6e0d5;
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+    .wishlist-thumb-img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      margin-bottom: 0.75rem;
+    }
+    .wishlist-prod-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 0.35rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      height: 2.2rem;
+    }
+    .wishlist-prod-price {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #3b0811;
+      margin-bottom: 0.85rem;
+    }
+    .wishlist-actions-row {
+      display: flex;
+      gap: 0.4rem;
+      width: 100%;
+      margin-top: auto;
+    }
+    .btn-wishlist-cart {
+      flex: 1;
+      background: #3b0811;
+      color: #ffffff;
+      border: none;
+      padding: 0.5rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-wishlist-remove {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+      padding: 0.5rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
     }
     .section-header-flex {
       display: flex;
@@ -568,6 +652,9 @@ import '../styles/global.css';
   </style>
 
   <script>
+    import { getWishlistItems, removeFromWishlist } from '../lib/wishlistStore';
+    import { addToCart } from '../lib/cartStore';
+
     interface AddressItem {
       id: string;
       label: string;
@@ -902,6 +989,56 @@ import '../styles/global.css';
         addressModal?.classList.remove('active');
         alert('✅ Address saved to your Pilot Address Book!');
       });
+
+      function renderWishlist() {
+        const grid = document.getElementById('profile-wishlist-grid');
+        const countEl = document.getElementById('profile-wishlist-count');
+        const items = getWishlistItems();
+
+        if (countEl) countEl.textContent = String(items.length);
+        if (!grid) return;
+
+        if (items.length === 0) {
+          grid.innerHTML = `<p style="font-size: 0.85rem; color: #888; grid-column: 1 / -1;">Your wishlist is currently empty. Explore our <a href="/shop" style="color: #3b0811; font-weight: 700;">Catalog</a> to save your favorite RC items!</p>`;
+          return;
+        }
+
+        grid.innerHTML = items.map(item => `
+          <div class="wishlist-item-card">
+            <img src="${item.image}" alt="${item.name}" class="wishlist-thumb-img" />
+            <div class="wishlist-prod-title">${item.name}</div>
+            <div class="wishlist-prod-price">₹${item.price.toLocaleString('en-IN')}.00</div>
+            <div class="wishlist-actions-row">
+              <button type="button" class="btn-wishlist-cart" data-id="${item.id}">🛒 Add to Cart</button>
+              <button type="button" class="btn-wishlist-remove" data-id="${item.id}">🗑️</button>
+            </div>
+          </div>
+        `).join('');
+
+        grid.querySelectorAll('.btn-wishlist-cart').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id');
+            const target = items.find(i => i.id === id);
+            if (target) {
+              addToCart(target);
+              window.dispatchEvent(new CustomEvent('open-cart-drawer'));
+            }
+          });
+        });
+
+        grid.querySelectorAll('.btn-wishlist-remove').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id');
+            if (id) {
+              removeFromWishlist(id);
+              renderWishlist();
+            }
+          });
+        });
+      }
+
+      renderWishlist();
+      window.addEventListener('wishlist-updated', renderWishlist);
 
       // Inline Auth Form
       document.getElementById('profile-page-login-form')?.addEventListener('submit', (e) => {
