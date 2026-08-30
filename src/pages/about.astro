@@ -3,17 +3,21 @@ import Header from '../components/Header.astro';
 import CartDrawer from '../components/CartDrawer.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
+import GoogleTagManagerHead from '../components/GoogleTagManagerHead.astro';
+import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <GoogleTagManagerHead />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About Us | SKYNODESUAV</title>
   <meta name="description" content="Learn about SKYNODESUAV's history, mission, and commitment to providing world-class RC aviation hardware across India." />
 </head>
 <body class="bellavita-about-body">
+  <GoogleTagManagerBody />
 
   <Header />
 

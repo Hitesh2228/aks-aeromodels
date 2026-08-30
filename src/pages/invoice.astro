@@ -9,17 +9,21 @@ const sampleProducts = [PRODUCTS[0], PRODUCTS[5], PRODUCTS[10]];
 const subtotal = sampleProducts.reduce((acc, p) => acc + p.price, 0);
 const gstTax = Math.round(subtotal * 0.18);
 const grandTotal = subtotal + gstTax;
+import GoogleTagManagerHead from '../components/GoogleTagManagerHead.astro';
+import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <GoogleTagManagerHead />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Official Tax Invoice Bill | SKYNODESUAV</title>
   <meta name="description" content="View and print your official tax invoice bill for your SKYNODESUAV flight order." />
 </head>
 <body class="bellavita-page-body">
+  <GoogleTagManagerBody />
 
   <Header />
 

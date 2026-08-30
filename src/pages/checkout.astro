@@ -4,17 +4,21 @@ import CartDrawer from '../components/CartDrawer.astro';
 import LoginModal from '../components/LoginModal.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
+import GoogleTagManagerHead from '../components/GoogleTagManagerHead.astro';
+import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <GoogleTagManagerHead />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Express Flight Checkout | SKYNODESUAV</title>
   <meta name="description" content="Complete your aeromodelling order with secure UPI, Cards, NetBanking, or COD and instant GST tax invoice." />
 </head>
 <body class="bellavita-page-body">
+  <GoogleTagManagerBody />
 
   <Header />
   <LoginModal />
