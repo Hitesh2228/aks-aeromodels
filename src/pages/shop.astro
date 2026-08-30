@@ -484,12 +484,12 @@ const PRODUCTS = (shopifyProducts && shopifyProducts.length >= 5)
     } else if (urlFilter === 'crazy-deals') {
       pills.forEach(p => p.classList.remove('active'));
       products.forEach(prod => {
-        const discountTag = prod.querySelector('.discount-tag');
-        (prod as HTMLElement).style.display = discountTag ? 'flex' : 'none';
+        const hasDeal = prod.querySelector('.badge-tag.offer, .saving-green-tag, .p-was');
+        (prod as HTMLElement).style.display = hasDeal ? 'flex' : 'none';
       });
       const headerTitleEl = document.querySelector('.shop-hero-title');
       if (headerTitleEl) {
-        headerTitleEl.textContent = `🔥 Crazy Deals & Offers`;
+        headerTitleEl.textContent = `🔥 Crazy Deals & Exclusive Offers`;
       }
     } else if (urlFilter === 'bestsellers') {
       pills.forEach(p => p.classList.remove('active'));

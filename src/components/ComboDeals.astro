@@ -1,15 +1,15 @@
 ---
 import { CRAZY_DEALS } from '../data/deals';
 
-// Homepage displays EXACTLY top 3 Crazy Deals as requested
+// Homepage displays EXACTLY top 3 Crazy Deals as requested by user
 const homepageDeals = CRAZY_DEALS.slice(0, 3);
 ---
 
 <section class="bellavita-deals-section">
   <div class="container">
-    <div class="deals-section-header flex-between">
-      <h2 class="bellavita-title">🔥 CRAZY DEALS</h2>
-      <a href="/shop?filter=crazy-deals" class="view-all-deals-link">VIEW ALL CRAZY DEALS ({CRAZY_DEALS.length}) →</a>
+    <div class="deals-header-row flex-between">
+      <h2 class="bellavita-title">CRAZY DEALS</h2>
+      <a href="/shop?filter=crazy-deals" class="view-all-link">VIEW ALL CRAZY DEALS →</a>
     </div>
 
     <div class="slider-wrapper-relative">
@@ -28,13 +28,11 @@ const homepageDeals = CRAZY_DEALS.slice(0, 3);
                 <img src={deal.image} alt={deal.name} />
               </div>
               
-              <div class="deal-content-footer">
-                <div class="deal-label">{deal.name}</div>
-                <div class="deal-price-line">
-                  <span class="deal-now-price">₹{deal.price.toLocaleString('en-IN')}</span>
-                  <span class="deal-was-price">₹{deal.originalPrice.toLocaleString('en-IN')}</span>
-                  <span class="deal-save-pill">{deal.savingsBadge}</span>
-                </div>
+              <div class="deal-label">{deal.name}</div>
+              <div class="deal-price-sub">
+                <span class="p-now">₹{deal.price.toLocaleString('en-IN')}</span>
+                <span class="p-was">₹{deal.originalPrice.toLocaleString('en-IN')}</span>
+                <span class="badge-save">{deal.savingsBadge}</span>
               </div>
             </div>
           </a>
@@ -47,12 +45,12 @@ const homepageDeals = CRAZY_DEALS.slice(0, 3);
 
 <style>
   .bellavita-deals-section {
-    padding: 4rem 0;
+    padding: 4.5rem 0;
     background: #ffffff;
     border-bottom: 1px solid #f0f0f0;
   }
 
-  .flex-between {
+  .deals-header-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -65,23 +63,22 @@ const homepageDeals = CRAZY_DEALS.slice(0, 3);
     letter-spacing: -0.03em;
     color: #111111;
     margin: 0;
+    font-family: var(--font-display);
     text-transform: uppercase;
   }
 
-  .view-all-deals-link {
-    font-size: 0.9rem;
+  .view-all-link {
+    font-size: 0.85rem;
     font-weight: 700;
     color: #111111;
     text-decoration: none;
     letter-spacing: 0.05em;
-    padding: 0.5rem 1.2rem;
-    border: 1.5px solid #111111;
-    border-radius: 50px;
-    transition: all 0.25s ease;
+    border-bottom: 2px solid #111111;
+    padding-bottom: 2px;
+    transition: opacity 0.2s ease;
   }
-  .view-all-deals-link:hover {
-    background: #111111;
-    color: #ffffff;
+  .view-all-link:hover {
+    opacity: 0.7;
   }
 
   .crazy-deals-grid {
@@ -93,142 +90,148 @@ const homepageDeals = CRAZY_DEALS.slice(0, 3);
   }
 
   .crazy-deal-card {
+    width: 100%;
     text-decoration: none;
-    color: inherit;
-    display: block;
+    display: flex;
   }
 
+  /* Bellavita Clean Card Inner Box */
   .deal-card-inner {
-    background: #111111;
-    border-radius: 16px;
-    padding: 1.5rem;
-    color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    padding: 1.25rem;
     box-sizing: border-box;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .crazy-deal-card:hover .deal-card-inner {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-  }
-
-  .deal-badge-header {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 0.2rem;
+    align-items: center;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .crazy-deal-card:hover .deal-card-inner {
+    transform: translateY(-4px);
+    border-color: #dfab85;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Top Badge Header (Positioned Cleanly Above Image - ZERO OVERLAP) */
+  .deal-badge-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fdf8f4;
+    border: 1px solid #dfab85;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
     margin-bottom: 1rem;
+    box-sizing: border-box;
   }
-
   .deal-tag-sub {
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    color: #ffd700;
-  }
-
-  .deal-tag-main {
-    font-size: 1.15rem;
-    font-weight: 900;
-    letter-spacing: -0.01em;
-    color: #ffffff;
-  }
-
-  .deal-tag-only {
     font-size: 0.65rem;
+    color: #777777;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .deal-tag-main {
+    font-size: 1.1rem;
     font-weight: 800;
-    background: rgba(255,255,255,0.15);
-    padding: 0.2rem 0.6rem;
-    border-radius: 4px;
-    letter-spacing: 0.1em;
+    color: #111111;
+    font-family: var(--font-display);
+    line-height: 1.2;
+    margin: 0.15rem 0;
+    text-align: center;
+  }
+  .deal-tag-only {
+    font-size: 0.62rem;
+    color: #777777;
+    font-weight: 600;
+    text-transform: uppercase;
   }
 
+  /* Bellavita Soft Off-White Image Stage */
   .deal-media {
     width: 100%;
     height: 220px;
-    border-radius: 12px;
+    background: #f4f4f6;
+    border-radius: 6px;
     overflow: hidden;
-    margin-bottom: 1.25rem;
-    background: #1e1e1e;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    box-sizing: border-box;
   }
-
   .deal-media img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
+    object-fit: contain;
+    transition: transform 0.4s ease;
   }
-
   .crazy-deal-card:hover .deal-media img {
-    transform: scale(1.06);
-  }
-
-  .deal-content-footer {
-    margin-top: auto;
+    transform: scale(1.05);
   }
 
   .deal-label {
-    font-size: 1rem;
+    font-size: 0.88rem;
     font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 0.6rem;
+    color: #111111;
+    letter-spacing: 0.05em;
+    text-align: center;
+    margin-bottom: 0.4rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    width: 100%;
   }
 
-  .deal-price-line {
+  .deal-price-sub {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    flex-wrap: wrap;
+    gap: 0.5rem;
   }
-
-  .deal-now-price {
-    font-size: 1.25rem;
-    font-weight: 900;
-    color: #ffd700;
+  .p-now {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #111111;
   }
-
-  .deal-was-price {
-    font-size: 0.9rem;
+  .p-was {
+    font-size: 0.82rem;
     text-decoration: line-through;
     color: #888888;
   }
-
-  .deal-save-pill {
-    font-size: 0.7rem;
-    font-weight: 800;
-    background: #e63946;
+  .badge-save {
+    font-size: 0.68rem;
+    font-weight: 700;
+    background: #dfab85;
     color: #ffffff;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    margin-left: auto;
+    padding: 0.15rem 0.45rem;
+    border-radius: 3px;
   }
 
-  @media (max-width: 992px) {
+  /* Mobile Only Touch Horizontal Slider (< 768px) */
+  @media (max-width: 768px) {
     .crazy-deals-grid {
-      grid-template-columns: repeat(2, 1fr);
+      display: flex !important;
+      overflow-x: auto !important;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 0.85rem;
+      padding: 0.25rem 0.85rem 1rem;
+      margin: 0 -0.85rem;
+      scrollbar-width: none;
     }
-  }
-
-  @media (max-width: 640px) {
-    .flex-between {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1rem;
+    .crazy-deals-grid::-webkit-scrollbar {
+      display: none;
     }
-    .crazy-deals-grid {
-      grid-template-columns: 1fr;
-      gap: 1rem;
+    .crazy-deal-card {
+      flex: 0 0 82%;
+      max-width: 270px;
+      scroll-snap-align: start;
     }
-    .deal-media {
-      height: 180px;
-    }
+    .deal-media { height: 180px; }
+    .deal-label { font-size: 0.78rem; }
   }
 </style>
