@@ -222,15 +222,6 @@ const productSchema = {
           <span>Pay only <strong>₹{prepaidPrice.toLocaleString('en-IN')}.00</strong> with Prepaid Discounts ⓘ</span>
         </div>
 
-        <!-- TYPE / Variant Selector (Exact PDF Style) -->
-        <div class="variant-selector-block">
-          <label class="variant-label">TYPE — Engine & Kit Option</label>
-          <div class="variant-buttons-row">
-            <button type="button" class="variant-btn active">Standard Factory Edition</button>
-            <button type="button" class="variant-btn">Pro Tuned Edition</button>
-          </div>
-        </div>
-
         <!-- ADD TO CART Button (Full Width Solid Dark PDF Pill) -->
         <button class="btn-add-to-cart-pdf add-to-cart-btn" id="pdp-main-add-btn" data-id={product.id}>
           ADD TO CART
@@ -346,7 +337,7 @@ const productSchema = {
           </div>
 
           <!-- YouTube Official Flight Test Video Accordion Row -->
-          <div class="pdf-acc-row is-open">
+          <div class="pdf-acc-row">
             <button type="button" class="pdf-acc-header">
               <span>🎬 Official Flight Test & Demonstration Video</span>
               <span class="pdf-acc-icon">+</span>
