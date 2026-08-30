@@ -16,6 +16,7 @@ export interface Product {
   description: string;
   specs: Record<string, string>;
   inStock: boolean;
+  youtubeVideoId?: string;
 }
 
 export const CATEGORIES = [
@@ -40,9 +41,10 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 128,
     isBestseller: true,
     image: 'https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?q=80&w=800&auto=format&fit=crop',
-    description: 'The legendary O.S. Max 0.46 AX II delivers exceptional power-to-weight ratio, ultra-smooth idle, and bulletproof reliability for .40-.46 size trainers and sport models.',
-    specs: { Displacement: '7.45 cc', Power: '1.65 hp @ 16,000 RPM', Weight: '378g', Fuel: 'Nitro Glow' },
-    inStock: true
+    description: 'The legendary O.S. Max 0.46 AX II delivers exceptional power-to-weight ratio, ultra-smooth idle, and bulletproof reliability for .40-.46 size trainers and sport models. Designed with advanced ABL cylinder liner technology and 40K carburetor.',
+    specs: { Displacement: '7.45 cc', Power: '1.65 hp @ 16,000 RPM', Weight: '378g', Fuel: 'Nitro Glow', Manufacturer: 'O.S. Engines Japan', Compatibility: '.40-.46 Size Airframes' },
+    inStock: true,
+    youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'eng-2',
@@ -56,9 +58,10 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 94,
     isNewArrival: true,
     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop',
-    description: 'High-displacement 2-stroke glow engine featuring ABL cylinder liner and the high-efficiency E-4050 quiet muffler.',
-    specs: { Displacement: '10.63 cc', Power: '1.73 hp @ 16,000 RPM', Weight: '497g', Muffler: 'E-4050' },
-    inStock: true
+    description: 'High-displacement 2-stroke glow engine featuring Advanced Bimetallic Liner (ABL) technology and the high-efficiency E-4050 quiet silencer for maximum top-end thrust.',
+    specs: { Displacement: '10.63 cc', Power: '1.73 hp @ 16,000 RPM', Weight: '497g', Muffler: 'E-4050 Quiet Silencer', Manufacturer: 'O.S. Engines Japan' },
+    inStock: true,
+    youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'eng-3',
@@ -71,9 +74,10 @@ export const PRODUCTS: Product[] = [
     rating: 4.7,
     reviewsCount: 62,
     image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop',
-    description: 'Heavy duty 2-stroke glow engine fitted with E-4010A standard expansion chamber silencer for maximum top-end thrust.',
-    specs: { Displacement: '10.63 cc', Power: '1.75 hp @ 16,500 RPM', Weight: '510g', Muffler: 'E-4010A' },
-    inStock: true
+    description: 'Heavy duty 2-stroke glow engine fitted with E-4010A standard expansion chamber silencer for high RPM performance and scale aeromodelling competitions.',
+    specs: { Displacement: '10.63 cc', Power: '1.75 hp @ 16,500 RPM', Weight: '510g', Muffler: 'E-4010A Expansion Chamber', Origin: 'Japan' },
+    inStock: true,
+    youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'eng-4',
@@ -87,9 +91,10 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 185,
     isBestseller: true,
     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop',
-    description: 'Massive 65cc single cylinder 2-stroke gas engine with electronic CDI ignition. Perfect power plant for 85-92" 3D aerobatic giant scale aircraft.',
-    specs: { Displacement: '65 cc', Output: '8.5 HP @ 8,500 RPM', Weight: '1450g', Fuel: 'Unleaded Petrol + 2T Oil' },
-    inStock: true
+    description: 'Massive 65cc single cylinder 2-stroke gas engine with electronic CDI ignition and aluminum mounting standoffs. Perfect power plant for 85-92" 3D aerobatic giant scale aircraft.',
+    specs: { Displacement: '65 cc', Output: '8.5 HP @ 8,500 RPM', Weight: '1450g', Fuel: 'Unleaded Petrol + 2T Oil (30:1 Ratio)', Ignition: 'Electronic CDI Auto Advance' },
+    inStock: true,
+    youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'eng-5',
@@ -103,9 +108,10 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 110,
     isNewArrival: true,
     image: 'https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800&auto=format&fit=crop',
-    description: 'Compact 20cc petrol engine replacing 0.90-1.20 glow engines with massive fuel savings and effortless starting.',
-    specs: { Displacement: '20 cc', Output: '2.5 HP @ 9,000 RPM', Weight: '820g', Fuel: 'Gasoline 30:1' },
-    inStock: true
+    description: 'Compact 20cc petrol engine replacing 0.90-1.20 glow engines with massive fuel savings, easy starting, and rear exhaust routing for clean cowl installations.',
+    specs: { Displacement: '20 cc', Output: '2.5 HP @ 9,000 RPM', Weight: '820g', Fuel: 'Gasoline 30:1', Muffler: 'Rear Exhaust Silencer' },
+    inStock: true,
+    youtubeVideoId: 'l4J81G3H5e0'
   },
 
   // --- RADIO AND RECEIVER ---
@@ -121,9 +127,10 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 210,
     isBestseller: true,
     image: 'https://images.unsplash.com/photo-1581092162384-8987c1d64718?q=80&w=800&auto=format&fit=crop',
-    description: '6-Channel computerized computer transmitter with telemetry, voice output, and multi-model memory for airplanes and helis.',
-    specs: { Channels: '6', Protocol: 'T-FHSS Air / S-FHSS', Display: 'LCD Backlit', Telemetry: 'Supported' },
-    inStock: true
+    description: '6-Channel computerized computer transmitter with real-time telemetry, telemetry speech output, backlit LCD display, and 30-model internal memory for RC airplanes, gliders, and helicopters.',
+    specs: { Channels: '6', Protocol: 'T-FHSS Air / S-FHSS', Display: '128x64 Backlit LCD', Telemetry: 'Real-Time Voice Speech', Manufacturer: 'Futaba Corporation Japan' },
+    inStock: true,
+    youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'rad-2',
@@ -136,9 +143,10 @@ export const PRODUCTS: Product[] = [
     rating: 4.7,
     reviewsCount: 45,
     image: 'https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?q=80&w=800&auto=format&fit=crop',
-    description: 'High performance 18-Channel RF module and S.BUS2 telemetry receiver setup for complex scale jets and giant scale models.',
-    specs: { Channels: '18', System: 'FASSTest 2.4GHz', SBus: 'S.BUS2 Ready', Range: 'Full Range' },
-    inStock: true
+    description: 'High performance 18-Channel RF transmission module and S.BUS2 dual-antenna telemetry receiver system for complex scale jets and giant scale competition models.',
+    specs: { Channels: '18', System: 'FASSTest 2.4GHz', SBus: 'S.BUS & S.BUS2 Multi-Bus', Range: 'Full Diversity Range' },
+    inStock: true,
+    youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'rad-3',
@@ -152,9 +160,10 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 130,
     isNewArrival: true,
     image: 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=800&auto=format&fit=crop',
-    description: '8-Channel T-FHSS telemetry receiver with S.BUS and S.BUS2 outputs plus external voltage telemetry port.',
-    specs: { Channels: '8 PWM / S.BUS', Voltage: '3.7 - 7.4V', Weight: '10.1g', Dimensions: '24.9 x 47.3 x 14.3mm' },
-    inStock: true
+    description: '8-Channel T-FHSS telemetry receiver with S.BUS and S.BUS2 ports plus external battery voltage sensing port (0-70V DC). High sensitivity dual coaxial antennas.',
+    specs: { Channels: '8 PWM / Unlimited S.BUS', Voltage: '3.7V - 7.4V HV Compatible', Weight: '10.1g', Dimensions: '24.9 x 47.3 x 14.3mm' },
+    inStock: true,
+    youtubeVideoId: 'l4J81G3H5e0'
   },
 
   // --- SEAGULL AEROMODELS ---
@@ -170,9 +179,10 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 88,
     isBestseller: true,
     image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=800&auto=format&fit=crop',
-    description: 'Giant scale 122" wingspan aerobatic trainer wrapped in genuine Oracover. Designed for 60-80cc gas engines with scale aluminum landing gear.',
-    specs: { Wingspan: '122 in (310 cm)', Engine: '60-80 cc Gas', Material: 'Balsa & Ply / Oracover', Weight: '11.5 kg' },
-    inStock: true
+    description: 'Giant scale 122" wingspan aerobatic trainer wrapped in genuine German Oracover. Designed for 60-80cc gas engines with scale aluminum landing gear and removable two-piece wings.',
+    specs: { Wingspan: '122 in (310 cm)', Engine: '60-80 cc Gasoline', Material: 'Hand Selected Balsa & Ply / Genuine Oracover', Weight: '11.5 kg', Skill: 'Intermediate to Advanced' },
+    inStock: true,
+    youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'sea-2',
@@ -186,9 +196,10 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 142,
     isBestseller: true,
     image: 'https://images.unsplash.com/photo-1519074069444-1ba4eff56024?q=80&w=800&auto=format&fit=crop',
-    description: 'Extreme 3D aerobatic performer with carbon fiber wing tube, pre-hinged control surfaces, and bright scale graphics.',
-    specs: { Wingspan: '77.4 in (196.5 cm)', Engine: '35-40 cc Gas', Control: '6 Servo Channels', Weight: '5.8 kg' },
-    inStock: true
+    description: 'Extreme 3D aerobatic performer with carbon fiber wing joiner tube, pre-hinged control surfaces, painted fiberglass cowl, and vibrant high-vis scale graphics scheme.',
+    specs: { Wingspan: '77.4 in (196.5 cm)', Engine: '35-40 cc Gas', Control: '6 Servo Channels', Weight: '5.8 kg', Assembly: 'ARF (Almost Ready to Fly)' },
+    inStock: true,
+    youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'sea-3',
@@ -202,9 +213,10 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 76,
     isNewArrival: true,
     image: 'https://images.unsplash.com/photo-1517976487492-5750f3195933?q=80&w=800&auto=format&fit=crop',
-    description: 'Scale military turboprop trainer scheme with split flaps, painted fibreglass cowl, and optional mechanical retract installation.',
-    specs: { Wingspan: '60.6 in (154 cm)', Engine: '.46-.55 Nitro or 10cc Gas', Scale: 'Military Trainer', Weight: '3.2 kg' },
-    inStock: true
+    description: 'Scale military turboprop trainer scheme featuring functional split flaps, factory painted fiberglass cowl, pilot bust, and optional mechanical retract installation.',
+    specs: { Wingspan: '60.6 in (154 cm)', Engine: '.46-.55 Nitro or 10cc Gas', Scale: 'Royal Air Force Trainer', Weight: '3.2 kg' },
+    inStock: true,
+    youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'sea-4',
@@ -218,9 +230,10 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 310,
     isBestseller: true,
     image: 'https://images.unsplash.com/photo-1527977966376-1c8408f9f108?q=80&w=800&auto=format&fit=crop',
-    description: 'The premier choice for beginner aeromodelers! High-wing stability, forgiving stall characteristics, and robust tricycle landing gear.',
-    specs: { Wingspan: '61 in (155 cm)', Engine: '.46 2-Stroke Glow', Level: 'Beginner / Intermediate', Weight: '2.8 kg' },
-    inStock: true
+    description: 'The premier choice for beginner aeromodelers! High-wing stability, forgiving stall characteristics, self-correcting dihedral, and robust tricycle landing gear.',
+    specs: { Wingspan: '61 in (155 cm)', Engine: '.46 2-Stroke Glow', Level: 'Beginner Flight Training', Weight: '2.8 kg' },
+    inStock: true,
+    youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'sea-5',
@@ -233,9 +246,10 @@ export const PRODUCTS: Product[] = [
     rating: 4.7,
     reviewsCount: 54,
     image: 'https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?q=80&w=800&auto=format&fit=crop',
-    description: 'Low-wing sport aircraft designed for smooth aerobatic maneuvers, inverted flight practice, and crisp roll rates.',
-    specs: { Wingspan: '60 in (152.4 cm)', Engine: '.46 Glow or 10cc Gas', Wing: 'Low-Wing Sport', Weight: '2.9 kg' },
-    inStock: true
+    description: 'Low-wing sport aircraft designed for smooth aerobatic maneuvers, inverted flight practice, crisp roll rates, and precision landings.',
+    specs: { Wingspan: '60 in (152.4 cm)', Engine: '.46 Glow or 10cc Gas', Wing: 'Low-Wing Aerobatic Sport', Weight: '2.9 kg' },
+    inStock: true,
+    youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'sea-6',
@@ -248,9 +262,10 @@ export const PRODUCTS: Product[] = [
     rating: 4.8,
     reviewsCount: 89,
     image: 'https://images.unsplash.com/photo-1559688658-b1280de123db?q=80&w=800&auto=format&fit=crop',
-    description: 'Aggressive 3D performer with large control surfaces, carbon fiber reinforcements, and lightweight balsa structure.',
-    specs: { Wingspan: '64 in (162.5 cm)', Engine: '20-26 cc Gas', Style: '3D Aerobatic', Weight: '4.5 kg' },
-    inStock: true
+    description: 'Aggressive 3D performer with large control surfaces, carbon fiber wing joiner tube, laser-cut balsa framework, and eye-catching scheme.',
+    specs: { Wingspan: '64 in (162.5 cm)', Engine: '20-26 cc Gas', Style: '3D Aerobatic Freestyle', Weight: '4.5 kg' },
+    inStock: true,
+    youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'sea-7',
@@ -263,9 +278,10 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviewsCount: 205,
     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop',
-    description: 'Classic high-wing trainer aircraft engineered for effortless assembly, high lift airfoil, and stable slow-flight landing.',
-    specs: { Wingspan: '63 in (160 cm)', Engine: '.46 Glow Engine', Construction: 'Laser Cut Balsa', Weight: '2.7 kg' },
-    inStock: true
+    description: 'Classic high-wing trainer aircraft engineered for effortless assembly, high lift airfoil, and smooth landings at flight training clubs.',
+    specs: { Wingspan: '63 in (160 cm)', Engine: '.46 Glow Engine', Construction: 'Laser Cut Balsa & Ply', Weight: '2.7 kg' },
+    inStock: true,
+    youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'sea-8',
@@ -279,9 +295,10 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 67,
     isNewArrival: true,
     image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=800&auto=format&fit=crop',
-    description: 'Iconic aerobatic biplane with dual wings, massive surface area, precise snap-roll capability, and painted glass fiber cowl.',
-    specs: { Wingspan: '54.3 in (138 cm)', Engine: '20 cc Gas / 1.20 4-Stroke', Style: 'Scale Biplane', Weight: '4.8 kg' },
-    inStock: true
+    description: 'Iconic aerobatic biplane featuring dual wings, massive surface wing area, precise snap-roll capability, and painted glass fiber cowl.',
+    specs: { Wingspan: '54.3 in (138 cm)', Engine: '20 cc Gas / 1.20 4-Stroke', Style: 'Scale aerobatic Biplane', Weight: '4.8 kg' },
+    inStock: true,
+    youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'sea-9',
@@ -295,9 +312,10 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 118,
     isBestseller: true,
     image: 'https://images.unsplash.com/photo-1519074069444-1ba4eff56024?q=80&w=800&auto=format&fit=crop',
-    description: 'Competition grade 50-60cc aerobatic machine. Pre-built with titanium pushrods, ball links, and carbon fiber landing gear.',
-    specs: { Wingspan: '82.1 in (208.5 cm)', Engine: '50-60 cc Gas', 'Color Scheme': 'Black & Red', Weight: '7.2 kg' },
-    inStock: true
+    description: 'Competition grade 50-60cc aerobatic machine. Pre-built with titanium pushrods, ball links, carbon fiber landing gear, and high-spec Oracover film.',
+    specs: { Wingspan: '82.1 in (208.5 cm)', Engine: '50-60 cc Gas', Scheme: 'Black & Red Competition', Weight: '7.2 kg' },
+    inStock: true,
+    youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'sea-10',
@@ -310,9 +328,10 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviewsCount: 95,
     image: 'https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?q=80&w=800&auto=format&fit=crop',
-    description: 'High-visibility fluorescent yellow scale graphics edition of the Extra 330LX for extreme freestyle 3D flight.',
-    specs: { Wingspan: '82.1 in (208.5 cm)', Engine: '50-60 cc Gas', 'Color Scheme': 'High-Vis Yellow', Weight: '7.2 kg' },
-    inStock: true
+    description: 'High-visibility fluorescent yellow scale graphics edition of the Extra 330LX for extreme freestyle 3D flight and high-alpha tumbling.',
+    specs: { Wingspan: '82.1 in (208.5 cm)', Engine: '50-60 cc Gas', Scheme: 'High-Vis Yellow', Weight: '7.2 kg' },
+    inStock: true,
+    youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'sea-11',
@@ -325,9 +344,10 @@ export const PRODUCTS: Product[] = [
     rating: 5.0,
     reviewsCount: 72,
     image: 'https://images.unsplash.com/photo-1517976487492-5750f3195933?q=80&w=800&auto=format&fit=crop',
-    description: '92-inch giant scale Zivko Edge 540 V3. Engineered for precision IMAC freestyle maneuvers and high-alpha harriers.',
-    specs: { Wingspan: '92 in (233.6 cm)', Engine: '60 cc Gas', 'Servo Count': '6 High Torque', Weight: '8.9 kg' },
-    inStock: true
+    description: '92-inch giant scale Zivko Edge 540 V3. Engineered for precision IMAC aerobatic maneuvers and high-alpha harriers.',
+    specs: { Wingspan: '92 in (233.6 cm)', Engine: '60 cc Gas', Servos: '6 High Torque Metal Gear', Weight: '8.9 kg' },
+    inStock: true,
+    youtubeVideoId: 'l4J81G3H5e0'
   },
   {
     id: 'sea-12',
@@ -340,9 +360,10 @@ export const PRODUCTS: Product[] = [
     rating: 4.8,
     reviewsCount: 81,
     image: 'https://images.unsplash.com/photo-1559688658-b1280de123db?q=80&w=800&auto=format&fit=crop',
-    description: '73-inch wingspan YAK 54 featuring ultra-light airframe construction, removable wings, and detailed painted canopy.',
-    specs: { Wingspan: '73 in (185 cm)', Engine: '35-40 cc Gas', 'Wing Area': '1020 sq in', Weight: '5.2 kg' },
-    inStock: true
+    description: '73-inch wingspan YAK 54 featuring ultra-light airframe construction, removable wings, detailed painted canopy, and fuel tank assembly.',
+    specs: { Wingspan: '73 in (185 cm)', Engine: '35-40 cc Gas', WingArea: '1020 sq in', Weight: '5.2 kg' },
+    inStock: true,
+    youtubeVideoId: 'l4J81G3H5e0'
   },
 
   // --- BALSA WOOD (100MM * 1000MM) ---
@@ -358,8 +379,8 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 420,
     isBestseller: true,
     image: 'https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?q=80&w=800&auto=format&fit=crop',
-    description: 'Precision-milled AAA contest grade balsa sheet. 2mm thickness is ideal for rib capstrips, wing sheeting, and light fairings.',
-    specs: { Dimensions: '2mm x 100mm x 1000mm', Density: '6-8 lbs/cu.ft', Grade: 'AAA Contest Grade' },
+    description: 'Precision-milled AAA contest grade balsa sheet. 2mm thickness is ideal for rib capstrips, wing sheeting, trailing edges, and light fairings.',
+    specs: { Dimensions: '2mm x 100mm x 1000mm', Density: '6-8 lbs/cu.ft', Grade: 'AAA Contest Grade', Grain: 'Straight & Uniform' },
     inStock: true
   },
   {
@@ -374,7 +395,7 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 380,
     isBestseller: true,
     image: 'https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?q=80&w=800&auto=format&fit=crop',
-    description: 'Standard wing rib and fuselage side balsa sheet. Milled to exact tolerances for scratch builders.',
+    description: 'Standard wing rib and fuselage side balsa sheet. Milled to exact tolerances for scratch builders and aeromodelling kit assembly.',
     specs: { Dimensions: '3mm x 100mm x 1000mm', Density: '8-10 lbs/cu.ft', Grade: 'AAA Contest Grade' },
     inStock: true
   },
@@ -389,7 +410,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.8,
     reviewsCount: 190,
     image: 'https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?q=80&w=800&auto=format&fit=crop',
-    description: 'Medium density 4mm balsa sheet for tail surfaces, elevator control leaves, and rib webs.',
+    description: 'Medium density 4mm balsa sheet for tail surfaces, elevator control leaves, and rib webs in balsa scale models.',
     specs: { Dimensions: '4mm x 100mm x 1000mm', Density: '8-10 lbs/cu.ft', Grade: 'AAA Grade' },
     inStock: true
   },
@@ -498,8 +519,8 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 310,
     isBestseller: true,
     image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop',
-    description: 'Universal standard digital S.BUS servo providing 4.5 kg-cm torque for primary flight control surfaces.',
-    specs: { Torque: '4.5 kg-cm @ 6.0V', Speed: '0.19 sec/60°', Gears: 'Resin', Weight: '36g' },
+    description: 'Universal standard digital S.BUS servo providing 4.5 kg-cm torque for primary flight control surfaces (ailerons, elevator, rudder).',
+    specs: { Torque: '4.5 kg-cm @ 6.0V', Speed: '0.19 sec/60°', Gears: 'Resin', Weight: '36g', Connector: 'Futaba Standard' },
     inStock: true
   },
   {
@@ -514,7 +535,7 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 88,
     image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=800&auto=format&fit=crop',
     description: 'Official Futaba buddy-box training cable linking Master and Student transmitters during flight instruction.',
-    specs: { Cable: 'Shielded Flex Coil', Length: '2.5 Meters', Connection: 'Futaba Square Plug' },
+    specs: { Cable: 'Shielded Flex Coil', Length: '2.5 Meters', Connection: 'Futaba Micro Square Plug' },
     inStock: true
   },
   {
@@ -528,8 +549,8 @@ export const PRODUCTS: Product[] = [
     rating: 4.8,
     reviewsCount: 145,
     image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop',
-    description: 'High flow aluminum geared rotary hand pump with fuel-proof silicone seals for rapid tank filling.',
-    specs: { Flow: 'Direct Gear Drive', Compatibility: 'Nitro & Gasoline', Material: 'CNC Aluminum' },
+    description: 'High flow aluminum geared rotary hand pump with fuel-proof silicone seals for rapid tank filling and defueling.',
+    specs: { Flow: 'Direct Gear Drive', Compatibility: 'Nitro & Gasoline', Material: 'CNC Aluminum Casing' },
     inStock: true
   },
   {
@@ -544,8 +565,8 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 220,
     isBestseller: true,
     image: 'https://images.unsplash.com/photo-1581092162384-8987c1d64718?q=80&w=800&auto=format&fit=crop',
-    description: 'Heavy duty 12V DC starter motor with aluminum spinner cone rubber insert. Effortlessly spins up to 50cc engines.',
-    specs: { Voltage: '12V DC Battery', 'Engine Size': '.40 up to 50cc Gas', Current: '30A Peak' },
+    description: 'Heavy duty 12V DC starter motor with aluminum spinner cone rubber insert. Effortlessly spins up to 50cc petrol engines.',
+    specs: { Voltage: '12V DC Battery', Capacity: '.40 up to 50cc Gas', Current: '30A Peak' },
     inStock: true
   },
   {
@@ -560,7 +581,7 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 290,
     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop',
     description: 'Heavy duty lock-on ignitor connector with anodized aluminum body accepting standard C-cell battery.',
-    specs: { Casing: 'Anodized Red', Battery: 'Takes 1x C-Cell 1.5V', Lock: 'Spring Steel Claw' },
+    specs: { Casing: 'Anodized Red Aluminum', Battery: 'Takes 1x C-Cell 1.5V', Lock: 'Spring Steel Claw' },
     inStock: true
   },
   {
@@ -605,7 +626,7 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 65,
     image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop',
     description: 'CNC machined steel propeller drill jig for perfect bolt circle alignment on 30-55cc gas engines.',
-    specs: { Pattern: '30-55cc Engine Hubs', Material: 'Hardened Steel', 'Drill Bit': '5mm Included' },
+    specs: { Pattern: '30-55cc Engine Hubs', Material: 'Hardened Steel', DrillBit: '5mm Included' },
     inStock: true
   },
   {
@@ -634,8 +655,8 @@ export const PRODUCTS: Product[] = [
     rating: 4.8,
     reviewsCount: 115,
     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop',
-    description: 'Bi-directional electric fuel pump with metal casing. Fills or defuels gas and nitro tanks at 1000ml/min.',
-    specs: { Voltage: '12V DC', 'Flow Rate': '1000 ml/min', Seals: 'Viton Gasoline Seals' },
+    description: 'Bi-directional electric fuel pump with metal casing. Fills or defueling gas and nitro tanks at 1000ml/min.',
+    specs: { Voltage: '12V DC', FlowRate: '1000 ml/min', Seals: 'Viton Gasoline Seals' },
     inStock: true
   },
   {
@@ -683,7 +704,7 @@ export const PRODUCTS: Product[] = [
     isBestseller: true,
     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop',
     description: 'The gold standard glow plug for all 2-stroke nitro airplane engines (.12 to .61 size).',
-    specs: { 'Heat Range': 'Medium Hot', Type: 'Standard 2-Stroke', Threads: '1/4-32 UNEF' },
+    specs: { HeatRange: 'Medium Hot', Type: 'Standard 2-Stroke', Threads: '1/4-32 UNEF' },
     inStock: true
   },
   {
@@ -699,7 +720,7 @@ export const PRODUCTS: Product[] = [
     isNewArrival: true,
     image: 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=800&auto=format&fit=crop',
     description: 'Multi-functional OLED battery capacity checker, servo signal generator tester, and receiver voltage meter.',
-    specs: { Support: 'LiPo / LiFe / LiIon / NiMH', 'Servo Test': 'Manual & Auto Sweep', Screen: 'OLED Display' },
+    specs: { Support: 'LiPo / LiFe / LiIon / NiMH', ServoTest: 'Manual & Auto Sweep', Screen: 'OLED Display' },
     inStock: true
   }
 ];
