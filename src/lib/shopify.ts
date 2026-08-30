@@ -95,7 +95,7 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
   const data = await fetchShopifyStorefront(query);
   if (!data?.products?.edges) return [];
 
-  return data.products.edges.map((edge: any) => {
+  const items = data.products.edges.map((edge: any) => {
     const node = edge.node;
     const variantNode = node.variants?.edges?.[0]?.node;
     const imageNode = node.images?.edges?.[0]?.node;
@@ -119,6 +119,12 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
       availableForSale: variantNode?.availableForSale ?? true
     };
   });
+
+  // Filter out mock demo items so official aeromodelling client products display 100%
+  return items.filter((p: any) => 
+    !p.title.toLowerCase().includes('snowboard') && 
+    !p.title.toLowerCase().includes('ski wax')
+  );
 }
 
 // Helper: Convert Shopify product to standard site Product format
