@@ -345,6 +345,26 @@ const productSchema = {
             </div>
           </div>
 
+          <!-- YouTube Official Flight Test Video Accordion Row -->
+          <div class="pdf-acc-row is-open">
+            <button type="button" class="pdf-acc-header">
+              <span>🎬 Official Flight Test & Demonstration Video</span>
+              <span class="pdf-acc-icon">+</span>
+            </button>
+            <div class="pdf-acc-content">
+              <p class="acc-paragraph" style="margin-bottom: 0.85rem;">Watch {product.name} in action during official field testing and flight performance demonstration:</p>
+              <div class="video-embed-container">
+                <iframe
+                  src={`https://www.youtube-nocookie.com/embed/${product.youtubeVideoId || 'l4J81G3H5e0'}?autoplay=0&rel=0`}
+                  title={`${product.name} Official Flight Test Demo`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                  class="youtube-iframe"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+
           <div class="pdf-acc-row">
             <button type="button" class="pdf-acc-header">
               <span>FAQ</span>
@@ -968,6 +988,26 @@ const productSchema = {
     .clean-specs-table td { padding: 0.4rem 0; border-bottom: 1px dotted #e6e0d5; }
     .key-col { width: 45%; color: #666; }
     .val-col { color: #111; font-weight: 700; }
+
+    /* Video Embed Container */
+    .video-embed-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: var(--radius-sm);
+      background: #000000;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e6e0d5;
+    }
+    .video-embed-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
 
     /* Major Centered Sections */
     .pdp-major-section {
