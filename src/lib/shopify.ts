@@ -123,7 +123,8 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
   // Filter out mock demo items so official aeromodelling client products display 100%
   return items.filter((p: any) => 
     !p.title.toLowerCase().includes('snowboard') && 
-    !p.title.toLowerCase().includes('ski wax')
+    !p.title.toLowerCase().includes('ski wax') &&
+    !p.title.toLowerCase().includes('gift card')
   );
 }
 

@@ -3,7 +3,7 @@ import { PRODUCTS as staticProducts } from '../data/products';
 import { getAllShopifyProducts, mapShopifyToProduct } from '../lib/shopify';
 
 const shopifyProducts = await getAllShopifyProducts();
-const PRODUCTS = (shopifyProducts && shopifyProducts.length > 0)
+const PRODUCTS = (shopifyProducts && shopifyProducts.length >= 5)
   ? shopifyProducts.map((sp, idx) => mapShopifyToProduct(sp, idx))
   : staticProducts;
 
