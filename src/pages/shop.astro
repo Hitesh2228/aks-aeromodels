@@ -71,10 +71,12 @@ const PRODUCTS = (shopifyProducts && shopifyProducts.length >= 5)
           data-price={product.price} 
           data-rating={product.rating}
           data-bestseller={product.isBestseller ? 'true' : 'false'}
+          data-crazydeal={product.isCrazyDeal ? 'true' : 'false'}
         >
           <!-- Image Stage -->
           <div class="card-img-stage">
             <div class="badges-wrapper">
+              {product.isCrazyDeal && <span class="badge-tag crazy" style="background:#e63946; color:#ffffff;">🔥 CRAZY DEAL</span>}
               {product.isBestseller && <span class="badge-tag bestseller">BESTSELLER</span>}
               {product.isNewArrival && <span class="badge-tag new">NEW</span>}
             </div>
@@ -484,12 +486,12 @@ const PRODUCTS = (shopifyProducts && shopifyProducts.length >= 5)
     } else if (urlFilter === 'crazy-deals') {
       pills.forEach(p => p.classList.remove('active'));
       products.forEach(prod => {
-        const hasDeal = prod.querySelector('.badge-tag.offer, .saving-green-tag, .p-was');
-        (prod as HTMLElement).style.display = hasDeal ? 'flex' : 'none';
+        const isCrazy = prod.getAttribute('data-crazydeal') === 'true';
+        (prod as HTMLElement).style.display = isCrazy ? 'flex' : 'none';
       });
       const headerTitleEl = document.querySelector('.shop-hero-title');
       if (headerTitleEl) {
-        headerTitleEl.textContent = `🔥 Crazy Deals & Exclusive Offers`;
+        headerTitleEl.textContent = `🔥 Exclusive Crazy Deals`;
       }
     } else if (urlFilter === 'bestsellers') {
       pills.forEach(p => p.classList.remove('active'));

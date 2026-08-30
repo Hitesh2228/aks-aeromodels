@@ -1,27 +1,30 @@
 ---
-import { CRAZY_DEALS } from '../data/deals';
+import { PRODUCTS } from '../data/products';
 
-// Homepage displays EXACTLY top 3 Crazy Deals as requested by user
-const homepageDeals = CRAZY_DEALS.slice(0, 3);
+// Filter products marked with isCrazyDeal (10 products total)
+const crazyDealProducts = PRODUCTS.filter(p => p.isCrazyDeal);
+
+// Homepage displays EXACTLY top 3 Crazy Deals (out of 10) as requested by user
+const homepageDeals = crazyDealProducts.slice(0, 3);
 ---
 
 <section class="bellavita-deals-section">
   <div class="container">
     <div class="deals-header-row flex-between">
       <h2 class="bellavita-title">CRAZY DEALS</h2>
-      <a href="/shop?filter=crazy-deals" class="view-all-link">VIEW ALL CRAZY DEALS →</a>
+      <a href="/shop?filter=crazy-deals" class="view-all-link">VIEW ALL CRAZY DEALS (10) →</a>
     </div>
 
     <div class="slider-wrapper-relative">
       <div class="crazy-deals-grid" id="deals-slider-container">
         
         {homepageDeals.map(deal => (
-          <a href={deal.linkUrl} class="crazy-deal-card">
+          <a href={`/product/${deal.id}`} class="crazy-deal-card">
             <div class="deal-card-inner">
               <div class="deal-badge-header">
-                <span class="deal-tag-sub">{deal.tagSub}</span>
-                <span class="deal-tag-main">{deal.tagMain}</span>
-                <span class="deal-tag-only">{deal.tagOnly}</span>
+                <span class="deal-tag-sub">EXCLUSIVE DEAL</span>
+                <span class="deal-tag-main">{deal.discountBadge || 'SPECIAL OFFER'}</span>
+                <span class="deal-tag-only">LIMITED TIME</span>
               </div>
               
               <div class="deal-media">
@@ -30,9 +33,9 @@ const homepageDeals = CRAZY_DEALS.slice(0, 3);
               
               <div class="deal-label">{deal.name}</div>
               <div class="deal-price-sub">
-                <span class="p-now">₹{deal.price.toLocaleString('en-IN')}</span>
-                <span class="p-was">₹{deal.originalPrice.toLocaleString('en-IN')}</span>
-                <span class="badge-save">{deal.savingsBadge}</span>
+                <span class="p-now">₹{deal.price.toLocaleString('en-IN')}.00</span>
+                <span class="p-was">₹{deal.originalPrice.toLocaleString('en-IN')}.00</span>
+                <span class="badge-save">{deal.discountBadge || 'DEAL'}</span>
               </div>
             </div>
           </a>
@@ -205,7 +208,7 @@ const homepageDeals = CRAZY_DEALS.slice(0, 3);
   .badge-save {
     font-size: 0.68rem;
     font-weight: 700;
-    background: #dfab85;
+    background: #e63946;
     color: #ffffff;
     padding: 0.15rem 0.45rem;
     border-radius: 3px;

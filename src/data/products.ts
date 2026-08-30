@@ -12,6 +12,7 @@ export interface Product {
   reviewsCount: number;
   isBestseller?: boolean;
   isNewArrival?: boolean;
+  isCrazyDeal?: boolean;
   image: string;
   description: string;
   specs: Record<string, string>;
@@ -40,6 +41,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviewsCount: 128,
     isBestseller: true,
+    isCrazyDeal: true,
     image: 'https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?q=80&w=800&auto=format&fit=crop',
     description: 'The legendary O.S. Max 0.46 AX II delivers exceptional power-to-weight ratio, ultra-smooth idle, and bulletproof reliability for .40-.46 size trainers and sport models. Designed with advanced ABL cylinder liner technology and 40K carburetor.',
     specs: { Displacement: '7.45 cc (0.455 cu in)', Power: '1.65 hp @ 16,000 RPM', Weight: '378g (13.3 oz)', Fuel: 'Nitro Glow (10-20%)', Manufacturer: 'O.S. Engines Japan', Compatibility: '.40-.46 Size Airframes' },
@@ -90,6 +92,7 @@ export const PRODUCTS: Product[] = [
     rating: 5.0,
     reviewsCount: 185,
     isBestseller: true,
+    isCrazyDeal: true,
     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop',
     description: 'Massive 65cc single cylinder 2-stroke gas engine with electronic CDI ignition and aluminum mounting standoffs. Perfect power plant for 85-92" 3D aerobatic giant scale aircraft.',
     specs: { Displacement: '65 cc', Output: '8.5 HP @ 8,500 RPM', Weight: '1450g', Fuel: 'Unleaded Petrol + 2T Oil (30:1)', Ignition: 'Electronic CDI Auto Advance' },
@@ -117,7 +120,7 @@ export const PRODUCTS: Product[] = [
   // --- 2. RADIO AND RECEIVER ---
   {
     id: 'rad-1',
-    name: 'Futaba Radio 6k',
+    name: 'futaba Radio 6k',
     category: 'radio-receiver',
     categoryLabel: 'Radio & Receiver',
     price: 16999,
@@ -126,6 +129,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviewsCount: 210,
     isBestseller: true,
+    isCrazyDeal: true,
     image: 'https://images.unsplash.com/photo-1581092162384-8987c1d64718?q=80&w=800&auto=format&fit=crop',
     description: '6-Channel computerized transmitter with real-time telemetry, telemetry speech output, backlit LCD display, and 30-model internal memory for RC airplanes, gliders, and helicopters.',
     specs: { Channels: '6', Protocol: 'T-FHSS Air / S-FHSS', Display: '128x64 Backlit LCD', Telemetry: 'Real-Time Voice Speech', Manufacturer: 'Futaba Corporation Japan' },
@@ -134,7 +138,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'rad-2',
-    name: 'Futaba TM 18-R9001SB',
+    name: 'futaba TM 18-R9001SB',
     category: 'radio-receiver',
     categoryLabel: 'Radio & Receiver',
     price: 22499,
@@ -169,7 +173,7 @@ export const PRODUCTS: Product[] = [
   // --- 3. SEAGULL AEROMODELS ---
   {
     id: 'sea-1',
-    name: 'SEA394 Champion Xxtreme Decathlon 122" V2 ARF 60-80cc',
+    name: 'SEA394 Champion Xxtreme Decathlon 122" V2 ARF 60-80',
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 68999,
@@ -178,6 +182,7 @@ export const PRODUCTS: Product[] = [
     rating: 5.0,
     reviewsCount: 88,
     isBestseller: true,
+    isCrazyDeal: true,
     image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=800&auto=format&fit=crop',
     description: 'Giant scale 122" wingspan aerobatic trainer wrapped in genuine German Oracover. Designed for 60-80cc gas engines with scale aluminum landing gear and removable two-piece wings.',
     specs: { Wingspan: '122 in (310 cm)', Engine: '60-80 cc Gasoline', Material: 'Hand Selected Balsa & Ply / Genuine Oracover', Weight: '11.5 kg', Skill: 'Intermediate to Advanced' },
@@ -195,6 +200,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviewsCount: 142,
     isBestseller: true,
+    isCrazyDeal: true,
     image: 'https://images.unsplash.com/photo-1519074069444-1ba4eff56024?q=80&w=800&auto=format&fit=crop',
     description: 'Extreme 3D aerobatic performer with carbon fiber wing joiner tube, pre-hinged control surfaces, painted fiberglass cowl, and vibrant high-vis scale graphics scheme.',
     specs: { Wingspan: '77.4 in (196.5 cm)', Engine: '35-40 cc Gas', Control: '6 Servo Channels', Weight: '5.8 kg', Assembly: 'ARF (Almost Ready to Fly)' },
@@ -229,6 +235,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviewsCount: 310,
     isBestseller: true,
+    isCrazyDeal: true,
     image: 'https://images.unsplash.com/photo-1527977966376-1c8408f9f108?q=80&w=800&auto=format&fit=crop',
     description: 'The premier choice for beginner aeromodelers! High-wing stability, forgiving stall characteristics, self-correcting dihedral, and robust tricycle landing gear.',
     specs: { Wingspan: '61 in (155 cm)', Engine: '.46 2-Stroke Glow', Level: 'Beginner Flight Training', Weight: '2.8 kg' },
@@ -302,7 +309,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sea-9',
-    name: 'SEA274N Extra 330LX 3D 82.1" ARF 50-60 CC Black/Red',
+    name: 'SEA274N Extra 330LX 3D 82.1" ARF 50-60 CC B /R',
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 54999,
@@ -311,6 +318,7 @@ export const PRODUCTS: Product[] = [
     rating: 5.0,
     reviewsCount: 118,
     isBestseller: true,
+    isCrazyDeal: true,
     image: 'https://images.unsplash.com/photo-1519074069444-1ba4eff56024?q=80&w=800&auto=format&fit=crop',
     description: 'Competition grade 50-60cc aerobatic machine. Pre-built with titanium pushrods, ball links, carbon fiber landing gear, and high-spec Oracover film.',
     specs: { Wingspan: '82.1 in (208.5 cm)', Engine: '50-60 cc Gas', Scheme: 'Black & Red Competition', Weight: '7.2 kg' },
@@ -351,7 +359,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sea-12',
-    name: 'SEA360 YAK 54 73" ARF 35-40cc 3D',
+    name: 'SEA360 YAK 54 73" ARF 35 -40cc 3D',
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 39999,
@@ -369,7 +377,7 @@ export const PRODUCTS: Product[] = [
   // --- 4. BALSA WOOD 100MM * 1000MM ---
   {
     id: 'bal-1',
-    name: 'Balsa Sheet 2 mm (100x1000mm)',
+    name: 'Balsa Sheet 2 mm',
     category: 'balsa-wood',
     categoryLabel: 'Balsa Wood',
     price: 180,
@@ -378,6 +386,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviewsCount: 420,
     isBestseller: true,
+    isCrazyDeal: true,
     image: 'https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?q=80&w=800&auto=format&fit=crop',
     description: 'Precision-milled AAA contest grade balsa sheet. 2mm thickness is ideal for rib capstrips, wing sheeting, trailing edges, and light fairings.',
     specs: { Dimensions: '2mm x 100mm x 1000mm', Density: '6-8 lbs/cu.ft', Grade: 'AAA Contest Grade', Grain: 'Straight & Uniform' },
@@ -385,7 +394,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'bal-2',
-    name: 'Balsa Sheet 3 mm (100x1000mm)',
+    name: 'Balsa Sheet 3 mm',
     category: 'balsa-wood',
     categoryLabel: 'Balsa Wood',
     price: 220,
@@ -401,7 +410,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'bal-3',
-    name: 'Balsa Sheet 4 mm (100x1000mm)',
+    name: 'Balsa Sheet 4 mm',
     category: 'balsa-wood',
     categoryLabel: 'Balsa Wood',
     price: 260,
@@ -416,7 +425,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'bal-4',
-    name: 'Balsa Sheet 5 mm (100x1000mm)',
+    name: 'Balsa Sheet 5 mm',
     category: 'balsa-wood',
     categoryLabel: 'Balsa Wood',
     price: 310,
@@ -431,7 +440,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'bal-5',
-    name: 'Balsa Sheet 6 mm (100x1000mm)',
+    name: 'Balsa Sheet 6 mm',
     category: 'balsa-wood',
     categoryLabel: 'Balsa Wood',
     price: 360,
@@ -446,7 +455,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'bal-6',
-    name: 'Balsa Sheet 8 mm (100x1000mm)',
+    name: 'Balsa Sheet 8 mm',
     category: 'balsa-wood',
     categoryLabel: 'Balsa Wood',
     price: 440,
@@ -461,7 +470,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'bal-7',
-    name: 'Balsa Sheet 10 mm (100x1000mm)',
+    name: 'Balsa Sheet 10 mm',
     category: 'balsa-wood',
     categoryLabel: 'Balsa Wood',
     price: 520,
@@ -476,7 +485,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'bal-8',
-    name: 'Balsa Sheet 12 mm (100x1000mm)',
+    name: 'Balsa Sheet 12 mm',
     category: 'balsa-wood',
     categoryLabel: 'Balsa Wood',
     price: 610,
@@ -491,7 +500,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'bal-9',
-    name: 'Balsa Sheet 15 mm (100x1000mm)',
+    name: 'Balsa Sheet 15 mm',
     category: 'balsa-wood',
     categoryLabel: 'Balsa Wood',
     price: 750,
@@ -518,6 +527,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviewsCount: 310,
     isBestseller: true,
+    isCrazyDeal: true,
     image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop',
     description: 'Universal standard digital S.BUS servo providing 4.5 kg-cm torque for primary flight control surfaces (ailerons, elevator, rudder).',
     specs: { Torque: '4.5 kg-cm @ 6.0V', Speed: '0.19 sec/60°', Gears: 'Resin', Weight: '36g', Connector: 'Futaba Standard' },
@@ -686,6 +696,7 @@ export const PRODUCTS: Product[] = [
     rating: 5.0,
     reviewsCount: 340,
     isBestseller: true,
+    isCrazyDeal: true,
     image: 'https://images.unsplash.com/photo-1581092162384-8987c1d64718?q=80&w=800&auto=format&fit=crop',
     description: 'The world’s #1 RC flight simulator! Features over 175 aircraft, realistic physics, and Spektrum InterLink DX USB transmitter controller.',
     specs: { Platform: 'Windows PC', Controller: 'InterLink DX USB', Aircraft: '175+ Planes/Helis' },
