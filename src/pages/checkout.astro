@@ -143,10 +143,30 @@ import '../styles/global.css';
             <!-- Hydrated via JS -->
           </div>
 
+          <!-- Promo Coupon Code Box -->
+          <div class="promo-coupon-box">
+            <div class="promo-title-line">
+              <span>🎟️ HAVE A PROMO / DISCOUNT CODE?</span>
+            </div>
+            <div class="promo-input-group">
+              <input type="text" id="coupon-code-input" placeholder="e.g. SKY80 / PILOT10" class="promo-code-input" />
+              <button type="button" id="apply-coupon-btn" class="btn-apply-coupon">APPLY</button>
+            </div>
+            <div class="suggested-coupon-pills">
+              <button type="button" class="coupon-chip-btn" data-code="SKY80">🏷️ SKY80 (₹80 OFF)</button>
+              <button type="button" class="coupon-chip-btn" data-code="PILOT10">🏷️ PILOT10 (10% OFF)</button>
+            </div>
+            <div id="coupon-discount-notice" class="coupon-notice-badge" style="display: none;"></div>
+          </div>
+
           <div class="summary-totals">
             <div class="total-row">
               <span>Item Subtotal:</span>
               <strong id="chk-subtotal">₹0.00</strong>
+            </div>
+            <div class="total-row" id="coupon-discount-row" style="display: none; color: #059669;">
+              <span>Coupon Discount:</span>
+              <strong id="chk-coupon-discount">-₹0.00</strong>
             </div>
             <div class="total-row">
               <span>GST Output Tax (18% Included):</span>
@@ -411,6 +431,92 @@ import '../styles/global.css';
       font-size: 1.25rem;
     }
 
+    /* Promo Coupon Code Box */
+    .promo-coupon-box {
+      margin: 1.25rem 0;
+      padding: 1rem;
+      background: #faf8f5;
+      border: 1px dashed #d6cfc2;
+      border-radius: var(--radius-sm);
+    }
+    .promo-title-line {
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: #1a1a1a;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.6rem;
+    }
+    .promo-input-group {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+    }
+    .promo-code-input {
+      flex: 1;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      padding: 0.5rem 0.65rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      outline: none;
+    }
+    .promo-code-input:focus {
+      border-color: #3b0811;
+    }
+    .btn-apply-coupon {
+      background: #3b0811;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.78rem;
+      padding: 0.5rem 0.85rem;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+    }
+    .btn-apply-coupon:hover {
+      background: #000000;
+    }
+    .suggested-coupon-pills {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .coupon-chip-btn {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      color: #374151;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.2rem 0.45rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .coupon-chip-btn:hover {
+      border-color: #059669;
+      color: #059669;
+      background: #ecfdf5;
+    }
+    .coupon-notice-badge {
+      margin-top: 0.6rem;
+      padding: 0.45rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .coupon-notice-badge.success {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+    .coupon-notice-badge.error {
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+    }
+
     .trust-guarantee-box {
       margin-top: 1.5rem;
       background: #f3eee7;
@@ -478,6 +584,90 @@ import '../styles/global.css';
           </div>
         `).join('');
       }
+
+      // Promo Coupon Code Application Logic
+      let appliedDiscountAmount = 0;
+      let appliedCouponCode = '';
+
+      const couponInput = document.getElementById('coupon-code-input') as HTMLInputElement;
+      const applyCouponBtn = document.getElementById('apply-coupon-btn');
+      const couponNotice = document.getElementById('coupon-discount-notice');
+      const couponDiscountRow = document.getElementById('coupon-discount-row');
+      const couponDiscountEl = document.getElementById('chk-coupon-discount');
+      const chipBtns = document.querySelectorAll('.coupon-chip-btn');
+
+      const rawSubtotal = hydrated.reduce((acc, cur) => acc + (cur.product.price * cur.quantity), 0);
+
+      function updateTotalsWithDiscount() {
+        const finalSubtotal = Math.max(0, rawSubtotal - appliedDiscountAmount);
+        const gst = Math.round(finalSubtotal * 0.18);
+        const total = finalSubtotal;
+
+        if (subtotalEl) subtotalEl.textContent = `₹${rawSubtotal.toLocaleString('en-IN')}.00`;
+        if (gstEl) gstEl.textContent = `₹${gst.toLocaleString('en-IN')}.00`;
+        if (totalEl) totalEl.textContent = `₹${total.toLocaleString('en-IN')}.00`;
+
+        if (appliedDiscountAmount > 0 && couponDiscountRow && couponDiscountEl) {
+          couponDiscountRow.style.display = 'flex';
+          couponDiscountEl.textContent = `-₹${appliedDiscountAmount.toLocaleString('en-IN')}.00`;
+        } else if (couponDiscountRow) {
+          couponDiscountRow.style.display = 'none';
+        }
+      }
+
+      function handleApplyCoupon(codeToApply: string) {
+        const code = codeToApply.trim().toUpperCase();
+        if (!code) return;
+
+        if (code === 'SKY80') {
+          appliedDiscountAmount = 80;
+          appliedCouponCode = 'SKY80';
+          if (couponNotice) {
+            couponNotice.className = 'coupon-notice-badge success';
+            couponNotice.style.display = 'block';
+            couponNotice.textContent = '🎉 Coupon SKY80 Applied! You saved ₹80.00';
+          }
+        } else if (code === 'PILOT10') {
+          appliedDiscountAmount = Math.round(rawSubtotal * 0.10);
+          appliedCouponCode = 'PILOT10';
+          if (couponNotice) {
+            couponNotice.className = 'coupon-notice-badge success';
+            couponNotice.style.display = 'block';
+            couponNotice.textContent = `🎉 Coupon PILOT10 Applied! You saved ₹${appliedDiscountAmount.toLocaleString('en-IN')}.00`;
+          }
+        } else if (code === 'FIRSTPILOT' && rawSubtotal >= 10000) {
+          appliedDiscountAmount = 500;
+          appliedCouponCode = 'FIRSTPILOT';
+          if (couponNotice) {
+            couponNotice.className = 'coupon-notice-badge success';
+            couponNotice.style.display = 'block';
+            couponNotice.textContent = '🎉 VIP Coupon FIRSTPILOT Applied! You saved ₹500.00';
+          }
+        } else {
+          appliedDiscountAmount = 0;
+          appliedCouponCode = '';
+          if (couponNotice) {
+            couponNotice.className = 'coupon-notice-badge error';
+            couponNotice.style.display = 'block';
+            couponNotice.textContent = '❌ Invalid or expired coupon code. Try SKY80 or PILOT10.';
+          }
+        }
+        updateTotalsWithDiscount();
+      }
+
+      applyCouponBtn?.addEventListener('click', () => {
+        if (couponInput) handleApplyCoupon(couponInput.value);
+      });
+
+      chipBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const code = btn.getAttribute('data-code');
+          if (code && couponInput) {
+            couponInput.value = code;
+            handleApplyCoupon(code);
+          }
+        });
+      });
 
       function initSavedAddressesOnCheckout() {
         const wrap = document.getElementById('checkout-saved-addresses-wrap');
