@@ -529,6 +529,14 @@ const productSchema = {
       </div>
     </section>
 
+    <!-- RECENTLY VIEWED PRODUCTS Section -->
+    <section class="pdp-major-section" id="recently-viewed-section" style="display: none;">
+      <h2 class="pdf-section-heading">RECENTLY VIEWED PRODUCTS</h2>
+      <div class="pdf-products-grid-4" id="recently-viewed-grid">
+        <!-- Hydrated via JS -->
+      </div>
+    </section>
+
   </main>
 
   <!-- Sticky Bottom Purchase Bar (On Scroll) -->
@@ -1381,10 +1389,67 @@ const productSchema = {
     }
   </style>
 
+  <script id="current-pdp-product-json" type="application/json" is:inline set:html={JSON.stringify(product)}></script>
+
   <script>
     import { addToCart } from '../../lib/cartStore';
+    import { addRecentlyViewedProduct, getRecentlyViewedProducts } from '../../lib/recentlyViewed';
 
     document.addEventListener('DOMContentLoaded', () => {
+      // Record current product in Recently Viewed history
+      const prodJsonEl = document.getElementById('current-pdp-product-json');
+      let currentProd: any = null;
+      if (prodJsonEl?.textContent) {
+        try {
+          currentProd = JSON.parse(prodJsonEl.textContent);
+          if (currentProd) addRecentlyViewedProduct(currentProd);
+        } catch (e) {}
+      }
+
+      // Render Recently Viewed Products
+      function renderRecentlyViewed() {
+        const sec = document.getElementById('recently-viewed-section');
+        const grid = document.getElementById('recently-viewed-grid');
+        if (!sec || !grid || !currentProd) return;
+
+        const history = getRecentlyViewedProducts().filter(p => p.id !== currentProd.id);
+        if (history.length === 0) return;
+
+        sec.style.display = 'block';
+        grid.innerHTML = history.slice(0, 4).map(item => `
+          <div class="pdf-catalog-card">
+            <div class="card-image-box">
+              ${item.isBestseller ? '<span class="card-badge bestseller">BESTSELLER</span>' : ''}
+              ${item.discountBadge ? `<span class="card-badge offer">${item.discountBadge}</span>` : ''}
+              <a href="/product/${item.id}">
+                <img src="${item.image}" alt="${item.name}" />
+              </a>
+            </div>
+            <div class="card-content-box">
+              <div class="card-cat-tag">${(item.categoryLabel || 'SKYNODES').toUpperCase()}</div>
+              <h3 class="card-item-title"><a href="/product/${item.id}">${item.name}</a></h3>
+              <div class="card-rating-line">★ ${item.rating || 4.9} | (${item.reviewsCount || 42} Reviews)</div>
+              <div class="card-price-line">
+                <span class="p-now">₹${item.price.toLocaleString('en-IN')}</span>
+                <span class="p-was">₹${(item.originalPrice || Math.round(item.price * 1.2)).toLocaleString('en-IN')}</span>
+              </div>
+              <button class="pdf-card-cart-btn add-to-cart-btn" data-id="${item.id}">ADD TO CART</button>
+            </div>
+          </div>
+        `).join('');
+
+        grid.querySelectorAll('.pdf-card-cart-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const pId = btn.getAttribute('data-id');
+            if (pId) {
+              addToCart(pId, 1);
+              window.dispatchEvent(new CustomEvent('open-cart-drawer'));
+            }
+          });
+        });
+      }
+
+      renderRecentlyViewed();
       let qty = 1;
       const qtyCount = document.getElementById('pdp-qty-count');
       const decBtn = document.getElementById('pdp-qty-dec');
