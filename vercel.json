@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "skynodesuav.in"
+        }
+      ],
+      "destination": "https://www.skynodesuav.in/:path*",
+      "permanent": true
+    }
+  ]
+}
