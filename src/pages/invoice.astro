@@ -1,32 +1,18 @@
 ---
-import Header from '../components/Header.astro';
-import CartDrawer from '../components/CartDrawer.astro';
-import Footer from '../components/Footer.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import { PRODUCTS } from '../data/products';
-import '../styles/global.css';
 
 const sampleProducts = [PRODUCTS[0], PRODUCTS[5], PRODUCTS[10]];
 const subtotal = sampleProducts.reduce((acc, p) => acc + p.price, 0);
 const gstTax = Math.round(subtotal * 0.18);
-const grandTotal = subtotal + gstTax;
-import GoogleTagManagerHead from '../components/GoogleTagManagerHead.astro';
-import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
+const grandTotal = subtotal;
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <GoogleTagManagerHead />
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Official Tax Invoice Bill | SKYNODESUAV</title>
-  <meta name="description" content="View and print your official tax invoice bill for your SKYNODESUAV flight order." />
-</head>
-<body class="bellavita-page-body">
-  <GoogleTagManagerBody />
-
-  <Header />
-
+<BaseLayout
+  title="Official Tax Invoice Bill | SKYNODESUAV"
+  description="View and print your official tax invoice bill for your SKYNODESUAV flight order."
+  bodyClass="bellavita-page-body"
+>
   <main class="container page-padding reveal-on-scroll">
     <div class="invoice-wrapper">
       
@@ -48,10 +34,13 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
           <div>
             <h1 class="inv-company-name">SKYNODESUAV INDIA</h1>
             <p class="inv-subtitle">Authorized Distributor of O.S. Engines, Futaba, DLE & Seagull Models</p>
-            <p class="inv-address">Plot No. 417, Udyog Vihar Phase III, Gurgaon, Haryana 122016 • GSTIN: 07AAAAA0000A1Z5</p>
+            <p class="inv-address">Plot No. 417, Udyog Vihar Phase III, Gurgaon, Haryana 122016 • Seller GSTIN: 27AAAAA0000A1Z5</p>
           </div>
           <div class="inv-meta-box">
-            <h2 class="inv-title">TAX INVOICE</h2>
+            <h2 class="inv-title" id="inv-doc-title">TAX INVOICE</h2>
+            <div id="b2b-itc-badge" style="display: none; background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; font-size: 0.68rem; font-weight: 800; padding: 0.25rem 0.5rem; border-radius: 4px; margin-bottom: 0.5rem; text-align: center;">
+              🏢 B2B TAX INVOICE — ELIGIBLE FOR INPUT TAX CREDIT (ITC)
+            </div>
             <p class="inv-meta-row"><span>Invoice No:</span> <strong class="val" id="inv-no-val">#SKY-INV-2026-9842</strong></p>
             <p class="inv-meta-row"><span>Date:</span> <strong class="val" id="inv-date-val">09 Aug 2026</strong></p>
             <p class="inv-meta-row"><span>Payment Status:</span> <strong class="val status-paid" id="inv-status-val">PAID (ONLINE)</strong></p>
@@ -65,6 +54,12 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
           <div class="party-box">
             <h3>Billed To (Customer):</h3>
             <p><strong id="inv-cust-name">Capt. Hitesh Aeromodel Pilot</strong></p>
+            <div id="inv-b2b-company-row" style="display: none; font-weight: 700; color: #3b0811; font-size: 0.85rem; margin-bottom: 0.25rem;">
+              Company: <span id="inv-cust-company-val"></span>
+            </div>
+            <div id="inv-b2b-gstin-row" style="display: none; font-weight: 800; color: #0f172a; font-size: 0.82rem; margin-bottom: 0.25rem;">
+              Buyer GSTIN: <span id="inv-cust-gstin-val" style="background: #f1f5f9; padding: 2px 6px; border-radius: 3px;"></span>
+            </div>
             <p id="inv-cust-address">Devlali Camp, Near HP Petrol Pump, Nashik, Maharashtra 422502</p>
             <p id="inv-cust-phone">Phone: +91-7722009120</p>
             <p id="inv-cust-email" style="font-size: 0.78rem; color: #555;"></p>
@@ -78,16 +73,18 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
           </div>
         </div>
 
-        <!-- Itemized Products Table -->
-        <div class="table-responsive-wrapper">
+        <!-- Itemized Products Table with Multi-Tier GST -->
+        <div class="table-responsive-wrapper" style="margin-top: 1.5rem;">
           <table class="inv-items-table">
             <thead>
               <tr>
                 <th>#</th>
                 <th>PRODUCT DESCRIPTION</th>
-                <th>HSN / SAC</th>
+                <th>HSN</th>
                 <th>QTY</th>
-                <th>UNIT PRICE (₹)</th>
+                <th>BASE PRICE (₹)</th>
+                <th>GST %</th>
+                <th>TAX (₹)</th>
                 <th>TOTAL (₹)</th>
               </tr>
             </thead>
@@ -99,9 +96,11 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
                     <strong>{p.name}</strong>
                     <small style="display: block; color: #666; font-size: 0.72rem;">Category: {p.categoryLabel}</small>
                   </td>
-                  <td>88033000</td>
+                  <td>{p.hsnCode || '9503'}</td>
                   <td>1</td>
-                  <td>₹{p.price.toLocaleString('en-IN')}.00</td>
+                  <td>₹{Math.round(p.price / 1.18).toLocaleString('en-IN')}.00</td>
+                  <td>{p.gstRate || 18}%</td>
+                  <td>₹{Math.round(p.price - (p.price / 1.18)).toLocaleString('en-IN')}.00</td>
                   <td>₹{p.price.toLocaleString('en-IN')}.00</td>
                 </tr>
               ))}
@@ -109,20 +108,41 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
           </table>
         </div>
 
+        <!-- Statutory HSN/SAC Tax Summary Block -->
+        <div id="hsn-tax-summary-box" style="margin-top: 1.5rem; background: #faf8f5; border: 1px solid #e6e0d5; border-radius: 6px; padding: 1rem;">
+          <strong style="display: block; font-size: 0.8rem; color: #1a1a1a; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.04em;">
+            📊 STATUTORY GST BREAKDOWN (HSN / SAC SUMMARY)
+          </strong>
+          <table class="hsn-summary-table" style="width: 100%; font-size: 0.75rem; border-collapse: collapse;">
+            <thead>
+              <tr style="background: #efebe4; text-align: left;">
+                <th style="padding: 6px 8px;">HSN/SAC</th>
+                <th style="padding: 6px 8px;">Taxable Value (₹)</th>
+                <th style="padding: 6px 8px;" id="th-cgst">CGST (Rate / Amt)</th>
+                <th style="padding: 6px 8px;" id="th-sgst">SGST (Rate / Amt)</th>
+                <th style="padding: 6px 8px;">Total Tax (₹)</th>
+              </tr>
+            </thead>
+            <tbody id="hsn-summary-tbody">
+              <!-- Hydrated dynamically -->
+            </tbody>
+          </table>
+        </div>
+
         <!-- Summary Totals -->
-        <div class="inv-summary-flex">
+        <div class="inv-summary-flex" style="margin-top: 1.5rem;">
           <div class="inv-terms-notes">
             <strong>Terms & Guarantee:</strong>
             <ul>
-              <li>All engines include 1-Year Official Manufacturer Defect Warranty.</li>
-              <li>Includes 100% Transit Damage Coverage by SKYNODESUAV.</li>
-              <li>Official 1-Year Manufacturer Warranty included.</li>
+              <li>All engines & radios include 1-Year Official Manufacturer Defect Warranty.</li>
+              <li>Includes 100% Transit Damage Coverage by SKYNODESUAV India.</li>
+              <li>Input Tax Credit (ITC) subject to statutory GST filing rules under GSTR-2B.</li>
             </ul>
           </div>
 
           <div class="inv-totals-box">
-            <div class="t-row"><span>Item Subtotal:</span> <strong id="inv-subtotal-val">₹{subtotal.toLocaleString('en-IN')}.00</strong></div>
-            <div class="t-row"><span>GST (18% Output Tax):</span> <strong id="inv-gst-val">₹{gstTax.toLocaleString('en-IN')}.00</strong></div>
+            <div class="t-row"><span>Gross Subtotal:</span> <strong id="inv-subtotal-val">₹{subtotal.toLocaleString('en-IN')}.00</strong></div>
+            <div class="t-row"><span>Total Output GST Tax:</span> <strong id="inv-gst-val">₹{gstTax.toLocaleString('en-IN')}.00</strong></div>
             <div class="t-row"><span>Insured Freight Shipping:</span> <strong style="color: #059669;">FREE</strong></div>
             <hr />
             <div class="t-row grand-total">
@@ -139,24 +159,16 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
         </div>
 
       </div>
-
     </div>
   </main>
 
-  <CartDrawer />
-  <Footer />
-
   <style>
-    :global(body.bellavita-page-body) {
-      background-color: #fbf9f5 !important;
-      color: #1a1a1a !important;
-    }
-
     .page-padding {
       padding: 3rem 1.25rem 5rem;
     }
+
     .invoice-wrapper {
-      max-width: 860px;
+      max-width: 850px;
       margin: 0 auto;
     }
 
@@ -164,219 +176,224 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 1rem;
       margin-bottom: 1.5rem;
-      flex-wrap: wrap;
+      gap: 1rem;
     }
+
     .print-btn {
-      background: #1a1a1a;
-      color: #ffffff;
-      padding: 0.75rem 1.5rem;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.85rem;
+      font-weight: 800;
     }
+
     .btn-whatsapp-share {
       background: #25d366;
       color: #ffffff;
-      font-weight: 700;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
+      font-weight: 800;
       padding: 0.75rem 1.25rem;
       border-radius: var(--radius-sm);
+      text-decoration: none;
+      transition: background 0.2s ease;
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
+    }
+    .btn-whatsapp-share:hover {
+      background: #1da851;
     }
 
-    /* Paper styling */
+    /* Printable Sheet */
     .invoice-paper {
       background: #ffffff;
       border: 1px solid #d6cfc2;
       border-radius: var(--radius-md);
-      padding: 3rem;
-      box-shadow: var(--shadow-hover);
+      padding: 2.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
       color: #1a1a1a;
+      font-family: system-ui, -apple-system, sans-serif;
     }
 
     .inv-header {
       display: flex;
       justify-content: space-between;
-      gap: 2rem;
       align-items: flex-start;
+      gap: 2rem;
     }
+
     .inv-company-name {
       font-family: var(--font-display);
       font-size: 1.6rem;
-      font-weight: 800;
       color: #3b0811;
-      margin-bottom: 0.2rem;
+      margin: 0 0 0.2rem;
+      letter-spacing: -0.01em;
     }
-    .inv-company-sub {
-      font-size: 0.85rem;
+    .inv-subtitle {
+      font-size: 0.82rem;
       font-weight: 700;
       color: #1a1a1a;
+      margin: 0 0 0.3rem;
     }
-    .inv-company-addr, .inv-company-gst {
-      font-size: 0.8rem;
-      color: #555555;
-      margin-top: 0.2rem;
+    .inv-address {
+      font-size: 0.75rem;
+      color: #666666;
+      margin: 0;
+      line-height: 1.4;
     }
 
-    .inv-meta-right {
+    .inv-meta-box {
       text-align: right;
+      min-width: 220px;
     }
-    .inv-badge {
-      background: #3b0811;
-      color: #ffffff;
-      font-weight: 800;
-      font-size: 0.75rem;
-      padding: 0.25rem 0.75rem;
-      border-radius: 4px;
-      letter-spacing: 0.08em;
-      display: inline-block;
-      margin-bottom: 0.75rem;
+    .inv-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: #1a1a1a;
+      margin: 0 0 0.5rem;
+      letter-spacing: 0.05em;
     }
-    .inv-num-box {
-      font-size: 0.82rem;
-      margin-bottom: 0.2rem;
+    .inv-meta-row {
+      font-size: 0.8rem;
+      color: #555555;
+      margin: 0.2rem 0;
     }
-    .inv-num-box .lbl { color: #666666; margin-right: 0.4rem; }
-    .inv-num-box .val { color: #1a1a1a; font-weight: 700; }
+    .inv-meta-row .val {
+      color: #1a1a1a;
+    }
+    .status-paid {
+      color: #059669 !important;
+    }
+    .status-pending {
+      color: #d97706 !important;
+    }
 
     .inv-divider {
       border: none;
-      border-top: 1.5px solid #e6e0d5;
-      margin: 1.75rem 0;
+      border-top: 1px solid #e6e0d5;
+      margin: 1.5rem 0;
     }
 
-    .inv-addresses-grid {
+    .inv-parties-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 2rem;
-      margin-bottom: 2rem;
     }
-    .inv-address-box {
-      background: #fbf9f5;
-      border: 1px solid #e6e0d5;
-      padding: 1.25rem;
-      border-radius: var(--radius-sm);
+    .party-box h3 {
+      font-size: 0.82rem;
+      color: #666666;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 0 0 0.5rem;
+    }
+    .party-box p {
       font-size: 0.85rem;
+      margin: 0.2rem 0;
+      line-height: 1.4;
     }
-    .box-title {
-      font-size: 0.75rem;
-      font-weight: 800;
-      color: #3b0811;
-      letter-spacing: 0.06em;
-      margin-bottom: 0.5rem;
-    }
-    .inv-address-box p { color: #555555; margin-top: 0.25rem; }
 
-    /* Table */
+    .table-responsive-wrapper {
+      overflow-x: auto;
+    }
     .inv-items-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.85rem;
-      margin-bottom: 2rem;
+      font-size: 0.82rem;
     }
     .inv-items-table th {
-      background: #f3eee7;
+      background: #faf8f5;
       color: #1a1a1a;
-      font-weight: 800;
       text-align: left;
-      padding: 0.75rem 1rem;
+      padding: 0.75rem;
+      font-weight: 800;
       border-bottom: 2px solid #d6cfc2;
-      font-size: 0.78rem;
     }
     .inv-items-table td {
-      padding: 0.85rem 1rem;
-      border-bottom: 1px solid #e6e0d5;
+      padding: 0.75rem;
+      border-bottom: 1px solid #eee;
     }
 
     .inv-summary-flex {
       display: grid;
-      grid-template-columns: 1fr 300px;
+      grid-template-columns: 1fr 280px;
       gap: 2rem;
       align-items: flex-start;
-      margin-bottom: 2rem;
     }
     .inv-terms-notes {
       font-size: 0.78rem;
       color: #666666;
-      line-height: 1.6;
+      background: #faf8f5;
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid #e6e0d5;
     }
     .inv-terms-notes ul {
-      padding-left: 1.2rem;
-      margin-top: 0.3rem;
+      margin: 0.4rem 0 0;
+      padding-left: 1.1rem;
+    }
+    .inv-terms-notes li {
+      margin-bottom: 0.2rem;
     }
 
     .inv-totals-box {
-      background: #f3eee7;
-      border: 1px solid #e6e0d5;
-      padding: 1.25rem;
-      border-radius: var(--radius-sm);
       font-size: 0.85rem;
     }
     .t-row {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
       color: #555555;
     }
-    .t-row.grand-total {
-      font-size: 1.05rem;
+    .grand-total {
+      font-size: 1rem;
+      color: #1a1a1a;
       font-weight: 800;
-      color: #3b0811;
       margin-top: 0.5rem;
-      margin-bottom: 0;
     }
 
     .inv-footer-stamp {
-      border-top: 1.5px solid #e6e0d5;
-      padding-top: 1.5rem;
+      margin-top: 3rem;
       text-align: center;
-      font-size: 0.82rem;
-      color: #666666;
+      padding-top: 1.5rem;
+      border-top: 1px dashed #d6cfc2;
     }
     .stamp-badge {
       display: inline-block;
-      border: 1.5px solid #059669;
+      border: 2px solid #059669;
       color: #059669;
       font-weight: 800;
       font-size: 0.7rem;
       padding: 0.2rem 0.6rem;
+      letter-spacing: 0.1em;
       border-radius: 4px;
       margin-bottom: 0.4rem;
     }
-
-    .table-responsive-wrapper {
-      width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      margin-bottom: 1.5rem;
-      border-radius: var(--radius-sm);
+    .inv-footer-stamp p {
+      font-size: 0.78rem;
+      color: #666666;
+      margin: 0;
     }
 
     @media print {
-      :global(header), :global(footer), :global(.main-header), :global(.announcement-bar), :global(.nav-strip), :global(.sub-ticker-strip), :global(.whatsapp-float), .no-print {
+      .no-print, header, footer, nav, .bellavita-mobile-bottom-nav {
         display: none !important;
       }
-      :global(body) {
+      body {
         background: #ffffff !important;
-      }
-      .page-padding {
-        padding: 0 !important;
       }
       .invoice-paper {
         border: none !important;
         box-shadow: none !important;
         padding: 0 !important;
-        width: 100% !important;
+      }
+      .page-padding {
+        padding: 0 !important;
       }
     }
 
-    @media (max-width: 700px) {
-      .page-padding { padding: 1rem 0.5rem 4rem !important; }
-      .invoice-paper { padding: 1.25rem 0.85rem !important; width: 100% !important; box-sizing: border-box !important; }
-      .inv-header { flex-direction: column; gap: 1rem; }
-      .inv-meta-right { text-align: left; margin-top: 0.5rem; }
-      .inv-parties-grid, .inv-addresses-grid { grid-template-columns: 1fr; gap: 1rem; }
+    @media (max-width: 600px) {
+      .inv-header { flex-direction: column; }
+      .inv-meta-box { text-align: left; min-width: 100%; margin-top: 1rem; }
+      .inv-parties-grid { grid-template-columns: 1fr; gap: 1rem; }
       .inv-summary-flex { grid-template-columns: 1fr; gap: 1.5rem; }
       .inv-items-table { font-size: 0.72rem; min-width: 520px; }
       .inv-items-table th, .inv-items-table td { padding: 0.5rem 0.6rem; }
@@ -412,28 +429,110 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
         const custEmailEl = document.getElementById('inv-cust-email');
 
         if (custNameEl) custNameEl.textContent = order.customer.name;
-        if (custAddrEl) custAddrEl.textContent = `${order.customer.address}, ${order.customer.city}, ${order.customer.state || ''} - ${order.customer.pincode}`;
+        if (custAddrEl) custAddrEl.textContent = `${order.customer.address}, ${order.customer.city}, ${order.customer.state || 'Maharashtra'} - ${order.customer.pincode}`;
         if (custPhoneEl) custPhoneEl.textContent = `Phone: ${order.customer.phone}`;
         if (custEmailEl && order.customer.email) custEmailEl.textContent = `Email: ${order.customer.email}`;
+
+        // B2B Details
+        const b2bBadge = document.getElementById('b2b-itc-badge');
+        const b2bCompRow = document.getElementById('inv-b2b-company-row');
+        const b2bCompVal = document.getElementById('inv-cust-company-val');
+        const b2bGstinRow = document.getElementById('inv-b2b-gstin-row');
+        const b2bGstinVal = document.getElementById('inv-cust-gstin-val');
+        const docTitle = document.getElementById('inv-doc-title');
+
+        const isB2B = order.customer.isB2B || !!order.customer.gstin;
+
+        if (isB2B) {
+          if (b2bBadge) b2bBadge.style.display = 'block';
+          if (docTitle) docTitle.textContent = 'B2B TAX INVOICE';
+          if (b2bCompRow && order.customer.companyName) {
+            b2bCompRow.style.display = 'block';
+            if (b2bCompVal) b2bCompVal.textContent = order.customer.companyName;
+          }
+          if (b2bGstinRow && order.customer.gstin) {
+            b2bGstinRow.style.display = 'block';
+            if (b2bGstinVal) b2bGstinVal.textContent = order.customer.gstin;
+          }
+        }
 
         const awbEl = document.getElementById('inv-awb-val');
         if (awbEl) awbEl.textContent = order.awb || '#AWB-9871029412';
 
+        // Itemized Table with Base Price and GST Rate Breakdown
         const tbody = document.getElementById('inv-tbody-list');
+        const hsnMap: Record<string, { hsn: string; taxable: number; gstRate: number; taxAmt: number }> = {};
+
+        const isInterState = order.customer.state && !order.customer.state.toLowerCase().includes('maharashtra');
+
         if (tbody && order.items && order.items.length > 0) {
-          tbody.innerHTML = order.items.map((item: any, idx: number) => `
-            <tr>
-              <td>${idx + 1}</td>
-              <td>
-                <strong>${item.product.name}</strong>
-                <small style="display: block; color: #666; font-size: 0.72rem;">Category: ${item.product.categoryLabel || 'SKYNODES UAV'}</small>
-              </td>
-              <td>88033000</td>
-              <td>${item.quantity}</td>
-              <td>₹${item.product.price.toLocaleString('en-IN')}.00</td>
-              <td>₹${(item.product.price * item.quantity).toLocaleString('en-IN')}.00</td>
-            </tr>
-          `).join('');
+          tbody.innerHTML = order.items.map((item: any, idx: number) => {
+            const gstRate = item.product.gstRate ?? 18;
+            const hsnCode = item.product.hsnCode ?? '9503';
+            const lineTotal = item.product.price * item.quantity;
+            const lineBase = Math.round((lineTotal / (1 + gstRate / 100)) * 100) / 100;
+            const lineTax = Math.round((lineTotal - lineBase) * 100) / 100;
+
+            if (!hsnMap[hsnCode]) {
+              hsnMap[hsnCode] = { hsn: hsnCode, taxable: 0, gstRate, taxAmt: 0 };
+            }
+            hsnMap[hsnCode].taxable += lineBase;
+            hsnMap[hsnCode].taxAmt += lineTax;
+
+            return `
+              <tr>
+                <td>${idx + 1}</td>
+                <td>
+                  <strong>${item.product.name}</strong>
+                  <small style="display: block; color: #666; font-size: 0.72rem;">Category: ${item.product.categoryLabel || 'SKYNODES UAV'}</small>
+                </td>
+                <td>${hsnCode}</td>
+                <td>${item.quantity}</td>
+                <td>₹${lineBase.toLocaleString('en-IN')}.00</td>
+                <td><span style="font-weight: 700; color: #059669;">${gstRate}%</span></td>
+                <td>₹${lineTax.toLocaleString('en-IN')}.00</td>
+                <td>₹${lineTotal.toLocaleString('en-IN')}.00</td>
+              </tr>
+            `;
+          }).join('');
+        }
+
+        // HSN Summary Table Hydration
+        const hsnTbody = document.getElementById('hsn-summary-tbody');
+        const thCgst = document.getElementById('th-cgst');
+        const thSgst = document.getElementById('th-sgst');
+
+        if (isInterState) {
+          if (thCgst) thCgst.textContent = 'IGST Rate';
+          if (thSgst) thSgst.textContent = 'IGST Amount (₹)';
+        }
+
+        if (hsnTbody) {
+          hsnTbody.innerHTML = Object.values(hsnMap).map(h => {
+            if (isInterState) {
+              return `
+                <tr style="border-bottom: 1px solid #e2d9cc;">
+                  <td style="padding: 6px 8px; font-weight: 700;">${h.hsn}</td>
+                  <td style="padding: 6px 8px;">₹${h.taxable.toLocaleString('en-IN')}.00</td>
+                  <td style="padding: 6px 8px;">${h.gstRate}% IGST</td>
+                  <td style="padding: 6px 8px; font-weight: 700;">₹${h.taxAmt.toLocaleString('en-IN')}.00</td>
+                  <td style="padding: 6px 8px; font-weight: 800; color: #3b0811;">₹${h.taxAmt.toLocaleString('en-IN')}.00</td>
+                </tr>
+              `;
+            } else {
+              const halfRate = h.gstRate / 2;
+              const halfTax = Math.round((h.taxAmt / 2) * 100) / 100;
+              return `
+                <tr style="border-bottom: 1px solid #e2d9cc;">
+                  <td style="padding: 6px 8px; font-weight: 700;">${h.hsn}</td>
+                  <td style="padding: 6px 8px;">₹${h.taxable.toLocaleString('en-IN')}.00</td>
+                  <td style="padding: 6px 8px;">${halfRate}% (₹${halfTax.toLocaleString('en-IN')}.00)</td>
+                  <td style="padding: 6px 8px;">${halfRate}% (₹${halfTax.toLocaleString('en-IN')}.00)</td>
+                  <td style="padding: 6px 8px; font-weight: 800; color: #3b0811;">₹${h.taxAmt.toLocaleString('en-IN')}.00</td>
+                </tr>
+              `;
+            }
+          }).join('');
         }
 
         const subtotalEl = document.getElementById('inv-subtotal-val');
@@ -446,7 +545,8 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
 
         const waBtn = document.getElementById('inv-wa-share-btn') as HTMLAnchorElement;
         if (waBtn) {
-          const msg = encodeURIComponent(`Hi SKYNODES UAV Support, I have placed Order ${order.orderId} for ₹${order.total.toLocaleString('en-IN')} via ${order.paymentMethod}. Name: ${order.customer.name}, Phone: ${order.customer.phone}. Please confirm dispatch.`);
+          const b2bText = isB2B ? ` [B2B Tax Invoice - GSTIN: ${order.customer.gstin}]` : '';
+          const msg = encodeURIComponent(`Hi SKYNODES UAV Support, I have placed Order ${order.orderId}${b2bText} for ₹${order.total.toLocaleString('en-IN')} via ${order.paymentMethod}. Customer: ${order.customer.name}, Phone: ${order.customer.phone}. Please confirm dispatch.`);
           waBtn.href = `https://wa.me/917722009120?text=${msg}`;
         }
       } catch (e) {
@@ -462,5 +562,4 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
     document.addEventListener('astro:page-load', hydrateInvoiceData);
   </script>
 
-</body>
-</html>
+</BaseLayout>

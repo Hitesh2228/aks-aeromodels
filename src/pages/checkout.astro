@@ -1,72 +1,57 @@
 ---
-import Header from '../components/Header.astro';
-import CartDrawer from '../components/CartDrawer.astro';
-import LoginModal from '../components/LoginModal.astro';
-import Footer from '../components/Footer.astro';
-import '../styles/global.css';
-import GoogleTagManagerHead from '../components/GoogleTagManagerHead.astro';
-import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { PRODUCTS } from '../data/products';
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <GoogleTagManagerHead />
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Express Flight Checkout | SKYNODESUAV</title>
-  <meta name="description" content="Complete your aeromodelling order with secure UPI, Cards, NetBanking, or COD and instant GST tax invoice." />
-</head>
-<body class="bellavita-page-body">
-  <GoogleTagManagerBody />
-
-  <Header />
-  <LoginModal />
-
+<BaseLayout 
+  title="Checkout & Payment | SKYNODESUAV" 
+  description="Complete your order with 100% SSL payment security. Support UPI, Credit/Debit Cards, NetBanking, and Cash on Delivery."
+  bodyClass="bellavita-page-body"
+>
   <main class="container page-padding reveal-on-scroll">
-    <h1 class="checkout-page-title">EXPRESS FLIGHT CHECKOUT</h1>
-    <p class="checkout-page-sub">Enter shipping details and choose your preferred payment method</p>
+    <h1 class="checkout-page-title">SECURE CHECKOUT</h1>
+    <p class="checkout-page-sub">Fast 1-Step Checkout • 100% Insured Delivery across India</p>
 
     <div class="checkout-layout">
-      
-      <!-- Left Column: Shipping & Payment Form -->
-      <div class="checkout-form-column">
+
+      <!-- Left Column: Address & Payment Options -->
+      <div class="checkout-main">
         
-        <!-- Step 1: Customer Contact & Shipping Address -->
+        <!-- Step 1: Shipping Address & B2B GST Info -->
         <section class="checkout-card glass-panel">
           <h2 class="card-step-heading">
-            <span class="step-num">1</span> SHIPPING ADDRESS & DETAILS
+            <span class="step-num">1</span> SHIPPING ADDRESS & BILLING INFO
           </h2>
 
-          <!-- Saved Address 1-Click Picker -->
-          <div id="checkout-saved-addresses-wrap" style="display: none; margin-bottom: 1.5rem; background: #f0fdf4; border: 1px solid #a7f3d0; border-radius: 10px; padding: 1rem;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-              <strong style="font-size: 0.85rem; color: #065f46;">📍 1-CLICK FILL FROM YOUR SAVED ADDRESSES:</strong>
-              <a href="/profile" style="font-size: 0.75rem; color: #059669; text-decoration: underline; font-weight: 700;">Manage Address Book</a>
+          <form id="checkout-address-form" class="checkout-form">
+            <!-- Saved Addresses Quick Pick -->
+            <div id="saved-addresses-checkout-wrap" style="display: none; margin-bottom: 1.5rem; padding: 0.85rem; background: #faf8f5; border: 1px solid #e2d9cc; border-radius: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <span style="font-size: 0.78rem; font-weight: 800; color: #1a1a1a; letter-spacing: 0.04em;">📁 SELECT SAVED ADDRESS:</span>
+                <a href="/profile" style="font-size: 0.72rem; color: #3b0811; font-weight: 700; text-decoration: underline;">Manage Addresses</a>
+              </div>
+              <div id="saved-addresses-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem;"></div>
             </div>
-            <div id="checkout-saved-addresses-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem;"></div>
-          </div>
 
-          <form id="checkout-shipping-form" class="checkout-form">
             <div class="form-row-2">
               <div class="form-group">
                 <label>Full Name *</label>
-                <input type="text" id="cust-name" placeholder="e.g. Capt. Rajesh Sharma" required class="form-input" />
+                <input type="text" id="cust-name" placeholder="Capt. Rahul Sharma" required class="form-input" />
               </div>
               <div class="form-group">
-                <label>Phone Number (WhatsApp) *</label>
-                <input type="tel" id="cust-phone" placeholder="+91 98765 43210" required class="form-input" />
+                <label>Phone Number (for Courier SMS Alerts) *</label>
+                <input type="tel" id="cust-phone" placeholder="+91 98100 12345" required class="form-input" />
               </div>
             </div>
 
             <div class="form-group">
-              <label>Email Address *</label>
-              <input type="email" id="cust-email" placeholder="name@domain.com" required class="form-input" />
+              <label>Email Address (For Tax Invoice & Order Updates) *</label>
+              <input type="email" id="cust-email" placeholder="pilot@skynodesuav.com" required class="form-input" />
             </div>
 
             <div class="form-group">
-              <label>Complete Delivery Address (House No, Street, Landmark) *</label>
-              <input type="text" id="cust-address" placeholder="e.g. Plot No 45, Near Civil Airport Road" required class="form-input" />
+              <label>Street Address / House No. / Flying Field *</label>
+              <input type="text" id="cust-address" placeholder="Flat 402, Aerohaven Apts, Main Road" required class="form-input" />
             </div>
 
             <div class="form-row-3">
@@ -76,7 +61,23 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
               </div>
               <div class="form-group">
                 <label>State *</label>
-                <input type="text" id="cust-state" placeholder="Maharashtra" required class="form-input" />
+                <select id="cust-state" required class="form-input" style="background: #fff;">
+                  <option value="Maharashtra" selected>Maharashtra</option>
+                  <option value="Delhi">Delhi</option>
+                  <option value="Karnataka">Karnataka</option>
+                  <option value="Gujarat">Gujarat</option>
+                  <option value="Tamil Nadu">Tamil Nadu</option>
+                  <option value="Telangana">Telangana</option>
+                  <option value="Uttar Pradesh">Uttar Pradesh</option>
+                  <option value="West Bengal">West Bengal</option>
+                  <option value="Haryana">Haryana</option>
+                  <option value="Punjab">Punjab</option>
+                  <option value="Rajasthan">Rajasthan</option>
+                  <option value="Madhya Pradesh">Madhya Pradesh</option>
+                  <option value="Kerala">Kerala</option>
+                  <option value="Andhra Pradesh">Andhra Pradesh</option>
+                  <option value="Other">Other State</option>
+                </select>
               </div>
               <div class="form-group">
                 <label>PIN Code *</label>
@@ -84,9 +85,28 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
               </div>
             </div>
 
-            <div class="form-group">
-              <label>B2B GSTIN Number (Optional for 18% Input Tax Credit)</label>
-              <input type="text" id="cust-gstin" placeholder="27AAAAA0000A1Z5" class="form-input" />
+            <!-- B2B / B2C GST Optional Card (360° Indian Market Standard) -->
+            <div class="b2b-gst-box" style="margin-top: 1.25rem; padding: 1.1rem; background: #faf8f5; border: 1px dashed #d6cfc2; border-radius: 6px;">
+              <label style="display: flex; align-items: center; gap: 0.65rem; font-size: 0.88rem; font-weight: 700; color: #1a1a1a; cursor: pointer; user-select: none;">
+                <input type="checkbox" id="b2b-gst-toggle" style="width: 18px; height: 18px; accent-color: #3b0811; cursor: pointer;" />
+                <span>🏢 Buying for Business / Flying Club? (Add GSTIN for Input Tax Credit)</span>
+              </label>
+              
+              <div id="b2b-fields-container" style="display: none; margin-top: 1rem; padding-top: 0.85rem; border-top: 1px dashed #e2d9cc;">
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label>Company / Business Name *</label>
+                    <input type="text" id="cust-company" placeholder="e.g. Vayu Aero Flying Club Pvt Ltd" class="form-input" />
+                  </div>
+                  <div class="form-group">
+                    <label>15-Digit GSTIN Number *</label>
+                    <input type="text" id="cust-gstin" placeholder="e.g. 27AAAAA0000A1Z5" maxlength="15" style="text-transform: uppercase;" class="form-input" />
+                  </div>
+                </div>
+                <small style="display: block; margin-top: 0.35rem; font-size: 0.73rem; color: #666666;">
+                  💡 B2B Tax Invoice with statutory HSN breakdown will be generated for Input Tax Credit (ITC) claiming in GSTR-3B.
+                </small>
+              </div>
             </div>
           </form>
         </section>
@@ -138,71 +158,73 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
 
       </div>
 
-      <!-- Right Column: Order Summary Box -->
-      <aside class="checkout-summary-column">
-        <div class="summary-card glass-panel sticky-summary">
-          <h3 class="summary-title">ORDER SUMMARY</h3>
-          
-          <div class="summary-items-list" id="checkout-items-list">
-            <!-- Hydrated via JS -->
+      <!-- Right Column: Order Summary & Coupon Promo Box -->
+      <aside class="checkout-sidebar">
+        <div class="checkout-card glass-panel sticky-summary">
+          <h2 class="card-step-heading">ORDER SUMMARY</h2>
+
+          <div class="summary-items-list" id="summary-items-list">
+            <!-- Hydrated by JS -->
           </div>
 
           <!-- Promo Coupon Code Box -->
           <div class="promo-coupon-box">
-            <div class="promo-title-line">
-              <span>🎟️ HAVE A PROMO / DISCOUNT CODE?</span>
-            </div>
+            <div class="promo-title-line">🏷️ HAVE A PROMO CODE / COUPON?</div>
             <div class="promo-input-group">
-              <input type="text" id="coupon-code-input" placeholder="e.g. SKY80 / PILOT10" class="promo-code-input" />
+              <input type="text" id="coupon-code-input" placeholder="e.g. SKY80 or PILOT10" class="promo-code-input" />
               <button type="button" id="apply-coupon-btn" class="btn-apply-coupon">APPLY</button>
             </div>
-            <div class="suggested-coupon-pills">
-              <button type="button" class="coupon-chip-btn" data-code="SKY80">🏷️ SKY80 (₹80 OFF)</button>
-              <button type="button" class="coupon-chip-btn" data-code="PILOT10">🏷️ PILOT10 (10% OFF)</button>
+            
+            <div class="suggested-coupons-wrap" style="margin-top: 0.6rem;">
+              <span style="font-size: 0.68rem; color: #666; font-weight: 600;">Click to apply:</span>
+              <div class="suggested-coupon-pills">
+                <button type="button" class="coupon-chip-btn" data-code="SKY80">SKY80 (₹80 OFF)</button>
+                <button type="button" class="coupon-chip-btn" data-code="PILOT10">PILOT10 (10% OFF)</button>
+              </div>
             </div>
+
             <div id="coupon-discount-notice" class="coupon-notice-badge" style="display: none;"></div>
           </div>
 
+          <hr class="summary-divider" />
+
           <div class="summary-totals">
             <div class="total-row">
-              <span>Item Subtotal:</span>
+              <span>Items Total (Incl. GST):</span>
               <strong id="chk-subtotal">₹0.00</strong>
             </div>
+
             <div class="total-row" id="coupon-discount-row" style="display: none; color: #059669;">
-              <span>Coupon Discount:</span>
+              <span>Promo Coupon Discount:</span>
               <strong id="chk-coupon-discount">-₹0.00</strong>
             </div>
+
             <div class="total-row">
-              <span>GST Output Tax (18% Included):</span>
+              <span id="chk-gst-label">Est. Included GST (5%/12%/18%):</span>
               <strong id="chk-gst">₹0.00</strong>
             </div>
+
             <div class="total-row">
-              <span>Insured Air Freight:</span>
+              <span>Insured Flight Shipping:</span>
               <strong style="color: #059669;">FREE</strong>
             </div>
+
             <hr class="summary-divider" />
+
             <div class="total-row grand-total-row">
               <span>TOTAL PAYABLE:</span>
-              <strong id="chk-total" class="grand-price">₹0.00</strong>
+              <strong class="grand-price" id="chk-total">₹0.00</strong>
             </div>
           </div>
 
-          <div class="trust-guarantee-box">
-            <span class="shield-icon">🛡️</span>
-            <div>
-              <strong>100% Transit Protection</strong>
-              <small>Free replacement if damaged during courier transit.</small>
-            </div>
+          <div class="guarantee-box" style="margin-top: 1.5rem; font-size: 0.75rem; color: #666; background: #fdf8f4; padding: 0.75rem; border-radius: 4px; border: 1px solid #f3e5d8;">
+            🛡️ <strong>100% Transit Protection:</strong> If any part arrives damaged, we replace it instantly for free.
           </div>
-
         </div>
       </aside>
 
     </div>
   </main>
-
-  <CartDrawer />
-  <Footer />
 
   <style>
     :global(body.bellavita-page-body) {
@@ -269,6 +291,30 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
       flex-direction: column;
       gap: 1.25rem;
     }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .form-group label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #333333;
+    }
+    .form-input {
+      background: #faf8f5;
+      border: 1px solid #d6cfc2;
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      color: #1a1a1a;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    .form-input:focus {
+      border-color: #3b0811;
+      background: #ffffff;
+    }
     .form-row-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -279,30 +325,8 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
       grid-template-columns: 1fr 1fr 1fr;
       gap: 1.25rem;
     }
-    .form-group label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: #1a1a1a;
-      margin-bottom: 0.35rem;
-    }
-    .form-input {
-      width: 100%;
-      background: #fbf9f5;
-      border: 1px solid #d6cfc2;
-      border-radius: var(--radius-sm);
-      padding: 0.75rem 1rem;
-      color: #1a1a1a;
-      font-size: 0.88rem;
-      outline: none;
-      transition: var(--transition-fast);
-    }
-    .form-input:focus {
-      border-color: #3b0811;
-      background: #ffffff;
-    }
 
-    /* Payment Cards */
+    /* Payment Options */
     .payment-options-grid {
       display: flex;
       flex-direction: column;
@@ -312,80 +336,57 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
       display: flex;
       align-items: flex-start;
       gap: 1rem;
-      background: #fbf9f5;
+      padding: 1.1rem;
+      background: #faf8f5;
       border: 1.5px solid #e6e0d5;
       border-radius: var(--radius-sm);
-      padding: 1rem 1.25rem;
       cursor: pointer;
-      transition: var(--transition-fast);
+      transition: all 0.2s ease;
     }
     .pay-option-card:hover, .pay-option-card.active {
-      background: #ffffff;
       border-color: #3b0811;
-      box-shadow: 0 4px 15px rgba(59, 8, 17, 0.06);
+      background: #ffffff;
     }
-    .pay-option-card input {
+    .pay-option-card input[type="radio"] {
       margin-top: 0.2rem;
       accent-color: #3b0811;
     }
     .pay-content strong {
       display: block;
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       color: #1a1a1a;
+      margin-bottom: 0.15rem;
     }
     .pay-content small {
-      font-size: 0.78rem;
       color: #666666;
+      font-size: 0.78rem;
     }
 
     .btn-place-order {
-      background: #3b0811;
-      color: #ffffff;
-      font-weight: 800;
+      padding: 1.1rem;
       font-size: 0.95rem;
-      padding: 1rem;
-      border-radius: var(--radius-sm);
+      font-weight: 800;
       letter-spacing: 0.05em;
     }
-    .btn-place-order:hover {
-      background: #5c121e;
-      transform: translateY(-2px);
-    }
 
-    /* Summary Side */
+    /* Sidebar Summary */
     .sticky-summary {
       position: sticky;
-      top: 90px;
-      background: #ffffff;
-      border: 1px solid #e6e0d5;
-      border-radius: var(--radius-md);
-      padding: 1.75rem;
+      top: 2rem;
     }
-    .summary-title {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      color: #3b0811;
-      border-bottom: 1.5px solid #e6e0d5;
-      padding-bottom: 0.6rem;
-      margin-bottom: 1.25rem;
-    }
-
     .summary-items-list {
       display: flex;
       flex-direction: column;
       gap: 0.85rem;
-      max-height: 280px;
-      overflow-y: auto;
       margin-bottom: 1.25rem;
-      padding-right: 0.25rem;
+      max-height: 260px;
+      overflow-y: auto;
     }
     :global(.chk-item-row) {
       display: flex;
-      gap: 0.85rem;
       align-items: center;
+      gap: 0.85rem;
       font-size: 0.82rem;
-      border-bottom: 1px solid #f3eee7;
-      padding-bottom: 0.6rem;
     }
     :global(.chk-item-img) {
       width: 48px;
@@ -395,7 +396,7 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
       border: 1px solid #e6e0d5;
     }
     :global(.chk-item-info) {
-      flex-grow: 1;
+      flex: 1;
     }
     :global(.chk-item-name) {
       font-weight: 700;
@@ -448,15 +449,15 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
       font-weight: 800;
       color: #1a1a1a;
       letter-spacing: 0.04em;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.5rem;
     }
     .promo-input-group {
       display: flex;
-      gap: 0.5rem;
-      margin-bottom: 0.6rem;
+      gap: 0.4rem;
     }
     .promo-code-input {
       flex: 1;
+      background: #ffffff;
       border: 1px solid #d1d5db;
       border-radius: 4px;
       padding: 0.5rem 0.65rem;
@@ -518,40 +519,60 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
     .coupon-notice-badge.error {
       background: #fef2f2;
       color: #991b1b;
-      border: 1px solid #fca5a5;
+      border: 1px solid #fecaca;
     }
-
-    .trust-guarantee-box {
-      margin-top: 1.5rem;
-      background: #f3eee7;
-      border: 1px solid #e6e0d5;
-      padding: 0.85rem;
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .shield-icon { font-size: 1.4rem; }
-    .trust-guarantee-box strong { display: block; font-size: 0.8rem; color: #1a1a1a; }
-    .trust-guarantee-box small { font-size: 0.7rem; color: #666666; }
 
     @media (max-width: 900px) {
-      .checkout-layout { grid-template-columns: 1fr; }
-      .form-row-2, .form-row-3 { grid-template-columns: 1fr; }
+      .checkout-layout {
+        grid-template-columns: 1fr;
+      }
+      .form-row-2, .form-row-3 {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 
   <script>
-    import { getCartHydrated, saveCartToStorage } from '../lib/cartStore';
-    import { syncCartToShopifyStorefront } from '../lib/shopify';
+    import { getCartFromStorage, getCachedProduct } from '../lib/cartStore';
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const itemsList = document.getElementById('checkout-items-list');
+    function getCartHydrated() {
+      const items = getCartFromStorage();
+      return items.map(item => {
+        const product = item.productData || getCachedProduct(item.productId) || {
+          id: item.productId,
+          name: `Product (${item.productId})`,
+          price: 12499,
+          originalPrice: 15999,
+          gstRate: 18,
+          hsnCode: '9503',
+          image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=400',
+          category: 'engine',
+          categoryLabel: 'Engine'
+        };
+        return {
+          ...item,
+          product
+        };
+      });
+    }
+
+    function initCheckout() {
+      const itemsList = document.getElementById('summary-items-list');
       const subtotalEl = document.getElementById('chk-subtotal');
       const gstEl = document.getElementById('chk-gst');
       const totalEl = document.getElementById('chk-total');
       const placeOrderBtn = document.getElementById('place-order-btn');
       const payOptions = document.querySelectorAll('.pay-option-card');
+
+      // B2B GST Toggle Handler
+      const b2bToggle = document.getElementById('b2b-gst-toggle') as HTMLInputElement;
+      const b2bFieldsContainer = document.getElementById('b2b-fields-container');
+
+      if (b2bToggle && b2bFieldsContainer) {
+        b2bToggle.addEventListener('change', () => {
+          b2bFieldsContainer.style.display = b2bToggle.checked ? 'block' : 'none';
+        });
+      }
 
       payOptions.forEach(opt => {
         opt.addEventListener('click', () => {
@@ -569,27 +590,33 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
       if (hydrated.length === 0) {
         itemsList.innerHTML = `<p style="font-size: 0.85rem; color: #888;">Your cart is empty. <a href="/shop" style="color: #3b0811; font-weight: 700;">Browse catalog</a></p>`;
       } else {
-        const subtotal = hydrated.reduce((acc, cur) => acc + (cur.product.price * cur.quantity), 0);
-        const gst = Math.round(subtotal * 0.18);
-        const total = subtotal;
-
-        if (subtotalEl) subtotalEl.textContent = `₹${subtotal.toLocaleString('en-IN')}.00`;
-        if (gstEl) gstEl.textContent = `₹${gst.toLocaleString('en-IN')}.00`;
-        if (totalEl) totalEl.textContent = `₹${total.toLocaleString('en-IN')}.00`;
-
-        itemsList.innerHTML = hydrated.map(item => `
-          <div class="chk-item-row">
-            <img src="${item.product.image}" alt="${item.product.name}" class="chk-item-img" />
-            <div class="chk-item-info">
-              <div class="chk-item-name">${item.product.name}</div>
-              <div class="chk-item-qty">Qty: ${item.quantity} × ₹${item.product.price.toLocaleString('en-IN')}</div>
+        itemsList.innerHTML = hydrated.map(item => {
+          const gstPercent = item.product.gstRate ?? 18;
+          return `
+            <div class="chk-item-row">
+              <img src="${item.product.image}" alt="${item.product.name}" class="chk-item-img" />
+              <div class="chk-item-info">
+                <div class="chk-item-name">${item.product.name}</div>
+                <div class="chk-item-qty">Qty: ${item.quantity} × ₹${item.product.price.toLocaleString('en-IN')} <span style="font-size: 0.68rem; color: #059669; font-weight: 700;">(GST ${gstPercent}%)</span></div>
+              </div>
+              <strong>₹${(item.product.price * item.quantity).toLocaleString('en-IN')}</strong>
             </div>
-            <strong>₹${(item.product.price * item.quantity).toLocaleString('en-IN')}</strong>
-          </div>
-        `).join('');
+          `;
+        }).join('');
       }
 
-      // Promo Coupon Code Application Logic
+      // Multi-tier Tax Calculation (5%, 12%, 18%)
+      const rawSubtotal = hydrated.reduce((acc, cur) => acc + (cur.product.price * cur.quantity), 0);
+      
+      let rawEstTax = 0;
+      hydrated.forEach(cur => {
+        const gstRate = cur.product.gstRate ?? 18;
+        const lineTotal = cur.product.price * cur.quantity;
+        const baseLine = lineTotal / (1 + gstRate / 100);
+        rawEstTax += (lineTotal - baseLine);
+      });
+      rawEstTax = Math.round(rawEstTax);
+
       let appliedDiscountAmount = 0;
       let appliedCouponCode = '';
 
@@ -600,15 +627,19 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
       const couponDiscountEl = document.getElementById('chk-coupon-discount');
       const chipBtns = document.querySelectorAll('.coupon-chip-btn');
 
-      const rawSubtotal = hydrated.reduce((acc, cur) => acc + (cur.product.price * cur.quantity), 0);
-
       function updateTotalsWithDiscount() {
         const finalSubtotal = Math.max(0, rawSubtotal - appliedDiscountAmount);
-        const gst = Math.round(finalSubtotal * 0.18);
+        
+        let estGst = 0;
+        if (rawSubtotal > 0) {
+          const discountRatio = finalSubtotal / rawSubtotal;
+          estGst = Math.round(rawEstTax * discountRatio);
+        }
+
         const total = finalSubtotal;
 
         if (subtotalEl) subtotalEl.textContent = `₹${rawSubtotal.toLocaleString('en-IN')}.00`;
-        if (gstEl) gstEl.textContent = `₹${gst.toLocaleString('en-IN')}.00`;
+        if (gstEl) gstEl.textContent = `₹${estGst.toLocaleString('en-IN')}.00`;
         if (totalEl) totalEl.textContent = `₹${total.toLocaleString('en-IN')}.00`;
 
         if (appliedDiscountAmount > 0 && couponDiscountRow && couponDiscountEl) {
@@ -619,63 +650,58 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
         }
       }
 
-      function handleApplyCoupon(codeToApply: string) {
-        const code = codeToApply.trim().toUpperCase();
-        if (!code) return;
+      function applyCoupon(code: string) {
+        const cleanCode = code.trim().toUpperCase();
+        if (!cleanCode) return;
 
-        if (code === 'SKY80') {
+        if (cleanCode === 'SKY80') {
           appliedDiscountAmount = 80;
           appliedCouponCode = 'SKY80';
           if (couponNotice) {
-            couponNotice.className = 'coupon-notice-badge success';
             couponNotice.style.display = 'block';
-            couponNotice.textContent = '🎉 Coupon SKY80 Applied! You saved ₹80.00';
+            couponNotice.className = 'coupon-notice-badge success';
+            couponNotice.textContent = '🎉 Coupon SKY80 Applied! ₹80 Instant Discount Granted.';
           }
-        } else if (code === 'PILOT10') {
+        } else if (cleanCode === 'PILOT10') {
           appliedDiscountAmount = Math.round(rawSubtotal * 0.10);
           appliedCouponCode = 'PILOT10';
           if (couponNotice) {
-            couponNotice.className = 'coupon-notice-badge success';
             couponNotice.style.display = 'block';
-            couponNotice.textContent = `🎉 Coupon PILOT10 Applied! You saved ₹${appliedDiscountAmount.toLocaleString('en-IN')}.00`;
-          }
-        } else if (code === 'FIRSTPILOT' && rawSubtotal >= 10000) {
-          appliedDiscountAmount = 500;
-          appliedCouponCode = 'FIRSTPILOT';
-          if (couponNotice) {
             couponNotice.className = 'coupon-notice-badge success';
-            couponNotice.style.display = 'block';
-            couponNotice.textContent = '🎉 VIP Coupon FIRSTPILOT Applied! You saved ₹500.00';
+            couponNotice.textContent = `🎉 Coupon PILOT10 Applied! 10% Off (Saved ₹${appliedDiscountAmount.toLocaleString('en-IN')}).`;
           }
         } else {
           appliedDiscountAmount = 0;
           appliedCouponCode = '';
           if (couponNotice) {
-            couponNotice.className = 'coupon-notice-badge error';
             couponNotice.style.display = 'block';
-            couponNotice.textContent = '❌ Invalid or expired coupon code. Try SKY80 or PILOT10.';
+            couponNotice.className = 'coupon-notice-badge error';
+            couponNotice.textContent = '❌ Invalid Coupon Code. Try SKY80 or PILOT10.';
           }
         }
         updateTotalsWithDiscount();
       }
 
       applyCouponBtn?.addEventListener('click', () => {
-        if (couponInput) handleApplyCoupon(couponInput.value);
+        if (couponInput) applyCoupon(couponInput.value);
       });
 
-      chipBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const code = btn.getAttribute('data-code');
-          if (code && couponInput) {
-            couponInput.value = code;
-            handleApplyCoupon(code);
+      chipBtns.forEach(chip => {
+        chip.addEventListener('click', (e) => {
+          const code = (e.currentTarget as HTMLElement).getAttribute('data-code');
+          if (code) {
+            if (couponInput) couponInput.value = code;
+            applyCoupon(code);
           }
         });
       });
 
+      updateTotalsWithDiscount();
+
+      // Saved Addresses Autofill
       function initSavedAddressesOnCheckout() {
-        const wrap = document.getElementById('checkout-saved-addresses-wrap');
-        const grid = document.getElementById('checkout-saved-addresses-grid');
+        const wrap = document.getElementById('saved-addresses-checkout-wrap');
+        const grid = document.getElementById('saved-addresses-grid');
         if (!wrap || !grid) return;
 
         try {
@@ -696,13 +722,21 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
               (document.getElementById('cust-phone') as HTMLInputElement).value = a.phone || '';
               (document.getElementById('cust-address') as HTMLInputElement).value = a.street || '';
               (document.getElementById('cust-city') as HTMLInputElement).value = a.city || '';
-              (document.getElementById('cust-state') as HTMLInputElement).value = a.state || 'Maharashtra';
+              (document.getElementById('cust-state') as HTMLSelectElement).value = a.state || 'Maharashtra';
               (document.getElementById('cust-pincode') as HTMLInputElement).value = a.pincode || '';
 
               const savedEmail = localStorage.getItem('skynodes_pilot_email');
               if (savedEmail) (document.getElementById('cust-email') as HTMLInputElement).value = savedEmail;
               const savedGstin = localStorage.getItem('skynodes_pilot_gstin');
-              if (savedGstin) (document.getElementById('cust-gstin') as HTMLInputElement).value = savedGstin;
+              if (savedGstin) {
+                (document.getElementById('cust-gstin') as HTMLInputElement).value = savedGstin;
+                if (b2bToggle) {
+                  b2bToggle.checked = true;
+                  if (b2bFieldsContainer) b2bFieldsContainer.style.display = 'block';
+                }
+              }
+              const savedCompany = localStorage.getItem('skynodes_pilot_company');
+              if (savedCompany) (document.getElementById('cust-company') as HTMLInputElement).value = savedCompany;
             };
 
             const defaultAddr = list.find((a: any) => a.isDefault) || list[0];
@@ -728,12 +762,20 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
         const email = (document.getElementById('cust-email') as HTMLInputElement)?.value.trim();
         const address = (document.getElementById('cust-address') as HTMLInputElement)?.value.trim();
         const city = (document.getElementById('cust-city') as HTMLInputElement)?.value.trim();
-        const state = (document.getElementById('cust-state') as HTMLInputElement)?.value.trim();
+        const state = (document.getElementById('cust-state') as HTMLSelectElement)?.value.trim();
         const pincode = (document.getElementById('cust-pincode') as HTMLInputElement)?.value.trim();
-        const gstin = (document.getElementById('cust-gstin') as HTMLInputElement)?.value.trim();
+        
+        const isB2B = (document.getElementById('b2b-gst-toggle') as HTMLInputElement)?.checked || false;
+        const companyName = (document.getElementById('cust-company') as HTMLInputElement)?.value.trim() || '';
+        const gstin = (document.getElementById('cust-gstin') as HTMLInputElement)?.value.trim().toUpperCase() || '';
 
         if (!name || !phone || !email || !address || !city || !pincode) {
           alert('Please fill in all required Shipping Address details (*).');
+          return;
+        }
+
+        if (isB2B && (!companyName || !gstin)) {
+          alert('🏢 B2B Invoice Option Selected:\nPlease enter both Company Name and 15-Digit GSTIN Number.');
           return;
         }
 
@@ -748,8 +790,13 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
         const selectedPayRadio = document.querySelector('input[name="pay-method"]:checked') as HTMLInputElement;
         const payMethodVal = selectedPayRadio?.value || 'cod';
 
-        const subtotal = hydrated.reduce((acc, cur) => acc + (cur.product.price * cur.quantity), 0);
-        const gst = Math.round(subtotal * 0.18);
+        const subtotal = Math.max(0, rawSubtotal - appliedDiscountAmount);
+        
+        let gst = 0;
+        if (rawSubtotal > 0) {
+          const discountRatio = subtotal / rawSubtotal;
+          gst = Math.round(rawEstTax * discountRatio);
+        }
         const total = subtotal;
 
         const orderId = `#SKY-INV-2026-${Math.floor(1000 + Math.random() * 9000)}`;
@@ -759,47 +806,48 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
         const paymentLabel = payMethodVal === 'cod' ? 'CASH ON DELIVERY (COD)' : 'PAID (ONLINE)';
         const statusLabel = payMethodVal === 'cod' ? 'PENDING (COD UPON DELIVERY)' : 'PAID (ONLINE)';
 
-        const orderObj: Record<string, any> = {
+        const currentOrder = {
           orderId,
+          awb,
           date: todayDate,
-          customer: { name, phone, email, address, city, state, pincode, gstin },
+          paymentMethod: paymentLabel,
+          status: statusLabel,
+          customer: {
+            name,
+            phone,
+            email,
+            address,
+            city,
+            state,
+            pincode,
+            isB2B,
+            companyName,
+            gstin
+          },
           items: hydrated,
           subtotal,
           gst,
           total,
-          paymentMethod: paymentLabel,
-          status: statusLabel,
-          awb,
-          shopifyCheckoutUrl: ''
+          appliedCouponCode,
+          appliedDiscountAmount
         };
 
-        // Save order to localStorage
-        localStorage.setItem('skynodes_last_order', JSON.stringify(orderObj));
-        
         try {
-          const existingHistory = JSON.parse(localStorage.getItem('skynodes_orders_history') || '[]');
-          localStorage.setItem('skynodes_orders_history', JSON.stringify([orderObj, ...existingHistory]));
+          localStorage.setItem('skynodes_last_order', JSON.stringify(currentOrder));
+          if (email) localStorage.setItem('skynodes_pilot_email', email);
+          if (gstin) localStorage.setItem('skynodes_pilot_gstin', gstin);
+          if (companyName) localStorage.setItem('skynodes_pilot_company', companyName);
         } catch (err) {}
 
-        // Async sync to Shopify Storefront API to get official checkoutUrl
-        let shopifyCheckoutUrl = `https://skynodesuav.myshopify.com/cart`;
-        try {
-          shopifyCheckoutUrl = await syncCartToShopifyStorefront(orderObj);
-        } catch (err) {
-          console.error('[Shopify Sync Warning]', err);
-        }
-
-        orderObj.shopifyCheckoutUrl = shopifyCheckoutUrl;
-        localStorage.setItem('skynodes_last_order', JSON.stringify(orderObj));
-
-        // Clear local cart
-        saveCartToStorage([]);
-
-        alert(`✅ Order ${orderId} Placed Successfully!\n\nRedirecting to your Official Tax Invoice Bill...`);
         window.location.href = '/invoice';
       });
-    });
-  </script>
+    }
 
-</body>
-</html>
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCheckout);
+    } else {
+      initCheckout();
+    }
+    document.addEventListener('astro:page-load', initCheckout);
+  </script>
+</BaseLayout>
