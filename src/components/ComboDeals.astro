@@ -27,7 +27,13 @@ const homepageDeals = crazyDealProducts.slice(0, 3);
                 <span class="deal-tag-only">LIMITED TIME</span>
               </div>
               
-              <div class="deal-media">
+              <div class="deal-media" style="position: relative;">
+                <button type="button" class="btn-share-product" data-url={`/product/${deal.id}`} data-title={deal.name} data-text={`Check out ${deal.name} on SKYNODES UAV!`} aria-label="Share Product" title="Share Product">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                  </svg>
+                </button>
                 <img src={deal.image} alt={deal.name} />
               </div>
               
@@ -155,6 +161,7 @@ const homepageDeals = crazyDealProducts.slice(0, 3);
 
   /* Bellavita Soft Off-White Image Stage */
   .deal-media {
+    position: relative;
     width: 100%;
     height: 220px;
     background: #f4f4f6;
@@ -175,6 +182,29 @@ const homepageDeals = crazyDealProducts.slice(0, 3);
   }
   .crazy-deal-card:hover .deal-media img {
     transform: scale(1.05);
+  }
+
+  .btn-share-product {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  }
+  .btn-share-product:hover {
+    transform: scale(1.1);
+    background: #ffffff;
+    border-color: #3b0811;
   }
 
   .deal-label {
@@ -238,3 +268,14 @@ const homepageDeals = crazyDealProducts.slice(0, 3);
     .deal-label { font-size: 0.78rem; }
   }
 </style>
+
+<script>
+  import { initShareButtons } from '../lib/shareHelper';
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initShareButtons);
+  } else {
+    initShareButtons();
+  }
+  document.addEventListener('astro:page-load', initShareButtons);
+</script>

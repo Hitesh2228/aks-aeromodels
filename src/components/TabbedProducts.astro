@@ -34,6 +34,12 @@ if (newArrivals.length === 0) newArrivals = PRODUCTS.slice(4, 12);
             <div class="card-media">
               <span class="badge-bestseller">BESTSELLER</span>
               {product.discountBadge && <span class="bellavita-offer-badge">{product.discountBadge}</span>}
+              <button type="button" class="btn-share-product" data-url={`/product/${product.id}`} data-title={product.name} data-text={`Check out ${product.name} on SKYNODES UAV!`} aria-label="Share Product" title="Share Product">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                </svg>
+              </button>
               <a href={`/product/${product.id}`}>
                 <img src={product.image} alt={product.name} class="product-img" loading="lazy" />
               </a>
@@ -70,6 +76,12 @@ if (newArrivals.length === 0) newArrivals = PRODUCTS.slice(4, 12);
           <div class="bellavita-card">
             <div class="card-media">
               <span class="bellavita-offer-badge" style="background: #e0f2fe; color: #0284c7;">NEW ARRIVAL</span>
+              <button type="button" class="btn-share-product" data-url={`/product/${product.id}`} data-title={product.name} data-text={`Check out ${product.name} on SKYNODES UAV!`} aria-label="Share Product" title="Share Product">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                </svg>
+              </button>
               <a href={`/product/${product.id}`}>
                 <img src={product.image} alt={product.name} class="product-img" loading="lazy" />
               </a>
@@ -192,6 +204,28 @@ if (newArrivals.length === 0) newArrivals = PRODUCTS.slice(4, 12);
     justify-content: center;
     padding: 1.25rem;
     box-sizing: border-box;
+  }
+  .btn-share-product {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  }
+  .btn-share-product:hover {
+    transform: scale(1.1);
+    background: #ffffff;
+    border-color: #3b0811;
   }
   .product-img {
     width: 100%;
@@ -372,8 +406,10 @@ if (newArrivals.length === 0) newArrivals = PRODUCTS.slice(4, 12);
 
 <script>
   import { addToCart, registerProductsCache } from '../lib/cartStore';
+  import { initShareButtons } from '../lib/shareHelper';
 
   function initTabbedProducts() {
+    initShareButtons();
     const jsonEl = document.getElementById('tabbed-products-json');
     if (jsonEl?.textContent) {
       try {
