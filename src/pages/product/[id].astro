@@ -1246,26 +1246,63 @@ const productSchema = {
     .photos-flex { display: flex; gap: 1rem; overflow-x: auto; }
     .photos-flex img { width: 90px; height: 90px; object-fit: cover; border-radius: 4px; border: 1px solid #e6e0d5; }
 
-    /* Verified Pilot Reviews */
-    .pdf-reviews-list { display: flex; flex-direction: column; gap: 1.25rem; }
-    .pdf-review-card {
-      background: #ffffff;
-      border: 1px solid #e6e0d5;
-      border-radius: var(--radius-sm);
-      padding: 1.75rem;
-    }
-    .rev-card-top-header {
+    /* Verified Pilot Reviews - Global so dynamically inserted user reviews match 100% identically */
+    :global(.pdf-reviews-list) {
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 0.75rem;
+      flex-direction: column;
+      gap: 1.25rem;
     }
-    .rev-author-stars { display: flex; flex-direction: column; gap: 0.25rem; }
-    .rev-stars { color: #f59e0b; font-size: 0.95rem; }
-    .rev-author { display: flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; color: #1a1a1a; }
-    .rev-title-headline { font-size: 0.95rem; font-weight: 700; color: #1a1a1a; margin-bottom: 0.4rem; }
-    .rev-body-text { font-size: 0.88rem; color: #555; line-height: 1.6; }
-    .rev-time-ago { font-size: 0.78rem; color: #888888; font-weight: 600; text-align: right; white-space: nowrap; }
+    :global(.pdf-review-card) {
+      background: #ffffff !important;
+      border: 1px solid #e6e0d5 !important;
+      border-radius: var(--radius-sm, 4px) !important;
+      padding: 1.75rem !important;
+      box-sizing: border-box !important;
+      margin-bottom: 0 !important;
+    }
+    :global(.rev-card-top-header) {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: flex-start !important;
+      margin-bottom: 0.75rem !important;
+    }
+    :global(.rev-author-stars) {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 0.25rem !important;
+    }
+    :global(.rev-stars) {
+      color: #f59e0b !important;
+      font-size: 0.95rem !important;
+      letter-spacing: 0.08em !important;
+    }
+    :global(.rev-author) {
+      display: flex !important;
+      align-items: center !important;
+      gap: 0.4rem !important;
+      font-size: 0.9rem !important;
+      color: #1a1a1a !important;
+    }
+    :global(.rev-title-headline) {
+      font-size: 0.95rem !important;
+      font-weight: 700 !important;
+      color: #1a1a1a !important;
+      margin-bottom: 0.4rem !important;
+      margin-top: 0.25rem !important;
+    }
+    :global(.rev-body-text) {
+      font-size: 0.88rem !important;
+      color: #555555 !important;
+      line-height: 1.6 !important;
+      margin: 0 !important;
+    }
+    :global(.rev-time-ago) {
+      font-size: 0.78rem !important;
+      color: #888888 !important;
+      font-weight: 600 !important;
+      text-align: right !important;
+      white-space: nowrap !important;
+    }
 
     /* Sticky Bottom Bar */
     .sticky-pdp-bar {
@@ -2047,22 +2084,19 @@ const productSchema = {
       function renderReviewCard(rev: any, isNew: boolean = false) {
         const starsHtml = '★'.repeat(rev.rating) + '☆'.repeat(Math.max(0, 5 - rev.rating));
         return `
-          <div class="pdf-review-card ${isNew ? 'new-review-highlight' : ''}" id="${rev.id}">
-            <div class="rev-card-top-header">
-              <div class="rev-author-stars">
-                <div class="rev-stars" style="color: #f59e0b; font-size: 0.95rem;">${starsHtml}</div>
-                <div class="rev-author">
+          <div class="pdf-review-card ${isNew ? 'new-review-highlight' : ''}" id="${rev.id}" style="background: #ffffff !important; border: 1px solid #e6e0d5 !important; border-radius: 4px !important; padding: 1.75rem !important; box-sizing: border-box !important; margin-bottom: 0 !important;">
+            <div class="rev-card-top-header" style="display: flex !important; justify-content: space-between !important; align-items: flex-start !important; margin-bottom: 0.75rem !important;">
+              <div class="rev-author-stars" style="display: flex !important; flex-direction: column !important; gap: 0.25rem !important;">
+                <div class="rev-stars" style="color: #f59e0b !important; font-size: 0.95rem !important; letter-spacing: 0.08em !important;">${starsHtml}</div>
+                <div class="rev-author" style="display: flex !important; align-items: center !important; gap: 0.4rem !important; font-size: 0.9rem !important; color: #1a1a1a !important;">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="#059669"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                   <strong>${escapeHtml(rev.name)}</strong>
-                  <span class="verified-pill-tag">Verified Pilot</span>
-                  ${isNew ? '<span class="new-pill-tag">NEW REVIEW</span>' : ''}
                 </div>
               </div>
-              <span class="rev-time-ago">${rev.date}</span>
+              <span class="rev-time-ago" style="font-size: 0.78rem !important; color: #888888 !important; font-weight: 600 !important; text-align: right !important; white-space: nowrap !important;">${rev.date}</span>
             </div>
-            <h4 class="rev-title-headline">${escapeHtml(rev.title)}</h4>
-            <p class="rev-body-text">${escapeHtml(rev.text)}</p>
-            ${rev.recommended ? '<div class="rev-recommended-line"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span>Recommends this product</span></div>' : ''}
+            <h4 class="rev-title-headline" style="font-size: 0.95rem !important; font-weight: 700 !important; color: #1a1a1a !important; margin-bottom: 0.4rem !important; margin-top: 0.25rem !important;">${escapeHtml(rev.title)}</h4>
+            <p class="rev-body-text" style="font-size: 0.88rem !important; color: #555555 !important; line-height: 1.6 !important; margin: 0 !important;">${escapeHtml(rev.text)}</p>
           </div>
         `;
       }
