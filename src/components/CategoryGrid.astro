@@ -41,7 +41,7 @@ const CATEGORY_ITEMS = [
       {CATEGORY_ITEMS.map(cat => (
         <a href={`/shop?category=${cat.id}`} class="category-card-item">
           <div class="cat-img-box">
-            <img src={cat.image} alt={cat.label} loading="lazy" />
+            <img src={cat.image} alt={cat.label} loading="lazy" decoding="async" width="80" height="80" />
           </div>
           <span class="cat-label">{cat.label}</span>
         </a>

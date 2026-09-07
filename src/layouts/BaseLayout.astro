@@ -13,6 +13,7 @@ interface Props {
   canonicalUrl?: string;
   bodyClass?: string;
   schema?: any;
+  preloadImage?: string;
 }
 
 const {
@@ -20,24 +21,35 @@ const {
   description = "Shop genuine Futaba Radios, O.S. Engines, DLE Gas Engines, Seagull ARF Aeromodels, and Balsa Wood sheets.",
   canonicalUrl,
   bodyClass = "",
-  schema
+  schema,
+  preloadImage
 } = Astro.props;
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script is:inline>
-    if (typeof window !== 'undefined' && window.location.hostname === 'skynodesuav.in') {
-      window.location.replace('https://www.skynodesuav.in' + window.location.pathname + window.location.search + window.location.hash);
-    }
-  </script>
-  <GoogleTagManagerHead />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   <meta name="description" content={description} />
   {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+
+  <!-- Preconnect to Font CDNs for Instant Handshake -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Preload High-Priority LCP Hero Image if specified -->
+  {preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />}
+
+  <!-- Asynchronous Non-Blocking Google Fonts Loading -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Outfit:wght@400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Outfit:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Outfit:wght@400;500;600;700;800&display=swap" />
+  </noscript>
+
+  <GoogleTagManagerHead />
   {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
 </head>
 <body class={bodyClass}>

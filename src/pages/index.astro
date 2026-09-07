@@ -23,9 +23,15 @@ const orgSchema = {
     "availableLanguage": ["English", "Hindi"]
   }
 };
+
+// Edge CDN Cache Control (TTFB < 50ms with stale-while-revalidate background refresh)
+Astro.response.headers.set('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+
+// LCP Hero Banner 0 Preload
+const heroLcpImage = "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=800&auto=format&fit=crop";
 ---
 
-<BaseLayout schema={orgSchema}>
+<BaseLayout schema={orgSchema} preloadImage={heroLcpImage}>
   <main>
     <HeroCarousel />
     <CategoryGrid />

@@ -4,7 +4,8 @@ const BANNERS = [
     id: 1,
     badgeTitle: "FLAT ₹800 OFF ENGINES",
     badgeSub: "SPECIAL PROMO • LIMITED TIME OFFER",
-    img: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1200&auto=format&fit=crop",
+    img: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=800&auto=format&fit=crop",
+    imgMobile: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=500&auto=format&fit=crop",
     brandSub: "SKYNODESUAV • NITRO & GAS POWER",
     collName: "CONTEST GRADE POWERPLANTS",
     collSub: "GET EXTRA 5% PREPAID DISCOUNT ON CHECKOUT",
@@ -23,7 +24,8 @@ const BANNERS = [
     id: 2,
     badgeTitle: "UP TO 25% OFF RADIOS",
     badgeSub: "FUTABA & FRSKY 2.4GHz SYSTEMS",
-    img: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=1200&auto=format&fit=crop",
+    img: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800&auto=format&fit=crop",
+    imgMobile: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=500&auto=format&fit=crop",
     brandSub: "PRECISION TELEMETRY & CONTROL",
     collName: "FUTABA 6K & 16IZ TRANSMITTERS",
     collSub: "FREE RECEIVER BUNDLE WITH SELECT RADIOS",
@@ -42,7 +44,8 @@ const BANNERS = [
     id: 3,
     badgeTitle: "SAVE UP TO ₹12,500",
     badgeSub: "PREMIUM SEAGULL ARF KITS",
-    img: "https://images.unsplash.com/photo-1519074069444-1ba4eff56024?q=80&w=1200&auto=format&fit=crop",
+    img: "https://images.unsplash.com/photo-1519074069444-1ba4eff56024?q=80&w=800&auto=format&fit=crop",
+    imgMobile: "https://images.unsplash.com/photo-1519074069444-1ba4eff56024?q=80&w=500&auto=format&fit=crop",
     brandSub: "SEAGULL MODELS OFFICIAL DISTRIBUTOR",
     collName: "DECATHLON 122\" & BOOMERANG V3",
     collSub: "100% FACTORY SEALED WITH FAST EXPRESS SHIPPING",
@@ -61,7 +64,8 @@ const BANNERS = [
     id: 4,
     badgeTitle: "MEGA BALSA WOOD SALE",
     badgeSub: "CONTEST DENSITY LASER CUT SHEETS",
-    img: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?q=80&w=1200&auto=format&fit=crop",
+    img: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?q=80&w=800&auto=format&fit=crop",
+    imgMobile: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?q=80&w=500&auto=format&fit=crop",
     brandSub: "RAW MATERIALS & ACCESSORIES",
     collName: "BALSA SHEETS, STRIPS & SPARS",
     collSub: "FLAT ₹80 INSTANT COUPON DISCOUNT APPLIED",
@@ -100,7 +104,18 @@ const BANNERS = [
 
             <!-- Center Product Showcase -->
             <div class="hero-center-products">
-              <img src={banner.img} alt={banner.collName} class="hero-products-img" loading="eager" />
+              <img
+                src={banner.img}
+                srcset={`${banner.imgMobile || banner.img} 500w, ${banner.img} 800w`}
+                sizes="(max-width: 768px) 100vw, 800px"
+                alt={banner.collName}
+                class="hero-products-img"
+                loading={index === 0 ? "eager" : "lazy"}
+                decoding={index === 0 ? "sync" : "async"}
+                fetchpriority={index === 0 ? "high" : "low"}
+                width="800"
+                height="500"
+              />
               <div class="collection-title-badge">
                 <span class="brand-sub">{banner.brandSub}</span>
                 <span class="coll-name">{banner.collName}</span>

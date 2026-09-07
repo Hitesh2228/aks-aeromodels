@@ -683,11 +683,15 @@ import LoginModal from './LoginModal.astro';
     const header = document.querySelector('.main-header');
 
     function updateHeaderDimensions() {
-      if (header) {
-        const height = (header as HTMLElement).offsetHeight;
-        if (height > 0) {
-          document.documentElement.style.setProperty('--main-header-height', `${height}px`);
-        }
+      if ('requestAnimationFrame' in window) {
+        requestAnimationFrame(() => {
+          if (header) {
+            const height = (header as HTMLElement).offsetHeight;
+            if (height > 0) {
+              document.documentElement.style.setProperty('--main-header-height', `${height}px`);
+            }
+          }
+        });
       }
     }
     updateHeaderDimensions();

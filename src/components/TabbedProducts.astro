@@ -405,14 +405,17 @@ if (newArrivals.length === 0) newArrivals = PRODUCTS.slice(4, 12);
   import { initShareButtons } from '../lib/shareHelper';
 
   function initTabbedProducts() {
-    initShareButtons();
-    const jsonEl = document.getElementById('tabbed-products-json');
-    if (jsonEl?.textContent) {
-      try {
-        const prods = JSON.parse(jsonEl.textContent);
-        registerProductsCache(prods);
-      } catch (e) {}
-    }
+    const deferTask = (window as any).requestIdleCallback || ((cb: Function) => setTimeout(cb, 250));
+    deferTask(() => {
+      initShareButtons();
+      const jsonEl = document.getElementById('tabbed-products-json');
+      if (jsonEl?.textContent) {
+        try {
+          const prods = JSON.parse(jsonEl.textContent);
+          registerProductsCache(prods);
+        } catch (e) {}
+      }
+    });
 
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
