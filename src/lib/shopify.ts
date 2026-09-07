@@ -8,7 +8,9 @@ export interface ShopifyProduct {
   description: string;
   vendor: string;
   productType: string;
+  tags: string[];
   price: number;
+  compareAtPrice: number;
   currencyCode: string;
   imageUrl: string;
   imageAlt: string;
@@ -60,6 +62,7 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
             description
             vendor
             productType
+            tags
             priceRange {
               minVariantPrice {
                 amount
@@ -79,6 +82,10 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
                 node {
                   id
                   price {
+                    amount
+                    currencyCode
+                  }
+                  compareAtPrice {
                     amount
                     currencyCode
                   }
@@ -102,6 +109,8 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
     const rawId = node.id;
     const numericId = rawId.includes('/') ? rawId.split('/').pop() : rawId;
     const safeId = `shopify-${numericId}`;
+    const priceVal = parseFloat(node.priceRange?.minVariantPrice?.amount || variantNode?.price?.amount || "0");
+    const compareAtVal = parseFloat(variantNode?.compareAtPrice?.amount || "0");
 
     return {
       id: node.id,
@@ -111,7 +120,9 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
       description: node.description || "",
       vendor: node.vendor || "SKYNODES UAV",
       productType: node.productType || "Aeromodel",
-      price: parseFloat(node.priceRange?.minVariantPrice?.amount || "0"),
+      tags: Array.isArray(node.tags) ? node.tags : [],
+      price: priceVal,
+      compareAtPrice: compareAtVal,
       currencyCode: node.priceRange?.minVariantPrice?.currencyCode || "INR",
       imageUrl: imageNode?.url || "https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800",
       imageAlt: imageNode?.altText || node.title,
@@ -130,8 +141,23 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
 
 // Helper: Convert Shopify product to standard site Product format
 export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
-  const origPrice = Math.round(sp.price * 1.2);
-  const pctOff = Math.round(((origPrice - sp.price) / origPrice) * 100);
+  const price = Math.round(sp.price);
+  const compareAtPrice = Math.round(sp.compareAtPrice);
+  const origPrice = compareAtPrice > price ? compareAtPrice : Math.round(price * 1.2);
+  const pctOff = origPrice > price ? Math.round(((origPrice - price) / origPrice) * 100) : 0;
+
+  const tagsLower = (sp.tags || []).map(t => t.toLowerCase());
+
+  // Check tags for Bestseller, Crazy Deal, New Arrival
+  const isBestsellerTag = tagsLower.some(t => t === 'bestseller' || t === 'best-seller' || t === 'best seller');
+  const isCrazyDealTag = tagsLower.some(t => t === 'crazy-deal' || t === 'crazydeal' || t === 'crazy deal');
+  const isNewArrivalTag = tagsLower.some(t => t === 'new' || t === 'new-arrival');
+
+  let customBadge: string | undefined = pctOff > 0 ? `${pctOff}% OFF` : undefined;
+  const badgeTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('badge:'));
+  if (badgeTag) {
+    customBadge = badgeTag.substring(6).trim();
+  }
 
   const catList: Array<{ id: 'engine' | 'radio-receiver' | 'aeromodels' | 'balsa-wood' | 'accessories'; label: string }> = [
     { id: 'engine', label: 'Engine' },
@@ -145,10 +171,10 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
   const typeLower = (sp.productType || '').toLowerCase();
 
   let assignedCat = catList[idx % catList.length];
-  if (titleLower.includes('engine') || typeLower.includes('engine') || titleLower.includes('gas') || titleLower.includes('nitro')) assignedCat = catList[0];
-  else if (titleLower.includes('radio') || titleLower.includes('receiver') || titleLower.includes('futaba') || titleLower.includes('transmitter')) assignedCat = catList[1];
-  else if (titleLower.includes('balsa') || titleLower.includes('wood') || titleLower.includes('sheet')) assignedCat = catList[3];
-  else if (titleLower.includes('servo') || titleLower.includes('propeller') || titleLower.includes('accessory') || titleLower.includes('tool')) assignedCat = catList[4];
+  if (titleLower.includes('engine') || typeLower.includes('engine') || titleLower.includes('gas') || titleLower.includes('nitro') || tagsLower.includes('engine')) assignedCat = catList[0];
+  else if (titleLower.includes('radio') || titleLower.includes('receiver') || titleLower.includes('futaba') || titleLower.includes('transmitter') || tagsLower.includes('radio')) assignedCat = catList[1];
+  else if (titleLower.includes('balsa') || titleLower.includes('wood') || titleLower.includes('sheet') || tagsLower.includes('balsa')) assignedCat = catList[3];
+  else if (titleLower.includes('servo') || titleLower.includes('propeller') || titleLower.includes('accessory') || titleLower.includes('tool') || tagsLower.includes('accessories')) assignedCat = catList[4];
 
   return {
     id: sp.handle || sp.safeId || sp.id,
@@ -156,13 +182,14 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
     name: sp.title,
     category: assignedCat.id,
     categoryLabel: assignedCat.label,
-    price: Math.round(sp.price),
+    price: price,
     originalPrice: origPrice,
-    discountBadge: pctOff > 0 ? `${pctOff}% OFF` : undefined,
+    discountBadge: customBadge,
     rating: 4.9,
     reviewsCount: 35 + idx * 4,
-    isBestseller: idx % 2 === 0,
-    isNewArrival: idx % 3 === 0,
+    isBestseller: isBestsellerTag || idx % 2 === 0,
+    isNewArrival: isNewArrivalTag || idx % 3 === 0,
+    isCrazyDeal: isCrazyDealTag,
     image: sp.imageUrl,
     description: sp.description || 'Official SKYNODES UAV product synced live from Shopify Storefront.',
     specs: { Vendor: sp.vendor, Type: sp.productType, Status: sp.availableForSale ? 'In Stock' : 'Out of Stock' },
@@ -175,7 +202,17 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
 export async function getCombinedProducts(): Promise<Product[]> {
   const shopifyList = await getAllShopifyProducts();
   const convertedShopify = shopifyList.map((sp, idx) => mapShopifyToProduct(sp, idx));
-  return [...convertedShopify, ...staticProducts];
+  
+  if (convertedShopify.length === 0) {
+    return staticProducts;
+  }
+
+  const shopifyIds = new Set(convertedShopify.map(p => p.id));
+  const shopifyHandles = new Set(convertedShopify.map(p => p.handle).filter(Boolean));
+  
+  const filteredStatic = staticProducts.filter(p => !shopifyIds.has(p.id) && !shopifyHandles.has(p.id));
+
+  return [...convertedShopify, ...filteredStatic];
 }
 
 // 2. Sync Cart / Order to Shopify Storefront API and Return Official Checkout URL

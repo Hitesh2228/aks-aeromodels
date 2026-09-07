@@ -1,11 +1,13 @@
 ---
-import { PRODUCTS } from '../data/products';
+import { getCombinedProducts } from '../lib/shopify';
 
-// Filter products marked with isCrazyDeal (10 products total)
+const PRODUCTS = await getCombinedProducts();
+
+// Filter products marked with isCrazyDeal
 const crazyDealProducts = PRODUCTS.filter(p => p.isCrazyDeal);
 
-// Homepage displays EXACTLY top 3 Crazy Deals (out of 10) as requested by user
-const homepageDeals = crazyDealProducts.slice(0, 3);
+// Homepage displays top Crazy Deals
+const homepageDeals = crazyDealProducts.length > 0 ? crazyDealProducts.slice(0, 3) : PRODUCTS.slice(0, 3);
 ---
 
 <section class="bellavita-deals-section">

@@ -5,14 +5,11 @@ import MobileBottomNav from '../components/MobileBottomNav.astro';
 import Footer from '../components/Footer.astro';
 import GoogleTagManagerHead from '../components/GoogleTagManagerHead.astro';
 import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
-import { PRODUCTS as staticProducts, CATEGORIES } from '../data/products';
-import { getAllShopifyProducts, mapShopifyToProduct } from '../lib/shopify';
+import { CATEGORIES } from '../data/products';
+import { getCombinedProducts } from '../lib/shopify';
 import '../styles/global.css';
 
-const shopifyProducts = await getAllShopifyProducts();
-const PRODUCTS = (shopifyProducts && shopifyProducts.length >= 5)
-  ? shopifyProducts.map((sp, idx) => mapShopifyToProduct(sp, idx))
-  : staticProducts;
+const PRODUCTS = await getCombinedProducts();
 ---
 
 <!DOCTYPE html>
