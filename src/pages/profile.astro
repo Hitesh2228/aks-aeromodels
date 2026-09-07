@@ -178,7 +178,10 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
           <div class="wishlist-card glass-panel" id="wishlist-section" style="margin-top: 2rem;">
             <div class="section-header-flex">
               <div>
-                <h2 class="section-title-sm">❤️ MY SAVED WISHLIST (<span id="profile-wishlist-count">0</span>)</h2>
+                <h2 class="section-title-sm" style="display: flex; align-items: center; gap: 0.5rem;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#e63946" stroke="#e63946" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                  <span>MY SAVED WISHLIST (<span id="profile-wishlist-count">0</span>)</span>
+                </h2>
                 <p class="section-subtitle">Your favorite engines, airframes, and radio equipment</p>
               </div>
             </div>
@@ -509,73 +512,235 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
     }
 
-    /* Saved Wishlist Grid */
-    .profile-wishlist-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1.25rem;
-      margin-top: 1.25rem;
+    /* Saved Wishlist Grid - Global for Dynamic JS Injection */
+    :global(.profile-wishlist-grid) {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
+      gap: 1.5rem !important;
+      margin-top: 1.5rem !important;
     }
-    .wishlist-item-card {
-      background: #ffffff;
-      border: 1px solid #e6e0d5;
-      border-radius: var(--radius-sm);
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      position: relative;
+
+    :global(.wishlist-item-card) {
+      position: relative !important;
+      background: #ffffff !important;
+      border: 1px solid #eae6df !important;
+      border-radius: 10px !important;
+      overflow: hidden !important;
+      display: flex !important;
+      flex-direction: column !important;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02) !important;
+      padding: 0 !important;
+      text-align: left !important;
     }
-    .wishlist-thumb-img {
-      width: 100px;
-      height: 100px;
-      object-fit: contain;
-      margin-bottom: 0.75rem;
+
+    :global(.wishlist-item-card:hover) {
+      transform: translateY(-4px) !important;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08) !important;
+      border-color: #d6cebf !important;
     }
-    .wishlist-prod-title {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #1a1a1a;
-      margin-bottom: 0.35rem;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      height: 2.2rem;
+
+    :global(.wishlist-remove-btn) {
+      position: absolute !important;
+      top: 10px !important;
+      right: 10px !important;
+      width: 32px !important;
+      height: 32px !important;
+      border-radius: 50% !important;
+      background: #ffffff !important;
+      border: 1px solid #e5e5e5 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer !important;
+      color: #777777 !important;
+      transition: all 0.2s ease !important;
+      z-index: 5 !important;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06) !important;
+      padding: 0 !important;
     }
-    .wishlist-prod-price {
-      font-size: 0.92rem;
-      font-weight: 800;
-      color: #3b0811;
-      margin-bottom: 0.85rem;
+
+    :global(.wishlist-remove-btn:hover) {
+      background: #fee2e2 !important;
+      color: #ef4444 !important;
+      border-color: #fca5a5 !important;
+      transform: scale(1.1) !important;
     }
-    .wishlist-actions-row {
-      display: flex;
-      gap: 0.4rem;
-      width: 100%;
-      margin-top: auto;
+
+    :global(.wishlist-media-box) {
+      position: relative !important;
+      width: 100% !important;
+      aspect-ratio: 1 / 1 !important;
+      background: #f8f6f2 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 1.25rem !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
     }
-    .btn-wishlist-cart {
-      flex: 1;
-      background: #3b0811;
-      color: #ffffff;
-      border: none;
-      padding: 0.5rem;
-      border-radius: 4px;
-      font-size: 0.72rem;
-      font-weight: 700;
-      cursor: pointer;
+
+    :global(.wishlist-media-box a) {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 100% !important;
+      height: 100% !important;
     }
-    .btn-wishlist-remove {
-      background: #fef2f2;
-      color: #dc2626;
-      border: 1px solid #fecaca;
-      padding: 0.5rem;
-      border-radius: 4px;
-      font-size: 0.72rem;
-      font-weight: 700;
-      cursor: pointer;
+
+    :global(.wishlist-thumb-img) {
+      max-width: 100% !important;
+      max-height: 100% !important;
+      width: auto !important;
+      height: auto !important;
+      object-fit: contain !important;
+      transition: transform 0.35s ease !important;
+      margin: 0 !important;
+    }
+
+    :global(.wishlist-item-card:hover .wishlist-thumb-img) {
+      transform: scale(1.06) !important;
+    }
+
+    :global(.wishlist-info-box) {
+      padding: 1rem 1.1rem 1.25rem !important;
+      display: flex !important;
+      flex-direction: column !important;
+      flex-grow: 1 !important;
+      background: #ffffff !important;
+    }
+
+    :global(.wishlist-category-tag) {
+      font-size: 0.65rem !important;
+      font-weight: 600 !important;
+      color: #888888 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.06em !important;
+      margin-bottom: 0.3rem !important;
+    }
+
+    :global(.wishlist-prod-title) {
+      font-size: 0.88rem !important;
+      font-weight: 600 !important;
+      color: #1a1a1a !important;
+      line-height: 1.35 !important;
+      margin: 0 0 0.45rem 0 !important;
+      height: 2.4rem !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
+      font-family: var(--font-main) !important;
+    }
+
+    :global(.wishlist-prod-title a) {
+      color: inherit !important;
+      text-decoration: none !important;
+      transition: color 0.2s ease !important;
+    }
+
+    :global(.wishlist-prod-title a:hover) {
+      color: #b45309 !important;
+    }
+
+    :global(.wishlist-price-row) {
+      display: flex !important;
+      align-items: baseline !important;
+      gap: 0.5rem !important;
+      margin-bottom: 0.9rem !important;
+      margin-top: auto !important;
+    }
+
+    :global(.wishlist-price-val) {
+      font-size: 1.05rem !important;
+      font-weight: 800 !important;
+      color: #111111 !important;
+    }
+
+    :global(.wishlist-was-price) {
+      font-size: 0.82rem !important;
+      color: #999999 !important;
+      text-decoration: line-through !important;
+    }
+
+    :global(.wishlist-add-cart-btn) {
+      width: 100% !important;
+      background: #111111 !important;
+      color: #ffffff !important;
+      font-weight: 700 !important;
+      font-size: 0.78rem !important;
+      letter-spacing: 0.06em !important;
+      padding: 0.7rem 1rem !important;
+      border-radius: 6px !important;
+      border: none !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 0.45rem !important;
+      transition: all 0.2s ease !important;
+      text-transform: uppercase !important;
+    }
+
+    :global(.wishlist-add-cart-btn:hover) {
+      background: #2c2c2c !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+      transform: translateY(-1px) !important;
+    }
+
+    :global(.wishlist-empty-state) {
+      grid-column: 1 / -1 !important;
+      text-align: center !important;
+      padding: 3.5rem 1.5rem !important;
+      background: #fbf9f5 !important;
+      border: 1.5px dashed #dfd8ce !important;
+      border-radius: 12px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 0.75rem !important;
+    }
+
+    :global(.wishlist-empty-icon) {
+      font-size: 2.5rem !important;
+      margin-bottom: 0.25rem !important;
+    }
+
+    :global(.wishlist-empty-title) {
+      font-size: 1.1rem !important;
+      font-weight: 700 !important;
+      color: #1a1a1a !important;
+      margin: 0 !important;
+    }
+
+    :global(.wishlist-empty-sub) {
+      font-size: 0.85rem !important;
+      color: #777777 !important;
+      max-width: 400px !important;
+      margin: 0 0 0.5rem 0 !important;
+      line-height: 1.5 !important;
+    }
+
+    :global(.wishlist-explore-btn) {
+      background: #111111 !important;
+      color: #ffffff !important;
+      font-weight: 700 !important;
+      font-size: 0.82rem !important;
+      letter-spacing: 0.06em !important;
+      padding: 0.75rem 1.5rem !important;
+      border-radius: 6px !important;
+      text-decoration: none !important;
+      transition: all 0.2s ease !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 0.5rem !important;
+    }
+
+    :global(.wishlist-explore-btn:hover) {
+      background: #333333 !important;
+      color: #ffffff !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12) !important;
     }
     .section-header-flex {
       display: flex;
@@ -774,6 +939,16 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
       .profile-card-grid { grid-template-columns: 1fr; }
       .login-card-grid { grid-template-columns: 1fr; }
       .form-row-3 { grid-template-columns: 1fr; }
+      :global(.profile-wishlist-grid) {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
+        gap: 1rem !important;
+      }
+    }
+    @media (max-width: 600px) {
+      :global(.profile-wishlist-grid) {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.75rem !important;
+      }
     }
   </style>
 
@@ -1178,18 +1353,46 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
         if (!grid) return;
 
         if (items.length === 0) {
-          grid.innerHTML = `<p style="font-size: 0.85rem; color: #888; grid-column: 1 / -1;">Your wishlist is currently empty. Explore our <a href="/shop" style="color: #3b0811; font-weight: 700;">Catalog</a> to save your favorite RC items!</p>`;
+          grid.innerHTML = `
+            <div class="wishlist-empty-state">
+              <div class="wishlist-empty-icon">🤍</div>
+              <h3 class="wishlist-empty-title">Your wishlist is currently empty</h3>
+              <p class="wishlist-empty-sub">Explore our aeromodelling catalog, engines, and parts, and click the heart icon to save your favorites here.</p>
+              <a href="/shop" class="wishlist-explore-btn">
+                <span>EXPLORE CATALOG</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </a>
+            </div>
+          `;
           return;
         }
 
         grid.innerHTML = items.map(item => `
-          <div class="wishlist-item-card">
-            <img src="${item.image}" alt="${item.name}" class="wishlist-thumb-img" />
-            <div class="wishlist-prod-title">${item.name}</div>
-            <div class="wishlist-prod-price">₹${item.price.toLocaleString('en-IN')}.00</div>
-            <div class="wishlist-actions-row">
-              <button type="button" class="btn-wishlist-cart" data-id="${item.id}">🛒 Add to Cart</button>
-              <button type="button" class="btn-wishlist-remove" data-id="${item.id}">🗑️</button>
+          <div class="wishlist-item-card" data-product-id="${item.id}">
+            <button type="button" class="wishlist-remove-btn btn-wishlist-remove" data-id="${item.id}" title="Remove from Wishlist" aria-label="Remove item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+            <div class="wishlist-media-box">
+              <a href="/product/${item.id}">
+                <img src="${item.image}" alt="${item.name}" class="wishlist-thumb-img" loading="lazy" />
+              </a>
+            </div>
+            <div class="wishlist-info-box">
+              <span class="wishlist-category-tag">${(item.categoryLabel || 'SKYNODES').toUpperCase()}</span>
+              <h3 class="wishlist-prod-title">
+                <a href="/product/${item.id}">${item.name}</a>
+              </h3>
+              <div class="wishlist-price-row">
+                <span class="wishlist-price-val">₹${item.price.toLocaleString('en-IN')}.00</span>
+                ${item.originalPrice && item.originalPrice > item.price ? `<span class="wishlist-was-price">₹${item.originalPrice.toLocaleString('en-IN')}</span>` : ''}
+              </div>
+              <button type="button" class="wishlist-add-cart-btn btn-wishlist-cart" data-id="${item.id}">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                <span>ADD TO CART</span>
+              </button>
             </div>
           </div>
         `).join('');
