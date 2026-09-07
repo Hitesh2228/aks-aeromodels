@@ -8,6 +8,7 @@ export interface LiveProduct {
   id: string;
   handle: string;
   title: string;
+  description: string;
   tags: string[];
   price: number;
   originalPrice: number;
@@ -21,12 +22,13 @@ export interface LiveProduct {
 export async function fetchLiveShopifyProducts(): Promise<LiveProduct[] | null> {
   const query = `
     query getProducts {
-      products(first: 50) {
+      products(first: 250, sortKey: UPDATED_AT, reverse: true) {
         edges {
           node {
             id
             title
             handle
+            description
             tags
             priceRange {
               minVariantPrice {
@@ -84,6 +86,7 @@ export async function fetchLiveShopifyProducts(): Promise<LiveProduct[] | null> 
         id: node.handle || node.id,
         handle: node.handle || node.id,
         title: node.title,
+        description: node.description || "",
         tags,
         price,
         originalPrice: compareAtPrice,

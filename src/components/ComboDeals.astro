@@ -6,6 +6,13 @@ const PRODUCTS = await getCombinedProducts();
 // Filter products marked with isCrazyDeal
 const crazyDealProducts = PRODUCTS.filter(p => p.isCrazyDeal);
 
+// Sort so Shopify-tagged deals take top priority in homepage view
+crazyDealProducts.sort((a, b) => {
+  if (a.isFromShopify && !b.isFromShopify) return -1;
+  if (!a.isFromShopify && b.isFromShopify) return 1;
+  return 0;
+});
+
 // Homepage displays top Crazy Deals
 const homepageDeals = crazyDealProducts.length > 0 ? crazyDealProducts.slice(0, 3) : PRODUCTS.slice(0, 3);
 ---

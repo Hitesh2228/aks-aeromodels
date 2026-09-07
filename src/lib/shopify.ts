@@ -53,7 +53,7 @@ export async function fetchShopifyStorefront<T = any>(query: string, variables: 
 export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
   const query = `
     query getProducts {
-      products(first: 50) {
+      products(first: 250, sortKey: UPDATED_AT, reverse: true) {
         edges {
           node {
             id
@@ -187,9 +187,10 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
     discountBadge: customBadge,
     rating: 4.9,
     reviewsCount: 35 + idx * 4,
-    isBestseller: isBestsellerTag || idx % 2 === 0,
-    isNewArrival: isNewArrivalTag || idx % 3 === 0,
+    isBestseller: isBestsellerTag,
+    isNewArrival: isNewArrivalTag,
     isCrazyDeal: isCrazyDealTag,
+    isFromShopify: true,
     image: sp.imageUrl,
     description: sp.description || 'Official SKYNODES UAV product synced live from Shopify Storefront.',
     specs: { Vendor: sp.vendor, Type: sp.productType, Status: sp.availableForSale ? 'In Stock' : 'Out of Stock' },

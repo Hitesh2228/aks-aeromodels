@@ -1390,8 +1390,9 @@ const productSchema = {
     import { addToCart } from '../../lib/cartStore';
     import { addRecentlyViewedProduct, getRecentlyViewedProducts } from '../../lib/recentlyViewed';
     import { initShareButtons } from '../../lib/shareHelper';
+    import { fetchLiveShopifyProducts } from '../../lib/clientShopifySync';
 
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       initShareButtons();
       // Record current product in Recently Viewed history
       const prodJsonEl = document.getElementById('current-pdp-product-json');
@@ -1534,6 +1535,41 @@ const productSchema = {
           stickyBar.classList.remove('is-visible');
         }
       }, { passive: true });
+
+      // Live Shopify Hydration for Product Page
+      try {
+        const liveProducts = await fetchLiveShopifyProducts();
+        if (liveProducts && liveProducts.length > 0) {
+          const pathParts = window.location.pathname.replace(/\/$/, '').split('/');
+          const currentSlug = pathParts[pathParts.length - 1];
+          const match = liveProducts.find(p => p.handle === currentSlug || p.id === currentSlug || p.id.endsWith(currentSlug));
+          if (match) {
+            // Update Price
+            const actualPriceEl = document.querySelector('.price-actual');
+            if (actualPriceEl && match.price) actualPriceEl.textContent = `₹${match.price.toLocaleString('en-IN')}.00`;
+            const slashedPriceEl = document.querySelector('.price-slashed');
+            if (slashedPriceEl && match.originalPrice) slashedPriceEl.textContent = `₹${match.originalPrice.toLocaleString('en-IN')}.00`;
+            const stickyPriceEl = document.querySelector('.sticky-price');
+            if (stickyPriceEl && match.price) stickyPriceEl.textContent = `₹${match.price.toLocaleString('en-IN')}.00`;
+            const badgeEl = document.querySelector('.price-discount-tag');
+            if (badgeEl && match.discountBadge) badgeEl.textContent = `(Save ${match.discountBadge})`;
+
+            // Update Description if edited
+            const descEl = document.querySelector('.acc-paragraph');
+            if (descEl && match.description) descEl.textContent = match.description;
+
+            // Update Image if edited
+            if (match.imageUrl && !match.imageUrl.includes('placeholder')) {
+              const mainImg = document.getElementById('main-display-img') as HTMLImageElement;
+              if (mainImg) mainImg.src = match.imageUrl;
+              const stickyThumb = document.querySelector('.sticky-thumb') as HTMLImageElement;
+              if (stickyThumb) stickyThumb.src = match.imageUrl;
+            }
+          }
+        }
+      } catch (err) {
+        console.error('[Live PDP Sync Error]', err);
+      }
     });
   </script>
 
