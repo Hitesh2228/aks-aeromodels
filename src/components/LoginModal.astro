@@ -91,8 +91,38 @@
           </div>
 
           <div class="form-input-group">
-            <label class="form-label">Phone Number (+91)</label>
-            <input type="tel" id="signup-phone" class="form-input-field" placeholder="9876543210" pattern="[0-9]{10}" required />
+            <label class="form-label">Phone Number</label>
+            <div class="intl-phone-wrapper">
+              <select id="signup-phone-code" class="country-code-picker">
+                  <option value="+91" selected>🇮🇳 +91 (India)</option>
+                  <option value="+1">🇺🇸 +1 (USA / Canada)</option>
+                  <option value="+44">🇬🇧 +44 (UK)</option>
+                  <option value="+971">🇦🇪 +971 (UAE)</option>
+                  <option value="+61">🇦🇺 +61 (Australia)</option>
+                  <option value="+49">🇩🇪 +49 (Germany)</option>
+                  <option value="+33">🇫🇷 +33 (France)</option>
+                  <option value="+65">🇸🇬 +65 (Singapore)</option>
+                  <option value="+81">🇯🇵 +81 (Japan)</option>
+                  <option value="+966">🇸🇦 +966 (Saudi Arabia)</option>
+                  <option value="+974">🇶🇦 +974 (Qatar)</option>
+                  <option value="+968">🇴🇲 +968 (Oman)</option>
+                  <option value="+965">🇰🇼 +965 (Kuwait)</option>
+                  <option value="+973">🇧🇭 +973 (Bahrain)</option>
+                  <option value="+60">🇲🇾 +60 (Malaysia)</option>
+                  <option value="+64">🇳🇿 +64 (New Zealand)</option>
+                  <option value="+27">🇿🇦 +27 (South Africa)</option>
+                  <option value="+41">🇨🇭 +41 (Switzerland)</option>
+                  <option value="+39">🇮🇹 +39 (Italy)</option>
+                  <option value="+34">🇪🇸 +34 (Spain)</option>
+                  <option value="+31">🇳🇱 +31 (Netherlands)</option>
+                  <option value="+55">🇧🇷 +55 (Brazil)</option>
+                  <option value="+82">🇰🇷 +82 (South Korea)</option>
+                  <option value="+880">🇧🇩 +880 (Bangladesh)</option>
+                  <option value="+977">🇳🇵 +977 (Nepal)</option>
+                  <option value="+94">🇱🇰 +94 (Sri Lanka)</option>
+              </select>
+              <input type="tel" id="signup-phone" class="form-input-field" placeholder="88885 02568" pattern="[0-9\s-]{6,15}" required />
+            </div>
           </div>
 
           <div class="form-input-group">
@@ -353,6 +383,41 @@
   }
   .google-fast-btn:hover { background: #f3f4f6; }
 
+  
+  .intl-phone-wrapper {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #ffffff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .intl-phone-wrapper:focus-within {
+    border-color: #000000;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08);
+  }
+  .country-code-picker {
+    background: #f9fafb;
+    border: none;
+    border-right: 1px solid #e5e7eb;
+    padding: 0.65rem 0.5rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #1f2937;
+    outline: none;
+    cursor: pointer;
+    max-width: 140px;
+  }
+  .intl-phone-wrapper .form-input-field {
+    flex: 1;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0.65rem 0.75rem !important;
+    outline: none !important;
+  }
+
   .modal-submit-btn {
     width: 100%;
     background: #000000;
@@ -520,7 +585,12 @@
       e.preventDefault();
       const name = (document.getElementById('signup-fullname') as HTMLInputElement)?.value.trim();
       const email = (document.getElementById('signup-email') as HTMLInputElement)?.value.trim();
-      const phone = (document.getElementById('signup-phone') as HTMLInputElement)?.value.trim();
+      const signupCode = (document.getElementById('signup-phone-code') as HTMLSelectElement)?.value || '+91';
+      let phoneInputVal = (document.getElementById('signup-phone') as HTMLInputElement)?.value.trim() || '';
+      if (phoneInputVal.startsWith('+')) {
+        phoneInputVal = phoneInputVal.replace(/^\+[0-9]{1,4}[\s-]*/, '');
+      }
+      const phone = phoneInputVal ? `${signupCode} ${phoneInputVal}` : '';
 
       if (name && email) {
         localStorage.setItem('google_auth_logged_in', 'true');

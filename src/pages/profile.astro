@@ -65,16 +65,41 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
             <h2 class="card-right-title">Pilot Login Portal</h2>
 
             <form id="profile-page-login-form" class="card-form">
-              <div class="phone-input-wrap">
-                <div class="flag-prefix">
-                  <span>🇮🇳 +91</span>
-                </div>
+              <div class="intl-phone-wrapper">
+                <select id="page-user-country-code" class="country-code-picker">
+                  <option value="+91" selected>🇮🇳 +91 (India)</option>
+                  <option value="+1">🇺🇸 +1 (USA / Canada)</option>
+                  <option value="+44">🇬🇧 +44 (UK)</option>
+                  <option value="+971">🇦🇪 +971 (UAE)</option>
+                  <option value="+61">🇦🇺 +61 (Australia)</option>
+                  <option value="+49">🇩🇪 +49 (Germany)</option>
+                  <option value="+33">🇫🇷 +33 (France)</option>
+                  <option value="+65">🇸🇬 +65 (Singapore)</option>
+                  <option value="+81">🇯🇵 +81 (Japan)</option>
+                  <option value="+966">🇸🇦 +966 (Saudi Arabia)</option>
+                  <option value="+974">🇶🇦 +974 (Qatar)</option>
+                  <option value="+968">🇴🇲 +968 (Oman)</option>
+                  <option value="+965">🇰🇼 +965 (Kuwait)</option>
+                  <option value="+973">🇧🇭 +973 (Bahrain)</option>
+                  <option value="+60">🇲🇾 +60 (Malaysia)</option>
+                  <option value="+64">🇳🇿 +64 (New Zealand)</option>
+                  <option value="+27">🇿🇦 +27 (South Africa)</option>
+                  <option value="+41">🇨🇭 +41 (Switzerland)</option>
+                  <option value="+39">🇮🇹 +39 (Italy)</option>
+                  <option value="+34">🇪🇸 +34 (Spain)</option>
+                  <option value="+31">🇳🇱 +31 (Netherlands)</option>
+                  <option value="+55">🇧🇷 +55 (Brazil)</option>
+                  <option value="+82">🇰🇷 +82 (South Korea)</option>
+                  <option value="+880">🇧🇩 +880 (Bangladesh)</option>
+                  <option value="+977">🇳🇵 +977 (Nepal)</option>
+                  <option value="+94">🇱🇰 +94 (Sri Lanka)</option>
+                </select>
                 <input 
                   type="tel" 
                   id="page-user-mobile-input" 
-                  class="mobile-input-field" 
-                  placeholder="Enter Mobile Number" 
-                  pattern="[0-9]{10}"
+                  class="mobile-input-field modal-input" 
+                  placeholder="88885 02568" 
+                  pattern="[0-9\s-]{6,15}"
                   required 
                 />
               </div>
@@ -197,8 +222,38 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
           <input type="email" id="edit-email" class="modal-input" required />
         </div>
         <div class="form-group">
-          <label>Phone Number (+91)</label>
-          <input type="tel" id="edit-phone" class="modal-input" pattern="[0-9]{10}" required />
+          <label>Phone Number</label>
+          <div class="intl-phone-wrapper">
+            <select id="edit-phone-code" class="country-code-picker">
+                  <option value="+91" selected>🇮🇳 +91 (India)</option>
+                  <option value="+1">🇺🇸 +1 (USA / Canada)</option>
+                  <option value="+44">🇬🇧 +44 (UK)</option>
+                  <option value="+971">🇦🇪 +971 (UAE)</option>
+                  <option value="+61">🇦🇺 +61 (Australia)</option>
+                  <option value="+49">🇩🇪 +49 (Germany)</option>
+                  <option value="+33">🇫🇷 +33 (France)</option>
+                  <option value="+65">🇸🇬 +65 (Singapore)</option>
+                  <option value="+81">🇯🇵 +81 (Japan)</option>
+                  <option value="+966">🇸🇦 +966 (Saudi Arabia)</option>
+                  <option value="+974">🇶🇦 +974 (Qatar)</option>
+                  <option value="+968">🇴🇲 +968 (Oman)</option>
+                  <option value="+965">🇰🇼 +965 (Kuwait)</option>
+                  <option value="+973">🇧🇭 +973 (Bahrain)</option>
+                  <option value="+60">🇲🇾 +60 (Malaysia)</option>
+                  <option value="+64">🇳🇿 +64 (New Zealand)</option>
+                  <option value="+27">🇿🇦 +27 (South Africa)</option>
+                  <option value="+41">🇨🇭 +41 (Switzerland)</option>
+                  <option value="+39">🇮🇹 +39 (Italy)</option>
+                  <option value="+34">🇪🇸 +34 (Spain)</option>
+                  <option value="+31">🇳🇱 +31 (Netherlands)</option>
+                  <option value="+55">🇧🇷 +55 (Brazil)</option>
+                  <option value="+82">🇰🇷 +82 (South Korea)</option>
+                  <option value="+880">🇧🇩 +880 (Bangladesh)</option>
+                  <option value="+977">🇳🇵 +977 (Nepal)</option>
+                  <option value="+94">🇱🇰 +94 (Sri Lanka)</option>
+            </select>
+            <input type="tel" id="edit-phone" class="modal-input" placeholder="88885 02568" pattern="[0-9\s-]{6,15}" required />
+          </div>
         </div>
         <div class="form-group">
           <label>GSTIN Number (Optional)</label>
@@ -227,8 +282,38 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
           <input type="text" id="addr-name" class="modal-input" placeholder="e.g. Full Name" required />
         </div>
         <div class="form-group">
-          <label>Phone Number (+91)</label>
-          <input type="tel" id="addr-phone" class="modal-input" placeholder="9876543210" pattern="[0-9]{10}" required />
+          <label>Phone Number</label>
+          <div class="intl-phone-wrapper">
+            <select id="addr-phone-code" class="country-code-picker">
+                  <option value="+91" selected>🇮🇳 +91 (India)</option>
+                  <option value="+1">🇺🇸 +1 (USA / Canada)</option>
+                  <option value="+44">🇬🇧 +44 (UK)</option>
+                  <option value="+971">🇦🇪 +971 (UAE)</option>
+                  <option value="+61">🇦🇺 +61 (Australia)</option>
+                  <option value="+49">🇩🇪 +49 (Germany)</option>
+                  <option value="+33">🇫🇷 +33 (France)</option>
+                  <option value="+65">🇸🇬 +65 (Singapore)</option>
+                  <option value="+81">🇯🇵 +81 (Japan)</option>
+                  <option value="+966">🇸🇦 +966 (Saudi Arabia)</option>
+                  <option value="+974">🇶🇦 +974 (Qatar)</option>
+                  <option value="+968">🇴🇲 +968 (Oman)</option>
+                  <option value="+965">🇰🇼 +965 (Kuwait)</option>
+                  <option value="+973">🇧🇭 +973 (Bahrain)</option>
+                  <option value="+60">🇲🇾 +60 (Malaysia)</option>
+                  <option value="+64">🇳🇿 +64 (New Zealand)</option>
+                  <option value="+27">🇿🇦 +27 (South Africa)</option>
+                  <option value="+41">🇨🇭 +41 (Switzerland)</option>
+                  <option value="+39">🇮🇹 +39 (Italy)</option>
+                  <option value="+34">🇪🇸 +34 (Spain)</option>
+                  <option value="+31">🇳🇱 +31 (Netherlands)</option>
+                  <option value="+55">🇧🇷 +55 (Brazil)</option>
+                  <option value="+82">🇰🇷 +82 (South Korea)</option>
+                  <option value="+880">🇧🇩 +880 (Bangladesh)</option>
+                  <option value="+977">🇳🇵 +977 (Nepal)</option>
+                  <option value="+94">🇱🇰 +94 (Sri Lanka)</option>
+            </select>
+            <input type="tel" id="addr-phone" class="modal-input" placeholder="88885 02568" pattern="[0-9\s-]{6,15}" required />
+          </div>
         </div>
         <div class="form-group">
           <label>Complete Street Address (House No, Building, Landmark)</label>
@@ -634,6 +719,43 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
     .modal-input:focus { border-color: #000000; }
     .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; }
     .checkbox-label-row { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; font-weight: 700; color: #374151; cursor: pointer; }
+    
+    .intl-phone-wrapper {
+      display: flex;
+      align-items: stretch;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #ffffff;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .intl-phone-wrapper:focus-within {
+      border-color: #000000;
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08);
+    }
+    .country-code-picker {
+      background: #f9fafb;
+      border: none;
+      border-right: 1px solid #e5e7eb;
+      padding: 0.65rem 0.5rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #1f2937;
+      outline: none;
+      cursor: pointer;
+      max-width: 140px;
+    }
+    .intl-phone-wrapper .modal-input,
+    .intl-phone-wrapper .mobile-input-field {
+      flex: 1;
+      border: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      padding: 0.65rem 0.75rem !important;
+      outline: none !important;
+      font-size: 0.88rem !important;
+    }
+
     .modal-save-btn { background: #000000; color: #ffffff; font-weight: 800; font-size: 0.85rem; padding: 0.75rem; border-radius: 6px; border: none; cursor: pointer; margin-top: 0.5rem; }
 
     /* Order List Styling */
@@ -673,6 +795,40 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
     }
 
     function initProfilePage() {
+      function parsePhone(rawPhone: string): { code: string; number: string } {
+        if (!rawPhone) return { code: '+91', number: '' };
+        let cleaned = rawPhone.trim();
+        const knownCodes = [
+          '+971', '+880', '+977', '+966', '+974', '+968', '+965', '+973', '+353',
+          '+91', '+1', '+44', '+61', '+49', '+33', '+65', '+81', '+60', '+64',
+          '+27', '+41', '+39', '+34', '+31', '+55', '+82', '+94'
+        ];
+        for (const c of knownCodes) {
+          if (cleaned.startsWith(c)) {
+            return { code: c, number: cleaned.slice(c.length).replace(/^[\s-]+/, '').trim() };
+          }
+        }
+        if (cleaned.startsWith('+')) {
+          const spaceIdx = cleaned.indexOf(' ');
+          if (spaceIdx > 0) {
+            return { code: cleaned.slice(0, spaceIdx), number: cleaned.slice(spaceIdx + 1).trim() };
+          }
+        }
+        return { code: '+91', number: cleaned.replace(/^\+91[\s-]*/, '').trim() };
+      }
+
+      function attachPhoneSanitizer(inputEl: HTMLInputElement | null, selectEl: HTMLSelectElement | null) {
+        if (!inputEl) return;
+        inputEl.addEventListener('input', () => {
+          let val = inputEl.value.trim();
+          if (val.startsWith('+')) {
+            const parsed = parsePhone(val);
+            if (selectEl) selectEl.value = parsed.code;
+            inputEl.value = parsed.number;
+          }
+        });
+      }
+
       const loggedOutDiv = document.getElementById('auth-logged-out');
       const loggedInDiv = document.getElementById('auth-logged-in');
 
@@ -759,7 +915,12 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
               (document.getElementById('addr-edit-id') as HTMLInputElement).value = target.id;
               (document.getElementById('addr-label') as HTMLInputElement).value = target.label;
               (document.getElementById('addr-name') as HTMLInputElement).value = target.name;
-              (document.getElementById('addr-phone') as HTMLInputElement).value = target.phone;
+              const parsedTargetPhone = parsePhone(target.phone);
+              const addrEditCodeSelect = document.getElementById('addr-phone-code') as HTMLSelectElement;
+              const addrEditPhoneInput = document.getElementById('addr-phone') as HTMLInputElement;
+              if (addrEditCodeSelect) addrEditCodeSelect.value = parsedTargetPhone.code;
+              if (addrEditPhoneInput) addrEditPhoneInput.value = parsedTargetPhone.number;
+              attachPhoneSanitizer(addrEditPhoneInput, addrEditCodeSelect);
               (document.getElementById('addr-street') as HTMLInputElement).value = target.street;
               (document.getElementById('addr-city') as HTMLInputElement).value = target.city;
               (document.getElementById('addr-state') as HTMLInputElement).value = target.state;
@@ -901,7 +1062,13 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
         const user = getLoggedInUser();
         (document.getElementById('edit-name') as HTMLInputElement).value = user?.name || '';
         (document.getElementById('edit-email') as HTMLInputElement).value = user?.email || '';
-        (document.getElementById('edit-phone') as HTMLInputElement).value = user?.phone || '';
+        const rawPhone = user?.phone || localStorage.getItem('skynodes_pilot_phone') || '';
+        const parsed = parsePhone(rawPhone);
+        const editCodeSelect = document.getElementById('edit-phone-code') as HTMLSelectElement;
+        const editPhoneInput = document.getElementById('edit-phone') as HTMLInputElement;
+        if (editCodeSelect) editCodeSelect.value = parsed.code;
+        if (editPhoneInput) editPhoneInput.value = parsed.number;
+        attachPhoneSanitizer(editPhoneInput, editCodeSelect);
         (document.getElementById('edit-gstin') as HTMLInputElement).value = localStorage.getItem('skynodes_pilot_gstin') || '';
 
         editProfileModal?.classList.add('active');
@@ -915,7 +1082,12 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
         e.preventDefault();
         const name = (document.getElementById('edit-name') as HTMLInputElement).value.trim();
         const email = (document.getElementById('edit-email') as HTMLInputElement).value.trim();
-        const phone = (document.getElementById('edit-phone') as HTMLInputElement).value.trim();
+        const phoneCode = (document.getElementById('edit-phone-code') as HTMLSelectElement)?.value || '+91';
+        let phoneNum = (document.getElementById('edit-phone') as HTMLInputElement).value.trim();
+        if (phoneNum.startsWith('+')) {
+          phoneNum = parsePhone(phoneNum).number;
+        }
+        const phone = phoneNum ? `${phoneCode} ${phoneNum}` : '';
         const gstin = (document.getElementById('edit-gstin') as HTMLInputElement).value.trim();
 
         if (name && email) {
@@ -940,7 +1112,13 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
         (document.getElementById('addr-edit-id') as HTMLInputElement).value = '';
         (document.getElementById('addr-label') as HTMLInputElement).value = '';
         (document.getElementById('addr-name') as HTMLInputElement).value = localStorage.getItem('skynodes_pilot_name') || '';
-        (document.getElementById('addr-phone') as HTMLInputElement).value = localStorage.getItem('skynodes_pilot_phone') || '';
+        const rawAddrPhone = localStorage.getItem('skynodes_pilot_phone') || '';
+        const parsedAddr = parsePhone(rawAddrPhone);
+        const addrCodeSelect = document.getElementById('addr-phone-code') as HTMLSelectElement;
+        const addrPhoneInput = document.getElementById('addr-phone') as HTMLInputElement;
+        if (addrCodeSelect) addrCodeSelect.value = parsedAddr.code;
+        if (addrPhoneInput) addrPhoneInput.value = parsedAddr.number;
+        attachPhoneSanitizer(addrPhoneInput, addrCodeSelect);
         (document.getElementById('addr-street') as HTMLInputElement).value = '';
         (document.getElementById('addr-city') as HTMLInputElement).value = '';
         (document.getElementById('addr-state') as HTMLInputElement).value = 'Maharashtra';
@@ -960,7 +1138,12 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
         const editId = (document.getElementById('addr-edit-id') as HTMLInputElement).value;
         const label = (document.getElementById('addr-label') as HTMLInputElement).value.trim();
         const name = (document.getElementById('addr-name') as HTMLInputElement).value.trim();
-        const phone = (document.getElementById('addr-phone') as HTMLInputElement).value.trim();
+        const addrCode = (document.getElementById('addr-phone-code') as HTMLSelectElement)?.value || '+91';
+        let addrNum = (document.getElementById('addr-phone') as HTMLInputElement).value.trim();
+        if (addrNum.startsWith('+')) {
+          addrNum = parsePhone(addrNum).number;
+        }
+        const phone = addrNum ? `${addrCode} ${addrNum}` : '';
         const street = (document.getElementById('addr-street') as HTMLInputElement).value.trim();
         const city = (document.getElementById('addr-city') as HTMLInputElement).value.trim();
         const state = (document.getElementById('addr-state') as HTMLInputElement).value.trim();
@@ -1039,10 +1222,15 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
       // Inline Auth Form
       document.getElementById('profile-page-login-form')?.addEventListener('submit', (e) => {
         e.preventDefault();
-        const mobile = (document.getElementById('page-user-mobile-input') as HTMLInputElement)?.value.trim();
+        const loginCode = (document.getElementById('page-user-country-code') as HTMLSelectElement)?.value || '+91';
+        let mobile = (document.getElementById('page-user-mobile-input') as HTMLInputElement)?.value.trim();
         if (mobile) {
+          if (mobile.startsWith('+')) {
+            mobile = parsePhone(mobile).number;
+          }
+          const fullPhone = `${loginCode} ${mobile}`;
           localStorage.setItem('google_auth_logged_in', 'true');
-          localStorage.setItem('skynodes_pilot_phone', mobile);
+          localStorage.setItem('skynodes_pilot_phone', fullPhone);
           localStorage.setItem('skynodes_pilot_name', 'Pilot ' + mobile.slice(-4));
           window.dispatchEvent(new CustomEvent('user-logged-in'));
           checkAuth();
