@@ -431,6 +431,8 @@
 </style>
 
 <script>
+  import { triggerGoogleSignIn } from '../lib/googleAuth';
+
   function initLoginModal() {
     const modal = document.getElementById('bellavita-login-modal');
     const closeBtn = document.getElementById('close-login-modal');
@@ -495,10 +497,19 @@
     // Handle Login Submit
     loginForm?.addEventListener('submit', (e) => {
       e.preventDefault();
-      const identifier = (document.getElementById('login-identifier') as HTMLInputElement)?.value;
+      const identifier = (document.getElementById('login-identifier') as HTMLInputElement)?.value.trim();
       if (identifier) {
         localStorage.setItem('google_auth_logged_in', 'true');
-        localStorage.setItem('skynodes_pilot_user', identifier);
+        if (identifier.includes('@')) {
+          localStorage.setItem('skynodes_pilot_email', identifier);
+          const autoName = identifier.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+          localStorage.setItem('skynodes_pilot_name', autoName);
+          localStorage.setItem('skynodes_pilot_avatar', `https://ui-avatars.com/api/?name=${encodeURIComponent(autoName)}&background=111111&color=ffffff&size=200`);
+        } else {
+          localStorage.setItem('skynodes_pilot_phone', identifier);
+          localStorage.setItem('skynodes_pilot_name', 'Pilot ' + identifier.slice(-4));
+        }
+        window.dispatchEvent(new CustomEvent('user-logged-in'));
         closeModal();
         window.location.href = '/profile';
       }
@@ -507,15 +518,17 @@
     // Handle Sign Up Submit
     signupForm?.addEventListener('submit', (e) => {
       e.preventDefault();
-      const name = (document.getElementById('signup-fullname') as HTMLInputElement)?.value;
-      const email = (document.getElementById('signup-email') as HTMLInputElement)?.value;
-      const phone = (document.getElementById('signup-phone') as HTMLInputElement)?.value;
+      const name = (document.getElementById('signup-fullname') as HTMLInputElement)?.value.trim();
+      const email = (document.getElementById('signup-email') as HTMLInputElement)?.value.trim();
+      const phone = (document.getElementById('signup-phone') as HTMLInputElement)?.value.trim();
 
       if (name && email) {
         localStorage.setItem('google_auth_logged_in', 'true');
         localStorage.setItem('skynodes_pilot_name', name);
         localStorage.setItem('skynodes_pilot_email', email);
         localStorage.setItem('skynodes_pilot_phone', phone);
+        localStorage.setItem('skynodes_pilot_avatar', `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=111111&color=ffffff&size=200`);
+        window.dispatchEvent(new CustomEvent('user-logged-in'));
         closeModal();
         window.location.href = '/profile';
       }
@@ -529,12 +542,17 @@
       }
     });
 
-    // Handle Google 1-Click
-    googleLoginBtn?.addEventListener('click', () => {
-      localStorage.setItem('google_auth_logged_in', 'true');
-      localStorage.setItem('skynodes_pilot_name', 'Verified Google Pilot');
-      closeModal();
-      window.location.href = '/profile';
+    // Handle Google Login
+    googleLoginBtn?.addEventListener('click', async () => {
+      await triggerGoogleSignIn(
+        (user) => {
+          closeModal();
+          window.location.href = '/profile';
+        },
+        (err) => {
+          console.error('[Google Sign-In Error]', err);
+        }
+      );
     });
   }
 

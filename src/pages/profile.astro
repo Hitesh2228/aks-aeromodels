@@ -106,15 +106,15 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
             <span class="online-badge">🟢 Logged In Pilot</span>
           </div>
 
-          <h2 id="user-display-name" class="user-name">Capt. Hitesh Pilot</h2>
-          <p id="user-display-email" class="user-email">hitesh.aeromodels@gmail.com</p>
+          <h2 id="user-display-name" class="user-name">Pilot Profile</h2>
+          <p id="user-display-email" class="user-email"></p>
 
           <div class="user-meta-list">
             <div class="meta-row">
-              <span>Mobile Phone:</span> <strong id="user-display-phone">+91 98765 43210</strong>
+              <span>Mobile Phone:</span> <strong id="user-display-phone">Not Provided</strong>
             </div>
             <div class="meta-row">
-              <span>GSTIN / Tax ID:</span> <strong id="user-display-gstin">27AAAAA0000A1Z5 (Verified)</strong>
+              <span>GSTIN / Tax ID:</span> <strong id="user-display-gstin">Not Provided</strong>
             </div>
           </div>
 
@@ -224,7 +224,7 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
         </div>
         <div class="form-group">
           <label>Recipient Name</label>
-          <input type="text" id="addr-name" class="modal-input" placeholder="e.g. Capt. Hitesh Sharma" required />
+          <input type="text" id="addr-name" class="modal-input" placeholder="e.g. Full Name" required />
         </div>
         <div class="form-group">
           <label>Phone Number (+91)</label>
@@ -658,6 +658,7 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
   <script>
     import { getWishlistItems, removeFromWishlist } from '../lib/wishlistStore';
     import { addToCart } from '../lib/cartStore';
+    import { triggerGoogleSignIn, logoutUser, getLoggedInUser } from '../lib/googleAuth';
 
     interface AddressItem {
       id: string;
@@ -699,21 +700,7 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
           const raw = localStorage.getItem('skynodes_saved_addresses');
           if (raw) return JSON.parse(raw);
         } catch (e) {}
-        
-        // Default seed address
-        const seed: AddressItem[] = [{
-          id: 'addr_seed_1',
-          label: '🏠 Main Flying Base',
-          name: localStorage.getItem('skynodes_pilot_name') || 'Capt. Hitesh Pilot',
-          phone: localStorage.getItem('skynodes_pilot_phone') || '9876543210',
-          street: 'Devlali Camp, Near HP Petrol Pump',
-          city: 'Nashik',
-          state: 'Maharashtra',
-          pincode: '422502',
-          isDefault: true
-        }];
-        localStorage.setItem('skynodes_saved_addresses', JSON.stringify(seed));
-        return seed;
+        return [];
       }
 
       function saveAddresses(list: AddressItem[]) {
@@ -814,7 +801,7 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
                 status: 'DISPATCHED',
                 awb: '#AWB-9876543',
                 total: 38790,
-                customer: { name: localStorage.getItem('skynodes_pilot_name') || 'Capt. Hitesh Pilot', address: 'Devlali Camp, Nashik, MH' },
+                customer: { name: localStorage.getItem('skynodes_pilot_name') || 'Customer', address: 'Devlali Camp, Nashik, MH' },
                 items: [
                   { quantity: 1, product: { name: 'O.S. Max 0.46 AX II Nitro Engine', price: 18990 } },
                   { quantity: 1, product: { name: 'Futaba 6K 6-Channel Radio System', price: 19800 } }
@@ -827,7 +814,7 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
                 status: 'DELIVERED',
                 awb: '#AWB-9871122',
                 total: 84990,
-                customer: { name: localStorage.getItem('skynodes_pilot_name') || 'Capt. Hitesh Pilot', address: 'Devlali Camp, Nashik, MH' },
+                customer: { name: localStorage.getItem('skynodes_pilot_name') || 'Customer', address: 'Devlali Camp, Nashik, MH' },
                 items: [
                   { quantity: 1, product: { name: 'Seagull Decathlon 122" V2 ARF Airframe', price: 84990 } }
                 ]
@@ -878,15 +865,20 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
           loggedOutDiv?.classList.add('style-hidden');
           loggedInDiv?.classList.remove('style-hidden');
 
-          const name = localStorage.getItem('skynodes_pilot_name') || localStorage.getItem('skynodes_pilot_user') || 'Capt. Hitesh Pilot';
-          const email = localStorage.getItem('skynodes_pilot_email') || 'hitesh.aeromodels@gmail.com';
-          const phone = localStorage.getItem('skynodes_pilot_phone') || '+91 98765 43210';
-          const gstin = localStorage.getItem('skynodes_pilot_gstin') || '27AAAAA0000A1Z5 (Verified)';
+          const user = getLoggedInUser();
+          const name = user?.name || localStorage.getItem('skynodes_pilot_user') || 'Pilot';
+          const email = user?.email || '';
+          const phone = user?.phone || localStorage.getItem('skynodes_pilot_phone') || 'Not Provided';
+          const gstin = localStorage.getItem('skynodes_pilot_gstin') || 'Not Provided';
+          const avatar = user?.picture;
 
           if (userDisplayName) userDisplayName.textContent = name;
           if (userDisplayEmail) userDisplayEmail.textContent = email;
           if (userDisplayPhone) userDisplayPhone.textContent = phone;
           if (userDisplayGstin) userDisplayGstin.textContent = gstin;
+
+          const avatarImg = document.getElementById('user-avatar-img') as HTMLImageElement;
+          if (avatarImg && avatar) avatarImg.src = avatar;
 
           renderAddresses();
           renderOrders();
@@ -900,17 +892,17 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
 
       // Logout Event
       logoutBtn?.addEventListener('click', () => {
-        localStorage.removeItem('google_auth_logged_in');
-        window.dispatchEvent(new CustomEvent('user-logged-in'));
+        logoutUser();
         window.location.reload();
       });
 
       // Edit Profile Modal Handler
       editProfileBtn?.addEventListener('click', () => {
-        (document.getElementById('edit-name') as HTMLInputElement).value = localStorage.getItem('skynodes_pilot_name') || 'Capt. Hitesh Pilot';
-        (document.getElementById('edit-email') as HTMLInputElement).value = localStorage.getItem('skynodes_pilot_email') || 'hitesh.aeromodels@gmail.com';
-        (document.getElementById('edit-phone') as HTMLInputElement).value = localStorage.getItem('skynodes_pilot_phone') || '9876543210';
-        (document.getElementById('edit-gstin') as HTMLInputElement).value = localStorage.getItem('skynodes_pilot_gstin') || '27AAAAA0000A1Z5';
+        const user = getLoggedInUser();
+        (document.getElementById('edit-name') as HTMLInputElement).value = user?.name || '';
+        (document.getElementById('edit-email') as HTMLInputElement).value = user?.email || '';
+        (document.getElementById('edit-phone') as HTMLInputElement).value = user?.phone || '';
+        (document.getElementById('edit-gstin') as HTMLInputElement).value = localStorage.getItem('skynodes_pilot_gstin') || '';
 
         editProfileModal?.classList.add('active');
       });
@@ -1047,19 +1039,25 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
       // Inline Auth Form
       document.getElementById('profile-page-login-form')?.addEventListener('submit', (e) => {
         e.preventDefault();
-        const mobile = (document.getElementById('page-user-mobile-input') as HTMLInputElement)?.value;
+        const mobile = (document.getElementById('page-user-mobile-input') as HTMLInputElement)?.value.trim();
         if (mobile) {
           localStorage.setItem('google_auth_logged_in', 'true');
           localStorage.setItem('skynodes_pilot_phone', mobile);
+          localStorage.setItem('skynodes_pilot_name', 'Pilot ' + mobile.slice(-4));
           window.dispatchEvent(new CustomEvent('user-logged-in'));
           checkAuth();
         }
       });
 
-      document.getElementById('page-google-auth-btn')?.addEventListener('click', () => {
-        localStorage.setItem('google_auth_logged_in', 'true');
-        window.dispatchEvent(new CustomEvent('user-logged-in'));
-        checkAuth();
+      document.getElementById('page-google-auth-btn')?.addEventListener('click', async () => {
+        await triggerGoogleSignIn(
+          () => {
+            checkAuth();
+          },
+          (err) => {
+            console.error('[Google Sign-In Error]', err);
+          }
+        );
       });
     }
 
