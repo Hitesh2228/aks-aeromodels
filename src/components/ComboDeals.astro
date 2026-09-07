@@ -273,11 +273,60 @@ const homepageDeals = crazyDealProducts.length > 0 ? crazyDealProducts.slice(0, 
 
 <script>
   import { initShareButtons } from '../lib/shareHelper';
+  import { fetchLiveShopifyProducts } from '../lib/clientShopifySync';
+
+  async function syncDealsLive() {
+    initShareButtons();
+    try {
+      const liveProducts = await fetchLiveShopifyProducts();
+      if (!liveProducts || liveProducts.length === 0) return;
+
+      const crazyDeals = liveProducts.filter(p => p.isCrazyDeal);
+      if (crazyDeals.length === 0) return;
+
+      const container = document.getElementById('deals-slider-container');
+      if (!container) return;
+
+      const dealsToDisplay = crazyDeals.slice(0, 3);
+      container.innerHTML = dealsToDisplay.map(deal => `
+        <a href="/product/${deal.id}" class="crazy-deal-card">
+          <div class="deal-card-inner">
+            <div class="deal-badge-header">
+              <span class="deal-tag-sub">EXCLUSIVE DEAL</span>
+              <span class="deal-tag-main">${deal.discountBadge || 'SPECIAL OFFER'}</span>
+              <span class="deal-tag-only">LIMITED TIME</span>
+            </div>
+            
+            <div class="deal-media" style="position: relative;">
+              <button type="button" class="btn-share-product" data-url="/product/${deal.id}" data-title="${deal.title.replace(/"/g, '&quot;')}" data-text="Check out ${deal.title.replace(/"/g, '&quot;')} on SKYNODES UAV!" aria-label="Share Product" title="Share Product">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                </svg>
+              </button>
+              <img src="${deal.imageUrl}" alt="${deal.title.replace(/"/g, '&quot;')}" />
+            </div>
+            
+            <div class="deal-label">${deal.title}</div>
+            <div class="deal-price-sub">
+              <span class="p-now">₹${deal.price.toLocaleString('en-IN')}.00</span>
+              <span class="p-was">₹${deal.originalPrice.toLocaleString('en-IN')}.00</span>
+              <span class="badge-save">${deal.discountBadge || 'DEAL'}</span>
+            </div>
+          </div>
+        </a>
+      `).join('');
+
+      initShareButtons();
+    } catch (err) {
+      console.error('[Deals Sync Error]', err);
+    }
+  }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initShareButtons);
+    document.addEventListener('DOMContentLoaded', syncDealsLive);
   } else {
-    initShareButtons();
+    syncDealsLive();
   }
-  document.addEventListener('astro:page-load', initShareButtons);
+  document.addEventListener('astro:page-load', syncDealsLive);
 </script>

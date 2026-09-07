@@ -430,7 +430,7 @@ const PRODUCTS = await getCombinedProducts();
   import { toggleWishlist, isInWishlist } from '../lib/wishlistStore';
   import { initShareButtons } from '../lib/shareHelper';
 
-  function initShopControls() {
+  async function initShopControls() {
     const jsonEl = document.getElementById('shop-products-json');
     let productsList: any[] = [];
     if (jsonEl?.textContent) {
@@ -566,6 +566,23 @@ const PRODUCTS = await getCombinedProducts();
       });
     });
     initShareButtons();
+
+    try {
+      const liveProducts = await fetchLiveShopifyProducts();
+      if (liveProducts && liveProducts.length > 0) {
+        liveProducts.forEach(lp => {
+          const card = document.querySelector(`[data-product-id="${lp.id}"], [data-product-id="${lp.handle}"]`);
+          if (card) {
+            const priceEl = card.querySelector('.price-current, .p-now');
+            if (priceEl && lp.price) priceEl.textContent = `₹${lp.price.toLocaleString('en-IN')}.00`;
+            const origEl = card.querySelector('.price-original, .p-was');
+            if (origEl && lp.originalPrice) origEl.textContent = `₹${lp.originalPrice.toLocaleString('en-IN')}.00`;
+          }
+        });
+      }
+    } catch (err) {
+      console.error('[Shop Sync Error]', err);
+    }
   }
 
   if (document.readyState === 'loading') {
