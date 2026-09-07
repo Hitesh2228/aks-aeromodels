@@ -1,5 +1,7 @@
 // Google Authentication & User Profile Management for SKYNODES UAV
 
+export const DEFAULT_GOOGLE_CLIENT_ID = '549359041312-a6tjfkn7c8s5054alr1dc213gv91hift.apps.googleusercontent.com';
+
 export interface GoogleUserProfile {
   id?: string;
   name: string;
@@ -8,13 +10,13 @@ export interface GoogleUserProfile {
   phone?: string;
 }
 
-// Configurable Client ID from environment or storage
+// Configurable Client ID from environment, storage, or default
 export function getGoogleClientId(): string {
-  if (typeof window === 'undefined') return '';
+  if (typeof window === 'undefined') return DEFAULT_GOOGLE_CLIENT_ID;
   return (
     (import.meta as any).env?.PUBLIC_GOOGLE_CLIENT_ID ||
     localStorage.getItem('skynodes_google_client_id') ||
-    ''
+    DEFAULT_GOOGLE_CLIENT_ID
   );
 }
 
@@ -56,7 +58,6 @@ export async function triggerGoogleSignIn(
     const clientId = getGoogleClientId();
 
     if (!clientId) {
-      // If client ID is not yet configured, show modern modal to sign in with real Gmail
       showGoogleEmailPromptModal(
         (user) => {
           saveLoggedInUser(user);
@@ -80,9 +81,36 @@ export async function triggerGoogleSignIn(
       client_id: clientId,
       scope: 'email profile openid',
       prompt: 'select_account',
+      error_callback: (nonOAuthErr: any) => {
+        console.warn('[Google Identity Error]', nonOAuthErr);
+        // Resilient fallback so user is never blocked
+        showGoogleEmailPromptModal(
+          (user) => {
+            saveLoggedInUser(user);
+            onSuccess(user);
+          },
+          async (newClientId) => {
+            setGoogleClientId(newClientId);
+            await triggerGoogleSignIn(onSuccess, onError);
+          }
+        );
+        onError?.(nonOAuthErr);
+      },
       callback: async (tokenResponse: any) => {
         if (tokenResponse.error) {
-          console.error('[Google OAuth Error]', tokenResponse);
+          console.warn('[Google OAuth Error]', tokenResponse);
+          if (tokenResponse.error !== 'popup_closed_by_user') {
+            showGoogleEmailPromptModal(
+              (user) => {
+                saveLoggedInUser(user);
+                onSuccess(user);
+              },
+              async (newClientId) => {
+                setGoogleClientId(newClientId);
+                await triggerGoogleSignIn(onSuccess, onError);
+              }
+            );
+          }
           onError?.(tokenResponse);
           return;
         }
@@ -115,6 +143,17 @@ export async function triggerGoogleSignIn(
   } catch (err) {
     console.error('[Google Sign-In Trigger Exception]', err);
     onError?.(err);
+    // Fallback modal in case of exception
+    showGoogleEmailPromptModal(
+      (user) => {
+        saveLoggedInUser(user);
+        onSuccess(user);
+      },
+      async (newClientId) => {
+        setGoogleClientId(newClientId);
+        await triggerGoogleSignIn(onSuccess, onError);
+      }
+    );
   }
 }
 
@@ -125,6 +164,8 @@ function showGoogleEmailPromptModal(
 ): void {
   const existingModal = document.getElementById('skynodes-google-setup-modal');
   if (existingModal) existingModal.remove();
+
+  const currentCid = getGoogleClientId();
 
   const modalHtml = `
     <div id="skynodes-google-setup-modal" style="
@@ -184,6 +225,7 @@ function showGoogleEmailPromptModal(
               width: 100%; background: #ffffff; color: #000000;
               font-weight: 700; font-size: 0.9rem; padding: 0.8rem;
               border-radius: 8px; border: none; cursor: pointer;
+              transition: transform 0.15s ease, background-color 0.15s ease;
             "
           >
             Continue with Gmail &rarr;
@@ -195,13 +237,14 @@ function showGoogleEmailPromptModal(
             background: none; border: none; color: #777;
             font-size: 0.75rem; cursor: pointer; text-decoration: underline;
           ">
-            ⚙️ Store Admin: Add Google Cloud Client ID
+            ⚙️ Google Cloud Client ID Settings
           </button>
 
           <div id="client-id-admin-box" style="display: none; margin-top: 0.85rem; text-align: left;">
             <input 
               type="text" 
               id="admin-client-id-input" 
+              value="${currentCid}"
               placeholder="Paste OAuth Client ID here..." 
               style="
                 width: 100%; box-sizing: border-box; background: #1a1a1a;
@@ -218,7 +261,7 @@ function showGoogleEmailPromptModal(
                 border-radius: 6px; border: none; cursor: pointer;
               "
             >
-              Save Client ID & Launch Official Google Popup
+              Update Client ID & Retry Google Popup
             </button>
           </div>
         </div>
