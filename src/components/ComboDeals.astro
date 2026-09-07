@@ -37,6 +37,26 @@ const homepageDeals = crazyDealProducts.length > 0 ? crazyDealProducts.slice(0, 
               </div>
               
               <div class="deal-media" style="position: relative;">
+                <button 
+                  type="button" 
+                  class="btn-card-wishlist wishlist-toggle-btn" 
+                  data-id={deal.id}
+                  data-name={deal.name}
+                  data-price={deal.price}
+                  data-original-price={deal.originalPrice}
+                  data-image={deal.image}
+                  data-category={deal.categoryLabel || 'AEROMODELS'}
+                  data-rating={deal.rating || '4.9'}
+                  data-reviews-count={deal.reviewsCount || '42'}
+                  data-discount-badge={deal.discountBadge || ''}
+                  data-is-bestseller={deal.isBestseller ? 'true' : 'false'}
+                  aria-label="Add to Wishlist"
+                  title="Add to Wishlist"
+                >
+                  <svg class="heart-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                  </svg>
+                </button>
                 <button type="button" class="btn-share-product" data-url={`/product/${deal.id}`} data-title={deal.name} data-text={`Check out ${deal.name} on SKYNODES UAV!`} aria-label="Share Product" title="Share Product">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
@@ -195,7 +215,7 @@ const homepageDeals = crazyDealProducts.length > 0 ? crazyDealProducts.slice(0, 
 
   .btn-share-product {
     position: absolute;
-    top: 0.6rem;
+    top: 2.85rem;
     right: 0.6rem;
     width: 30px;
     height: 30px;
@@ -281,9 +301,11 @@ const homepageDeals = crazyDealProducts.length > 0 ? crazyDealProducts.slice(0, 
 <script>
   import { initShareButtons } from '../lib/shareHelper';
   import { fetchLiveShopifyProducts } from '../lib/clientShopifySync';
+  import { initWishlistButtons } from '../lib/wishlistStore';
 
   async function syncDealsLive() {
     initShareButtons();
+    initWishlistButtons();
     try {
       const liveProducts = await fetchLiveShopifyProducts();
       if (!liveProducts || liveProducts.length === 0) return;
@@ -310,6 +332,26 @@ const homepageDeals = crazyDealProducts.length > 0 ? crazyDealProducts.slice(0, 
             </div>
             
             <div class="deal-media" style="position: relative;">
+              <button 
+                type="button" 
+                class="btn-card-wishlist wishlist-toggle-btn" 
+                data-id="${deal.id}"
+                data-name="${deal.title.replace(/"/g, '&quot;')}"
+                data-price="${deal.price}"
+                data-original-price="${deal.originalPrice || ''}"
+                data-image="${deal.imageUrl}"
+                data-category="AEROMODELS"
+                data-rating="4.9"
+                data-reviews-count="42"
+                data-discount-badge="${deal.discountBadge || ''}"
+                data-is-bestseller="${deal.isBestseller ? 'true' : 'false'}"
+                aria-label="Add to Wishlist"
+                title="Add to Wishlist"
+              >
+                <svg class="heart-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </button>
               <button type="button" class="btn-share-product" data-url="/product/${deal.id}" data-title="${deal.title.replace(/"/g, '&quot;')}" data-text="Check out ${deal.title.replace(/"/g, '&quot;')} on SKYNODES UAV!" aria-label="Share Product" title="Share Product">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
@@ -330,6 +372,7 @@ const homepageDeals = crazyDealProducts.length > 0 ? crazyDealProducts.slice(0, 
       `).join('');
 
       initShareButtons();
+      initWishlistButtons();
     } catch (err) {
       console.error('[Deals Sync Error]', err);
     }

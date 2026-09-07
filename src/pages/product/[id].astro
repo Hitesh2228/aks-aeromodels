@@ -218,10 +218,32 @@ const productSchema = {
           <span>Pay only <strong>₹{prepaidPrice.toLocaleString('en-IN')}.00</strong> with Prepaid Discounts ⓘ</span>
         </div>
 
-        <!-- ADD TO CART Button (Full Width Solid Dark PDF Pill) -->
-        <button class="btn-add-to-cart-pdf add-to-cart-btn" id="pdp-main-add-btn" data-id={product.id}>
-          ADD TO CART
-        </button>
+        <!-- ADD TO CART Button Row with Wishlist Heart -->
+        <div class="pdp-cart-actions-row">
+          <button class="btn-add-to-cart-pdf add-to-cart-btn" id="pdp-main-add-btn" data-id={product.id}>
+            ADD TO CART
+          </button>
+          <button 
+            type="button" 
+            class="btn-pdp-wishlist wishlist-toggle-btn" 
+            data-id={product.id}
+            data-name={product.name}
+            data-price={product.price}
+            data-original-price={product.originalPrice}
+            data-image={product.image}
+            data-category={product.categoryLabel || 'AEROMODELS'}
+            data-rating={product.rating || '4.9'}
+            data-reviews-count={product.reviewsCount || '42'}
+            data-discount-badge={product.discountBadge || ''}
+            data-is-bestseller={product.isBestseller ? 'true' : 'false'}
+            aria-label="Add to Wishlist"
+            title="Save to Wishlist"
+          >
+            <svg class="heart-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+          </button>
+        </div>
 
         <!-- 4 Line-Art Trust Badges (Exact PDF Page 1 Row) -->
         <div class="pdf-trust-badges-row">
@@ -408,6 +430,26 @@ const productSchema = {
             <div class="card-image-box">
               {item.isBestseller && <span class="card-badge bestseller">BESTSELLER</span>}
               {item.discountBadge && <span class="card-badge offer">{item.discountBadge}</span>}
+              <button 
+                type="button" 
+                class="btn-card-wishlist wishlist-toggle-btn" 
+                data-id={item.id}
+                data-name={item.name}
+                data-price={item.price}
+                data-original-price={item.originalPrice}
+                data-image={item.image}
+                data-category={item.categoryLabel || 'AEROMODELS'}
+                data-rating={item.rating || '4.9'}
+                data-reviews-count={item.reviewsCount || '42'}
+                data-discount-badge={item.discountBadge || ''}
+                data-is-bestseller={item.isBestseller ? 'true' : 'false'}
+                aria-label="Add to Wishlist"
+                title="Add to Wishlist"
+              >
+                <svg class="heart-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </button>
               <a href={`/product/${item.id}`}>
                 <img src={item.image} alt={item.name} />
               </a>
@@ -500,6 +542,26 @@ const productSchema = {
             <div class="card-image-box">
               {rel.isBestseller && <span class="card-badge bestseller">BESTSELLER</span>}
               {rel.discountBadge && <span class="card-badge offer">{rel.discountBadge}</span>}
+              <button 
+                type="button" 
+                class="btn-card-wishlist wishlist-toggle-btn" 
+                data-id={rel.id}
+                data-name={rel.name}
+                data-price={rel.price}
+                data-original-price={rel.originalPrice}
+                data-image={rel.image}
+                data-category={rel.categoryLabel || 'AEROMODELS'}
+                data-rating={rel.rating || '4.9'}
+                data-reviews-count={rel.reviewsCount || '42'}
+                data-discount-badge={rel.discountBadge || ''}
+                data-is-bestseller={rel.isBestseller ? 'true' : 'false'}
+                aria-label="Add to Wishlist"
+                title="Add to Wishlist"
+              >
+                <svg class="heart-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </button>
               <a href={`/product/${rel.id}`}>
                 <img src={rel.image} alt={rel.name} />
               </a>
@@ -542,9 +604,31 @@ const productSchema = {
           <span class="sticky-price">₹{product.price.toLocaleString('en-IN')}.00</span>
         </div>
       </div>
-      <button class="btn-primary sticky-add-btn add-to-cart-btn" data-id={product.id}>
-        ADD TO CART
-      </button>
+      <div class="sticky-actions-flex">
+        <button 
+          type="button" 
+          class="btn-pdp-wishlist sticky-wish-btn wishlist-toggle-btn" 
+          data-id={product.id}
+          data-name={product.name}
+          data-price={product.price}
+          data-original-price={product.originalPrice}
+          data-image={product.image}
+          data-category={product.categoryLabel || 'AEROMODELS'}
+          data-rating={product.rating || '4.9'}
+          data-reviews-count={product.reviewsCount || '42'}
+          data-discount-badge={product.discountBadge || ''}
+          data-is-bestseller={product.isBestseller ? 'true' : 'false'}
+          aria-label="Add to Wishlist"
+          title="Save to Wishlist"
+        >
+          <svg class="heart-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </button>
+        <button class="btn-primary sticky-add-btn add-to-cart-btn" data-id={product.id}>
+          ADD TO CART
+        </button>
+      </div>
     </div>
   </div>
 
@@ -899,6 +983,26 @@ const productSchema = {
       background: #111111;
       color: #ffffff;
       border-color: #111111;
+    }
+
+    /* PDP Add To Cart Row & Wishlist Button */
+    .pdp-cart-actions-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: stretch;
+      margin-bottom: 2.25rem;
+      width: 100%;
+    }
+    .pdp-cart-actions-row .btn-add-to-cart-pdf {
+      margin-bottom: 0 !important;
+      flex: 1;
+    }
+    .pdp-cart-actions-row .btn-pdp-wishlist {
+      height: auto;
+      min-height: 52px;
+      width: 52px;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     }
 
     /* Full Width ADD TO CART Pill */
@@ -1397,7 +1501,51 @@ const productSchema = {
     .sticky-thumb { width: 44px; height: 44px; object-fit: cover; border-radius: 4px; border: 1px solid #e6e0d5; }
     .sticky-name { display: block; font-size: 0.9rem; color: #1a1a1a; }
     .sticky-price { font-weight: 700; color: #3b0811; font-size: 0.95rem; }
+    .sticky-actions-flex { display: flex; align-items: center; gap: 0.65rem; }
+    .sticky-wish-btn { width: 42px !important; height: 42px !important; min-height: 42px !important; border-radius: 4px !important; padding: 0 !important; }
     .sticky-add-btn { padding: 0.65rem 1.5rem; font-weight: 700; }
+
+    /* User Review Author Badges & Edit Button */
+    .my-review-badge {
+      display: inline-block;
+      background: #fef3c7;
+      color: #92400e;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 3px;
+      margin-left: 0.35rem;
+      letter-spacing: 0.04em;
+      border: 1px solid #fde68a;
+      vertical-align: middle;
+    }
+    .btn-edit-my-review {
+      background: #f3f4f6;
+      border: 1px solid #d1d5db;
+      color: #1f2937;
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+    }
+    .btn-edit-my-review:hover {
+      background: #111111;
+      color: #ffffff;
+      border-color: #111111;
+    }
+    .btn-write-review-pdf.is-edit-mode {
+      background: #2b0b11 !important;
+      color: #ffffff !important;
+      border-color: #2b0b11 !important;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
 
     /* Modal Backdrop & Dialog */
     .review-modal-backdrop {
@@ -1870,9 +2018,11 @@ const productSchema = {
     import { addRecentlyViewedProduct, getRecentlyViewedProducts } from '../../lib/recentlyViewed';
     import { initShareButtons } from '../../lib/shareHelper';
     import { fetchLiveShopifyProducts } from '../../lib/clientShopifySync';
+    import { initWishlistButtons } from '../../lib/wishlistStore';
 
     async function initPdp() {
       initShareButtons();
+      initWishlistButtons();
       // Record current product in Recently Viewed history
       const prodJsonEl = document.getElementById('current-pdp-product-json');
       let currentProd: any = null;
@@ -1910,6 +2060,26 @@ const productSchema = {
             <div class="card-image-box">
               ${item.isBestseller ? '<span class="card-badge bestseller">BESTSELLER</span>' : ''}
               ${item.discountBadge ? `<span class="card-badge offer">${item.discountBadge}</span>` : ''}
+              <button 
+                type="button" 
+                class="btn-card-wishlist wishlist-toggle-btn" 
+                data-id="${item.id}"
+                data-name="${item.name.replace(/"/g, '&quot;')}"
+                data-price="${item.price}"
+                data-original-price="${item.originalPrice || ''}"
+                data-image="${item.image}"
+                data-category="${item.categoryLabel || 'AEROMODELS'}"
+                data-rating="${item.rating || '4.9'}"
+                data-reviews-count="${item.reviewsCount || '42'}"
+                data-discount-badge="${item.discountBadge || ''}"
+                data-is-bestseller="${item.isBestseller ? 'true' : 'false'}"
+                aria-label="Add to Wishlist"
+                title="Add to Wishlist"
+              >
+                <svg class="heart-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </button>
               <a href="/product/${item.id}">
                 <img src="${item.image}" alt="${item.name}" loading="lazy" />
               </a>
@@ -1939,6 +2109,8 @@ const productSchema = {
             }
           });
         });
+
+        initWishlistButtons();
       }
 
       renderRecentlyViewed();
@@ -2031,7 +2203,7 @@ const productSchema = {
       }, { passive: true });
 
       // ==========================================
-      // Review Submission & Real-Time Hydration
+      // Review Submission & Real-Time Hydration (1 Review per User + Edit Mode)
       // ==========================================
       const modalBackdrop = document.getElementById('review-modal-backdrop');
       const openModalBtn = document.getElementById('btn-open-review-modal');
@@ -2089,42 +2261,6 @@ const productSchema = {
         updateStarDisplay(chosenRating);
       });
 
-      function openModal() {
-        if (!modalBackdrop) return;
-        modalBackdrop.classList.add('is-open');
-        modalBackdrop.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-        const titleInput = document.getElementById('review-input-title');
-        setTimeout(() => titleInput?.focus(), 100);
-      }
-
-      function closeModal() {
-        if (!modalBackdrop) return;
-        modalBackdrop.classList.remove('is-open');
-        modalBackdrop.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-      }
-
-      openModalBtn?.addEventListener('click', (e) => {
-        e.preventDefault();
-        openModal();
-      });
-
-      closeModalBtn?.addEventListener('click', closeModal);
-      cancelModalBtn?.addEventListener('click', closeModal);
-
-      modalBackdrop?.addEventListener('click', (e) => {
-        if (e.target === modalBackdrop) {
-          closeModal();
-        }
-      });
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modalBackdrop?.classList.contains('is-open')) {
-          closeModal();
-        }
-      });
-
       function showToast(message: string) {
         if (!reviewToast) return;
         if (reviewToastMsg) reviewToastMsg.textContent = message;
@@ -2143,6 +2279,11 @@ const productSchema = {
       function getStorageKey() {
         const prodId = currentProd?.id || 'bal-5';
         return `skynodes_reviews_${prodId}`;
+      }
+
+      function getMyReviewStorageKey() {
+        const prodId = currentProd?.id || 'bal-5';
+        return `skynodes_my_review_${prodId}`;
       }
 
       function getLocalReviews(): any[] {
@@ -2169,19 +2310,66 @@ const productSchema = {
         return updated;
       }
 
+      // Check if current user has already reviewed this product
+      let myReviewId: string | null = null;
+      try {
+        myReviewId = localStorage.getItem(getMyReviewStorageKey()) || 
+          (currentProd?.handle ? localStorage.getItem(`skynodes_my_review_${currentProd.handle}`) : null);
+      } catch (e) {}
+
+      const savedReviews = getLocalReviews();
+
+      // If user submitted a review earlier on this device without key, associate the first user review
+      if (!myReviewId && savedReviews.length > 0) {
+        const existingAuthRev = savedReviews.find((r: any) => r.id && String(r.id).startsWith('user_rev_'));
+        if (existingAuthRev) {
+          myReviewId = existingAuthRev.id;
+          try {
+            localStorage.setItem(getMyReviewStorageKey(), myReviewId!);
+          } catch (e) {}
+        }
+      }
+
+      function updateWriteReviewBtnState() {
+        if (!openModalBtn) return;
+        if (myReviewId) {
+          openModalBtn.innerHTML = `✏️ Edit your review`;
+          openModalBtn.classList.add('is-edit-mode');
+          openModalBtn.setAttribute('title', 'You already reviewed this product. Click to update your review.');
+        } else {
+          openModalBtn.innerHTML = `Write a review`;
+          openModalBtn.classList.remove('is-edit-mode');
+          openModalBtn.setAttribute('title', 'Write a review');
+        }
+      }
+      updateWriteReviewBtnState();
+
       function renderReviewCard(rev: any, isNew: boolean = false) {
+        const isUserReview = Boolean(myReviewId && rev.id === myReviewId);
         const starsHtml = '★'.repeat(rev.rating) + '☆'.repeat(Math.max(0, 5 - rev.rating));
+        const yourBadge = isUserReview ? `<span class="my-review-badge">Your Review</span>` : '';
+        const editBtn = isUserReview ? `
+          <button type="button" class="btn-edit-my-review" data-id="${rev.id}" title="Edit your review">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            <span>Edit</span>
+          </button>
+        ` : '';
+
         return `
-          <div class="pdf-review-card ${isNew ? 'new-review-highlight' : ''}" id="${rev.id}" style="background: #ffffff !important; border: 1px solid #e6e0d5 !important; border-radius: 4px !important; padding: 1.75rem !important; box-sizing: border-box !important; margin-bottom: 0 !important;">
+          <div class="pdf-review-card ${isNew ? 'new-review-highlight' : ''} ${isUserReview ? 'user-authored-card' : ''}" id="${rev.id}" style="background: #ffffff !important; border: 1.5px solid ${isUserReview ? '#dfab85' : '#e6e0d5'} !important; border-radius: 4px !important; padding: 1.75rem !important; box-sizing: border-box !important; margin-bottom: 0 !important; ${isUserReview ? 'box-shadow: 0 4px 16px rgba(223, 171, 133, 0.18) !important;' : ''}">
             <div class="rev-card-top-header" style="display: flex !important; justify-content: space-between !important; align-items: flex-start !important; margin-bottom: 0.75rem !important;">
               <div class="rev-author-stars" style="display: flex !important; flex-direction: column !important; gap: 0.25rem !important;">
                 <div class="rev-stars" style="color: #f59e0b !important; font-size: 0.95rem !important; letter-spacing: 0.08em !important;">${starsHtml}</div>
                 <div class="rev-author" style="display: flex !important; align-items: center !important; gap: 0.4rem !important; font-size: 0.9rem !important; color: #1a1a1a !important;">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="#059669"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                   <strong>${escapeHtml(rev.name)}</strong>
+                  ${yourBadge}
                 </div>
               </div>
-              <span class="rev-time-ago" style="font-size: 0.78rem !important; color: #888888 !important; font-weight: 600 !important; text-align: right !important; white-space: nowrap !important;">${rev.date}</span>
+              <div style="display: flex !important; align-items: center !important; gap: 0.65rem !important;">
+                <span class="rev-time-ago" style="font-size: 0.78rem !important; color: #888888 !important; font-weight: 600 !important; text-align: right !important; white-space: nowrap !important;">${rev.date}</span>
+                ${editBtn}
+              </div>
             </div>
             <h4 class="rev-title-headline" style="font-size: 0.95rem !important; font-weight: 700 !important; color: #1a1a1a !important; margin-bottom: 0.4rem !important; margin-top: 0.25rem !important;">${escapeHtml(rev.title)}</h4>
             <p class="rev-body-text" style="font-size: 0.88rem !important; color: #555555 !important; line-height: 1.6 !important; margin: 0 !important;">${escapeHtml(rev.text)}</p>
@@ -2189,8 +2377,88 @@ const productSchema = {
         `;
       }
 
+      let isEditMode = false;
+
+      function openModal(editing = false) {
+        if (!modalBackdrop) return;
+        isEditMode = editing;
+
+        const headingEl = document.getElementById('modal-review-title');
+        const submitBtn = document.getElementById('btn-submit-review-form');
+        const titleEl = document.getElementById('review-input-title') as HTMLInputElement | null;
+        const textEl = document.getElementById('review-input-text') as HTMLTextAreaElement | null;
+        const nameEl = document.getElementById('review-input-name') as HTMLInputElement | null;
+        const emailEl = document.getElementById('review-input-email') as HTMLInputElement | null;
+        const recEl = document.getElementById('review-recommend-check') as HTMLInputElement | null;
+
+        if (isEditMode && myReviewId) {
+          const allReviews = getLocalReviews();
+          const targetRev = allReviews.find((r: any) => r.id === myReviewId);
+          if (targetRev) {
+            if (headingEl) headingEl.textContent = 'Edit Your Review';
+            if (submitBtn) submitBtn.textContent = 'Update Review';
+            chosenRating = targetRev.rating || 5;
+            if (ratingValInput) ratingValInput.value = chosenRating.toString();
+            updateStarDisplay(chosenRating);
+            if (titleEl) titleEl.value = targetRev.title || '';
+            if (textEl) textEl.value = targetRev.text || '';
+            if (nameEl) nameEl.value = targetRev.name || '';
+            if (emailEl) emailEl.value = targetRev.email || '';
+            if (recEl) recEl.checked = targetRev.recommended !== false;
+          }
+        } else {
+          isEditMode = false;
+          if (headingEl) headingEl.textContent = 'Write a Review';
+          if (submitBtn) submitBtn.textContent = 'Submit Review';
+          reviewForm?.reset();
+          chosenRating = 5;
+          if (ratingValInput) ratingValInput.value = '5';
+          updateStarDisplay(5);
+        }
+
+        modalBackdrop.classList.add('is-open');
+        modalBackdrop.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => titleEl?.focus(), 100);
+      }
+
+      function closeModal() {
+        if (!modalBackdrop) return;
+        modalBackdrop.classList.remove('is-open');
+        modalBackdrop.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      openModalBtn?.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal(Boolean(myReviewId));
+      });
+
+      // Delegate edit button click inside review cards
+      document.addEventListener('click', (e) => {
+        const editBtn = (e.target as HTMLElement).closest('.btn-edit-my-review');
+        if (editBtn) {
+          e.preventDefault();
+          openModal(true);
+        }
+      });
+
+      closeModalBtn?.addEventListener('click', closeModal);
+      cancelModalBtn?.addEventListener('click', closeModal);
+
+      modalBackdrop?.addEventListener('click', (e) => {
+        if (e.target === modalBackdrop) {
+          closeModal();
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modalBackdrop?.classList.contains('is-open')) {
+          closeModal();
+        }
+      });
+
       // Initial Hydration of Saved Reviews on Page Load
-      const savedReviews = getLocalReviews();
       let totalCount = (currentProd?.reviewsCount || 42) + savedReviews.length;
 
       if (savedReviews.length > 0 && reviewsListEl) {
@@ -2218,55 +2486,114 @@ const productSchema = {
         const titleVal = titleEl?.value.trim() || '';
         const textVal = textEl?.value.trim() || '';
         const nameVal = nameEl?.value.trim() || '';
+        const emailVal = emailEl?.value.trim() || '';
 
         if (!titleVal || !textVal || !nameVal) {
           alert('Please fill in all required fields (Rating, Title, Description, and Name).');
           return;
         }
 
-        const newReview = {
-          id: 'user_rev_' + Date.now(),
-          name: nameVal,
-          rating: chosenRating,
-          title: titleVal,
-          text: textVal,
-          date: 'Just now',
-          isVerified: true,
-          recommended: recEl ? recEl.checked : true,
-          createdAt: new Date().toISOString()
-        };
+        if (isEditMode && myReviewId) {
+          // ==========================================
+          // In-Place EDIT of Customer's Existing Review
+          // ==========================================
+          const allReviews = getLocalReviews();
+          const targetIdx = allReviews.findIndex((r: any) => r.id === myReviewId);
+          const updatedReview = {
+            id: myReviewId,
+            name: nameVal,
+            email: emailVal,
+            rating: chosenRating,
+            title: titleVal,
+            text: textVal,
+            date: 'Edited just now',
+            isVerified: true,
+            recommended: recEl ? recEl.checked : true,
+            updatedAt: new Date().toISOString()
+          };
 
-        // 1. Save locally for persistence
-        saveLocalReview(newReview);
-
-        // 2. Prepend immediately to the TOP (#1) of reviews list
-        if (reviewsListEl) {
-          reviewsListEl.insertAdjacentHTML('afterbegin', renderReviewCard(newReview, true));
-        }
-
-        // 3. Update review count
-        totalCount++;
-        const summaryCountEl = document.getElementById('summary-reviews-count');
-        const headerCountEl = document.getElementById('header-reviews-count');
-        if (summaryCountEl) summaryCountEl.textContent = `Based on ${totalCount} reviews`;
-        if (headerCountEl) headerCountEl.textContent = `${totalCount} reviews`;
-
-        // 4. Close modal and reset form
-        closeModal();
-        reviewForm.reset();
-        chosenRating = 5;
-        updateStarDisplay(5);
-
-        // 5. Show luxury success toast
-        showToast('✓ Review submitted successfully! Thank you for sharing your experience.');
-
-        // 6. Smoothly scroll to the new review so user immediately sees it as #1
-        setTimeout(() => {
-          const insertedEl = document.getElementById(newReview.id);
-          if (insertedEl) {
-            insertedEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          if (targetIdx > -1) {
+            allReviews[targetIdx] = updatedReview;
+          } else {
+            allReviews.unshift(updatedReview);
           }
-        }, 300);
+
+          try {
+            localStorage.setItem(getStorageKey(), JSON.stringify(allReviews));
+            if (currentProd?.handle) {
+              localStorage.setItem(`skynodes_reviews_${currentProd.handle}`, JSON.stringify(allReviews));
+            }
+          } catch (err) {}
+
+          // Replace existing DOM card in-place without altering total review count
+          const existingDomEl = document.getElementById(myReviewId);
+          if (existingDomEl) {
+            existingDomEl.outerHTML = renderReviewCard(updatedReview, true);
+          }
+
+          closeModal();
+          showToast('✓ Your review has been updated successfully!');
+
+          setTimeout(() => {
+            const el = document.getElementById(myReviewId!);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 300);
+
+        } else {
+          // ==========================================
+          // CREATE New Single Review (1 Customer = 1 Review)
+          // ==========================================
+          const newReview = {
+            id: 'user_rev_' + Date.now(),
+            name: nameVal,
+            email: emailVal,
+            rating: chosenRating,
+            title: titleVal,
+            text: textVal,
+            date: 'Just now',
+            isVerified: true,
+            recommended: recEl ? recEl.checked : true,
+            createdAt: new Date().toISOString()
+          };
+
+          // Mark user as having reviewed this product
+          myReviewId = newReview.id;
+          const prodId = currentProd?.id || 'bal-5';
+          try {
+            localStorage.setItem(`skynodes_my_review_${prodId}`, newReview.id);
+            if (currentProd?.handle) {
+              localStorage.setItem(`skynodes_my_review_${currentProd.handle}`, newReview.id);
+            }
+          } catch (err) {}
+
+          // 1. Save locally for persistence
+          saveLocalReview(newReview);
+
+          // 2. Prepend immediately to TOP (#1) with Your Review badge and Edit button
+          if (reviewsListEl) {
+            reviewsListEl.insertAdjacentHTML('afterbegin', renderReviewCard(newReview, true));
+          }
+
+          // 3. Switch button text to "Edit your review" so duplicate reviews cannot be created
+          updateWriteReviewBtnState();
+
+          // 4. Update review count
+          totalCount++;
+          const summaryCountEl = document.getElementById('summary-reviews-count');
+          const headerCountEl = document.getElementById('header-reviews-count');
+          if (summaryCountEl) summaryCountEl.textContent = `Based on ${totalCount} reviews`;
+          if (headerCountEl) headerCountEl.textContent = `${totalCount} reviews`;
+
+          // 5. Close modal and reset form
+          closeModal();
+          showToast('✓ Review submitted successfully! Thank you for sharing your experience.');
+
+          // 6. Smoothly scroll to the new review
+          setTimeout(() => {
+            const el = document.getElementById(newReview.id);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 300);
+        }
       });
 
       // Live Shopify Hydration for Product Page

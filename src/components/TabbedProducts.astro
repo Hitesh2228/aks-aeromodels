@@ -30,6 +30,11 @@ if (newArrivals.length === 0) newArrivals = PRODUCTS.slice(4, 12);
             <div class="card-media">
               <span class="badge-bestseller">BESTSELLER</span>
               {product.discountBadge && <span class="bellavita-offer-badge">{product.discountBadge}</span>}
+              <button type="button" class="btn-card-wishlist wishlist-toggle-btn" data-id={product.id} aria-label="Save to Wishlist" title="Save to Wishlist">
+                <svg class="card-heart-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </button>
               <button type="button" class="btn-share-product" data-url={`/product/${product.id}`} data-title={product.name} data-text={`Check out ${product.name} on SKYNODES UAV!`} aria-label="Share Product" title="Share Product">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
@@ -72,6 +77,11 @@ if (newArrivals.length === 0) newArrivals = PRODUCTS.slice(4, 12);
           <div class="bellavita-card">
             <div class="card-media">
               <span class="bellavita-offer-badge" style="background: #e0f2fe; color: #0284c7;">NEW ARRIVAL</span>
+              <button type="button" class="btn-card-wishlist wishlist-toggle-btn" data-id={product.id} aria-label="Save to Wishlist" title="Save to Wishlist">
+                <svg class="card-heart-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </button>
               <button type="button" class="btn-share-product" data-url={`/product/${product.id}`} data-title={product.name} data-text={`Check out ${product.name} on SKYNODES UAV!`} aria-label="Share Product" title="Share Product">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
@@ -203,13 +213,13 @@ if (newArrivals.length === 0) newArrivals = PRODUCTS.slice(4, 12);
   }
   .btn-share-product {
     position: absolute;
-    top: 0.6rem;
-    right: 0.6rem;
-    width: 30px;
-    height: 30px;
+    top: 2.85rem;
+    right: 0.65rem;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.92);
-    border: 1px solid #e0e0e0;
+    border: 1px solid #e0ded8;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -403,8 +413,10 @@ if (newArrivals.length === 0) newArrivals = PRODUCTS.slice(4, 12);
 <script>
   import { addToCart, registerProductsCache } from '../lib/cartStore';
   import { initShareButtons } from '../lib/shareHelper';
+  import { initWishlistButtons } from '../lib/wishlistStore';
 
   function initTabbedProducts() {
+    initWishlistButtons();
     const deferTask = (window as any).requestIdleCallback || ((cb: Function) => setTimeout(cb, 250));
     deferTask(() => {
       initShareButtons();
