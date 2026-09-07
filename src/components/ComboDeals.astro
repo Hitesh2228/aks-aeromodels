@@ -21,7 +21,7 @@ const homepageDeals = crazyDealProducts.length > 0 ? crazyDealProducts.slice(0, 
   <div class="container">
     <div class="deals-header-row flex-between">
       <h2 class="bellavita-title">CRAZY DEALS</h2>
-      <a href="/shop?filter=crazy-deals" class="view-all-link">VIEW ALL CRAZY DEALS (10) →</a>
+      <a href="/shop?filter=crazy-deals" class="view-all-link" id="deals-view-all-link">VIEW ALL CRAZY DEALS ({crazyDealProducts.length}) →</a>
     </div>
 
     <div class="slider-wrapper-relative">
@@ -290,6 +290,11 @@ const homepageDeals = crazyDealProducts.length > 0 ? crazyDealProducts.slice(0, 
 
       const crazyDeals = liveProducts.filter(p => p.isCrazyDeal);
       if (crazyDeals.length === 0) return;
+
+      const viewAllLink = document.getElementById('deals-view-all-link');
+      if (viewAllLink) {
+        viewAllLink.textContent = `VIEW ALL CRAZY DEALS (${crazyDeals.length}) →`;
+      }
 
       const container = document.getElementById('deals-slider-container');
       if (!container) return;

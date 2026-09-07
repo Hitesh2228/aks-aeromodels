@@ -68,6 +68,8 @@ const PRODUCTS = await getCombinedProducts();
       {PRODUCTS.map(product => (
         <article 
           class="pdf-shop-card catalog-item" 
+          data-id={product.id}
+          data-handle={product.handle || product.id}
           data-category={product.category} 
           data-price={product.price} 
           data-rating={product.rating}
@@ -468,7 +470,72 @@ const PRODUCTS = await getCombinedProducts();
     const sortSelect = document.getElementById('sort-select') as HTMLSelectElement;
     const grid = document.getElementById('catalog-products-grid');
 
+    function applyFiltering() {
+      const params = new URLSearchParams(window.location.search);
+      const urlCat = params.get('category');
+      const urlFilter = params.get('filter');
+      const urlSearch = params.get('search')?.toLowerCase().trim();
+      const pageTitleEl = document.querySelector('.shop-pdf-title');
+      const countEl = document.querySelector('.shop-pdf-count');
+
+      let visibleCount = 0;
+
+      if (urlSearch) {
+        pills.forEach(p => p.classList.remove('active'));
+        products.forEach(prod => {
+          const title = (prod.querySelector('.card-title-heading')?.textContent || '').toLowerCase();
+          const catLabel = (prod.querySelector('.card-cat-label')?.textContent || '').toLowerCase();
+          const category = (prod.getAttribute('data-category') || '').toLowerCase();
+          
+          if (title.includes(urlSearch) || catLabel.includes(urlSearch) || category.includes(urlSearch)) {
+            (prod as HTMLElement).style.display = 'flex';
+            visibleCount++;
+          } else {
+            (prod as HTMLElement).style.display = 'none';
+          }
+        });
+
+        if (pageTitleEl) pageTitleEl.textContent = `Search Results for "${params.get('search')}"`;
+        if (countEl) countEl.textContent = `${visibleCount} items found`;
+      } else if (urlFilter === 'crazy-deals') {
+        pills.forEach(p => p.classList.remove('active'));
+        products.forEach(prod => {
+          const isCrazy = prod.getAttribute('data-crazydeal') === 'true';
+          if (isCrazy) {
+            (prod as HTMLElement).style.display = 'flex';
+            visibleCount++;
+          } else {
+            (prod as HTMLElement).style.display = 'none';
+          }
+        });
+        if (pageTitleEl) pageTitleEl.textContent = `🔥 Exclusive Crazy Deals`;
+        if (countEl) countEl.textContent = `${visibleCount} deals available`;
+      } else if (urlFilter === 'bestsellers') {
+        pills.forEach(p => p.classList.remove('active'));
+        products.forEach(prod => {
+          const isBestseller = prod.getAttribute('data-bestseller') === 'true';
+          if (isBestseller) {
+            (prod as HTMLElement).style.display = 'flex';
+            visibleCount++;
+          } else {
+            (prod as HTMLElement).style.display = 'none';
+          }
+        });
+        if (pageTitleEl) pageTitleEl.textContent = `⭐ Best Selling Products`;
+        if (countEl) countEl.textContent = `${visibleCount} bestsellers available`;
+      } else if (urlCat && urlCat !== 'all') {
+        filterCategory(urlCat);
+      } else {
+        products.forEach(prod => {
+          (prod as HTMLElement).style.display = 'flex';
+          visibleCount++;
+        });
+        if (countEl) countEl.textContent = `${visibleCount} items available in stock`;
+      }
+    }
+
     function filterCategory(cat: string) {
+      let visibleCount = 0;
       pills.forEach(p => {
         if (p.getAttribute('data-cat') === cat) p.classList.add('active');
         else p.classList.remove('active');
@@ -478,10 +545,14 @@ const PRODUCTS = await getCombinedProducts();
         const itemCat = prod.getAttribute('data-category');
         if (cat === 'all' || itemCat === cat) {
           (prod as HTMLElement).style.display = 'flex';
+          visibleCount++;
         } else {
           (prod as HTMLElement).style.display = 'none';
         }
       });
+
+      const countEl = document.querySelector('.shop-pdf-count');
+      if (countEl) countEl.textContent = `${visibleCount} items available in stock`;
     }
 
     pills.forEach(p => {
@@ -491,52 +562,7 @@ const PRODUCTS = await getCombinedProducts();
       });
     });
 
-    const params = new URLSearchParams(window.location.search);
-    const urlCat = params.get('category');
-    const urlFilter = params.get('filter');
-    const urlSearch = params.get('search')?.toLowerCase().trim();
-
-    if (urlSearch) {
-      pills.forEach(p => p.classList.remove('active'));
-      products.forEach(prod => {
-        const title = (prod.querySelector('.catalog-title')?.textContent || '').toLowerCase();
-        const catLabel = (prod.querySelector('.cat-tag')?.textContent || '').toLowerCase();
-        const category = (prod.getAttribute('data-category') || '').toLowerCase();
-        
-        if (title.includes(urlSearch) || catLabel.includes(urlSearch) || category.includes(urlSearch)) {
-          (prod as HTMLElement).style.display = 'flex';
-        } else {
-          (prod as HTMLElement).style.display = 'none';
-        }
-      });
-
-      const headerTitleEl = document.querySelector('.shop-hero-title');
-      if (headerTitleEl) {
-        headerTitleEl.textContent = `Search Results for "${params.get('search')}"`;
-      }
-    } else if (urlFilter === 'crazy-deals') {
-      pills.forEach(p => p.classList.remove('active'));
-      products.forEach(prod => {
-        const isCrazy = prod.getAttribute('data-crazydeal') === 'true';
-        (prod as HTMLElement).style.display = isCrazy ? 'flex' : 'none';
-      });
-      const headerTitleEl = document.querySelector('.shop-hero-title');
-      if (headerTitleEl) {
-        headerTitleEl.textContent = `🔥 Exclusive Crazy Deals`;
-      }
-    } else if (urlFilter === 'bestsellers') {
-      pills.forEach(p => p.classList.remove('active'));
-      products.forEach(prod => {
-        const isBestseller = prod.getAttribute('data-bestseller') === 'true';
-        (prod as HTMLElement).style.display = isBestseller ? 'flex' : 'none';
-      });
-      const headerTitleEl = document.querySelector('.shop-hero-title');
-      if (headerTitleEl) {
-        headerTitleEl.textContent = `⭐ Best Selling Products`;
-      }
-    } else if (urlCat) {
-      filterCategory(urlCat);
-    }
+    applyFiltering();
 
     sortSelect?.addEventListener('change', () => {
       const val = sortSelect.value;
@@ -571,14 +597,73 @@ const PRODUCTS = await getCombinedProducts();
       const liveProducts = await fetchLiveShopifyProducts();
       if (liveProducts && liveProducts.length > 0) {
         liveProducts.forEach(lp => {
-          const card = document.querySelector(`[data-product-id="${lp.id}"], [data-product-id="${lp.handle}"]`);
+          const card = document.querySelector(
+            `.catalog-item[data-id="${lp.id}"], .catalog-item[data-id="${lp.handle}"], .catalog-item[data-id="${lp.safeId}"], .catalog-item[data-handle="${lp.handle}"], .catalog-item[data-handle="${lp.id}"]`
+          ) as HTMLElement | null;
+
           if (card) {
-            const priceEl = card.querySelector('.price-current, .p-now');
-            if (priceEl && lp.price) priceEl.textContent = `₹${lp.price.toLocaleString('en-IN')}.00`;
-            const origEl = card.querySelector('.price-original, .p-was');
-            if (origEl && lp.originalPrice) origEl.textContent = `₹${lp.originalPrice.toLocaleString('en-IN')}.00`;
+            // Update attributes
+            card.setAttribute('data-crazydeal', lp.isCrazyDeal ? 'true' : 'false');
+            card.setAttribute('data-bestseller', lp.isBestseller ? 'true' : 'false');
+            card.setAttribute('data-category', lp.category);
+            card.setAttribute('data-price', lp.price.toString());
+
+            // Update Price
+            const priceNowEl = card.querySelector('.price-now');
+            if (priceNowEl && lp.price) {
+              priceNowEl.textContent = `₹${lp.price.toLocaleString('en-IN')}.00`;
+            }
+            const priceWasEl = card.querySelector('.price-was');
+            if (priceWasEl && lp.originalPrice) {
+              priceWasEl.textContent = `₹${lp.originalPrice.toLocaleString('en-IN')}.00`;
+            }
+            const savingEl = card.querySelector('.saving-green-tag');
+            if (savingEl && lp.originalPrice && lp.price) {
+              const diff = lp.originalPrice - lp.price;
+              if (diff > 0) {
+                savingEl.textContent = `(Saving ₹${diff.toLocaleString('en-IN')})`;
+              }
+            }
+
+            // Update Category Label
+            const catLabelEl = card.querySelector('.card-cat-label');
+            if (catLabelEl && lp.categoryLabel) {
+              catLabelEl.textContent = lp.categoryLabel.toUpperCase();
+            }
+
+            // Update Badges Wrapper
+            const badgesWrap = card.querySelector('.badges-wrapper');
+            if (badgesWrap) {
+              let crazyBadge = badgesWrap.querySelector('.badge-tag.crazy');
+              if (lp.isCrazyDeal) {
+                if (!crazyBadge) {
+                  const span = document.createElement('span');
+                  span.className = 'badge-tag crazy';
+                  span.style.cssText = 'background:#e63946; color:#ffffff;';
+                  span.textContent = '🔥 CRAZY DEAL';
+                  badgesWrap.prepend(span);
+                }
+              } else if (crazyBadge) {
+                crazyBadge.remove();
+              }
+
+              let bestsellerBadge = badgesWrap.querySelector('.badge-tag.bestseller');
+              if (lp.isBestseller) {
+                if (!bestsellerBadge) {
+                  const span = document.createElement('span');
+                  span.className = 'badge-tag bestseller';
+                  span.textContent = 'BESTSELLER';
+                  badgesWrap.appendChild(span);
+                }
+              } else if (bestsellerBadge) {
+                bestsellerBadge.remove();
+              }
+            }
           }
         });
+
+        // Re-apply filter so newly tagged crazy-deals or bestsellers display immediately
+        applyFiltering();
       }
     } catch (err) {
       console.error('[Shop Sync Error]', err);

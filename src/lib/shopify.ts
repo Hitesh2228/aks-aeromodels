@@ -146,12 +146,12 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
   const origPrice = compareAtPrice > price ? compareAtPrice : Math.round(price * 1.2);
   const pctOff = origPrice > price ? Math.round(((origPrice - price) / origPrice) * 100) : 0;
 
-  const tagsLower = (sp.tags || []).map(t => t.toLowerCase());
+  const tagsLower = (sp.tags || []).map(t => t.toLowerCase().trim());
 
   // Check tags for Bestseller, Crazy Deal, New Arrival
-  const isBestsellerTag = tagsLower.some(t => t === 'bestseller' || t === 'best-seller' || t === 'best seller');
-  const isCrazyDealTag = tagsLower.some(t => t === 'crazy-deal' || t === 'crazydeal' || t === 'crazy deal');
-  const isNewArrivalTag = tagsLower.some(t => t === 'new' || t === 'new-arrival');
+  const isBestsellerTag = tagsLower.some(t => t === 'bestseller' || t === 'best-seller' || t === 'best seller' || t.includes('bestseller'));
+  const isCrazyDealTag = tagsLower.some(t => t === 'crazy-deal' || t === 'crazydeal' || t === 'crazy deal' || t.includes('crazy'));
+  const isNewArrivalTag = tagsLower.some(t => t === 'new' || t === 'new-arrival' || t === 'new arrival');
 
   let customBadge: string | undefined = pctOff > 0 ? `${pctOff}% OFF` : undefined;
   const badgeTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('badge:'));
@@ -170,11 +170,72 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
   const titleLower = (sp.title || '').toLowerCase();
   const typeLower = (sp.productType || '').toLowerCase();
 
-  let assignedCat = catList[idx % catList.length];
-  if (titleLower.includes('engine') || typeLower.includes('engine') || titleLower.includes('gas') || titleLower.includes('nitro') || tagsLower.includes('engine')) assignedCat = catList[0];
-  else if (titleLower.includes('radio') || titleLower.includes('receiver') || titleLower.includes('futaba') || titleLower.includes('transmitter') || tagsLower.includes('radio')) assignedCat = catList[1];
-  else if (titleLower.includes('balsa') || titleLower.includes('wood') || titleLower.includes('sheet') || tagsLower.includes('balsa')) assignedCat = catList[3];
-  else if (titleLower.includes('servo') || titleLower.includes('propeller') || titleLower.includes('accessory') || titleLower.includes('tool') || tagsLower.includes('accessories')) assignedCat = catList[4];
+  let assignedCat = catList[2]; // Default to Seagull Aeromodels
+  if (
+    titleLower.includes('engine') || 
+    typeLower.includes('engine') || 
+    tagsLower.includes('engine') ||
+    titleLower.includes('nitro') || 
+    titleLower.includes('gasoline') || 
+    titleLower.includes('o.s.') || 
+    titleLower.includes('os max') ||
+    (titleLower.includes('stroke') && !titleLower.includes('arf') && !titleLower.includes('trainer') && !titleLower.includes('sea'))
+  ) {
+    assignedCat = catList[0];
+  } else if (
+    titleLower.includes('radio') || 
+    titleLower.includes('receiver') || 
+    titleLower.includes('futaba') || 
+    titleLower.includes('transmitter') || 
+    typeLower.includes('radio') ||
+    tagsLower.includes('radio') ||
+    tagsLower.includes('receiver') ||
+    titleLower.includes('telemetry')
+  ) {
+    assignedCat = catList[1];
+  } else if (
+    titleLower.includes('balsa') || 
+    titleLower.includes('wood') || 
+    titleLower.includes('plywood') || 
+    titleLower.includes('sheet') || 
+    typeLower.includes('balsa') ||
+    tagsLower.includes('balsa')
+  ) {
+    assignedCat = catList[3];
+  } else if (
+    titleLower.includes('servo') || 
+    titleLower.includes('propeller') || 
+    titleLower.includes('accessory') || 
+    titleLower.includes('accessories') || 
+    titleLower.includes('spinner') || 
+    titleLower.includes('wheel') || 
+    titleLower.includes('fuel tank') || 
+    typeLower.includes('accessory') ||
+    tagsLower.includes('accessory') ||
+    tagsLower.includes('accessories')
+  ) {
+    assignedCat = catList[4];
+  } else if (
+    typeLower.includes('aeromodel') || 
+    typeLower.includes('seagull') || 
+    tagsLower.includes('aeromodels') || 
+    tagsLower.includes('aeromodel') || 
+    tagsLower.includes('seagull') ||
+    titleLower.includes('sea') || 
+    titleLower.includes('boomerang') || 
+    titleLower.includes('trainer') || 
+    titleLower.includes('arf') || 
+    titleLower.includes('yak') || 
+    titleLower.includes('pilatus') || 
+    titleLower.includes('decathlon') || 
+    titleLower.includes('edge') || 
+    titleLower.includes('extra') || 
+    titleLower.includes('bi-plane') ||
+    titleLower.includes('plane') ||
+    titleLower.includes('aircraft')
+  ) {
+    assignedCat = catList[2];
+  }
 
   return {
     id: sp.handle || sp.safeId || sp.id,

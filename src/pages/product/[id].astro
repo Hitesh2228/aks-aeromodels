@@ -168,7 +168,10 @@ const productSchema = {
       <!-- Left Column: Main Image & Thumbnails (Sticky on Scroll) -->
       <div class="pdp-sticky-gallery">
         <div class="pdp-image-stage">
-          {product.isBestseller && <span class="pdp-pill-badge bestseller">BESTSELLER</span>}
+          <div class="pdp-badges-group">
+            {product.isCrazyDeal && <span class="pdp-pill-badge crazy">🔥 CRAZY DEAL</span>}
+            {product.isBestseller && <span class="pdp-pill-badge bestseller">BESTSELLER</span>}
+          </div>
           {product.discountBadge && <span class="pdp-pill-badge offer">{product.discountBadge}</span>}
           <img src={product.image} alt={product.name} class="pdp-main-img" id="main-display-img" />
         </div>
@@ -632,19 +635,27 @@ const productSchema = {
     .pdp-image-stage:hover .pdp-main-img {
       transform: scale(2.2);
     }
-    .pdp-pill-badge {
+    .pdp-badges-group {
       position: absolute;
       top: 1rem;
+      left: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      z-index: 2;
+    }
+    .pdp-pill-badge {
       font-size: 0.65rem;
       font-weight: 700;
       padding: 3px 8px;
       border-radius: 3px;
       letter-spacing: 0.05em;
-      z-index: 2;
       text-transform: uppercase;
+      display: inline-block;
     }
-    .pdp-pill-badge.bestseller { left: 1rem; background: #dfab85; color: #ffffff; }
-    .pdp-pill-badge.offer { right: 1rem; background: #67c5a9; color: #ffffff; }
+    .pdp-pill-badge.crazy { background: #e63946; color: #ffffff; }
+    .pdp-pill-badge.bestseller { background: #dfab85; color: #ffffff; }
+    .pdp-pill-badge.offer { position: absolute; top: 1rem; right: 1rem; background: #67c5a9; color: #ffffff; z-index: 2; }
 
     .pdp-thumbs-row {
       display: flex;
