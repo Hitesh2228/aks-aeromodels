@@ -1403,7 +1403,7 @@ const productSchema = {
     import { initShareButtons } from '../../lib/shareHelper';
     import { fetchLiveShopifyProducts } from '../../lib/clientShopifySync';
 
-    document.addEventListener('DOMContentLoaded', async () => {
+    async function initPdp() {
       initShareButtons();
       // Record current product in Recently Viewed history
       const prodJsonEl = document.getElementById('current-pdp-product-json');
@@ -1553,8 +1553,42 @@ const productSchema = {
         if (liveProducts && liveProducts.length > 0) {
           const pathParts = window.location.pathname.replace(/\/$/, '').split('/');
           const currentSlug = pathParts[pathParts.length - 1];
-          const match = liveProducts.find(p => p.handle === currentSlug || p.id === currentSlug || p.id.endsWith(currentSlug));
+          const match = liveProducts.find(p => 
+            p.handle === currentSlug || 
+            p.id === currentSlug || 
+            p.id.endsWith(currentSlug) ||
+            (currentProd && (p.handle === currentProd.handle || p.id === currentProd.id || p.safeId === currentProd.id))
+          );
+
           if (match) {
+            // Update Badges on Product Page
+            const badgesGroup = document.querySelector('.pdp-badges-group');
+            if (badgesGroup) {
+              let crazyBadge = badgesGroup.querySelector('.pdp-pill-badge.crazy');
+              if (match.isCrazyDeal) {
+                if (!crazyBadge) {
+                  const span = document.createElement('span');
+                  span.className = 'pdp-pill-badge crazy';
+                  span.textContent = '🔥 CRAZY DEAL';
+                  badgesGroup.prepend(span);
+                }
+              } else if (crazyBadge) {
+                crazyBadge.remove();
+              }
+
+              let bestBadge = badgesGroup.querySelector('.pdp-pill-badge.bestseller');
+              if (match.isBestseller) {
+                if (!bestBadge) {
+                  const span = document.createElement('span');
+                  span.className = 'pdp-pill-badge bestseller';
+                  span.textContent = 'BESTSELLER';
+                  badgesGroup.appendChild(span);
+                }
+              } else if (bestBadge) {
+                bestBadge.remove();
+              }
+            }
+
             // Update Price
             const actualPriceEl = document.querySelector('.price-actual');
             if (actualPriceEl && match.price) actualPriceEl.textContent = `₹${match.price.toLocaleString('en-IN')}.00`;
@@ -1564,6 +1598,13 @@ const productSchema = {
             if (stickyPriceEl && match.price) stickyPriceEl.textContent = `₹${match.price.toLocaleString('en-IN')}.00`;
             const badgeEl = document.querySelector('.price-discount-tag');
             if (badgeEl && match.discountBadge) badgeEl.textContent = `(Save ${match.discountBadge})`;
+
+            // Update Prepaid Discount Price
+            const prepaidEl = document.querySelector('.strong-amt');
+            if (prepaidEl && match.price) {
+              const prep = Math.round(match.price * 0.95);
+              prepaidEl.textContent = `₹${prep.toLocaleString('en-IN')}`;
+            }
 
             // Update Description if edited
             const descEl = document.querySelector('.acc-paragraph');
@@ -1581,7 +1622,14 @@ const productSchema = {
       } catch (err) {
         console.error('[Live PDP Sync Error]', err);
       }
-    });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPdp);
+    } else {
+      initPdp();
+    }
+    document.addEventListener('astro:page-load', initPdp);
   </script>
 
 </body>

@@ -431,6 +431,7 @@ const PRODUCTS = await getCombinedProducts();
   import { addToCart, registerProductsCache } from '../lib/cartStore';
   import { toggleWishlist, isInWishlist } from '../lib/wishlistStore';
   import { initShareButtons } from '../lib/shareHelper';
+  import { fetchLiveShopifyProducts } from '../lib/clientShopifySync';
 
   async function initShopControls() {
     const jsonEl = document.getElementById('shop-products-json');
@@ -597,9 +598,20 @@ const PRODUCTS = await getCombinedProducts();
       const liveProducts = await fetchLiveShopifyProducts();
       if (liveProducts && liveProducts.length > 0) {
         liveProducts.forEach(lp => {
-          const card = document.querySelector(
+          let card = document.querySelector(
             `.catalog-item[data-id="${lp.id}"], .catalog-item[data-id="${lp.handle}"], .catalog-item[data-id="${lp.safeId}"], .catalog-item[data-handle="${lp.handle}"], .catalog-item[data-handle="${lp.id}"]`
           ) as HTMLElement | null;
+
+          if (!card && lp.title) {
+            const cleanLp = lp.title.toLowerCase().replace(/[^a-z0-9]/g, '');
+            for (const c of document.querySelectorAll('.catalog-item')) {
+              const cTitle = (c.querySelector('.card-title-heading a')?.textContent || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+              if (cTitle && (cTitle.includes(cleanLp) || cleanLp.includes(cTitle))) {
+                card = c as HTMLElement;
+                break;
+              }
+            }
+          }
 
           if (card) {
             // Update attributes
@@ -607,6 +619,12 @@ const PRODUCTS = await getCombinedProducts();
             card.setAttribute('data-bestseller', lp.isBestseller ? 'true' : 'false');
             card.setAttribute('data-category', lp.category);
             card.setAttribute('data-price', lp.price.toString());
+
+            // Update Title
+            const titleLink = card.querySelector('.card-title-heading a');
+            if (titleLink && lp.title) {
+              titleLink.textContent = lp.title;
+            }
 
             // Update Price
             const priceNowEl = card.querySelector('.price-now');

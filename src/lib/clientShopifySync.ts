@@ -64,12 +64,14 @@ export async function fetchLiveShopifyProducts(): Promise<LiveProduct[] | null> 
   `;
 
   try {
-    const res = await fetch(`https://${SHOPIFY_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`, {
+    const res = await fetch(`https://${SHOPIFY_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json?_t=${Date.now()}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Shopify-Storefront-Access-Token': SHOPIFY_TOKEN
+        'X-Shopify-Storefront-Access-Token': SHOPIFY_TOKEN,
+        'Cache-Control': 'no-cache, no-store, must-revalidate'
       },
+      cache: 'no-store',
       body: JSON.stringify({ query })
     });
 
