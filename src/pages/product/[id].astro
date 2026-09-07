@@ -654,11 +654,11 @@ const productSchema = {
       margin-bottom: 5rem;
     }
 
-    /* Sticky Gallery Column - Stays pinned when scrolling through details */
+    /* Sticky Gallery Column - Stays pinned when scrolling through details with safe clearance below header */
     .pdp-sticky-gallery {
       position: -webkit-sticky !important;
       position: sticky !important;
-      top: 95px !important;
+      top: calc(var(--main-header-height, 150px) + 20px) !important;
       align-self: flex-start !important;
       width: 460px;
       display: flex;

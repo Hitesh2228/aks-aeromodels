@@ -682,6 +682,17 @@ import LoginModal from './LoginModal.astro';
     let lastScrollY = window.scrollY;
     const header = document.querySelector('.main-header');
 
+    function updateHeaderDimensions() {
+      if (header) {
+        const height = (header as HTMLElement).offsetHeight;
+        if (height > 0) {
+          document.documentElement.style.setProperty('--main-header-height', `${height}px`);
+        }
+      }
+    }
+    updateHeaderDimensions();
+    window.addEventListener('resize', updateHeaderDimensions, { passive: true });
+
     function handleScroll() {
       const currentScrollY = window.scrollY;
 
