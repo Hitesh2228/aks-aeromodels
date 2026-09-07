@@ -1,9 +1,11 @@
 import { defineConfig } from 'astro/config';
+import vercel from '@astrojs/vercel/serverless';
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'static',
-  site: 'https://aks-aeromodels.com',
+  output: 'server',
+  adapter: vercel(),
+  site: 'https://skynodesuav.in',
   compressHTML: true,
   build: {
     inlineStylesheets: 'auto'

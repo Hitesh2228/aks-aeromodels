@@ -13,6 +13,7 @@ export interface ShopifyProduct {
   compareAtPrice: number;
   currencyCode: string;
   imageUrl: string;
+  images: string[];
   imageAlt: string;
   variantId: string;
   availableForSale: boolean;
@@ -24,12 +25,14 @@ const SHOPIFY_API_VERSION = import.meta.env.PUBLIC_SHOPIFY_API_VERSION || "2024-
 
 export async function fetchShopifyStorefront<T = any>(query: string, variables: Record<string, any> = {}): Promise<T | null> {
   try {
-    const res = await fetch(`https://${SHOPIFY_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`, {
+    const res = await fetch(`https://${SHOPIFY_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json?_t=${Date.now()}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Shopify-Storefront-Access-Token': SHOPIFY_TOKEN
+        'X-Shopify-Storefront-Access-Token': SHOPIFY_TOKEN,
+        'Cache-Control': 'no-cache, no-store, must-revalidate'
       },
+      cache: 'no-store',
       body: JSON.stringify({ query, variables })
     });
 
@@ -69,7 +72,7 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
                 currencyCode
               }
             }
-            images(first: 1) {
+            images(first: 10) {
               edges {
                 node {
                   url
@@ -105,7 +108,9 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
   const items = data.products.edges.map((edge: any) => {
     const node = edge.node;
     const variantNode = node.variants?.edges?.[0]?.node;
-    const imageNode = node.images?.edges?.[0]?.node;
+    const imageEdges = node.images?.edges || [];
+    const imageList = imageEdges.map((e: any) => e.node?.url).filter(Boolean);
+    const mainImg = imageList[0] || "https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800";
     const rawId = node.id;
     const numericId = rawId.includes('/') ? rawId.split('/').pop() : rawId;
     const safeId = `shopify-${numericId}`;
@@ -124,8 +129,9 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
       price: priceVal,
       compareAtPrice: compareAtVal,
       currencyCode: node.priceRange?.minVariantPrice?.currencyCode || "INR",
-      imageUrl: imageNode?.url || "https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800",
-      imageAlt: imageNode?.altText || node.title,
+      imageUrl: mainImg,
+      images: imageList.length > 0 ? imageList : [mainImg],
+      imageAlt: imageEdges[0]?.node?.altText || node.title,
       variantId: variantNode?.id || "",
       availableForSale: variantNode?.availableForSale ?? true
     };
@@ -253,6 +259,7 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
     isCrazyDeal: isCrazyDealTag,
     isFromShopify: true,
     image: sp.imageUrl,
+    images: sp.images && sp.images.length > 0 ? sp.images : [sp.imageUrl],
     description: sp.description || 'Official SKYNODES UAV product synced live from Shopify Storefront.',
     specs: { Vendor: sp.vendor, Type: sp.productType, Status: sp.availableForSale ? 'In Stock' : 'Out of Stock' },
     inStock: sp.availableForSale,

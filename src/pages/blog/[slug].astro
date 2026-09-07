@@ -5,14 +5,11 @@ import Footer from '../../components/Footer.astro';
 import { POSTS } from './index.astro';
 import '../../styles/global.css';
 
-export function getStaticPaths() {
-  return POSTS.map(post => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+const { slug } = Astro.params;
+const post = POSTS.find(p => p.slug === slug);
+if (!post) {
+  return Astro.redirect('/blog');
 }
-
-const { post } = Astro.props;
 
 // JSON-LD Article Schema
 const articleSchema = {

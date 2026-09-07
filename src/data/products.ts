@@ -17,6 +17,7 @@ export interface Product {
   gstRate?: number; // Configurable GST Tax Rate (5%, 12%, 18%) per product
   hsnCode?: string; // HSN Code for Tax Invoicing & GSTR Reporting
   image: string;
+  images?: string[];
   description: string;
   specs: Record<string, string>;
   inStock: boolean;

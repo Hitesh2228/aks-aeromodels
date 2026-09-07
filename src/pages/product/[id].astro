@@ -9,27 +9,15 @@ import { type Product } from '../../data/products';
 import { getCombinedProducts } from '../../lib/shopify';
 import '../../styles/global.css';
 
-export async function getStaticPaths() {
-  const allProducts = await getCombinedProducts();
-  const paths: any[] = [];
-  const addedIds = new Set<string>();
-
-  for (const product of allProducts) {
-    if (product.id && !addedIds.has(product.id)) {
-      paths.push({ params: { id: product.id }, props: { product } });
-      addedIds.add(product.id);
-    }
-    if (product.handle && !addedIds.has(product.handle)) {
-      paths.push({ params: { id: product.handle }, props: { product } });
-      addedIds.add(product.handle);
-    }
-  }
-
-  return paths;
-}
-
-const { product } = Astro.props as { product: Product };
+const { id } = Astro.params;
 const allProducts = await getCombinedProducts();
+const product = allProducts.find(p => 
+  p.id === id || 
+  p.handle === id || 
+  p.handle?.toLowerCase() === id?.toLowerCase() || 
+  p.id?.toLowerCase() === id?.toLowerCase() ||
+  (id?.startsWith('shopify-') && p.id.includes(id.replace('shopify-', '')))
+);
 
 if (!product) {
   return Astro.redirect('/shop');
@@ -177,20 +165,21 @@ const productSchema = {
         </div>
 
         <!-- Thumbnails Row -->
-        <div class="pdp-thumbs-row">
-          <div class="thumb-box active" data-src={product.image}>
-            <img src={product.image} alt="Angle 1" />
+        {((product.images && product.images.length > 0) ? product.images : [product.image]).length > 1 ? (
+          <div class="pdp-thumbs-row">
+            {((product.images && product.images.length > 0) ? product.images : [product.image]).map((imgUrl: string, idx: number) => (
+              <div class={`thumb-box ${idx === 0 ? 'active' : ''}`} data-src={imgUrl}>
+                <img src={imgUrl} alt={`${product.name} view ${idx + 1}`} />
+              </div>
+            ))}
           </div>
-          <div class="thumb-box" data-src="https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?q=80&w=600&auto=format&fit=crop">
-            <img src="https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?q=80&w=600&auto=format&fit=crop" alt="Angle 2" />
+        ) : (
+          <div class="pdp-thumbs-row">
+            <div class="thumb-box active" data-src={product.image}>
+              <img src={product.image} alt={product.name} />
+            </div>
           </div>
-          <div class="thumb-box" data-src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=600&auto=format&fit=crop">
-            <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=600&auto=format&fit=crop" alt="Angle 3" />
-          </div>
-          <div class="thumb-box" data-src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=600&auto=format&fit=crop">
-            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=600&auto=format&fit=crop" alt="Angle 4" />
-          </div>
-        </div>
+        )}
       </div>
 
       <!-- Right Column: Product Specs & Buying Actions -->
@@ -1610,12 +1599,31 @@ const productSchema = {
             const descEl = document.querySelector('.acc-paragraph');
             if (descEl && match.description) descEl.textContent = match.description;
 
-            // Update Image if edited
+            // Update Image and Thumbnails if edited
             if (match.imageUrl && !match.imageUrl.includes('placeholder')) {
               const mainImg = document.getElementById('main-display-img') as HTMLImageElement;
               if (mainImg) mainImg.src = match.imageUrl;
               const stickyThumb = document.querySelector('.sticky-thumb') as HTMLImageElement;
               if (stickyThumb) stickyThumb.src = match.imageUrl;
+
+              if (match.images && match.images.length > 1) {
+                const thumbsRow = document.querySelector('.pdp-thumbs-row');
+                if (thumbsRow) {
+                  thumbsRow.innerHTML = match.images.map((img: string, idx: number) => `
+                    <div class="thumb-box ${idx === 0 ? 'active' : ''}" data-src="${img}">
+                      <img src="${img}" alt="${match.title} view ${idx + 1}" />
+                    </div>
+                  `).join('');
+                  thumbsRow.querySelectorAll('.thumb-box').forEach(t => {
+                    t.addEventListener('click', () => {
+                      thumbsRow.querySelectorAll('.thumb-box').forEach(other => other.classList.remove('active'));
+                      t.classList.add('active');
+                      const src = t.getAttribute('data-src');
+                      if (src && mainImg) mainImg.src = src;
+                    });
+                  });
+                }
+              }
             }
           }
         }

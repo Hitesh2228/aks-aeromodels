@@ -18,6 +18,7 @@ export interface LiveProduct {
   originalPrice: number;
   discountBadge: string;
   imageUrl: string;
+  images?: string[];
   isBestseller: boolean;
   isCrazyDeal: boolean;
   isNewArrival: boolean;
@@ -40,7 +41,7 @@ export async function fetchLiveShopifyProducts(): Promise<LiveProduct[] | null> 
                 amount
               }
             }
-            images(first: 1) {
+            images(first: 10) {
               edges {
                 node {
                   url
@@ -82,7 +83,8 @@ export async function fetchLiveShopifyProducts(): Promise<LiveProduct[] | null> 
     return json.data.products.edges.map((e: any) => {
       const node = e.node;
       const variantNode = node.variants?.edges?.[0]?.node;
-      const imageNode = node.images?.edges?.[0]?.node;
+      const imageEdges = node.images?.edges || [];
+      const imageList = imageEdges.map((e: any) => e.node?.url).filter(Boolean);
       const rawId = node.id || "";
       const numId = rawId.includes('/') ? rawId.split('/').pop() : rawId;
       const safeId = `shopify-${numId}`;
@@ -189,7 +191,8 @@ export async function fetchLiveShopifyProducts(): Promise<LiveProduct[] | null> 
         price,
         originalPrice: compareAtPrice,
         discountBadge: customBadge,
-        imageUrl: imageNode?.url || "https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800",
+        imageUrl: imageList[0] || "https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800",
+        images: imageList,
         isBestseller: tagsLower.some((t: string) => t === 'bestseller' || t === 'best-seller' || t === 'best seller' || t.includes('bestseller')),
         isCrazyDeal: tagsLower.some((t: string) => t === 'crazy-deal' || t === 'crazydeal' || t === 'crazy deal' || t.includes('crazy')),
         isNewArrival: tagsLower.some((t: string) => t === 'new' || t === 'new-arrival' || t === 'new arrival')
