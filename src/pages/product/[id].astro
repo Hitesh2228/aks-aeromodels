@@ -282,10 +282,10 @@ const productSchema = {
           <div class="combo-inner-flex">
             <img src={pairedProducts[0].image} alt="Combo item" class="combo-thumb" />
             <div class="combo-details">
-              <strong>{product.name} + {pairedProducts[0].name}</strong>
+              <strong id="combo-main-title">{product.name} + {pairedProducts[0].name}</strong>
               <div class="combo-prices">
-                <span>₹{(product.price + pairedProducts[0].price).toLocaleString('en-IN')}.00</span>
-                <small style="text-decoration: line-through; color: #888;">₹{(product.originalPrice + pairedProducts[0].originalPrice).toLocaleString('en-IN')}.00</small>
+                <span id="combo-total-price">₹{(product.price + pairedProducts[0].price).toLocaleString('en-IN')}.00</span>
+                <small id="combo-total-slashed" style="text-decoration: line-through; color: #888;">₹{(product.originalPrice + pairedProducts[0].originalPrice).toLocaleString('en-IN')}.00</small>
               </div>
             </div>
             <button class="btn-combo-add-pdf add-to-cart-btn" data-id={product.id}>
@@ -331,7 +331,7 @@ const productSchema = {
               <span class="pdf-acc-icon">+</span>
             </button>
             <div class="pdf-acc-content">
-              <p class="acc-paragraph">{product.description}</p>
+              <p class="acc-paragraph" id="pdp-highlights-text">{product.description}</p>
             </div>
           </div>
 
@@ -2610,7 +2610,20 @@ const productSchema = {
           );
 
           if (match) {
-            // Update Badges on Product Page
+            // 1. Update Title on Heading, Sticky Bar, Breadcrumb, and Document Title
+            if (match.title) {
+              const headingEl = document.querySelector('.product-heading-title');
+              if (headingEl) headingEl.textContent = match.title;
+              const stickyTitleEl = document.querySelector('.sticky-name');
+              if (stickyTitleEl) stickyTitleEl.textContent = match.title;
+              const breadcrumbActive = document.querySelector('.breadcrumb-strip .active');
+              if (breadcrumbActive) breadcrumbActive.textContent = match.title;
+              document.title = `${match.title} - Buy Online at Best Price in India | SKYNODESUAV`;
+              const comboTitle = document.getElementById('combo-main-title');
+              if (comboTitle) comboTitle.textContent = `${match.title} + ${pairedProducts?.[0]?.name || 'Complementary Gear'}`;
+            }
+
+            // 2. Update Badges on Product Page
             const badgesGroup = document.querySelector('.pdp-badges-group');
             if (badgesGroup) {
               let crazyBadge = badgesGroup.querySelector('.pdp-pill-badge.crazy');
@@ -2638,7 +2651,25 @@ const productSchema = {
               }
             }
 
-            // Update Price
+            // 3. Update Offer / Discount Badge on Stage
+            const offerBadgeEl = document.querySelector('.pdp-image-stage .pdp-pill-badge.offer');
+            if (match.discountBadge) {
+              if (offerBadgeEl) {
+                offerBadgeEl.textContent = match.discountBadge;
+              } else {
+                const stageEl = document.querySelector('.pdp-image-stage');
+                if (stageEl) {
+                  const span = document.createElement('span');
+                  span.className = 'pdp-pill-badge offer';
+                  span.textContent = match.discountBadge;
+                  stageEl.appendChild(span);
+                }
+              }
+            } else if (offerBadgeEl) {
+              offerBadgeEl.remove();
+            }
+
+            // 4. Update Price
             const actualPriceEl = document.querySelector('.price-actual');
             if (actualPriceEl && match.price) actualPriceEl.textContent = `₹${match.price.toLocaleString('en-IN')}.00`;
             const slashedPriceEl = document.querySelector('.price-slashed');
@@ -2648,18 +2679,36 @@ const productSchema = {
             const badgeEl = document.querySelector('.price-discount-tag');
             if (badgeEl && match.discountBadge) badgeEl.textContent = `(Save ${match.discountBadge})`;
 
-            // Update Prepaid Discount Price
-            const prepaidEl = document.querySelector('.strong-amt');
+            // 5. Update Prepaid Discount Price Banner
+            const prepaidEl = document.querySelector('.prepaid-banner-pill strong');
             if (prepaidEl && match.price) {
               const prep = Math.round(match.price * 0.95);
-              prepaidEl.textContent = `₹${prep.toLocaleString('en-IN')}`;
+              prepaidEl.textContent = `₹${prep.toLocaleString('en-IN')}.00`;
             }
 
-            // Update Description if edited
-            const descEl = document.querySelector('.acc-paragraph');
+            // 6. Update Combo Price
+            const comboPriceEl = document.getElementById('combo-total-price');
+            const pairedPrice = Number(pairedProducts?.[0]?.price) || 0;
+            if (comboPriceEl && match.price) {
+              comboPriceEl.textContent = `₹${(match.price + pairedPrice).toLocaleString('en-IN')}.00`;
+            }
+
+            // 7. Update Description (Highlights) if edited
+            const descEl = document.getElementById('pdp-highlights-text') || document.querySelector('.acc-paragraph');
             if (descEl && match.description) descEl.textContent = match.description;
 
-            // Update Image and Thumbnails if edited
+            // 8. Update Data attributes for Add to Cart & Wishlist
+            document.querySelectorAll('.add-to-cart-btn[data-id], .wishlist-toggle-btn[data-id]').forEach(btn => {
+              const bId = btn.getAttribute('data-id');
+              if (bId === match.id || bId === match.handle || bId === match.safeId) {
+                btn.setAttribute('data-name', match.title);
+                btn.setAttribute('data-price', match.price.toString());
+                btn.setAttribute('data-original-price', match.originalPrice.toString());
+                if (match.imageUrl) btn.setAttribute('data-image', match.imageUrl);
+              }
+            });
+
+            // 9. Update Image and Thumbnails if edited
             if (match.imageUrl && !match.imageUrl.includes('placeholder')) {
               const mainImg = document.getElementById('main-display-img') as HTMLImageElement;
               if (mainImg) mainImg.src = match.imageUrl;
