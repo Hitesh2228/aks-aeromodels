@@ -17,6 +17,11 @@ export interface LiveProduct {
   price: number;
   originalPrice: number;
   discountBadge: string;
+  prepaidDiscountPct?: number;
+  gstRate?: number;
+  warrantyPeriod?: string;
+  youtubeVideoId?: string;
+  availableForSale?: boolean;
   imageUrl: string;
   images?: string[];
   isBestseller: boolean;
@@ -178,6 +183,49 @@ export async function fetchLiveShopifyProducts(): Promise<LiveProduct[] | null> 
         customBadge = badgeTag.substring(6).trim();
       }
 
+      // Parse Configurable Prepaid Discount Tag (e.g. "prepaid:10%" or "prepaid:7%")
+      let prepaidDiscountPct = 5;
+      const prepaidTag = (node.tags || []).find((t: string) => t.toLowerCase().startsWith('prepaid:'));
+      if (prepaidTag) {
+        const parsed = parseInt(prepaidTag.replace(/[^0-9]/g, ''), 10);
+        if (!isNaN(parsed) && parsed > 0 && parsed <= 90) {
+          prepaidDiscountPct = parsed;
+        }
+      }
+
+      // Parse Configurable GST Rate Tag (e.g. "gst:12%", "gst:28%", "gst:5%")
+      let gstRate = 18;
+      const gstTag = (node.tags || []).find((t: string) => t.toLowerCase().startsWith('gst:'));
+      if (gstTag) {
+        const parsed = parseInt(gstTag.replace(/[^0-9]/g, ''), 10);
+        if (!isNaN(parsed) && parsed >= 0 && parsed <= 40) {
+          gstRate = parsed;
+        }
+      }
+
+      // Parse Configurable Warranty Tag (e.g. "warranty:2-Year", "warranty:6-Months")
+      let warrantyPeriod: string | undefined = undefined;
+      const warrantyTag = (node.tags || []).find((t: string) => t.toLowerCase().startsWith('warranty:'));
+      if (warrantyTag) {
+        warrantyPeriod = warrantyTag.substring(9).trim();
+      }
+
+      // Parse Configurable YouTube Video Tag (e.g. "yt:l4J81G3H5e0" or "video:https://youtu.be/...")
+      let youtubeVideoId: string | undefined = undefined;
+      const videoTag = (node.tags || []).find((t: string) => t.toLowerCase().startsWith('yt:') || t.toLowerCase().startsWith('video:'));
+      if (videoTag) {
+        const rawVal = videoTag.includes(':') ? videoTag.split(/:(.+)/)[1].trim() : '';
+        if (rawVal.includes('v=')) {
+          youtubeVideoId = rawVal.split('v=')[1]?.split('&')[0];
+        } else if (rawVal.includes('youtu.be/')) {
+          youtubeVideoId = rawVal.split('youtu.be/')[1]?.split('?')[0];
+        } else if (rawVal) {
+          youtubeVideoId = rawVal;
+        }
+      }
+
+      const availableForSale = variantNode?.availableForSale ?? true;
+
       return {
         id: node.handle || safeId || node.id,
         safeId,
@@ -191,6 +239,11 @@ export async function fetchLiveShopifyProducts(): Promise<LiveProduct[] | null> 
         price,
         originalPrice: compareAtPrice,
         discountBadge: customBadge,
+        prepaidDiscountPct,
+        gstRate,
+        warrantyPeriod,
+        youtubeVideoId,
+        availableForSale,
         imageUrl: imageList[0] || "https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800",
         images: imageList,
         isBestseller: tagsLower.some((t: string) => t === 'bestseller' || t === 'best-seller' || t === 'best seller' || t.includes('bestseller')),

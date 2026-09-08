@@ -35,14 +35,17 @@ const pageTitle = `${product.name} - Buy Online at Best Price in India | SKYNODE
 const metaDescription = `${product.description} Buy ${product.name} online for ₹${product.price.toLocaleString('en-IN')}. Original factory warranty & fast shipping across India.`;
 const canonicalUrl = `https://aks-aeromodels.com/product/${product.id}`;
 
-const prepaidPrice = Math.round(product.price * 0.95);
+const prepaidDiscountPct = product.prepaidDiscountPct ?? 5;
+const prepaidPrice = Math.round(product.price * (1 - prepaidDiscountPct / 100));
 
 // Sample Pilot Reviews
 const pilotReviews = [
-  { name: "Manav R.", date: "4 months ago", rating: 5, text: "Beautifully engineered component. Smooth idle and outstanding flight response!" },
-  { name: "Neha R.", date: "4 months ago", rating: 5, text: "Balanced performance for all flying styles. Delivered safely to Nashik in 24 hours." },
-  { name: "Siddharth K.", date: "4 months ago", rating: 5, text: "100% genuine factory sealed package. Excellent power output and clean finish." },
-  { name: "Shreya N.", date: "7 months ago", rating: 5, text: "Great variety of accessories in the kit. Perfect for field training and competitions." }
+  { id: 'seed_rev_1', name: "Manav R.", date: "5 days ago", rating: 5, title: "Outstanding Engine Performance", text: "Beautifully engineered component. Smooth idle and outstanding flight response during aerobatics!" },
+  { id: 'seed_rev_2', name: "Neha R.", date: "2 months ago", rating: 5, title: "Super Fast Delivery & Genuine Part", text: "Balanced performance for all flying styles. Delivered safely to Nashik in 24 hours with solid factory packaging." },
+  { id: 'seed_rev_3', name: "Siddharth K.", date: "4 months ago", rating: 4, title: "Reliable Throttle & Quality Build", text: "100% genuine factory sealed package. Excellent power output, clean finish, and precise needle adjustments." },
+  { id: 'seed_rev_4', name: "Shreya N.", date: "7 months ago", rating: 5, title: "Perfect for Field Training", text: "Great variety of accessories in the kit. Perfect for field training and weekend club competitions." },
+  { id: 'seed_rev_5', name: "Vikram S.", date: "9 months ago", rating: 5, title: "Precision Machining", text: "Tolerances are razor-sharp. Ran the break-in cycles as instructed and it hums like a Swiss watch." },
+  { id: 'seed_rev_6', name: "Anand M.", date: "1 year ago", rating: 4, title: "Great Value for RC Pilots", text: "High durability and good compression. Highly recommend to anyone upgrading their setup." }
 ];
 
 // Component Highlights ("Notes in This Set")
@@ -187,10 +190,15 @@ const productSchema = {
         <h1 class="product-heading-title">{product.name}</h1>
         <p class="product-subtext">{product.specs.Displacement || product.specs.Wingspan || 'Contest Grade'} • For every pilot requirement</p>
 
-        <!-- Rating Pill & Share -->
+        <!-- Rating Pill & Share & Stock Status -->
         <div class="rating-row">
           <span class="rating-star-pill">★ {product.rating}</span>
           <span class="rating-reviews-count" id="header-reviews-count">{product.reviewsCount} reviews</span>
+          {product.inStock ? (
+            <span class="stock-status-pill in-stock" id="pdp-stock-status">✓ IN STOCK</span>
+          ) : (
+            <span class="stock-status-pill out-of-stock" id="pdp-stock-status">✕ OUT OF STOCK</span>
+          )}
           <button type="button" class="share-btn btn-share-product" data-url={`/product/${product.id}`} data-title={product.name} data-text={`Check out ${product.name} on SKYNODES UAV!`} title="Share Product Link" style="background: none; border: none; cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center;">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
           </button>
@@ -213,15 +221,20 @@ const productSchema = {
         <div class="tax-note-text">Inclusive of all taxes</div>
 
         <!-- Prepaid Discount Callout Banner (Exact PDF Style) -->
-        <div class="prepaid-banner-pill">
+        <div class="prepaid-banner-pill" id="pdp-prepaid-banner">
           <span class="tag-icon">🏷️</span>
-          <span>Pay only <strong>₹{prepaidPrice.toLocaleString('en-IN')}.00</strong> with Prepaid Discounts ⓘ</span>
+          <span>Pay only <strong id="pdp-prepaid-price">₹{prepaidPrice.toLocaleString('en-IN')}.00</strong> with Prepaid Discounts (<span id="pdp-prepaid-pct">{prepaidDiscountPct}% OFF</span>) ⓘ</span>
         </div>
 
         <!-- ADD TO CART Button Row with Wishlist Heart -->
         <div class="pdp-cart-actions-row">
-          <button class="btn-add-to-cart-pdf add-to-cart-btn" id="pdp-main-add-btn" data-id={product.id}>
-            ADD TO CART
+          <button 
+            class={`btn-add-to-cart-pdf add-to-cart-btn ${!product.inStock ? 'is-sold-out' : ''}`} 
+            id="pdp-main-add-btn" 
+            data-id={product.id}
+            disabled={!product.inStock}
+          >
+            {product.inStock ? 'ADD TO CART' : 'SOLD OUT'}
           </button>
           <button 
             type="button" 
@@ -288,7 +301,12 @@ const productSchema = {
                 <small id="combo-total-slashed" style="text-decoration: line-through; color: #888;">₹{(product.originalPrice + pairedProducts[0].originalPrice).toLocaleString('en-IN')}.00</small>
               </div>
             </div>
-            <button class="btn-combo-add-pdf add-to-cart-btn" data-id={product.id}>
+            <button 
+              class="btn-combo-add-pdf" 
+              id="pdp-combo-add-btn" 
+              data-id={product.id} 
+              data-combo-id={pairedProducts[0]?.id || ''}
+            >
               ADD TO CART
             </button>
           </div>
@@ -364,6 +382,7 @@ const productSchema = {
               <p class="acc-paragraph" style="margin-bottom: 0.85rem;">Watch {product.name} in action during official field testing and flight performance demonstration:</p>
               <div class="video-embed-container">
                 <iframe
+                  id="pdp-youtube-iframe"
                   src={`https://www.youtube-nocookie.com/embed/${product.youtubeVideoId || 'l4J81G3H5e0'}?autoplay=0&rel=0`}
                   title={`${product.name} Official Flight Test Demo`}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -400,7 +419,7 @@ const productSchema = {
               <span class="pdf-acc-icon">+</span>
             </button>
             <div class="pdf-acc-content">
-              <p class="acc-paragraph">Includes 1-Year Official Manufacturer Warranty and 18% GST Input Tax Credit Invoice for B2B orders.</p>
+              <p class="acc-paragraph" id="pdp-warranty-info-text">Includes {product.warrantyPeriod || '1-Year'} Official Manufacturer Warranty and {product.gstRate || 18}% GST Input Tax Credit Invoice for B2B orders.</p>
             </div>
           </div>
 
@@ -510,13 +529,23 @@ const productSchema = {
         </div>
       </div>
 
+      <!-- Review Rating Filter Chips -->
+      <div class="review-filters-bar" id="review-filters-bar">
+        <button type="button" class="filter-chip active" data-rating="all">All Reviews (<span id="count-filter-all">0</span>)</button>
+        <button type="button" class="filter-chip" data-rating="5">★ 5 (<span id="count-filter-5">0</span>)</button>
+        <button type="button" class="filter-chip" data-rating="4">★ 4 (<span id="count-filter-4">0</span>)</button>
+        <button type="button" class="filter-chip" data-rating="3">★ 3 (<span id="count-filter-3">0</span>)</button>
+        <button type="button" class="filter-chip" data-rating="2">★ 2 (<span id="count-filter-2">0</span>)</button>
+        <button type="button" class="filter-chip" data-rating="1">★ 1 (<span id="count-filter-1">0</span>)</button>
+      </div>
+
       <!-- Verified Reviews Cards List -->
       <div class="pdf-reviews-list" id="pdf-reviews-list">
-        {pilotReviews.map(rev => (
-          <div class="pdf-review-card">
+        {pilotReviews.slice(0, 4).map(rev => (
+          <div class="pdf-review-card" id={rev.id}>
             <div class="rev-card-top-header">
               <div class="rev-author-stars">
-                <div class="rev-stars">★★★★★</div>
+                <div class="rev-stars">{'★'.repeat(rev.rating) + '☆'.repeat(5 - rev.rating)}</div>
                 <div class="rev-author">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="#059669"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                   <strong>{rev.name}</strong>
@@ -524,10 +553,19 @@ const productSchema = {
               </div>
               <span class="rev-time-ago">{rev.date}</span>
             </div>
-            <h4 class="rev-title-headline">Elegant & High Performance</h4>
+            <h4 class="rev-title-headline">{rev.title}</h4>
             <p class="rev-body-text">{rev.text}</p>
           </div>
         ))}
+      </div>
+
+      <!-- View More Reviews Button -->
+      <div class="view-more-reviews-wrap" id="view-more-reviews-wrap">
+        <button type="button" class="btn-view-more-reviews" id="btn-view-more-reviews">
+          <span>View More Reviews</span>
+          <span class="view-more-remaining" id="view-more-remaining-count"></span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
       </div>
 
     </section>
@@ -625,8 +663,13 @@ const productSchema = {
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
           </svg>
         </button>
-        <button class="btn-primary sticky-add-btn add-to-cart-btn" data-id={product.id}>
-          ADD TO CART
+        <button 
+          class={`btn-primary sticky-add-btn add-to-cart-btn ${!product.inStock ? 'is-sold-out' : ''}`} 
+          id="pdp-sticky-add-btn"
+          data-id={product.id}
+          disabled={!product.inStock}
+        >
+          {product.inStock ? 'ADD TO CART' : 'SOLD OUT'}
         </button>
       </div>
     </div>
@@ -873,6 +916,27 @@ const productSchema = {
       font-size: 0.82rem;
       color: #666666;
     }
+    .stock-status-pill {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      margin-left: 0.4rem;
+    }
+    .stock-status-pill.in-stock {
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid rgba(5, 150, 105, 0.25);
+    }
+    .stock-status-pill.out-of-stock {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid rgba(220, 38, 38, 0.25);
+    }
     .share-btn {
       margin-left: auto;
       background: none;
@@ -1024,6 +1088,13 @@ const productSchema = {
     .btn-add-to-cart-pdf:hover {
       background: #3b0811;
       transform: translateY(-2px);
+    }
+    .btn-add-to-cart-pdf.is-sold-out,
+    .btn-primary.sticky-add-btn.is-sold-out {
+      background: #9ca3af !important;
+      cursor: not-allowed !important;
+      transform: none !important;
+      box-shadow: none !important;
     }
 
     /* 4 Trust Badges */
@@ -1479,6 +1550,71 @@ const productSchema = {
       font-weight: 600 !important;
       text-align: right !important;
       white-space: nowrap !important;
+    }
+
+    /* Review Filters Bar & Chips */
+    .review-filters-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .filter-chip {
+      background: #ffffff;
+      border: 1px solid #e6e0d5;
+      color: #555555;
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .filter-chip:hover {
+      border-color: #111111;
+      color: #111111;
+    }
+    .filter-chip.active {
+      background: #111111;
+      color: #ffffff;
+      border-color: #111111;
+    }
+
+    /* View More Reviews Button */
+    .view-more-reviews-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: 1.75rem;
+    }
+    .btn-view-more-reviews {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #ffffff;
+      border: 1.5px solid #111111;
+      color: #111111;
+      padding: 0.75rem 1.75rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+    .btn-view-more-reviews:hover {
+      background: #111111;
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+    .btn-view-more-reviews .view-more-remaining {
+      opacity: 0.75;
+      font-size: 0.8rem;
+      font-weight: 600;
     }
 
     /* Sticky Bottom Bar */
@@ -2012,6 +2148,7 @@ const productSchema = {
   </style>
 
   <script id="current-pdp-product-json" type="application/json" is:inline set:html={JSON.stringify(product)}></script>
+  <script id="current-pdp-reviews-json" type="application/json" is:inline set:html={JSON.stringify(pilotReviews)}></script>
 
   <script>
     import { addToCart } from '../../lib/cartStore';
@@ -2171,6 +2308,16 @@ const productSchema = {
       mainAddBtn?.addEventListener('click', () => {
         const id = mainAddBtn.getAttribute('data-id');
         if (id) addToCart(id, qty);
+      });
+
+      // Best Selling Combos Add to Cart (adds both main product + paired product in 1 single click!)
+      const comboAddBtn = document.getElementById('pdp-combo-add-btn');
+      comboAddBtn?.addEventListener('click', () => {
+        const mainId = comboAddBtn.getAttribute('data-id');
+        const comboId = comboAddBtn.getAttribute('data-combo-id');
+        if (mainId) addToCart(mainId, 1);
+        if (comboId) addToCart(comboId, 1);
+        window.dispatchEvent(new CustomEvent('open-cart-drawer'));
       });
 
       // PDF Line Accordions Toggle
@@ -2344,9 +2491,35 @@ const productSchema = {
       }
       updateWriteReviewBtnState();
 
+      function formatRelativeReviewDate(dateInput: any): string {
+        if (!dateInput) return 'Recently';
+        if (typeof dateInput === 'string' && (dateInput.includes('ago') || dateInput.startsWith('Edited'))) {
+          return dateInput;
+        }
+        const date = new Date(dateInput);
+        if (isNaN(date.getTime())) return String(dateInput);
+        const now = new Date();
+        const diffSec = Math.max(0, Math.floor((now.getTime() - date.getTime()) / 1000));
+        if (diffSec < 60) return 'Just now';
+        const diffMin = Math.floor(diffSec / 60);
+        if (diffMin < 60) return `${diffMin}m ago`;
+        const diffHours = Math.floor(diffMin / 60);
+        if (diffHours < 24) return `${diffHours}h ago`;
+        const diffDays = Math.floor(diffHours / 24);
+        if (diffDays === 1) return '1 day ago';
+        if (diffDays < 30) return `${diffDays} days ago`;
+        const diffMonths = Math.floor(diffDays / 30);
+        if (diffMonths === 1) return '1 month ago';
+        if (diffMonths < 12) return `${diffMonths} months ago`;
+        const diffYears = Math.floor(diffDays / 365);
+        if (diffYears === 1) return '1 year ago';
+        return `${diffYears} years ago`;
+      }
+
       function renderReviewCard(rev: any, isNew: boolean = false) {
         const isUserReview = Boolean(myReviewId && rev.id === myReviewId);
-        const starsHtml = '★'.repeat(rev.rating) + '☆'.repeat(Math.max(0, 5 - rev.rating));
+        const rating = Number(rev.rating) || 5;
+        const starsHtml = '★'.repeat(rating) + '☆'.repeat(Math.max(0, 5 - rating));
         const yourBadge = isUserReview ? `<span class="my-review-badge">Your Review</span>` : '';
         const editBtn = isUserReview ? `
           <button type="button" class="btn-edit-my-review" data-id="${rev.id}" title="Edit your review">
@@ -2354,6 +2527,10 @@ const productSchema = {
             <span>Edit</span>
           </button>
         ` : '';
+
+        const dateStr = rev.updatedAt 
+          ? ('Edited ' + formatRelativeReviewDate(rev.updatedAt)) 
+          : (rev.createdAt ? formatRelativeReviewDate(rev.createdAt) : (rev.date || 'Recently'));
 
         return `
           <div class="pdf-review-card ${isNew ? 'new-review-highlight' : ''} ${isUserReview ? 'user-authored-card' : ''}" id="${rev.id}" style="background: #ffffff !important; border: 1.5px solid ${isUserReview ? '#dfab85' : '#e6e0d5'} !important; border-radius: 4px !important; padding: 1.75rem !important; box-sizing: border-box !important; margin-bottom: 0 !important; ${isUserReview ? 'box-shadow: 0 4px 16px rgba(223, 171, 133, 0.18) !important;' : ''}">
@@ -2367,11 +2544,11 @@ const productSchema = {
                 </div>
               </div>
               <div style="display: flex !important; align-items: center !important; gap: 0.65rem !important;">
-                <span class="rev-time-ago" style="font-size: 0.78rem !important; color: #888888 !important; font-weight: 600 !important; text-align: right !important; white-space: nowrap !important;">${rev.date}</span>
+                <span class="rev-time-ago" style="font-size: 0.78rem !important; color: #888888 !important; font-weight: 600 !important; text-align: right !important; white-space: nowrap !important;">${dateStr}</span>
                 ${editBtn}
               </div>
             </div>
-            <h4 class="rev-title-headline" style="font-size: 0.95rem !important; font-weight: 700 !important; color: #1a1a1a !important; margin-bottom: 0.4rem !important; margin-top: 0.25rem !important;">${escapeHtml(rev.title)}</h4>
+            <h4 class="rev-title-headline" style="font-size: 0.95rem !important; font-weight: 700 !important; color: #1a1a1a !important; margin-bottom: 0.4rem !important; margin-top: 0.25rem !important;">${escapeHtml(rev.title || 'Product Feedback')}</h4>
             <p class="rev-body-text" style="font-size: 0.88rem !important; color: #555555 !important; line-height: 1.6 !important; margin: 0 !important;">${escapeHtml(rev.text)}</p>
           </div>
         `;
@@ -2458,20 +2635,108 @@ const productSchema = {
         }
       });
 
-      // Initial Hydration of Saved Reviews on Page Load
-      let totalCount = (currentProd?.reviewsCount || 42) + savedReviews.length;
+      // Master Review List: Local Storage reviews + Seed Reviews
+      const seedReviewsJsonEl = document.getElementById('current-pdp-reviews-json');
+      let seedReviews: any[] = [];
+      if (seedReviewsJsonEl?.textContent) {
+        try {
+          seedReviews = JSON.parse(seedReviewsJsonEl.textContent);
+        } catch (e) {}
+      }
 
-      if (savedReviews.length > 0 && reviewsListEl) {
-        // Prepend all saved reviews so newest is at the very top (#1)
-        const reviewsHtml = savedReviews.map(r => renderReviewCard(r, false)).join('');
-        reviewsListEl.insertAdjacentHTML('afterbegin', reviewsHtml);
-        
-        // Update review count displays
+      let allReviewsList: any[] = [
+        ...savedReviews, 
+        ...seedReviews.filter((s: any) => !savedReviews.some((r: any) => r.id === s.id))
+      ];
+
+      let selectedFilter: string = 'all';
+      let visibleCount: number = 4;
+
+      function updateFilterCounts() {
+        const countAll = allReviewsList.length;
+        const count5 = allReviewsList.filter((r: any) => Number(r.rating) === 5).length;
+        const count4 = allReviewsList.filter((r: any) => Number(r.rating) === 4).length;
+        const count3 = allReviewsList.filter((r: any) => Number(r.rating) === 3).length;
+        const count2 = allReviewsList.filter((r: any) => Number(r.rating) === 2).length;
+        const count1 = allReviewsList.filter((r: any) => Number(r.rating) === 1).length;
+
+        const elAll = document.getElementById('count-filter-all');
+        const el5 = document.getElementById('count-filter-5');
+        const el4 = document.getElementById('count-filter-4');
+        const el3 = document.getElementById('count-filter-3');
+        const el2 = document.getElementById('count-filter-2');
+        const el1 = document.getElementById('count-filter-1');
+
+        if (elAll) elAll.textContent = countAll.toString();
+        if (el5) el5.textContent = count5.toString();
+        if (el4) el4.textContent = count4.toString();
+        if (el3) el3.textContent = count3.toString();
+        if (el2) el2.textContent = count2.toString();
+        if (el1) el1.textContent = count1.toString();
+      }
+
+      function renderFilteredReviews() {
+        if (!reviewsListEl) return;
+
+        // Filter list by selected rating
+        const filtered = selectedFilter === 'all'
+          ? allReviewsList
+          : allReviewsList.filter((r: any) => Number(r.rating) === parseInt(selectedFilter));
+
+        const currentSlice = filtered.slice(0, visibleCount);
+
+        if (currentSlice.length === 0) {
+          reviewsListEl.innerHTML = `
+            <div style="text-align: center; padding: 2.5rem 1rem; color: #888; background: #fff; border: 1px dashed #e6e0d5; border-radius: 4px;">
+              <p style="margin: 0; font-size: 0.92rem;">No reviews found for this star rating.</p>
+            </div>
+          `;
+        } else {
+          reviewsListEl.innerHTML = currentSlice.map((r: any) => renderReviewCard(r, false)).join('');
+        }
+
+        // View More button state
+        const viewMoreWrap = document.getElementById('view-more-reviews-wrap');
+        const viewMoreRemaining = document.getElementById('view-more-remaining-count');
+        const remaining = filtered.length - visibleCount;
+
+        if (remaining > 0 && viewMoreWrap) {
+          viewMoreWrap.style.display = 'flex';
+          if (viewMoreRemaining) viewMoreRemaining.textContent = `(${remaining} remaining)`;
+        } else if (viewMoreWrap) {
+          viewMoreWrap.style.display = 'none';
+        }
+
+        updateFilterCounts();
+
+        // Update overall reviews count display
+        const total = (currentProd?.reviewsCount || 42) + savedReviews.length;
         const summaryCountEl = document.getElementById('summary-reviews-count');
         const headerCountEl = document.getElementById('header-reviews-count');
-        if (summaryCountEl) summaryCountEl.textContent = `Based on ${totalCount} reviews`;
-        if (headerCountEl) headerCountEl.textContent = `${totalCount} reviews`;
+        if (summaryCountEl) summaryCountEl.textContent = `Based on ${total} reviews`;
+        if (headerCountEl) headerCountEl.textContent = `${total} reviews`;
       }
+
+      // Initial Render of Reviews
+      renderFilteredReviews();
+
+      // Rating Filter Chip Clicks
+      document.querySelectorAll('#review-filters-bar .filter-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          document.querySelectorAll('#review-filters-bar .filter-chip').forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          selectedFilter = chip.getAttribute('data-rating') || 'all';
+          visibleCount = 4;
+          renderFilteredReviews();
+        });
+      });
+
+      // View More Reviews Button Click
+      const viewMoreBtn = document.getElementById('btn-view-more-reviews');
+      viewMoreBtn?.addEventListener('click', () => {
+        visibleCount += 4;
+        renderFilteredReviews();
+      });
 
       // Form Submit Handler
       reviewForm?.addEventListener('submit', (e) => {
@@ -2494,9 +2759,7 @@ const productSchema = {
         }
 
         if (isEditMode && myReviewId) {
-          // ==========================================
           // In-Place EDIT of Customer's Existing Review
-          // ==========================================
           const allReviews = getLocalReviews();
           const targetIdx = allReviews.findIndex((r: any) => r.id === myReviewId);
           const updatedReview = {
@@ -2525,14 +2788,17 @@ const productSchema = {
             }
           } catch (err) {}
 
-          // Replace existing DOM card in-place without altering total review count
-          const existingDomEl = document.getElementById(myReviewId);
-          if (existingDomEl) {
-            existingDomEl.outerHTML = renderReviewCard(updatedReview, true);
+          // Update in memory list
+          const memIdx = allReviewsList.findIndex((r: any) => r.id === myReviewId);
+          if (memIdx > -1) {
+            allReviewsList[memIdx] = updatedReview;
+          } else {
+            allReviewsList.unshift(updatedReview);
           }
 
           closeModal();
           showToast('✓ Your review has been updated successfully!');
+          renderFilteredReviews();
 
           setTimeout(() => {
             const el = document.getElementById(myReviewId!);
@@ -2540,9 +2806,7 @@ const productSchema = {
           }, 300);
 
         } else {
-          // ==========================================
           // CREATE New Single Review (1 Customer = 1 Review)
-          // ==========================================
           const newReview = {
             id: 'user_rev_' + Date.now(),
             name: nameVal,
@@ -2566,29 +2830,27 @@ const productSchema = {
             }
           } catch (err) {}
 
-          // 1. Save locally for persistence
+          // Save locally
           saveLocalReview(newReview);
 
-          // 2. Prepend immediately to TOP (#1) with Your Review badge and Edit button
-          if (reviewsListEl) {
-            reviewsListEl.insertAdjacentHTML('afterbegin', renderReviewCard(newReview, true));
-          }
+          // Prepend to top of master list
+          allReviewsList.unshift(newReview);
 
-          // 3. Switch button text to "Edit your review" so duplicate reviews cannot be created
+          // Switch button text to "Edit your review"
           updateWriteReviewBtnState();
 
-          // 4. Update review count
-          totalCount++;
-          const summaryCountEl = document.getElementById('summary-reviews-count');
-          const headerCountEl = document.getElementById('header-reviews-count');
-          if (summaryCountEl) summaryCountEl.textContent = `Based on ${totalCount} reviews`;
-          if (headerCountEl) headerCountEl.textContent = `${totalCount} reviews`;
-
-          // 5. Close modal and reset form
+          // Close modal & reset form
           closeModal();
           showToast('✓ Review submitted successfully! Thank you for sharing your experience.');
 
-          // 6. Smoothly scroll to the new review
+          // Reset filter to All to ensure new review is visible
+          selectedFilter = 'all';
+          document.querySelectorAll('#review-filters-bar .filter-chip').forEach(c => {
+            if (c.getAttribute('data-rating') === 'all') c.classList.add('active');
+            else c.classList.remove('active');
+          });
+          renderFilteredReviews();
+
           setTimeout(() => {
             const el = document.getElementById(newReview.id);
             if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -2681,21 +2943,83 @@ const productSchema = {
 
             // 5. Update Prepaid Discount Price Banner
             const prepaidEl = document.querySelector('.prepaid-banner-pill strong');
+            const prepaidPctEl = document.getElementById('pdp-prepaid-pct');
+            const pct = match.prepaidDiscountPct ?? 5;
+            if (prepaidPctEl) prepaidPctEl.textContent = `${pct}% OFF`;
             if (prepaidEl && match.price) {
-              const prep = Math.round(match.price * 0.95);
+              const prep = Math.round(match.price * (1 - pct / 100));
               prepaidEl.textContent = `₹${prep.toLocaleString('en-IN')}.00`;
             }
 
-            // 6. Update Combo Price
+            // 6. Update Combo Price & Combo Add to Cart data-id
             const comboPriceEl = document.getElementById('combo-total-price');
             const pairedPrice = Number(pairedProducts?.[0]?.price) || 0;
             if (comboPriceEl && match.price) {
               comboPriceEl.textContent = `₹${(match.price + pairedPrice).toLocaleString('en-IN')}.00`;
             }
+            if (comboAddBtn) {
+              comboAddBtn.setAttribute('data-id', match.id);
+            }
 
             // 7. Update Description (Highlights) if edited
             const descEl = document.getElementById('pdp-highlights-text') || document.querySelector('.acc-paragraph');
             if (descEl && match.description) descEl.textContent = match.description;
+
+            // 7b. Update Stock Status & Buy Buttons
+            if (typeof match.availableForSale === 'boolean') {
+              const stockPill = document.getElementById('pdp-stock-status');
+              const mainBtn = document.getElementById('pdp-main-add-btn') as HTMLButtonElement | null;
+              const stickyBtn = document.getElementById('pdp-sticky-add-btn') as HTMLButtonElement | null;
+              if (match.availableForSale) {
+                if (stockPill) {
+                  stockPill.className = 'stock-status-pill in-stock';
+                  stockPill.textContent = '✓ IN STOCK';
+                }
+                if (mainBtn) {
+                  mainBtn.removeAttribute('disabled');
+                  mainBtn.classList.remove('is-sold-out');
+                  mainBtn.textContent = 'ADD TO CART';
+                }
+                if (stickyBtn) {
+                  stickyBtn.removeAttribute('disabled');
+                  stickyBtn.classList.remove('is-sold-out');
+                  stickyBtn.textContent = 'ADD TO CART';
+                }
+              } else {
+                if (stockPill) {
+                  stockPill.className = 'stock-status-pill out-of-stock';
+                  stockPill.textContent = '✕ OUT OF STOCK';
+                }
+                if (mainBtn) {
+                  mainBtn.setAttribute('disabled', 'true');
+                  mainBtn.classList.add('is-sold-out');
+                  mainBtn.textContent = 'SOLD OUT';
+                }
+                if (stickyBtn) {
+                  stickyBtn.setAttribute('disabled', 'true');
+                  stickyBtn.classList.add('is-sold-out');
+                  stickyBtn.textContent = 'SOLD OUT';
+                }
+              }
+            }
+
+            // 7c. Update YouTube Video Iframe if tag found
+            if (match.youtubeVideoId) {
+              const ytIframe = document.getElementById('pdp-youtube-iframe') as HTMLIFrameElement | null;
+              if (ytIframe) {
+                ytIframe.src = `https://www.youtube-nocookie.com/embed/${match.youtubeVideoId}?autoplay=0&rel=0`;
+              }
+            }
+
+            // 7d. Update Warranty & GST info
+            if (match.warrantyPeriod || match.gstRate) {
+              const warrantyEl = document.getElementById('pdp-warranty-info-text');
+              if (warrantyEl) {
+                const w = match.warrantyPeriod || '1-Year';
+                const g = match.gstRate || 18;
+                warrantyEl.textContent = `Includes ${w} Official Manufacturer Warranty and ${g}% GST Input Tax Credit Invoice for B2B orders.`;
+              }
+            }
 
             // 8. Update Data attributes for Add to Cart & Wishlist
             document.querySelectorAll('.add-to-cart-btn[data-id], .wishlist-toggle-btn[data-id]').forEach(btn => {

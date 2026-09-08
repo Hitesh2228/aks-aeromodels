@@ -165,6 +165,47 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
     customBadge = badgeTag.substring(6).trim();
   }
 
+  // Parse Configurable Prepaid Discount Tag (e.g. "prepaid:10%" or "prepaid:7%")
+  let prepaidDiscountPct: number = 5;
+  const prepaidTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('prepaid:'));
+  if (prepaidTag) {
+    const parsed = parseInt(prepaidTag.replace(/[^0-9]/g, ''), 10);
+    if (!isNaN(parsed) && parsed > 0 && parsed <= 90) {
+      prepaidDiscountPct = parsed;
+    }
+  }
+
+  // Parse Configurable GST Rate Tag (e.g. "gst:12%", "gst:28%", "gst:5%")
+  let gstRate: number = 18;
+  const gstTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('gst:'));
+  if (gstTag) {
+    const parsed = parseInt(gstTag.replace(/[^0-9]/g, ''), 10);
+    if (!isNaN(parsed) && parsed >= 0 && parsed <= 40) {
+      gstRate = parsed;
+    }
+  }
+
+  // Parse Configurable Warranty Tag (e.g. "warranty:2-Year", "warranty:6-Months")
+  let warrantyPeriod: string | undefined = undefined;
+  const warrantyTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('warranty:'));
+  if (warrantyTag) {
+    warrantyPeriod = warrantyTag.substring(9).trim();
+  }
+
+  // Parse Configurable YouTube Video Tag (e.g. "yt:l4J81G3H5e0" or "video:https://youtu.be/...")
+  let youtubeVideoId: string | undefined = undefined;
+  const videoTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('yt:') || t.toLowerCase().startsWith('video:'));
+  if (videoTag) {
+    const rawVal = videoTag.includes(':') ? videoTag.split(/:(.+)/)[1].trim() : '';
+    if (rawVal.includes('v=')) {
+      youtubeVideoId = rawVal.split('v=')[1]?.split('&')[0];
+    } else if (rawVal.includes('youtu.be/')) {
+      youtubeVideoId = rawVal.split('youtu.be/')[1]?.split('?')[0];
+    } else if (rawVal) {
+      youtubeVideoId = rawVal;
+    }
+  }
+
   const catList: Array<{ id: 'engine' | 'radio-receiver' | 'aeromodels' | 'balsa-wood' | 'accessories'; label: string }> = [
     { id: 'engine', label: 'Engine' },
     { id: 'radio-receiver', label: 'Radio & Receiver' },
@@ -252,6 +293,10 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
     price: price,
     originalPrice: origPrice,
     discountBadge: customBadge,
+    prepaidDiscountPct,
+    gstRate,
+    warrantyPeriod,
+    youtubeVideoId,
     rating: 4.9,
     reviewsCount: 35 + idx * 4,
     isBestseller: isBestsellerTag,

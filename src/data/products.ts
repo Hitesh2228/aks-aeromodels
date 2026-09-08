@@ -16,6 +16,8 @@ export interface Product {
   isFromShopify?: boolean;
   gstRate?: number; // Configurable GST Tax Rate (5%, 12%, 18%) per product
   hsnCode?: string; // HSN Code for Tax Invoicing & GSTR Reporting
+  prepaidDiscountPct?: number; // Configurable Prepaid Discount (e.g. 5%, 7%, 10%)
+  warrantyPeriod?: string; // Configurable Warranty Period (e.g. '1-Year', '2-Year')
   image: string;
   images?: string[];
   description: string;
