@@ -17,6 +17,7 @@ export interface ShopifyProduct {
   imageAlt: string;
   variantId: string;
   availableForSale: boolean;
+  stock?: number;
 }
 
 const SHOPIFY_DOMAIN = import.meta.env.PUBLIC_SHOPIFY_STORE_DOMAIN || "skynodesuav.myshopify.com";
@@ -66,6 +67,7 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
             vendor
             productType
             tags
+            totalInventory
             priceRange {
               minVariantPrice {
                 amount
@@ -93,6 +95,7 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
                     currencyCode
                   }
                   availableForSale
+                  quantityAvailable
                 }
               }
             }
@@ -117,6 +120,12 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
     const priceVal = parseFloat(node.priceRange?.minVariantPrice?.amount || variantNode?.price?.amount || "0");
     const compareAtVal = parseFloat(variantNode?.compareAtPrice?.amount || "0");
 
+    const rawTotalInv = typeof node.totalInventory === 'number' ? node.totalInventory : null;
+    const rawQtyAvail = typeof variantNode?.quantityAvailable === 'number' ? variantNode.quantityAvailable : null;
+    let isAvail = variantNode?.availableForSale ?? true;
+    if (rawTotalInv !== null && rawTotalInv <= 0) isAvail = false;
+    else if (rawQtyAvail !== null && rawQtyAvail <= 0) isAvail = false;
+
     return {
       id: node.id,
       safeId,
@@ -133,7 +142,8 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
       images: imageList.length > 0 ? imageList : [mainImg],
       imageAlt: imageEdges[0]?.node?.altText || node.title,
       variantId: variantNode?.id || "",
-      availableForSale: variantNode?.availableForSale ?? true
+      availableForSale: isAvail,
+      stock: rawTotalInv ?? rawQtyAvail ?? (isAvail ? 10 : 0)
     };
   });
 
@@ -369,7 +379,7 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
     gstRate: gstTag ? gstRate : (staticProd?.gstRate || 18),
     hsnCode: hsnCode || staticProd?.hsnCode,
     basePrice: basePrice || staticProd?.basePrice,
-    stock: staticProd?.stock ?? (sp.availableForSale ? 10 : 0),
+    stock: sp.stock !== undefined ? sp.stock : (staticProd?.stock ?? (sp.availableForSale ? 10 : 0)),
     warrantyPeriod,
     youtubeVideoId: youtubeVideoId || staticProd?.youtubeVideoId,
     rating: staticProd?.rating || 4.9,
@@ -381,8 +391,8 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
     image: sp.imageUrl,
     images: sp.images && sp.images.length > 0 ? sp.images : (staticProd?.images || [sp.imageUrl]),
     description: (sp.description && sp.description.length > 20) ? sp.description : (staticProd?.description || 'Official SKYNODES UAV product synced live from Shopify Storefront.'),
-    specs: staticProd?.specs || { Vendor: sp.vendor, Type: sp.productType, Status: (sp.availableForSale || staticProd?.inStock) ? 'In Stock' : 'Out of Stock' },
-    inStock: sp.availableForSale || (staticProd ? staticProd.inStock : true),
+    specs: staticProd?.specs || { Vendor: sp.vendor, Type: sp.productType, Status: sp.availableForSale ? 'In Stock' : 'Out of Stock' },
+    inStock: sp.availableForSale,
     variantId: sp.variantId,
     comboId: comboId || staticProd?.comboId,
     materialText: materialText || staticProd?.materialText,

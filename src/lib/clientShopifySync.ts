@@ -24,6 +24,7 @@ export interface LiveProduct {
   warrantyPeriod?: string;
   youtubeVideoId?: string;
   availableForSale?: boolean;
+  stock?: number;
   imageUrl: string;
   images?: string[];
   isBestseller: boolean;
@@ -52,6 +53,7 @@ export async function fetchLiveShopifyProducts(): Promise<LiveProduct[] | null> 
             description
             productType
             tags
+            totalInventory
             priceRange {
               minVariantPrice {
                 amount
@@ -71,6 +73,7 @@ export async function fetchLiveShopifyProducts(): Promise<LiveProduct[] | null> 
                     amount
                   }
                   availableForSale
+                  quantityAvailable
                 }
               }
             }
@@ -311,7 +314,17 @@ export async function fetchLiveShopifyProducts(): Promise<LiveProduct[] | null> 
         vibesText = vibesTag.substring(6).trim();
       }
 
-      const availableForSale = variantNode?.availableForSale ?? true;
+      const rawTotalInv = typeof node.totalInventory === 'number' ? node.totalInventory : null;
+      const rawQtyAvail = typeof variantNode?.quantityAvailable === 'number' ? variantNode.quantityAvailable : null;
+
+      let availableForSale = variantNode?.availableForSale ?? true;
+      if (rawTotalInv !== null && rawTotalInv <= 0) {
+        availableForSale = false;
+      } else if (rawQtyAvail !== null && rawQtyAvail <= 0) {
+        availableForSale = false;
+      }
+
+      const currentStock = rawTotalInv ?? rawQtyAvail ?? (availableForSale ? 10 : 0);
 
       return {
         id: node.handle || safeId || node.id,
@@ -333,6 +346,7 @@ export async function fetchLiveShopifyProducts(): Promise<LiveProduct[] | null> 
         warrantyPeriod,
         youtubeVideoId,
         availableForSale,
+        stock: currentStock,
         imageUrl: imageList[0] || "https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800",
         images: imageList,
         isBestseller: tagsLower.some((t: string) => t === 'bestseller' || t === 'best-seller' || t === 'best seller' || t.includes('bestseller')),

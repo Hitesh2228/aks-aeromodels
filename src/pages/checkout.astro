@@ -194,6 +194,11 @@ import { PRODUCTS } from '../data/products';
               <strong id="chk-subtotal">₹0.00</strong>
             </div>
 
+            <div class="total-row" id="prepaid-discount-row" style="display: none; color: #059669;">
+              <span>⚡ Instant UPI / Prepaid (5% OFF):</span>
+              <strong id="chk-prepaid-discount">-₹0.00</strong>
+            </div>
+
             <div class="total-row" id="coupon-discount-row" style="display: none; color: #059669;">
               <span>Promo Coupon Discount:</span>
               <strong id="chk-coupon-discount">-₹0.00</strong>
@@ -574,15 +579,6 @@ import { PRODUCTS } from '../data/products';
         });
       }
 
-      payOptions.forEach(opt => {
-        opt.addEventListener('click', () => {
-          payOptions.forEach(o => o.classList.remove('active'));
-          opt.classList.add('active');
-          const radio = opt.querySelector('input[type="radio"]') as HTMLInputElement;
-          if (radio) radio.checked = true;
-        });
-      });
-
       const hydrated = getCartHydrated();
 
       if (!itemsList) return;
@@ -625,10 +621,29 @@ import { PRODUCTS } from '../data/products';
       const couponNotice = document.getElementById('coupon-discount-notice');
       const couponDiscountRow = document.getElementById('coupon-discount-row');
       const couponDiscountEl = document.getElementById('chk-coupon-discount');
+      const prepaidDiscountRow = document.getElementById('prepaid-discount-row');
+      const prepaidDiscountEl = document.getElementById('chk-prepaid-discount');
       const chipBtns = document.querySelectorAll('.coupon-chip-btn');
 
+      function getSelectedPaymentMethod(): string {
+        const checked = document.querySelector('input[name="pay-method"]:checked') as HTMLInputElement | null;
+        return checked ? checked.value : 'upi';
+      }
+
       function updateTotalsWithDiscount() {
-        const finalSubtotal = Math.max(0, rawSubtotal - appliedDiscountAmount);
+        const payMethod = getSelectedPaymentMethod();
+        const isPrepaid = payMethod === 'upi';
+        const prepaidDiscount = (isPrepaid && rawSubtotal > 0) ? Math.round(rawSubtotal * 0.05) : 0;
+
+        if (prepaidDiscount > 0 && prepaidDiscountRow && prepaidDiscountEl) {
+          prepaidDiscountRow.style.display = 'flex';
+          prepaidDiscountEl.textContent = `-₹${prepaidDiscount.toLocaleString('en-IN')}.00`;
+        } else if (prepaidDiscountRow) {
+          prepaidDiscountRow.style.display = 'none';
+        }
+
+        const totalDiscounts = appliedDiscountAmount + prepaidDiscount;
+        const finalSubtotal = Math.max(0, rawSubtotal - totalDiscounts);
         
         let estGst = 0;
         if (rawSubtotal > 0) {
@@ -649,6 +664,18 @@ import { PRODUCTS } from '../data/products';
           couponDiscountRow.style.display = 'none';
         }
       }
+
+      payOptions.forEach(opt => {
+        opt.addEventListener('click', () => {
+          payOptions.forEach(o => o.classList.remove('active'));
+          opt.classList.add('active');
+          const radio = opt.querySelector('input[type="radio"]') as HTMLInputElement;
+          if (radio) {
+            radio.checked = true;
+            updateTotalsWithDiscount();
+          }
+        });
+      });
 
       function applyCoupon(code: string) {
         const cleanCode = code.trim().toUpperCase();
@@ -790,7 +817,9 @@ import { PRODUCTS } from '../data/products';
         const selectedPayRadio = document.querySelector('input[name="pay-method"]:checked') as HTMLInputElement;
         const payMethodVal = selectedPayRadio?.value || 'cod';
 
-        const subtotal = Math.max(0, rawSubtotal - appliedDiscountAmount);
+        const prepaidDiscount = (payMethodVal === 'upi' && rawSubtotal > 0) ? Math.round(rawSubtotal * 0.05) : 0;
+        const totalDiscounts = appliedDiscountAmount + prepaidDiscount;
+        const subtotal = Math.max(0, rawSubtotal - totalDiscounts);
         
         let gst = 0;
         if (rawSubtotal > 0) {

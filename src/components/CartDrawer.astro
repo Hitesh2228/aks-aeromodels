@@ -37,6 +37,14 @@
         <span>Subtotal Amount:</span>
         <span class="subtotal-amount" id="drawer-subtotal">₹0</span>
       </div>
+      
+      <div class="prepaid-callout-strip" id="drawer-prepaid-strip" style="display: flex; justify-content: space-between; align-items: center; background: #ecfdf5; border: 1px dashed #059669; padding: 0.45rem 0.65rem; border-radius: 6px; margin: 0.4rem 0 0.65rem; font-size: 0.78rem;">
+        <span style="color: #065f46; font-weight: 700; display: flex; align-items: center; gap: 4px;">
+          ⚡ Instant UPI / Prepaid:
+        </span>
+        <span id="drawer-prepaid-amount" style="color: #059669; font-weight: 800;">₹0 (5% OFF)</span>
+      </div>
+
       <p class="tax-note">Taxes & Pan-India Insured Freight calculated at checkout.</p>
       
       <div class="checkout-actions">
@@ -324,6 +332,17 @@
 
     if (countEl) countEl.textContent = `(${totalCount} items)`;
     if (subtotalEl) subtotalEl.textContent = `₹${subtotal.toLocaleString('en-IN')}`;
+
+    const prepaidDiscount = Math.round(subtotal * 0.05);
+    const prepaidTotal = subtotal - prepaidDiscount;
+    const prepaidEl = document.getElementById('drawer-prepaid-amount');
+    const prepaidStrip = document.getElementById('drawer-prepaid-strip');
+    if (subtotal > 0) {
+      if (prepaidStrip) prepaidStrip.style.display = 'flex';
+      if (prepaidEl) prepaidEl.textContent = `Pay ₹${prepaidTotal.toLocaleString('en-IN')} (Save ₹${prepaidDiscount.toLocaleString('en-IN')})`;
+    } else {
+      if (prepaidStrip) prepaidStrip.style.display = 'none';
+    }
 
     const threshold = 5000;
     if (subtotal >= threshold) {

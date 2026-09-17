@@ -2284,7 +2284,8 @@ const productSchema = {
           btn.addEventListener('click', () => {
             const pId = btn.getAttribute('data-id');
             if (pId) {
-              addToCart(pId, 1);
+              const target = (allProdsList && allProdsList.find((p: any) => p.id === pId || p.handle === pId)) || pId;
+              addToCart(target, 1);
               window.dispatchEvent(new CustomEvent('open-cart-drawer'));
             }
           });
