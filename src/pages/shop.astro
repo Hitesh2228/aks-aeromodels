@@ -122,8 +122,12 @@ const PRODUCTS = await getCombinedProducts();
             </div>
 
             <!-- ADD TO CART Button (100% Horizontally Aligned in 1 Line Across Grid Row) -->
-            <button class="pdf-cart-btn-black add-to-cart-btn" data-id={product.id}>
-              Add To Cart
+            <button 
+              class={`pdf-cart-btn-black add-to-cart-btn ${!product.inStock ? 'is-sold-out' : ''}`} 
+              data-id={product.id}
+              disabled={!product.inStock}
+            >
+              {product.inStock ? 'Add To Cart' : 'Sold Out'}
             </button>
           </div>
         </article>
@@ -409,6 +413,11 @@ const PRODUCTS = await getCombinedProducts();
       transition: background 0.2s ease;
       text-transform: uppercase;
     }
+    .pdf-cart-btn-black.is-sold-out {
+      background: #888888 !important;
+      cursor: not-allowed !important;
+      opacity: 0.75;
+    }
     .pdf-cart-btn-black:hover {
       background: #333333;
     }
@@ -586,10 +595,15 @@ const PRODUCTS = await getCombinedProducts();
       itemsArr.forEach(item => grid?.appendChild(item));
     });
 
+    const liveProductsMap = new Map<string, any>();
+
     document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
-        if (id) addToCart(id, 1);
+        if (id) {
+          const target = liveProductsMap.get(id) || productsList.find((p: any) => p.id === id || p.handle === id) || id;
+          addToCart(target, 1);
+        }
       });
     });
     initShareButtons();
@@ -598,6 +612,10 @@ const PRODUCTS = await getCombinedProducts();
       const liveProducts = await fetchLiveShopifyProducts();
       if (liveProducts && liveProducts.length > 0) {
         liveProducts.forEach(lp => {
+          liveProductsMap.set(lp.id, lp);
+          if (lp.handle) liveProductsMap.set(lp.handle, lp);
+          if (lp.safeId) liveProductsMap.set(lp.safeId, lp);
+
           let card = document.querySelector(
             `.catalog-item[data-id="${lp.id}"], .catalog-item[data-id="${lp.handle}"], .catalog-item[data-id="${lp.safeId}"], .catalog-item[data-handle="${lp.handle}"], .catalog-item[data-handle="${lp.id}"]`
           ) as HTMLElement | null;
@@ -619,6 +637,20 @@ const PRODUCTS = await getCombinedProducts();
             card.setAttribute('data-bestseller', lp.isBestseller ? 'true' : 'false');
             card.setAttribute('data-category', lp.category);
             card.setAttribute('data-price', lp.price.toString());
+
+            // Update Stock Status on Card Button
+            const cardCartBtn = card.querySelector('.add-to-cart-btn') as HTMLButtonElement | null;
+            if (cardCartBtn && typeof lp.availableForSale === 'boolean') {
+              if (lp.availableForSale) {
+                cardCartBtn.removeAttribute('disabled');
+                cardCartBtn.classList.remove('is-sold-out');
+                cardCartBtn.textContent = 'Add To Cart';
+              } else {
+                cardCartBtn.setAttribute('disabled', 'true');
+                cardCartBtn.classList.add('is-sold-out');
+                cardCartBtn.textContent = 'Sold Out';
+              }
+            }
 
             // Update Title
             const titleLink = card.querySelector('.card-title-heading a');

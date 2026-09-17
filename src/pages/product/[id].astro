@@ -27,9 +27,13 @@ const relatedProducts = allProducts
   .filter(p => p.category === product.category && p.id !== product.id)
   .slice(0, 4);
 
-const pairedProducts = allProducts
-  .filter(p => p.category !== product.category)
-  .slice(0, 4);
+let customComboProduct = product.comboId 
+  ? allProducts.find(p => p.id === product.comboId || p.handle === product.comboId) 
+  : undefined;
+const defaultPaired = allProducts.filter(p => p.category !== product.category && p.id !== product.id);
+const pairedProducts = customComboProduct 
+  ? [customComboProduct, ...defaultPaired.filter(p => p.id !== customComboProduct?.id)].slice(0, 4)
+  : defaultPaired.slice(0, 4);
 
 const pageTitle = `${product.name} - Buy Online at Best Price in India | SKYNODESUAV`;
 const metaDescription = `${product.description} Buy ${product.name} online for ₹${product.price.toLocaleString('en-IN')}. Original factory warranty & fast shipping across India.`;
@@ -37,6 +41,16 @@ const canonicalUrl = `https://aks-aeromodels.com/product/${product.id}`;
 
 const prepaidDiscountPct = product.prepaidDiscountPct ?? 5;
 const prepaidPrice = Math.round(product.price * (1 - prepaidDiscountPct / 100));
+
+const stockBadgeText = product.stock 
+  ? (product.stock <= 4 ? `(Only ${product.stock} left!)` : `(${product.stock} units)`)
+  : '';
+const taxNoteSubtitle = product.hsnCode 
+  ? `• HSN: ${product.hsnCode} • ${product.gstRate || 18}% GST` 
+  : '';
+const basePriceText = product.basePrice 
+  ? `(Base Price: ₹${product.basePrice.toLocaleString('en-IN')})` 
+  : '';
 
 // Sample Pilot Reviews
 const pilotReviews = [
@@ -49,48 +63,46 @@ const pilotReviews = [
 ];
 
 // Component Highlights ("Notes in This Set")
-const notesInSet = [
-  { 
-    name: "ABL Liner", 
-    desc: "Advanced Bimetallic Liner for high heat resistance", 
-    iconSvg: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`
-  },
-  { 
-    name: "Ball Bearings", 
-    desc: "Dual precision bearings for smooth high RPM", 
-    iconSvg: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18"/><path d="M3 12h18"/><circle cx="12" cy="12" r="4"/></svg>`
-  },
-  { 
-    name: "Power Carb", 
-    desc: "21J Dual-needle carburetor for crisp throttle response", 
-    iconSvg: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`
-  },
-  { 
-    name: "E-4050 Muffler", 
-    desc: "High flow quiet silencer included in box", 
-    iconSvg: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3"/><path d="M18.5 5.5l-2.1 2.1"/><path d="M21 12h-3"/><path d="M18.5 18.5l-2.1-2.1"/><path d="M12 21v-3"/><path d="M5.5 18.5l2.1-2.1"/><path d="M3 12h3"/><path d="M5.5 5.5l2.1 2.1"/></svg>`
-  }
+const defaultNotesIcons = [
+  `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`,
+  `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18"/><path d="M3 12h18"/><circle cx="12" cy="12" r="4"/></svg>`,
+  `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
+  `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3"/><path d="M18.5 5.5l-2.1 2.1"/><path d="M21 12h-3"/><path d="M18.5 18.5l-2.1-2.1"/><path d="M12 21v-3"/><path d="M5.5 18.5l2.1-2.1"/><path d="M3 12h3"/><path d="M5.5 5.5l2.1 2.1"/></svg>`
 ];
 
-// Usage Applications ("Where To Wear It")
-const usageLocations = [
-  { 
-    title: "Aerobatic Competitions", 
-    iconSvg: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3.5c-.5-.5-2.5 0-4 1.5L13.5 8.5 5.3 6.7c-.7-.1-1.3.3-1.5 1l-.4 1.5c-.2.7.1 1.4.7 1.8l4.9 3.5-2.5 2.5-2.8-.7c-.3-.1-.7 0-.9.3l-.8.8c-.3.3-.3.8 0 1.1l2.5 2.5 2.5 2.5c.3.3.8.3 1.1 0l.8-.8c.3-.2.4-.6.3-.9l-.7-2.8 2.5-2.5 3.5 4.9c.4.6 1.1.9 1.8.7l1.5-.4c.7-.2 1.1-.8 1-1.5z"/></svg>` 
-  },
-  { 
-    title: "Flight Training Clubs", 
-    iconSvg: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>` 
-  },
-  { 
-    title: "Scale Kit Building", 
-    iconSvg: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>` 
-  },
-  { 
-    title: "Pylon Racing", 
-    iconSvg: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>` 
-  }
+const defaultNotesInSet = [
+  { name: "ABL Liner", desc: "Advanced Bimetallic Liner for high heat resistance", iconSvg: defaultNotesIcons[0] },
+  { name: "Ball Bearings", desc: "Dual precision bearings for smooth high RPM", iconSvg: defaultNotesIcons[1] },
+  { name: "Power Carb", desc: "21J Dual-needle carburetor for crisp throttle response", iconSvg: defaultNotesIcons[2] },
+  { name: "E-4050 Muffler", desc: "High flow quiet silencer included in box", iconSvg: defaultNotesIcons[3] }
 ];
+
+const notesInSet = product.notesInSet && product.notesInSet.length > 0
+  ? product.notesInSet.map((n, i) => ({ name: n.name, desc: n.desc, iconSvg: defaultNotesIcons[i % defaultNotesIcons.length] }))
+  : defaultNotesInSet;
+
+// Usage Applications ("Where To Wear It")
+const defaultFlyIcons = [
+  `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3.5c-.5-.5-2.5 0-4 1.5L13.5 8.5 5.3 6.7c-.7-.1-1.3.3-1.5 1l-.4 1.5c-.2.7.1 1.4.7 1.8l4.9 3.5-2.5 2.5-2.8-.7c-.3-.1-.7 0-.9.3l-.8.8c-.3.3-.3.8 0 1.1l2.5 2.5 2.5 2.5c.3.3.8.3 1.1 0l.8-.8c.3-.2.4-.6.3-.9l-.7-2.8 2.5-2.5 3.5 4.9c.4.6 1.1.9 1.8.7l1.5-.4c.7-.2 1.1-.8 1-1.5z"/></svg>`,
+  `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
+  `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
+  `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>`
+];
+
+const defaultUsageLocations = [
+  { title: "Aerobatic Competitions", iconSvg: defaultFlyIcons[0] },
+  { title: "Flight Training Clubs", iconSvg: defaultFlyIcons[1] },
+  { title: "Scale Kit Building", iconSvg: defaultFlyIcons[2] },
+  { title: "Pylon Racing", iconSvg: defaultFlyIcons[3] }
+];
+
+const usageLocations = product.whereToFly && product.whereToFly.length > 0
+  ? product.whereToFly.map((f, i) => ({ title: f, iconSvg: defaultFlyIcons[i % defaultFlyIcons.length] }))
+  : defaultUsageLocations;
+
+const trustBadgesList = product.trustBadges && product.trustBadges.length >= 4
+  ? product.trustBadges.slice(0, 4)
+  : ['Imported Quality', '100% Genuine', 'AMA Certified', 'Assured Delivery'];
 
 // Structured Data (JSON-LD Product Schema for SEO & Rich Results)
 const productSchema = {
@@ -193,9 +205,11 @@ const productSchema = {
         <!-- Rating Pill & Share & Stock Status -->
         <div class="rating-row">
           <span class="rating-star-pill">★ {product.rating}</span>
-          <span class="rating-reviews-count" id="header-reviews-count">{product.reviewsCount} reviews</span>
+          <span class="rating-reviews-count" id="header-reviews-count">{pilotReviews.length} reviews</span>
           {product.inStock ? (
-            <span class="stock-status-pill in-stock" id="pdp-stock-status">✓ IN STOCK</span>
+            <span class="stock-status-pill in-stock" id="pdp-stock-status">
+              ✓ IN STOCK {stockBadgeText}
+            </span>
           ) : (
             <span class="stock-status-pill out-of-stock" id="pdp-stock-status">✕ OUT OF STOCK</span>
           )}
@@ -218,7 +232,9 @@ const productSchema = {
             <button type="button" class="stepper-btn" id="pdp-qty-inc">+</button>
           </div>
         </div>
-        <div class="tax-note-text">Inclusive of all taxes</div>
+        <div class="tax-note-text">
+          Inclusive of all taxes {taxNoteSubtitle}
+        </div>
 
         <!-- Prepaid Discount Callout Banner (Exact PDF Style) -->
         <div class="prepaid-banner-pill" id="pdp-prepaid-banner">
@@ -259,41 +275,41 @@ const productSchema = {
         </div>
 
         <!-- 4 Line-Art Trust Badges (Exact PDF Page 1 Row) -->
-        <div class="pdf-trust-badges-row">
+        <div class="pdf-trust-badges-row" id="pdp-trust-badges-row">
           <div class="trust-badge-cell">
             <div class="badge-icon-wrap">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
             </div>
-            <span>Imported Quality</span>
+            <span class="trust-badge-title">{trustBadgesList[0]}</span>
           </div>
 
           <div class="trust-badge-cell">
             <div class="badge-icon-wrap">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
-            <span>100% Genuine</span>
+            <span class="trust-badge-title">{trustBadgesList[1]}</span>
           </div>
 
           <div class="trust-badge-cell">
             <div class="badge-icon-wrap">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             </div>
-            <span>AMA Certified</span>
+            <span class="trust-badge-title">{trustBadgesList[2]}</span>
           </div>
 
           <div class="trust-badge-cell">
             <div class="badge-icon-wrap">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
             </div>
-            <span>Assured Delivery</span>
+            <span class="trust-badge-title">{trustBadgesList[3]}</span>
           </div>
         </div>
 
         <!-- BEST SELLING COMBOS Card (Exact PDF Style) -->
-        <div class="pdf-combo-card">
+        <div class="pdf-combo-card" id="pdp-combo-card">
           <h4 class="combo-card-title">BEST SELLING COMBOS</h4>
           <div class="combo-inner-flex">
-            <img src={pairedProducts[0].image} alt="Combo item" class="combo-thumb" />
+            <img src={pairedProducts[0].image} alt="Combo item" class="combo-thumb" id="combo-paired-img" />
             <div class="combo-details">
               <strong id="combo-main-title">{product.name} + {pairedProducts[0].name}</strong>
               <div class="combo-prices">
@@ -315,7 +331,7 @@ const productSchema = {
         <!-- Notes in This Set Section (Exact PDF Style) -->
         <div class="notes-in-set-block">
           <h3 class="block-heading">Notes in This Set</h3>
-          <div class="notes-grid-4">
+          <div class="notes-grid-4" id="pdp-notes-grid">
             {notesInSet.map(note => (
               <div class="note-item-card">
                 <span class="note-line-icon" set:html={note.iconSvg} />
@@ -329,7 +345,7 @@ const productSchema = {
         <!-- Where To Fly Applications ("Where To Wear It" -> PDF Style) -->
         <div class="where-to-fly-block">
           <h3 class="block-heading">Where To Fly It</h3>
-          <div class="where-grid-2">
+          <div class="where-grid-2" id="pdp-where-grid">
             {usageLocations.map(loc => (
               <div class="where-item">
                 <span class="note-line-icon" set:html={loc.iconSvg} />
@@ -337,7 +353,7 @@ const productSchema = {
               </div>
             ))}
           </div>
-          <p class="vibes-line">Vibes: <em>Versatile, confident, bold, high-performance flight.</em></p>
+          <p class="vibes-line" id="pdp-vibes-line">Vibes: <em id="pdp-vibes-text">{product.vibesText || 'Versatile, confident, bold, high-performance flight.'}</em></p>
         </div>
 
         <!-- Interactive Clean Expandable Accordions (PDF Minimal Line Style) -->
@@ -398,8 +414,14 @@ const productSchema = {
               <span>FAQ</span>
               <span class="pdf-acc-icon">+</span>
             </button>
-            <div class="pdf-acc-content">
-              <p class="acc-paragraph"><strong>Q: Is fuel included in the box?</strong><br/>A: Fuel is shipped separately due to hazardous cargo regulations. We recommend 10-15% nitro fuel blend.</p>
+            <div class="pdf-acc-content" id="pdp-faq-content">
+              {product.faqList && product.faqList.length > 0 ? (
+                product.faqList.map(f => (
+                  <p class="acc-paragraph" style="margin-bottom: 0.6rem;"><strong>Q: {f.q}</strong><br/>A: {f.a}</p>
+                ))
+              ) : (
+                <p class="acc-paragraph"><strong>Q: Is fuel included in the box?</strong><br/>A: Fuel is shipped separately due to hazardous cargo regulations. We recommend 10-15% nitro fuel blend.</p>
+              )}
             </div>
           </div>
 
@@ -409,17 +431,26 @@ const productSchema = {
               <span class="pdf-acc-icon">+</span>
             </button>
             <div class="pdf-acc-content">
-              <p class="acc-paragraph">Contest grade balsa wood, aircraft grade aluminum, hardened alloy steel crankshaft, and high temperature ABL cylinder liner.</p>
+              <p class="acc-paragraph" id="pdp-material-content">
+                {product.materialText || 'Contest grade balsa wood, aircraft grade aluminum, hardened alloy steel crankshaft, and high temperature ABL cylinder liner.'}
+              </p>
             </div>
           </div>
 
           <div class="pdf-acc-row">
             <button type="button" class="pdf-acc-header">
-              <span>Other Information & Warranty</span>
+              <span>Warranty & GST Tax Invoice</span>
               <span class="pdf-acc-icon">+</span>
             </button>
             <div class="pdf-acc-content">
-              <p class="acc-paragraph" id="pdp-warranty-info-text">Includes {product.warrantyPeriod || '1-Year'} Official Manufacturer Warranty and {product.gstRate || 18}% GST Input Tax Credit Invoice for B2B orders.</p>
+              <p class="acc-paragraph" id="pdp-warranty-info-text">
+                Includes {product.warrantyPeriod || '1-Year'} Official Manufacturer Warranty and official GST Input Tax Credit (ITC) invoice for personal & B2B orders.
+                {product.hsnCode && (
+                  <span style="display: block; margin-top: 6px; font-weight: 500; color: #333;">
+                    HSN Code: <strong>{product.hsnCode}</strong> | GST Slab: <strong>{product.gstRate || 18}%</strong> {basePriceText}
+                  </span>
+                )}
+              </p>
             </div>
           </div>
 
@@ -429,7 +460,9 @@ const productSchema = {
               <span class="pdf-acc-icon">+</span>
             </button>
             <div class="pdf-acc-content">
-              <p class="acc-paragraph">Run 4-5 thermal heat cycles on rich needle setting before full throttle flying. Use 10-15% synthetic castor oil blend fuel for maximum bearing protection.</p>
+              <p class="acc-paragraph" id="pdp-howtouse-content">
+                {product.howToUseText || 'Run 4-5 thermal heat cycles on rich needle setting before full throttle flying. Use 10-15% synthetic castor oil blend fuel for maximum bearing protection.'}
+              </p>
             </div>
           </div>
 
@@ -497,17 +530,17 @@ const productSchema = {
       
       <div class="pdf-reviews-summary-flex">
         <div class="score-summary-box">
-          <div class="big-score-num">4.67</div>
+          <div class="big-score-num" id="big-score-num">4.7</div>
           <div class="stars-gold-row">★★★★★</div>
-          <div class="total-reviews-text" id="summary-reviews-count">Based on {product.reviewsCount} reviews</div>
+          <div class="total-reviews-text" id="summary-reviews-count">Based on {pilotReviews.length} reviews</div>
         </div>
 
         <div class="bars-distribution-box">
-          <div class="dist-row"><span>5 Stars</span><div class="dist-track"><div class="dist-fill" style="width: 88%;"></div></div><span>890</span></div>
-          <div class="dist-row"><span>4 Stars</span><div class="dist-track"><div class="dist-fill" style="width: 9%;"></div></div><span>348</span></div>
-          <div class="dist-row"><span>3 Stars</span><div class="dist-track"><div class="dist-fill" style="width: 2%;"></div></div><span>29</span></div>
-          <div class="dist-row"><span>2 Stars</span><div class="dist-track"><div class="dist-fill" style="width: 0%;"></div></div><span>0</span></div>
-          <div class="dist-row"><span>1 Star</span><div class="dist-track"><div class="dist-fill" style="width: 1%;"></div></div><span>2</span></div>
+          <div class="dist-row"><span>5 Stars</span><div class="dist-track"><div class="dist-fill" id="bar-fill-5" style="width: 67%;"></div></div><span id="dist-count-5">4</span></div>
+          <div class="dist-row"><span>4 Stars</span><div class="dist-track"><div class="dist-fill" id="bar-fill-4" style="width: 33%;"></div></div><span id="dist-count-4">2</span></div>
+          <div class="dist-row"><span>3 Stars</span><div class="dist-track"><div class="dist-fill" id="bar-fill-3" style="width: 0%;"></div></div><span id="dist-count-3">0</span></div>
+          <div class="dist-row"><span>2 Stars</span><div class="dist-track"><div class="dist-fill" id="bar-fill-2" style="width: 0%;"></div></div><span id="dist-count-2">0</span></div>
+          <div class="dist-row"><span>1 Star</span><div class="dist-track"><div class="dist-fill" id="bar-fill-1" style="width: 0%;"></div></div><span id="dist-count-1">0</span></div>
         </div>
 
         <div class="write-review-box">
@@ -2149,10 +2182,11 @@ const productSchema = {
   </style>
 
   <script id="current-pdp-product-json" type="application/json" is:inline set:html={JSON.stringify(product)}></script>
+  <script id="all-products-pdp-json" type="application/json" is:inline set:html={JSON.stringify(allProducts)}></script>
   <script id="current-pdp-reviews-json" type="application/json" is:inline set:html={JSON.stringify(pilotReviews)}></script>
 
   <script>
-    import { addToCart } from '../../lib/cartStore';
+    import { addToCart, registerProductsCache } from '../../lib/cartStore';
     import { addRecentlyViewedProduct, getRecentlyViewedProducts } from '../../lib/recentlyViewed';
     import { initShareButtons } from '../../lib/shareHelper';
     import { fetchLiveShopifyProducts } from '../../lib/clientShopifySync';
@@ -2168,6 +2202,14 @@ const productSchema = {
         try {
           currentProd = JSON.parse(prodJsonEl.textContent);
           if (currentProd) addRecentlyViewedProduct(currentProd);
+        } catch (e) {}
+      }
+
+      const allProdsJsonEl = document.getElementById('all-products-pdp-json');
+      let allProdsList: any[] = [];
+      if (allProdsJsonEl?.textContent) {
+        try {
+          allProdsList = JSON.parse(allProdsJsonEl.textContent);
         } catch (e) {}
       }
 
@@ -2306,19 +2348,29 @@ const productSchema = {
         if (qtyCount) qtyCount.textContent = qty.toString();
       });
 
+      let activeComboPairedProd: any = null;
+
       mainAddBtn?.addEventListener('click', () => {
-        const id = mainAddBtn.getAttribute('data-id');
-        if (id) addToCart(id, qty);
+        const target = currentProd || mainAddBtn.getAttribute('data-id');
+        if (target) addToCart(target, qty);
       });
 
       // Best Selling Combos Add to Cart (adds both main product + paired product in 1 single click!)
       const comboAddBtn = document.getElementById('pdp-combo-add-btn');
       comboAddBtn?.addEventListener('click', () => {
-        const mainId = comboAddBtn.getAttribute('data-id');
+        const mainTarget = currentProd || comboAddBtn.getAttribute('data-id');
         const comboId = comboAddBtn.getAttribute('data-combo-id');
-        if (mainId) addToCart(mainId, 1);
-        if (comboId) addToCart(comboId, 1);
+        const comboTarget = activeComboPairedProd || (allProdsList && allProdsList.find((p: any) => p.id === comboId || p.handle === comboId)) || comboId;
+        if (mainTarget) addToCart(mainTarget, 1);
+        if (comboTarget) addToCart(comboTarget, 1);
         window.dispatchEvent(new CustomEvent('open-cart-drawer'));
+      });
+
+      // Sticky add to cart button
+      const stickyAddBtn = document.getElementById('pdp-sticky-add-btn');
+      stickyAddBtn?.addEventListener('click', () => {
+        const target = currentProd || stickyAddBtn.getAttribute('data-id');
+        if (target) addToCart(target, 1);
       });
 
       // PDF Line Accordions Toggle
@@ -2329,11 +2381,14 @@ const productSchema = {
         });
       });
 
-      // Add to cart generic buttons (excluding main add button to prevent double addition)
-      document.querySelectorAll('.add-to-cart-btn:not(#pdp-main-add-btn)').forEach(btn => {
+      // Add to cart generic buttons (excluding main and sticky buttons to prevent double firing)
+      document.querySelectorAll('.add-to-cart-btn:not(#pdp-main-add-btn):not(#pdp-combo-add-btn):not(#pdp-sticky-add-btn)').forEach(btn => {
         btn.addEventListener('click', (e) => {
           const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
-          if (id) addToCart(id, 1);
+          if (id) {
+            const target = (allProdsList && allProdsList.find((p: any) => p.id === id || p.handle === id)) || id;
+            addToCart(target, 1);
+          }
         });
       });
 
@@ -2710,12 +2765,46 @@ const productSchema = {
 
         updateFilterCounts();
 
-        // Update overall reviews count display
-        const total = (currentProd?.reviewsCount || 42) + savedReviews.length;
+        // Update overall reviews count display with exact actual count
+        const total = allReviewsList.length;
         const summaryCountEl = document.getElementById('summary-reviews-count');
         const headerCountEl = document.getElementById('header-reviews-count');
         if (summaryCountEl) summaryCountEl.textContent = `Based on ${total} reviews`;
         if (headerCountEl) headerCountEl.textContent = `${total} reviews`;
+
+        // Update distribution bars and score dynamically
+        const count5 = allReviewsList.filter((r: any) => Number(r.rating) === 5).length;
+        const count4 = allReviewsList.filter((r: any) => Number(r.rating) === 4).length;
+        const count3 = allReviewsList.filter((r: any) => Number(r.rating) === 3).length;
+        const count2 = allReviewsList.filter((r: any) => Number(r.rating) === 2).length;
+        const count1 = allReviewsList.filter((r: any) => Number(r.rating) === 1).length;
+
+        const sumRating = allReviewsList.reduce((acc: number, r: any) => acc + Number(r.rating), 0);
+        const avgScore = total > 0 ? (sumRating / total).toFixed(1) : '5.0';
+        const bigScoreEl = document.getElementById('big-score-num');
+        if (bigScoreEl) bigScoreEl.textContent = avgScore;
+
+        const dist5 = document.getElementById('dist-count-5');
+        const dist4 = document.getElementById('dist-count-4');
+        const dist3 = document.getElementById('dist-count-3');
+        const dist2 = document.getElementById('dist-count-2');
+        const dist1 = document.getElementById('dist-count-1');
+        if (dist5) dist5.textContent = count5.toString();
+        if (dist4) dist4.textContent = count4.toString();
+        if (dist3) dist3.textContent = count3.toString();
+        if (dist2) dist2.textContent = count2.toString();
+        if (dist1) dist1.textContent = count1.toString();
+
+        const fill5 = document.getElementById('bar-fill-5');
+        const fill4 = document.getElementById('bar-fill-4');
+        const fill3 = document.getElementById('bar-fill-3');
+        const fill2 = document.getElementById('bar-fill-2');
+        const fill1 = document.getElementById('bar-fill-1');
+        if (fill5) fill5.style.width = total > 0 ? `${Math.round((count5 / total) * 100)}%` : '0%';
+        if (fill4) fill4.style.width = total > 0 ? `${Math.round((count4 / total) * 100)}%` : '0%';
+        if (fill3) fill3.style.width = total > 0 ? `${Math.round((count3 / total) * 100)}%` : '0%';
+        if (fill2) fill2.style.width = total > 0 ? `${Math.round((count2 / total) * 100)}%` : '0%';
+        if (fill1) fill1.style.width = total > 0 ? `${Math.round((count1 / total) * 100)}%` : '0%';
       }
 
       // Initial Render of Reviews
@@ -2951,15 +3040,111 @@ const productSchema = {
               const prep = Math.round(match.price * (1 - pct / 100));
               prepaidEl.textContent = `₹${prep.toLocaleString('en-IN')}.00`;
             }
+            const prepaidBanner = document.getElementById('pdp-prepaid-banner');
+            if (pct === 0 && prepaidBanner) {
+              prepaidBanner.style.display = 'none';
+            } else if (prepaidBanner) {
+              prepaidBanner.style.display = 'flex';
+            }
+
+            // Sync currentProd object and cache with latest Shopify data
+            if (currentProd) {
+              Object.assign(currentProd, match);
+              registerProductsCache([currentProd]);
+            }
 
             // 6. Update Combo Price & Combo Add to Cart data-id
+            let comboPaired = (pairedProducts && pairedProducts[0]) || null;
+            if (match.comboId) {
+              const customPaired = liveProducts.find(p => p.id === match.comboId || p.handle === match.comboId) ||
+                allProdsList.find((p: any) => p.id === match.comboId || p.handle === match.comboId);
+              if (customPaired) {
+                comboPaired = customPaired;
+                activeComboPairedProd = customPaired;
+                const comboThumb = document.getElementById('combo-paired-img') as HTMLImageElement;
+                if (comboThumb && (customPaired.imageUrl || customPaired.image)) {
+                  comboThumb.src = customPaired.imageUrl || customPaired.image;
+                }
+                const comboTitle = document.getElementById('combo-main-title');
+                if (comboTitle) comboTitle.textContent = `${match.title} + ${customPaired.title || customPaired.name}`;
+              }
+            }
+
             const comboPriceEl = document.getElementById('combo-total-price');
-            const pairedPrice = Number(pairedProducts?.[0]?.price) || 0;
+            const pairedPrice = Number(comboPaired?.price) || 0;
             if (comboPriceEl && match.price) {
               comboPriceEl.textContent = `₹${(match.price + pairedPrice).toLocaleString('en-IN')}.00`;
             }
+            const comboSlashedEl = document.getElementById('combo-total-slashed');
+            if (comboSlashedEl && comboPaired) {
+              const slash1 = match.originalPrice || Math.round(match.price * 1.2);
+              const slash2 = comboPaired.originalPrice || Math.round(pairedPrice * 1.2);
+              comboSlashedEl.textContent = `₹${(slash1 + slash2).toLocaleString('en-IN')}.00`;
+            }
             if (comboAddBtn) {
               comboAddBtn.setAttribute('data-id', match.id);
+              if (comboPaired) comboAddBtn.setAttribute('data-combo-id', comboPaired.id || comboPaired.handle);
+            }
+
+            // 6b. Update 4 Trust Badges if configured in Shopify tags
+            if (match.trustBadges && match.trustBadges.length >= 4) {
+              const cells = document.querySelectorAll('#pdp-trust-badges-row .trust-badge-title');
+              cells.forEach((cell, idx) => {
+                if (match.trustBadges && match.trustBadges[idx]) cell.textContent = match.trustBadges[idx];
+              });
+            }
+
+            // 6c. Update Notes in This Set if configured in Shopify tags
+            if (match.notesInSet && match.notesInSet.length > 0) {
+              const notesGrid = document.getElementById('pdp-notes-grid');
+              if (notesGrid) {
+                notesGrid.innerHTML = match.notesInSet.map((n: any) => `
+                  <div class="note-item-card">
+                    <span class="note-line-icon" style="font-size: 1.2rem;">⚡</span>
+                    <strong class="note-name">${n.name}</strong>
+                    <small class="note-desc">${n.desc}</small>
+                  </div>
+                `).join('');
+              }
+            }
+
+            // 6d. Update Where To Fly & Vibes if configured in Shopify tags
+            if (match.whereToFly && match.whereToFly.length > 0) {
+              const whereGrid = document.getElementById('pdp-where-grid');
+              if (whereGrid) {
+                whereGrid.innerHTML = match.whereToFly.map((loc: string) => `
+                  <div class="where-item">
+                    <span class="note-line-icon" style="font-size: 1.2rem;">✈️</span>
+                    <strong>${loc}</strong>
+                  </div>
+                `).join('');
+              }
+            }
+            if (match.vibesText) {
+              const vibesEl = document.getElementById('pdp-vibes-text');
+              if (vibesEl) vibesEl.textContent = match.vibesText;
+            }
+
+            // 6e. Update FAQ Accordion if configured in Shopify tags
+            if (match.faqList && match.faqList.length > 0) {
+              const faqEl = document.getElementById('pdp-faq-content');
+              if (faqEl) {
+                faqEl.innerHTML = match.faqList.map((f: any) => `
+                  <p class="acc-paragraph" style="margin-bottom: 0.6rem;"><strong>Q: ${f.q}</strong><br/>A: ${f.a}</p>
+                `).join('');
+              }
+            }
+
+            // 6f. Update Material Build Accordion if configured in Shopify tags
+            if (match.materialText) {
+              const matEl = document.getElementById('pdp-material-content');
+              if (matEl) matEl.textContent = match.materialText;
+            }
+
+            // 6g. Update How To Use / Break-In Steps Accordion if configured in Shopify tags
+            if (match.howToUseText) {
+              const htuEl = document.getElementById('pdp-howtouse-content');
+              if (htuEl) htuEl.textContent = match.howToUseText;
             }
 
             // 7. Update Description (Highlights) if edited

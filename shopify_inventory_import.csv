@@ -1,0 +1,45 @@
+Handle,Title,Option1 Name,Option1 Value,Option2 Name,Option2 Value,Option3 Name,Option3 Value,SKU,Available
+eng-1,O.S. Max 0.46 AX II Nitro Engine,Title,Default Title,,,,,ENG-1,12
+eng-2,O.S. MAX-65AX (E-4050),Title,Default Title,,,,,ENG-2,4
+eng-3,O.S. MAX-65AX (E-4010A),Title,Default Title,,,,,ENG-3,4
+eng-4,DLE 65 cc Gas engine,Title,Default Title,,,,,ENG-4,10
+eng-5,DLE 20 cc gas engine,Title,Default Title,,,,,ENG-5,10
+rad-1,futaba Radio 6k (8 Channel) With Reciver,Title,Default Title,,,,,RAD-1,8
+rad-2,futaba TM 18-R9001SB (Transmitter and Receiver set),Title,Default Title,,,,,RAD-2,4
+rad-3,RECEIVER R3008 SB 2.4G,Title,Default Title,,,,,RAD-3,4
+sea-1,"Champion Xtreme Decathlon 122"" V2 ARF 60-80 (Red Version)",Title,Default Title,,,,,SEA-1,1
+sea-2,"Edge 540 V2 77.4"" Wing Span 35-40 CC",Title,Default Title,,,,,SEA-2,1
+sea-3,"UK-Air Force Pilatus PC-9 60.6"" ARF 10CC",Title,Default Title,,,,,SEA-3,2
+sea-4,"Boomerang V3 Trainer 61"" ARF .46 2 Stroke",Title,Default Title,,,,,SEA-4,2
+sea-5,"Seagull LW Sport V2 60"" ARF 46 2-Stroke 10cc",Title,Default Title,,,,,SEA-5,2
+sea-6,"YAK 54 3D ARF 64"" ARF 20-26CC",Title,Default Title,,,,,SEA-6,2
+sea-7,"Arising Star V2 Trainer 63"" ARF .46 2 Stroke",Title,Default Title,,,,,SEA-7,2
+sea-8,"Ultimate Bi-Plane 54.3"" ARF 20CC",Title,Default Title,,,,,SEA-8,1
+sea-9,"Extra 330 LX 3D 82.1"" ARF 50-60 CC "" B /R",Title,Default Title,,,,,SEA-9,1
+sea-10,"EXTRA 330 LX 3D 82.1"" ARF 50-60CC YELLOW",Title,Default Title,,,,,SEA-10,1
+sea-11,"Zivko Edge 540 V3 92"" ARF 60CC",Title,Default Title,,,,,SEA-11,1
+sea-12,"YAK 54 73"" ARF 35 -40cc 3D",Title,Default Title,,,,,SEA-12,2
+bal-1,Balsa Sheet 2 mm,Title,Default Title,,,,,BAL-1,60
+bal-2,Balsa Sheet 3 mm,Title,Default Title,,,,,BAL-2,100
+bal-3,Balsa Sheet 4 mm,Title,Default Title,,,,,BAL-3,60
+bal-4,Balsa Sheet 5 mm,Title,Default Title,,,,,BAL-4,100
+bal-5,Balsa Sheet 6 mm,Title,Default Title,,,,,BAL-5,50
+bal-6,Balsa Sheet 8 mm,Title,Default Title,,,,,BAL-6,50
+bal-7,Balsa Sheet 10 mm,Title,Default Title,,,,,BAL-7,25
+bal-8,Balsa Sheet 12 mm,Title,Default Title,,,,,BAL-8,30
+bal-9,Balsa Sheet 15 mm,Title,Default Title,,,,,BAL-9,22
+acc-1,futaba servo S-U300,Title,Default Title,,,,,ACC-1,50
+acc-2,Futaba trainer coard m-m top,Title,Default Title,,,,,ACC-2,10
+acc-3,hand fuel pump,Title,Default Title,,,,,ACC-3,5
+acc-4,high torque 12v starter,Title,Default Title,,,,,ACC-4,5
+acc-5,Glow starter c size with charger,Title,Default Title,,,,,ACC-5,5
+acc-6,LIPO GLOW STARTER IGNITOR WITH LED & ADAPTOR,Title,Default Title,,,,,ACC-6,4
+acc-7,Glow plug starter ignitor,Title,Default Title,,,,,ACC-7,10
+acc-8,Drill guid 30-55,Title,Default Title,,,,,ACC-8,10
+acc-9,Drill guide 110 to 150,Title,Default Title,,,,,ACC-9,10
+acc-10,12 v electric fuel pump,Title,Default Title,,,,,ACC-10,10
+acc-11,"DU-BRO Tygon gas tubing, large 30' spool",Title,Default Title,,,,,ACC-11,10
+acc-12,RealFlight Evolution RC Flight Simulator with InterLink DX Controller,Title,Default Title,,,,,ACC-12,1
+acc-13,O.S. Glow Plug no .8,Title,Default Title,,,,,ACC-13,200
+acc-14,BR-4000 Battery/Servo/Receiver Checker,Title,Default Title,,,,,ACC-14,2
+acc-15,BR-3000 Battery Checker,Title,Default Title,,,,,ACC-15,2

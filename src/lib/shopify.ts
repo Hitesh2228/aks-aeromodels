@@ -185,6 +185,15 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
     }
   }
 
+  // Parse Configurable HSN Code Tag (e.g. "hsn:95030020" or "hsn:84071000")
+  let hsnCode: string | undefined = undefined;
+  const hsnTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('hsn:'));
+  if (hsnTag) {
+    hsnCode = hsnTag.substring(4).trim();
+  }
+
+  const basePrice = Math.round(price / (1 + gstRate / 100));
+
   // Parse Configurable Warranty Tag (e.g. "warranty:2-Year", "warranty:6-Months")
   let warrantyPeriod: string | undefined = undefined;
   const warrantyTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('warranty:'));
@@ -205,6 +214,61 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
       youtubeVideoId = rawVal;
     }
   }
+
+  // Parse Configurable Best Selling Combo Paired Product Tag (e.g. "combo:acc-13")
+  let comboId: string | undefined = undefined;
+  const comboTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('combo:'));
+  if (comboTag) comboId = comboTag.substring(6).trim();
+
+  // Parse Material / Ingredients Tag (e.g. "material:Aircraft aluminum, balsa wood, steel crankshaft")
+  let materialText: string | undefined = undefined;
+  const materialTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('material:'));
+  if (materialTag) materialText = materialTag.substring(9).trim();
+
+  // Parse How To Use / Break-In Steps Tag (e.g. "howtouse:Run 3 cycles at idle before flying")
+  let howToUseText: string | undefined = undefined;
+  const howToUseTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('howtouse:') || t.toLowerCase().startsWith('use:'));
+  if (howToUseTag) howToUseText = howToUseTag.includes(':') ? howToUseTag.split(/:(.+)/)[1].trim() : undefined;
+
+  // Parse FAQ Tag (e.g. "faq:Q: Is fuel included? A: Shipped separately | Q: ... A: ...")
+  let faqList: Array<{ q: string; a: string }> | undefined = undefined;
+  const faqTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('faq:'));
+  if (faqTag) {
+    const parts = faqTag.substring(4).trim().split('|');
+    faqList = parts.map(p => {
+      const m = p.match(/Q:\s*(.*?)\s*A:\s*(.*)/i);
+      if (m) return { q: m[1].trim(), a: m[2].trim() };
+      return { q: 'FAQ', a: p.trim() };
+    }).filter(f => f.a);
+  }
+
+  // Parse 4 Trust Badges Tag (e.g. "trust:Imported Quality | 100% Genuine | AMA Certified | Assured Delivery")
+  let trustBadges: string[] | undefined = undefined;
+  const trustTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('trust:'));
+  if (trustTag) {
+    trustBadges = trustTag.substring(6).split(/[|,]/).map(b => b.trim()).filter(Boolean);
+  }
+
+  // Parse Notes in This Set Tag (e.g. "notes:ABL Liner - High heat resistance | Ball Bearings - Dual precision")
+  let notesInSet: Array<{ name: string; desc: string }> | undefined = undefined;
+  const notesTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('notes:'));
+  if (notesTag) {
+    notesInSet = notesTag.substring(6).trim().split('|').map(n => {
+      const hIdx = n.indexOf('-');
+      if (hIdx > -1) return { name: n.substring(0, hIdx).trim(), desc: n.substring(hIdx + 1).trim() };
+      return { name: n.trim(), desc: '' };
+    }).filter(n => n.name);
+  }
+
+  // Parse Where To Fly Applications Tag (e.g. "fly:Aerobatic Competitions | Flight Training Clubs")
+  let whereToFly: string[] | undefined = undefined;
+  const flyTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('fly:'));
+  if (flyTag) whereToFly = flyTag.substring(4).split(/[|,]/).map(f => f.trim()).filter(Boolean);
+
+  // Parse Vibes Tag (e.g. "vibes:Versatile, confident, bold, high-performance flight")
+  let vibesText: string | undefined = undefined;
+  const vibesTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('vibes:'));
+  if (vibesTag) vibesText = vibesTag.substring(6).trim();
 
   const catList: Array<{ id: 'engine' | 'radio-receiver' | 'aeromodels' | 'balsa-wood' | 'accessories'; label: string }> = [
     { id: 'engine', label: 'Engine' },
@@ -284,8 +348,16 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
     assignedCat = catList[2];
   }
 
+  const prodId = sp.handle || sp.safeId || sp.id;
+  const staticProd = staticProducts.find(p => 
+    p.id === prodId || 
+    p.handle === sp.handle || 
+    p.id === sp.handle ||
+    (sp.handle && p.id.toLowerCase() === sp.handle.toLowerCase())
+  );
+
   return {
-    id: sp.handle || sp.safeId || sp.id,
+    id: prodId,
     handle: sp.handle,
     name: sp.title,
     category: assignedCat.id,
@@ -294,21 +366,32 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
     originalPrice: origPrice,
     discountBadge: customBadge,
     prepaidDiscountPct,
-    gstRate,
+    gstRate: gstTag ? gstRate : (staticProd?.gstRate || 18),
+    hsnCode: hsnCode || staticProd?.hsnCode,
+    basePrice: basePrice || staticProd?.basePrice,
+    stock: staticProd?.stock ?? (sp.availableForSale ? 10 : 0),
     warrantyPeriod,
-    youtubeVideoId,
-    rating: 4.9,
-    reviewsCount: 35 + idx * 4,
+    youtubeVideoId: youtubeVideoId || staticProd?.youtubeVideoId,
+    rating: staticProd?.rating || 4.9,
+    reviewsCount: 6, // Matches exact actual reviews on PDP
     isBestseller: isBestsellerTag,
     isNewArrival: isNewArrivalTag,
     isCrazyDeal: isCrazyDealTag,
     isFromShopify: true,
     image: sp.imageUrl,
-    images: sp.images && sp.images.length > 0 ? sp.images : [sp.imageUrl],
-    description: sp.description || 'Official SKYNODES UAV product synced live from Shopify Storefront.',
-    specs: { Vendor: sp.vendor, Type: sp.productType, Status: sp.availableForSale ? 'In Stock' : 'Out of Stock' },
-    inStock: sp.availableForSale,
-    variantId: sp.variantId
+    images: sp.images && sp.images.length > 0 ? sp.images : (staticProd?.images || [sp.imageUrl]),
+    description: (sp.description && sp.description.length > 20) ? sp.description : (staticProd?.description || 'Official SKYNODES UAV product synced live from Shopify Storefront.'),
+    specs: staticProd?.specs || { Vendor: sp.vendor, Type: sp.productType, Status: (sp.availableForSale || staticProd?.inStock) ? 'In Stock' : 'Out of Stock' },
+    inStock: sp.availableForSale || (staticProd ? staticProd.inStock : true),
+    variantId: sp.variantId,
+    comboId: comboId || staticProd?.comboId,
+    materialText: materialText || staticProd?.materialText,
+    howToUseText: howToUseText || staticProd?.howToUseText,
+    faqList: faqList || staticProd?.faqList,
+    trustBadges: trustBadges || staticProd?.trustBadges,
+    notesInSet: notesInSet || staticProd?.notesInSet,
+    whereToFly: whereToFly || staticProd?.whereToFly,
+    vibesText: vibesText || staticProd?.vibesText
   };
 }
 

@@ -29,23 +29,48 @@ export function saveCartToStorage(items: CartItemState[]) {
   }
 }
 
-export function registerProductsCache(products: Product[]) {
+export function registerProductsCache(products: (Product | any)[]) {
   if (typeof window === 'undefined' || !products || products.length === 0) return;
   try {
     const existingRaw = localStorage.getItem(PRODUCTS_CACHE_KEY);
     const existing: Record<string, Product> = existingRaw ? JSON.parse(existingRaw) : {};
     products.forEach(p => {
-      if (p.id) existing[p.id] = p;
-      if (p.handle) existing[p.handle] = p;
+      if (!p) return;
+      const normalized: Product = {
+        id: p.id || p.handle,
+        handle: p.handle || p.id,
+        name: p.name || p.title,
+        price: typeof p.price === 'number' ? p.price : Math.round(parseFloat(p.price || '0')),
+        originalPrice: typeof p.originalPrice === 'number' ? p.originalPrice : Math.round(parseFloat(p.originalPrice || '0')),
+        category: p.category || 'aeromodels',
+        categoryLabel: p.categoryLabel || 'Seagull Aeromodels',
+        image: p.image || p.imageUrl || '',
+        images: p.images || (p.image ? [p.image] : []),
+        rating: p.rating || 4.9,
+        reviewsCount: p.reviewsCount || 6,
+        inStock: p.inStock ?? p.availableForSale ?? true,
+        description: p.description || '',
+        specs: p.specs || {},
+        discountBadge: p.discountBadge,
+        gstRate: p.gstRate,
+        hsnCode: p.hsnCode,
+        basePrice: p.basePrice,
+        warrantyPeriod: p.warrantyPeriod,
+        prepaidDiscountPct: p.prepaidDiscountPct,
+        youtubeVideoId: p.youtubeVideoId,
+        isBestseller: p.isBestseller,
+        isCrazyDeal: p.isCrazyDeal,
+        isNewArrival: p.isNewArrival
+      };
+      if (p.id) existing[p.id] = normalized;
+      if (p.handle) existing[p.handle] = normalized;
+      if (p.safeId) existing[p.safeId] = normalized;
     });
     localStorage.setItem(PRODUCTS_CACHE_KEY, JSON.stringify(existing));
   } catch (e) {}
 }
 
 export function getCachedProduct(id: string): Product | undefined {
-  const staticFound = PRODUCTS.find(p => p.id === id || p.handle === id);
-  if (staticFound) return staticFound;
-
   if (typeof window !== 'undefined') {
     try {
       const raw = localStorage.getItem(PRODUCTS_CACHE_KEY);
@@ -55,6 +80,10 @@ export function getCachedProduct(id: string): Product | undefined {
       }
     } catch (e) {}
   }
+
+  const staticFound = PRODUCTS.find(p => p.id === id || p.handle === id);
+  if (staticFound) return staticFound;
+
   return undefined;
 }
 
@@ -99,7 +128,7 @@ export function showCartToast(title = 'Item') {
   }, 2500);
 }
 
-export function addToCart(productOrId: string | Product, quantity = 1) {
+export function addToCart(productOrId: string | Product | any, quantity = 1) {
   const current = getCartFromStorage();
   
   let productId: string;
@@ -109,9 +138,9 @@ export function addToCart(productOrId: string | Product, quantity = 1) {
     productId = productOrId;
     productObj = getCachedProduct(productId);
   } else {
-    productId = productOrId.id;
-    productObj = productOrId;
-    registerProductsCache([productObj]);
+    productId = productOrId.id || productOrId.handle;
+    registerProductsCache([productOrId]);
+    productObj = getCachedProduct(productId) || productOrId;
   }
 
   const existingIndex = current.findIndex(i => i.productId === productId);
@@ -149,13 +178,31 @@ export function openCartDrawer() {
 
 export function getCartHydrated() {
   const raw = getCartFromStorage();
-  return raw.map(item => {
-    const product = item.productData || getCachedProduct(item.productId);
+  let needsResave = false;
+
+  const result = raw.map(item => {
+    const fresh = getCachedProduct(item.productId);
+    const product = fresh || item.productData;
+
+    // Self-heal stale product price/data if updated
+    if (fresh && (!item.productData || item.productData.price !== fresh.price || item.productData.name !== fresh.name)) {
+      item.productData = fresh;
+      needsResave = true;
+    }
+
     return {
       product: product!,
       quantity: item.quantity
     };
   }).filter(item => item.product !== undefined && item.product !== null);
+
+  if (needsResave && typeof window !== 'undefined') {
+    try {
+      localStorage.setItem(CART_KEY, JSON.stringify(raw));
+    } catch (e) {}
+  }
+
+  return result;
 }
 
 export function getCartCount(): number {

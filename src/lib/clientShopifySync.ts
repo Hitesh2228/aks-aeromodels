@@ -1,4 +1,4 @@
-// Client-Side Live Shopify Sync for Instant UI Updates without Rebuilds
+import { registerProductsCache } from './cartStore';
 
 const SHOPIFY_DOMAIN = "skynodesuav.myshopify.com";
 const SHOPIFY_TOKEN = "ec578fcbf0e0c5a4b6234c56dd36288a";
@@ -19,6 +19,8 @@ export interface LiveProduct {
   discountBadge: string;
   prepaidDiscountPct?: number;
   gstRate?: number;
+  hsnCode?: string;
+  basePrice?: number;
   warrantyPeriod?: string;
   youtubeVideoId?: string;
   availableForSale?: boolean;
@@ -27,6 +29,15 @@ export interface LiveProduct {
   isBestseller: boolean;
   isCrazyDeal: boolean;
   isNewArrival: boolean;
+  // Dynamic PDP Backend Controls
+  comboId?: string;
+  materialText?: string;
+  howToUseText?: string;
+  faqList?: Array<{ q: string; a: string }>;
+  trustBadges?: string[];
+  notesInSet?: Array<{ name: string; desc: string }>;
+  whereToFly?: string[];
+  vibesText?: string;
 }
 
 export async function fetchLiveShopifyProducts(): Promise<LiveProduct[] | null> {
@@ -224,6 +235,82 @@ export async function fetchLiveShopifyProducts(): Promise<LiveProduct[] | null> 
         }
       }
 
+      // Parse Configurable HSN Code Tag (e.g. "hsn:84071000")
+      let hsnCode: string | undefined = undefined;
+      const hsnTag = (node.tags || []).find((t: string) => t.toLowerCase().startsWith('hsn:'));
+      if (hsnTag) {
+        hsnCode = hsnTag.substring(4).trim();
+      }
+
+      // Parse Configurable Best Selling Combo Paired Product Tag (e.g. "combo:acc-13" or "combo:eng-1")
+      let comboId: string | undefined = undefined;
+      const comboTag = (node.tags || []).find((t: string) => t.toLowerCase().startsWith('combo:'));
+      if (comboTag) {
+        comboId = comboTag.substring(6).trim();
+      }
+
+      // Parse Material / Ingredients Tag (e.g. "material:Aircraft aluminum, balsa wood, steel crankshaft")
+      let materialText: string | undefined = undefined;
+      const materialTag = (node.tags || []).find((t: string) => t.toLowerCase().startsWith('material:'));
+      if (materialTag) {
+        materialText = materialTag.substring(9).trim();
+      }
+
+      // Parse How To Use / Break-In Steps Tag (e.g. "howtouse:Run 3 cycles at idle before flying")
+      let howToUseText: string | undefined = undefined;
+      const howToUseTag = (node.tags || []).find((t: string) => t.toLowerCase().startsWith('howtouse:') || t.toLowerCase().startsWith('use:'));
+      if (howToUseTag) {
+        howToUseText = howToUseTag.includes(':') ? howToUseTag.split(/:(.+)/)[1].trim() : undefined;
+      }
+
+      // Parse FAQ Tag (e.g. "faq:Q: Is fuel included? A: Shipped separately | Q: ... A: ...")
+      let faqList: Array<{ q: string; a: string }> | undefined = undefined;
+      const faqTag = (node.tags || []).find((t: string) => t.toLowerCase().startsWith('faq:'));
+      if (faqTag) {
+        const rawFaq = faqTag.substring(4).trim();
+        const parts = rawFaq.split('|');
+        faqList = parts.map(p => {
+          const m = p.match(/Q:\s*(.*?)\s*A:\s*(.*)/i);
+          if (m) return { q: m[1].trim(), a: m[2].trim() };
+          return { q: 'FAQ', a: p.trim() };
+        }).filter(f => f.a);
+      }
+
+      // Parse 4 Trust Badges Tag (e.g. "trust:Imported Quality | 100% Genuine | AMA Certified | Assured Delivery")
+      let trustBadges: string[] | undefined = undefined;
+      const trustTag = (node.tags || []).find((t: string) => t.toLowerCase().startsWith('trust:'));
+      if (trustTag) {
+        trustBadges = trustTag.substring(6).split(/[|,]/).map(b => b.trim()).filter(Boolean);
+      }
+
+      // Parse Notes in This Set Tag (e.g. "notes:ABL Liner - High heat resistance | Ball Bearings - Dual precision")
+      let notesInSet: Array<{ name: string; desc: string }> | undefined = undefined;
+      const notesTag = (node.tags || []).find((t: string) => t.toLowerCase().startsWith('notes:'));
+      if (notesTag) {
+        const rawNotes = notesTag.substring(6).trim();
+        notesInSet = rawNotes.split('|').map(n => {
+          const hyphenIdx = n.indexOf('-');
+          if (hyphenIdx > -1) {
+            return { name: n.substring(0, hyphenIdx).trim(), desc: n.substring(hyphenIdx + 1).trim() };
+          }
+          return { name: n.trim(), desc: '' };
+        }).filter(n => n.name);
+      }
+
+      // Parse Where To Fly Applications Tag (e.g. "fly:Aerobatic Competitions | Flight Training Clubs")
+      let whereToFly: string[] | undefined = undefined;
+      const flyTag = (node.tags || []).find((t: string) => t.toLowerCase().startsWith('fly:'));
+      if (flyTag) {
+        whereToFly = flyTag.substring(4).split(/[|,]/).map(f => f.trim()).filter(Boolean);
+      }
+
+      // Parse Vibes Tag (e.g. "vibes:Versatile, confident, bold, high-performance flight")
+      let vibesText: string | undefined = undefined;
+      const vibesTag = (node.tags || []).find((t: string) => t.toLowerCase().startsWith('vibes:'));
+      if (vibesTag) {
+        vibesText = vibesTag.substring(6).trim();
+      }
+
       const availableForSale = variantNode?.availableForSale ?? true;
 
       return {
@@ -241,6 +328,8 @@ export async function fetchLiveShopifyProducts(): Promise<LiveProduct[] | null> 
         discountBadge: customBadge,
         prepaidDiscountPct,
         gstRate,
+        hsnCode,
+        basePrice: Math.round(price / (1 + gstRate / 100)),
         warrantyPeriod,
         youtubeVideoId,
         availableForSale,
@@ -248,9 +337,21 @@ export async function fetchLiveShopifyProducts(): Promise<LiveProduct[] | null> 
         images: imageList,
         isBestseller: tagsLower.some((t: string) => t === 'bestseller' || t === 'best-seller' || t === 'best seller' || t.includes('bestseller')),
         isCrazyDeal: tagsLower.some((t: string) => t === 'crazy-deal' || t === 'crazydeal' || t === 'crazy deal' || t.includes('crazy')),
-        isNewArrival: tagsLower.some((t: string) => t === 'new' || t === 'new-arrival' || t === 'new arrival')
+        isNewArrival: tagsLower.some((t: string) => t === 'new' || t === 'new-arrival' || t === 'new arrival'),
+        comboId,
+        materialText,
+        howToUseText,
+        faqList,
+        trustBadges,
+        notesInSet,
+        whereToFly,
+        vibesText
       };
     });
+
+    // Auto-cache live products in cartStore so cart and shop always use up-to-date prices
+    registerProductsCache(products);
+    return products;
   } catch (err) {
     console.error("[Client Sync Exception]", err);
     return null;
