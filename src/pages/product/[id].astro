@@ -28,7 +28,14 @@ const relatedProducts = allProducts
   .slice(0, 4);
 
 let customComboProduct = product.comboId 
-  ? allProducts.find(p => p.id === product.comboId || p.handle === product.comboId) 
+  ? allProducts.find(p => {
+      const q = product.comboId!.toLowerCase().trim();
+      return p.id === product.comboId || 
+        p.handle === product.comboId ||
+        p.id?.toLowerCase() === q ||
+        p.handle?.toLowerCase() === q ||
+        p.name?.toLowerCase().includes(q);
+    }) 
   : undefined;
 const defaultPaired = allProducts.filter(p => p.category !== product.category && p.id !== product.id);
 const pairedProducts = customComboProduct 
@@ -3055,8 +3062,20 @@ const productSchema = {
             // 6. Update Combo Price & Combo Add to Cart data-id
             let comboPaired = (pairedProducts && pairedProducts[0]) || null;
             if (match.comboId) {
-              const customPaired = liveProducts.find(p => p.id === match.comboId || p.handle === match.comboId) ||
-                allProdsList.find((p: any) => p.id === match.comboId || p.handle === match.comboId);
+              const q = match.comboId.toLowerCase().trim();
+              const customPaired = liveProducts.find(p => 
+                p.id === match.comboId || 
+                p.handle === match.comboId ||
+                p.id?.toLowerCase() === q ||
+                p.handle?.toLowerCase() === q ||
+                p.title?.toLowerCase().includes(q)
+              ) || allProdsList.find((p: any) => 
+                p.id === match.comboId || 
+                p.handle === match.comboId ||
+                p.id?.toLowerCase() === q ||
+                p.handle?.toLowerCase() === q ||
+                p.name?.toLowerCase().includes(q)
+              );
               if (customPaired) {
                 comboPaired = customPaired;
                 activeComboPairedProd = customPaired;
