@@ -177,7 +177,7 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
       const tLower = t.toLowerCase();
       if (tLower.startsWith(p)) {
         const remainder = t.substring(prefix.length).trim();
-        if (remainder.startsWith(':')) {
+        if (remainder.startsWith(':') || remainder.startsWith('-')) {
           return remainder.substring(1).trim();
         }
       }
@@ -255,7 +255,7 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
   const useVal = getTagValue('howtouse') || getTagValue('use');
   if (useVal) howToUseText = useVal;
 
-  // Parse FAQ Tag (e.g. "faq:Q: Is fuel included? A: Shipped separately | Q: ... A: ...")
+  // Parse FAQ Tag (single tag "faq:Q: ... A: ... | Q: ... A: ..." or individual "faq1:...", "faq2:...")
   let faqList: Array<{ q: string; a: string }> | undefined = undefined;
   const faqVal = getTagValue('faq');
   if (faqVal) {
@@ -265,16 +265,34 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
       if (m) return { q: m[1].trim(), a: m[2].trim() };
       return { q: 'FAQ', a: p.trim() };
     }).filter(f => f.a);
+  } else {
+    const numberedFaqs: Array<{ q: string; a: string }> = [];
+    for (let i = 1; i <= 10; i++) {
+      const fVal = getTagValue(`faq${i}`);
+      if (fVal) {
+        const m = fVal.match(/Q:\s*(.*?)\s*A:\s*(.*)/i);
+        if (m) numberedFaqs.push({ q: m[1].trim(), a: m[2].trim() });
+        else numberedFaqs.push({ q: `FAQ ${i}`, a: fVal.trim() });
+      }
+    }
+    if (numberedFaqs.length > 0) faqList = numberedFaqs;
   }
 
-  // Parse 4 Trust Badges Tag (e.g. "trust:Imported Quality | 100% Genuine | AMA Certified | Assured Delivery")
+  // Parse 4 Trust Badges Tag (single tag "trust:A | B | C" or individual "trust1:...", "trust2:...")
   let trustBadges: string[] | undefined = undefined;
   const trustVal = getTagValue('trust');
   if (trustVal) {
-    trustBadges = trustVal.split(/[|,]/).map(b => b.trim()).filter(Boolean);
+    trustBadges = trustVal.split(/[|/]/).map(b => b.trim()).filter(Boolean);
+  } else {
+    const numberedTrust: string[] = [];
+    for (let i = 1; i <= 10; i++) {
+      const tVal = getTagValue(`trust${i}`);
+      if (tVal) numberedTrust.push(tVal.trim());
+    }
+    if (numberedTrust.length > 0) trustBadges = numberedTrust;
   }
 
-  // Parse Notes in This Set Tag (e.g. "notes:ABL Liner - High heat resistance | Ball Bearings - Dual precision")
+  // Parse Notes in This Set Tag (single tag "notes:Name - Desc | Name - Desc" or individual "note1:...", "note2:...")
   let notesInSet: Array<{ name: string; desc: string }> | undefined = undefined;
   const notesVal = getTagValue('notes');
   if (notesVal) {
@@ -283,12 +301,32 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
       if (hIdx > -1) return { name: n.substring(0, hIdx).trim(), desc: n.substring(hIdx + 1).trim() };
       return { name: n.trim(), desc: '' };
     }).filter(n => n.name);
+  } else {
+    const numberedNotes: Array<{ name: string; desc: string }> = [];
+    for (let i = 1; i <= 10; i++) {
+      const nVal = getTagValue(`note${i}`);
+      if (nVal) {
+        const hIdx = nVal.indexOf('-');
+        if (hIdx > -1) numberedNotes.push({ name: nVal.substring(0, hIdx).trim(), desc: nVal.substring(hIdx + 1).trim() });
+        else numberedNotes.push({ name: nVal.trim(), desc: '' });
+      }
+    }
+    if (numberedNotes.length > 0) notesInSet = numberedNotes;
   }
 
-  // Parse Where To Fly Applications Tag (e.g. "fly:Aerobatic Competitions | Flight Training Clubs")
+  // Parse Where To Fly Applications Tag (single tag "fly:A | B | C" or individual "fly1:...", "fly2:...")
   let whereToFly: string[] | undefined = undefined;
   const flyVal = getTagValue('fly');
-  if (flyVal) whereToFly = flyVal.split(/[|,]/).map(f => f.trim()).filter(Boolean);
+  if (flyVal) {
+    whereToFly = flyVal.split(/[|/]/).map(f => f.trim()).filter(Boolean);
+  } else {
+    const numberedFly: string[] = [];
+    for (let i = 1; i <= 10; i++) {
+      const fVal = getTagValue(`fly${i}`);
+      if (fVal) numberedFly.push(fVal.trim());
+    }
+    if (numberedFly.length > 0) whereToFly = numberedFly;
+  }
 
   // Parse Vibes Tag (e.g. "vibes:Versatile, confident, bold, high-performance flight")
   let vibesText: string | undefined = undefined;
