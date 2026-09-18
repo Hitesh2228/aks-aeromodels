@@ -232,8 +232,8 @@ const productSchema = {
             <button type="button" class="stepper-btn" id="pdp-qty-inc">+</button>
           </div>
         </div>
-        <div class="tax-note-text">
-          Inclusive of all taxes {taxNoteSubtitle}
+        <div class="tax-note-text" id="pdp-tax-note">
+          Inclusive of all taxes <span id="pdp-tax-subtitle">{taxNoteSubtitle}</span>
         </div>
 
         <!-- Prepaid Discount Callout Banner (Exact PDF Style) -->
@@ -444,12 +444,10 @@ const productSchema = {
             </button>
             <div class="pdf-acc-content">
               <p class="acc-paragraph" id="pdp-warranty-info-text">
-                Includes {product.warrantyPeriod || '1-Year'} Official Manufacturer Warranty and official GST Input Tax Credit (ITC) invoice for personal & B2B orders.
-                {product.hsnCode && (
-                  <span style="display: block; margin-top: 6px; font-weight: 500; color: #333;">
-                    HSN Code: <strong>{product.hsnCode}</strong> | GST Slab: <strong>{product.gstRate || 18}%</strong> {basePriceText}
-                  </span>
-                )}
+                <span id="pdp-warranty-desc">Includes {product.warrantyPeriod || '1-Year'} Official Manufacturer Warranty and official GST Input Tax Credit (ITC) invoice for personal & B2B orders.</span>
+                <span id="pdp-hsn-gst-line" style="display: block; margin-top: 6px; font-weight: 500; color: #333;">
+                  HSN Code: <strong id="pdp-hsn-code">{product.hsnCode || '9503'}</strong> | GST Slab: <strong id="pdp-gst-rate">{product.gstRate || 18}%</strong> <span id="pdp-base-price">{basePriceText}</span>
+                </span>
               </p>
             </div>
           </div>
@@ -3199,12 +3197,30 @@ const productSchema = {
             }
 
             // 7d. Update Warranty & GST info
-            if (match.warrantyPeriod || match.gstRate) {
-              const warrantyEl = document.getElementById('pdp-warranty-info-text');
-              if (warrantyEl) {
-                const w = match.warrantyPeriod || '1-Year';
-                const g = match.gstRate || 18;
-                warrantyEl.textContent = `Includes ${w} Official Manufacturer Warranty and ${g}% GST Input Tax Credit Invoice for B2B orders.`;
+            // 7d. Update Warranty, HSN & GST info
+            if (match.warrantyPeriod) {
+              const wDesc = document.getElementById('pdp-warranty-desc');
+              if (wDesc) wDesc.textContent = `Includes ${match.warrantyPeriod} Official Manufacturer Warranty and official GST Input Tax Credit (ITC) invoice for personal & B2B orders.`;
+            }
+            if (match.hsnCode) {
+              const hsnEl = document.getElementById('pdp-hsn-code');
+              if (hsnEl) hsnEl.textContent = match.hsnCode;
+            }
+            if (typeof match.gstRate === 'number') {
+              const gstEl = document.getElementById('pdp-gst-rate');
+              if (gstEl) gstEl.textContent = `${match.gstRate}%`;
+              const baseEl = document.getElementById('pdp-base-price');
+              if (baseEl && match.price) {
+                const bp = Math.round(match.price / (1 + match.gstRate / 100));
+                baseEl.textContent = `(Base: ₹${bp.toLocaleString('en-IN')})`;
+              }
+            }
+            if (match.hsnCode || typeof match.gstRate === 'number') {
+              const taxSub = document.getElementById('pdp-tax-subtitle');
+              if (taxSub) {
+                const h = match.hsnCode || '9503';
+                const g = match.gstRate ?? 18;
+                taxSub.textContent = `• HSN: ${h} • ${g}% GST`;
               }
             }
 

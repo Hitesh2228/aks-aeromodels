@@ -169,82 +169,97 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
   const isCrazyDealTag = tagsLower.some(t => t === 'crazy-deal' || t === 'crazydeal' || t === 'crazy deal' || t.includes('crazy'));
   const isNewArrivalTag = tagsLower.some(t => t === 'new' || t === 'new-arrival' || t === 'new arrival');
 
-  let customBadge: string | undefined = pctOff > 0 ? `${pctOff}% OFF` : undefined;
-  const badgeTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('badge:'));
-  if (badgeTag) {
-    customBadge = badgeTag.substring(6).trim();
+  function getTagValue(prefix: string): string | undefined {
+    if (!sp.tags || !Array.isArray(sp.tags)) return undefined;
+    const p = prefix.toLowerCase();
+    for (const raw of sp.tags) {
+      const t = raw.trim();
+      const tLower = t.toLowerCase();
+      if (tLower.startsWith(p)) {
+        const remainder = t.substring(prefix.length).trim();
+        if (remainder.startsWith(':')) {
+          return remainder.substring(1).trim();
+        }
+      }
+    }
+    return undefined;
   }
 
-  // Parse Configurable Prepaid Discount Tag (e.g. "prepaid:10%" or "prepaid:7%")
-  let prepaidDiscountPct: number = 5;
-  const prepaidTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('prepaid:'));
-  if (prepaidTag) {
-    const parsed = parseInt(prepaidTag.replace(/[^0-9]/g, ''), 10);
+  let customBadge = pctOff > 0 ? `${pctOff}% OFF` : 'SPECIAL OFFER';
+  const badgeVal = getTagValue('badge');
+  if (badgeVal) {
+    customBadge = badgeVal;
+  }
+
+  // Parse Configurable Prepaid Discount Tag (e.g. "prepaid:10%", "prepaid: 7%", "prepaid : 10")
+  let prepaidDiscountPct = 5;
+  const prepaidVal = getTagValue('prepaid');
+  if (prepaidVal) {
+    const parsed = parseInt(prepaidVal.replace(/[^0-9]/g, ''), 10);
     if (!isNaN(parsed) && parsed > 0 && parsed <= 90) {
       prepaidDiscountPct = parsed;
     }
   }
 
-  // Parse Configurable GST Rate Tag (e.g. "gst:12%", "gst:28%", "gst:5%")
+  // Parse Configurable GST Rate Tag (e.g. "gst:12%", "gst: 12%", "gst: 28%", "gst:5%")
   let gstRate: number = 18;
-  const gstTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('gst:'));
-  if (gstTag) {
-    const parsed = parseInt(gstTag.replace(/[^0-9]/g, ''), 10);
+  const gstVal = getTagValue('gst');
+  if (gstVal) {
+    const parsed = parseInt(gstVal.replace(/[^0-9]/g, ''), 10);
     if (!isNaN(parsed) && parsed >= 0 && parsed <= 40) {
       gstRate = parsed;
     }
   }
 
-  // Parse Configurable HSN Code Tag (e.g. "hsn:95030020" or "hsn:84071000")
+  // Parse Configurable HSN Code Tag (e.g. "hsn:95030020" or "hsn: 84071000")
   let hsnCode: string | undefined = undefined;
-  const hsnTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('hsn:'));
-  if (hsnTag) {
-    hsnCode = hsnTag.substring(4).trim();
+  const hsnVal = getTagValue('hsn');
+  if (hsnVal) {
+    hsnCode = hsnVal;
   }
 
   const basePrice = Math.round(price / (1 + gstRate / 100));
 
-  // Parse Configurable Warranty Tag (e.g. "warranty:2-Year", "warranty:6-Months")
+  // Parse Configurable Warranty Tag (e.g. "warranty:2-Year", "warranty: 6-Months")
   let warrantyPeriod: string | undefined = undefined;
-  const warrantyTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('warranty:'));
-  if (warrantyTag) {
-    warrantyPeriod = warrantyTag.substring(9).trim();
+  const warrantyVal = getTagValue('warranty');
+  if (warrantyVal) {
+    warrantyPeriod = warrantyVal;
   }
 
   // Parse Configurable YouTube Video Tag (e.g. "yt:l4J81G3H5e0" or "video:https://youtu.be/...")
   let youtubeVideoId: string | undefined = undefined;
-  const videoTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('yt:') || t.toLowerCase().startsWith('video:'));
-  if (videoTag) {
-    const rawVal = videoTag.includes(':') ? videoTag.split(/:(.+)/)[1].trim() : '';
-    if (rawVal.includes('v=')) {
-      youtubeVideoId = rawVal.split('v=')[1]?.split('&')[0];
-    } else if (rawVal.includes('youtu.be/')) {
-      youtubeVideoId = rawVal.split('youtu.be/')[1]?.split('?')[0];
-    } else if (rawVal) {
-      youtubeVideoId = rawVal;
+  const videoVal = getTagValue('yt') || getTagValue('video');
+  if (videoVal) {
+    if (videoVal.includes('v=')) {
+      youtubeVideoId = videoVal.split('v=')[1]?.split('&')[0];
+    } else if (videoVal.includes('youtu.be/')) {
+      youtubeVideoId = videoVal.split('youtu.be/')[1]?.split('?')[0];
+    } else if (videoVal) {
+      youtubeVideoId = videoVal;
     }
   }
 
   // Parse Configurable Best Selling Combo Paired Product Tag (e.g. "combo:acc-13")
   let comboId: string | undefined = undefined;
-  const comboTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('combo:'));
-  if (comboTag) comboId = comboTag.substring(6).trim();
+  const comboVal = getTagValue('combo');
+  if (comboVal) comboId = comboVal;
 
   // Parse Material / Ingredients Tag (e.g. "material:Aircraft aluminum, balsa wood, steel crankshaft")
   let materialText: string | undefined = undefined;
-  const materialTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('material:'));
-  if (materialTag) materialText = materialTag.substring(9).trim();
+  const matVal = getTagValue('material');
+  if (matVal) materialText = matVal;
 
   // Parse How To Use / Break-In Steps Tag (e.g. "howtouse:Run 3 cycles at idle before flying")
   let howToUseText: string | undefined = undefined;
-  const howToUseTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('howtouse:') || t.toLowerCase().startsWith('use:'));
-  if (howToUseTag) howToUseText = howToUseTag.includes(':') ? howToUseTag.split(/:(.+)/)[1].trim() : undefined;
+  const useVal = getTagValue('howtouse') || getTagValue('use');
+  if (useVal) howToUseText = useVal;
 
   // Parse FAQ Tag (e.g. "faq:Q: Is fuel included? A: Shipped separately | Q: ... A: ...")
   let faqList: Array<{ q: string; a: string }> | undefined = undefined;
-  const faqTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('faq:'));
-  if (faqTag) {
-    const parts = faqTag.substring(4).trim().split('|');
+  const faqVal = getTagValue('faq');
+  if (faqVal) {
+    const parts = faqVal.split('|');
     faqList = parts.map(p => {
       const m = p.match(/Q:\s*(.*?)\s*A:\s*(.*)/i);
       if (m) return { q: m[1].trim(), a: m[2].trim() };
@@ -254,16 +269,16 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
 
   // Parse 4 Trust Badges Tag (e.g. "trust:Imported Quality | 100% Genuine | AMA Certified | Assured Delivery")
   let trustBadges: string[] | undefined = undefined;
-  const trustTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('trust:'));
-  if (trustTag) {
-    trustBadges = trustTag.substring(6).split(/[|,]/).map(b => b.trim()).filter(Boolean);
+  const trustVal = getTagValue('trust');
+  if (trustVal) {
+    trustBadges = trustVal.split(/[|,]/).map(b => b.trim()).filter(Boolean);
   }
 
   // Parse Notes in This Set Tag (e.g. "notes:ABL Liner - High heat resistance | Ball Bearings - Dual precision")
   let notesInSet: Array<{ name: string; desc: string }> | undefined = undefined;
-  const notesTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('notes:'));
-  if (notesTag) {
-    notesInSet = notesTag.substring(6).trim().split('|').map(n => {
+  const notesVal = getTagValue('notes');
+  if (notesVal) {
+    notesInSet = notesVal.split('|').map(n => {
       const hIdx = n.indexOf('-');
       if (hIdx > -1) return { name: n.substring(0, hIdx).trim(), desc: n.substring(hIdx + 1).trim() };
       return { name: n.trim(), desc: '' };
@@ -272,13 +287,13 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
 
   // Parse Where To Fly Applications Tag (e.g. "fly:Aerobatic Competitions | Flight Training Clubs")
   let whereToFly: string[] | undefined = undefined;
-  const flyTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('fly:'));
-  if (flyTag) whereToFly = flyTag.substring(4).split(/[|,]/).map(f => f.trim()).filter(Boolean);
+  const flyVal = getTagValue('fly');
+  if (flyVal) whereToFly = flyVal.split(/[|,]/).map(f => f.trim()).filter(Boolean);
 
   // Parse Vibes Tag (e.g. "vibes:Versatile, confident, bold, high-performance flight")
   let vibesText: string | undefined = undefined;
-  const vibesTag = (sp.tags || []).find(t => t.toLowerCase().startsWith('vibes:'));
-  if (vibesTag) vibesText = vibesTag.substring(6).trim();
+  const vibesVal = getTagValue('vibes');
+  if (vibesVal) vibesText = vibesVal;
 
   const catList: Array<{ id: 'engine' | 'radio-receiver' | 'aeromodels' | 'balsa-wood' | 'accessories'; label: string }> = [
     { id: 'engine', label: 'Engine' },
