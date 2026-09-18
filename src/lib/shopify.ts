@@ -293,22 +293,40 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
   }
 
   // Parse Notes in This Set Tag (single tag "notes:Name - Desc | Name - Desc" or individual "note1:...", "note2:...")
+  function parseNoteItem(raw: string): { name: string; desc: string } {
+    const s = raw.trim();
+    // Prioritize ' - ' (with spaces) so hyphenated model codes like 'E-4040 Silencer' aren't prematurely cut!
+    let idx = s.indexOf(' - ');
+    let delimLen = 3;
+    if (idx === -1) {
+      idx = s.indexOf(' : ');
+      delimLen = 3;
+    }
+    if (idx === -1) {
+      idx = s.indexOf(': ');
+      delimLen = 2;
+    }
+    if (idx === -1) {
+      idx = s.indexOf(' | ');
+      delimLen = 3;
+    }
+    if (idx > -1) {
+      return { name: s.substring(0, idx).trim(), desc: s.substring(idx + delimLen).trim() };
+    }
+    return { name: s, desc: '' };
+  }
+
   let notesInSet: Array<{ name: string; desc: string }> | undefined = undefined;
   const notesVal = getTagValue('notes');
   if (notesVal) {
-    notesInSet = notesVal.split('|').map(n => {
-      const hIdx = n.indexOf('-');
-      if (hIdx > -1) return { name: n.substring(0, hIdx).trim(), desc: n.substring(hIdx + 1).trim() };
-      return { name: n.trim(), desc: '' };
-    }).filter(n => n.name);
+    notesInSet = notesVal.split('|').map(parseNoteItem).filter(n => n.name);
   } else {
     const numberedNotes: Array<{ name: string; desc: string }> = [];
     for (let i = 1; i <= 10; i++) {
       const nVal = getTagValue(`note${i}`);
       if (nVal) {
-        const hIdx = nVal.indexOf('-');
-        if (hIdx > -1) numberedNotes.push({ name: nVal.substring(0, hIdx).trim(), desc: nVal.substring(hIdx + 1).trim() });
-        else numberedNotes.push({ name: nVal.trim(), desc: '' });
+        const item = parseNoteItem(nVal);
+        if (item.name) numberedNotes.push(item);
       }
     }
     if (numberedNotes.length > 0) notesInSet = numberedNotes;
