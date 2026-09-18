@@ -20,9 +20,9 @@ export interface ShopifyProduct {
   stock?: number;
 }
 
-const SHOPIFY_DOMAIN = import.meta.env.PUBLIC_SHOPIFY_STORE_DOMAIN || "skynodesuav.myshopify.com";
-const SHOPIFY_TOKEN = import.meta.env.PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN || "ec578fcbf0e0c5a4b6234c56dd36288a";
-const SHOPIFY_API_VERSION = import.meta.env.PUBLIC_SHOPIFY_API_VERSION || "2024-04";
+const SHOPIFY_DOMAIN = (typeof import.meta !== 'undefined' && import.meta.env?.PUBLIC_SHOPIFY_STORE_DOMAIN) || "skynodesuav.myshopify.com";
+const SHOPIFY_TOKEN = (typeof import.meta !== 'undefined' && import.meta.env?.PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN) || "ec578fcbf0e0c5a4b6234c56dd36288a";
+const SHOPIFY_API_VERSION = (typeof import.meta !== 'undefined' && import.meta.env?.PUBLIC_SHOPIFY_API_VERSION) || "2024-04";
 
 export async function fetchShopifyStorefront<T = any>(query: string, variables: Record<string, any> = {}): Promise<T | null> {
   try {
@@ -391,7 +391,7 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
     originalPrice: origPrice,
     discountBadge: customBadge,
     prepaidDiscountPct,
-    gstRate: gstTag ? gstRate : (staticProd?.gstRate || 18),
+    gstRate: gstVal ? gstRate : (staticProd?.gstRate || 18),
     hsnCode: hsnCode || staticProd?.hsnCode,
     basePrice: basePrice || staticProd?.basePrice,
     stock: sp.stock !== undefined ? sp.stock : (staticProd?.stock ?? (sp.availableForSale ? 10 : 0)),
