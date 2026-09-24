@@ -122,8 +122,8 @@ import { PRODUCTS } from '../data/products';
             <label class="pay-option-card active">
               <input type="radio" name="pay-method" value="upi" checked />
               <div class="pay-content">
-                <strong>⚡ Instant UPI / QR Code (GPay, PhonePe, Paytm)</strong>
-                <small>0% Payment Fee — Instant Dispatch Confirmation</small>
+                <strong>⚡ Instant UPI / QR Code (Flat 5% OFF)</strong>
+                <small>Google Pay, PhonePe, Paytm, BHIM — Instant 5% Discount</small>
               </div>
             </label>
 
@@ -676,7 +676,11 @@ import { PRODUCTS } from '../data/products';
           if (payMethod === 'cod') {
             placeOrderBtn.innerHTML = `CONFIRM COD ORDER (₹${total.toLocaleString('en-IN')}) ➔`;
           } else if (payMethod === 'upi') {
-            placeOrderBtn.innerHTML = `⚡ PAY ₹${total.toLocaleString('en-IN')}.00 VIA UPI (WAY POINT) ➔`;
+            placeOrderBtn.innerHTML = `⚡ PAY ₹${total.toLocaleString('en-IN')}.00 VIA UPI (5% OFF) ➔`;
+          } else if (payMethod === 'card') {
+            placeOrderBtn.innerHTML = `💳 PAY ₹${total.toLocaleString('en-IN')}.00 VIA CARD (WAY POINT) ➔`;
+          } else if (payMethod === 'netbanking') {
+            placeOrderBtn.innerHTML = `🏦 PAY ₹${total.toLocaleString('en-IN')}.00 VIA NETBANKING (WAY POINT) ➔`;
           } else {
             placeOrderBtn.innerHTML = `💳 PAY ₹${total.toLocaleString('en-IN')}.00 VIA RAZORPAY (WAY POINT) ➔`;
           }
@@ -911,6 +915,7 @@ import { PRODUCTS } from '../data/products';
             body: JSON.stringify({
               amount: total,
               receipt: orderId.replace(/[^a-zA-Z0-9_-]/g, ''),
+              paymentMethod: payMethodVal,
               customer: {
                 name,
                 phone,
@@ -931,6 +936,61 @@ import { PRODUCTS } from '../data/products';
             return;
           }
 
+          let rzpConfig: any = undefined;
+
+          if (payMethodVal === 'upi') {
+            rzpConfig = {
+              display: {
+                blocks: {
+                  upi_block: {
+                    name: "⚡ Pay via UPI / QR Code (5% OFF)",
+                    instruments: [
+                      { method: "upi" }
+                    ]
+                  }
+                },
+                sequence: ["block.upi_block"],
+                preferences: {
+                  show_default_blocks: false
+                }
+              }
+            };
+          } else if (payMethodVal === 'card') {
+            rzpConfig = {
+              display: {
+                blocks: {
+                  card_block: {
+                    name: "💳 Credit / Debit Cards",
+                    instruments: [
+                      { method: "card" }
+                    ]
+                  }
+                },
+                sequence: ["block.card_block"],
+                preferences: {
+                  show_default_blocks: false
+                }
+              }
+            };
+          } else if (payMethodVal === 'netbanking') {
+            rzpConfig = {
+              display: {
+                blocks: {
+                  nb_block: {
+                    name: "🏦 NetBanking",
+                    instruments: [
+                      { method: "netbanking" }
+                    ]
+                  }
+                },
+                sequence: ["block.nb_block"],
+                preferences: {
+                  show_default_blocks: false
+                }
+              }
+            };
+          }
+
           const options: any = {
             key: rzpData.keyId,
             amount: rzpData.amount,
@@ -942,11 +1002,14 @@ import { PRODUCTS } from '../data/products';
             prefill: {
               name: name,
               email: email,
-              contact: phone
+              contact: phone,
+              method: payMethodVal === 'upi' ? 'upi' : payMethodVal === 'card' ? 'card' : payMethodVal === 'netbanking' ? 'netbanking' : undefined
             },
+            config: rzpConfig,
             notes: {
               merchant: 'Way Point',
               orderId: orderId,
+              payment_selection: payMethodVal,
               shipping_address: `${address}, ${city}, ${state} - ${pincode}`,
               gstin: isB2B ? gstin : 'N/A'
             },
@@ -969,11 +1032,12 @@ import { PRODUCTS } from '../data/products';
                 });
                 const verifyData = await verifyRes.json();
 
+                const methodLabel = payMethodVal === 'upi' ? 'UPI / QR CODE' : payMethodVal === 'card' ? 'CARD' : payMethodVal === 'netbanking' ? 'NETBANKING' : 'ONLINE';
                 const currentOrder = {
                   ...baseOrder,
                   paymentId: response.razorpay_payment_id,
                   razorpayOrderId: response.razorpay_order_id,
-                  paymentMethod: `ONLINE (RAZORPAY - WAY POINT: ${response.razorpay_payment_id})`,
+                  paymentMethod: `ONLINE (${methodLabel} - WAY POINT: ${response.razorpay_payment_id})`,
                   status: `PAID (TXN ID: ${response.razorpay_payment_id})`,
                   merchant: 'WAY POINT'
                 };
@@ -987,12 +1051,12 @@ import { PRODUCTS } from '../data/products';
 
                 window.location.href = '/invoice';
               } catch (err: any) {
-                console.error('[Verify Error]', err);
+                const methodLabel = payMethodVal === 'upi' ? 'UPI / QR CODE' : payMethodVal === 'card' ? 'CARD' : payMethodVal === 'netbanking' ? 'NETBANKING' : 'ONLINE';
                 const currentOrder = {
                   ...baseOrder,
                   paymentId: response.razorpay_payment_id,
                   razorpayOrderId: response.razorpay_order_id,
-                  paymentMethod: `ONLINE (RAZORPAY - WAY POINT: ${response.razorpay_payment_id})`,
+                  paymentMethod: `ONLINE (${methodLabel} - WAY POINT: ${response.razorpay_payment_id})`,
                   status: `PAID (TXN ID: ${response.razorpay_payment_id})`,
                   merchant: 'WAY POINT'
                 };

@@ -30,7 +30,8 @@ export const POST: APIRoute = async ({ request }) => {
         customer_phone: String(data.customer?.phone || '').substring(0, 20),
         isB2B: data.customer?.isB2B ? 'true' : 'false',
         company_name: String(data.customer?.companyName || '').substring(0, 50),
-        gstin: String(data.customer?.gstin || '').substring(0, 20)
+        gstin: String(data.customer?.gstin || '').substring(0, 20),
+        payment_method: String(data.paymentMethod || 'upi').substring(0, 20)
       }
     };
 
