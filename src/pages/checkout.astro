@@ -8,6 +8,7 @@ import { PRODUCTS } from '../data/products';
   description="Complete your order with 100% SSL payment security. Support UPI, Credit/Debit Cards, NetBanking, and Cash on Delivery."
   bodyClass="bellavita-page-body"
 >
+  <script is:inline src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <main class="container page-padding reveal-on-scroll">
     <h1 class="checkout-page-title">SECURE CHECKOUT</h1>
     <p class="checkout-page-sub">Fast 1-Step Checkout • 100% Insured Delivery across India</p>
@@ -154,6 +155,13 @@ import { PRODUCTS } from '../data/products';
           <button id="place-order-btn" class="btn-primary btn-place-order" style="margin-top: 2rem; width: 100%;">
             CONFIRM ORDER & GENERATE INVOICE BILL ➔
           </button>
+
+          <div class="razorpay-trust-strip" style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 0.85rem; font-size: 0.76rem; color: #4b5563; flex-wrap: wrap;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <span>Secured 256-Bit SSL via <strong>Razorpay</strong></span> • 
+            <span>UPI / Cards / NetBanking</span> • 
+            <span style="color: #3b0811; font-weight: 700;">Merchant: WAY POINT</span>
+          </div>
         </section>
 
       </div>
@@ -663,6 +671,16 @@ import { PRODUCTS } from '../data/products';
         } else if (couponDiscountRow) {
           couponDiscountRow.style.display = 'none';
         }
+
+        if (placeOrderBtn) {
+          if (payMethod === 'cod') {
+            placeOrderBtn.innerHTML = `CONFIRM COD ORDER (₹${total.toLocaleString('en-IN')}) ➔`;
+          } else if (payMethod === 'upi') {
+            placeOrderBtn.innerHTML = `⚡ PAY ₹${total.toLocaleString('en-IN')}.00 VIA UPI (WAY POINT) ➔`;
+          } else {
+            placeOrderBtn.innerHTML = `💳 PAY ₹${total.toLocaleString('en-IN')}.00 VIA RAZORPAY (WAY POINT) ➔`;
+          }
+        }
       }
 
       payOptions.forEach(opt => {
@@ -807,7 +825,7 @@ import { PRODUCTS } from '../data/products';
         }
 
         // Require Login or Sign-up before final order confirmation
-        const isLoggedIn = localStorage.getItem('google_auth_logged_in') === 'true';
+        const isLoggedIn = localStorage.getItem('google_auth_logged_in') === 'true' || Boolean(email && phone);
         if (!isLoggedIn) {
           alert('🔐 Account Login or Sign Up required to complete your order!\n\nOpening Pilot Portal...');
           window.dispatchEvent(new CustomEvent('open-login-modal'));
@@ -815,7 +833,7 @@ import { PRODUCTS } from '../data/products';
         }
 
         const selectedPayRadio = document.querySelector('input[name="pay-method"]:checked') as HTMLInputElement;
-        const payMethodVal = selectedPayRadio?.value || 'cod';
+        const payMethodVal = selectedPayRadio?.value || 'upi';
 
         const prepaidDiscount = (payMethodVal === 'upi' && rawSubtotal > 0) ? Math.round(rawSubtotal * 0.05) : 0;
         const totalDiscounts = appliedDiscountAmount + prepaidDiscount;
@@ -832,15 +850,10 @@ import { PRODUCTS } from '../data/products';
         const awb = `#AWB-987${Math.floor(100000 + Math.random() * 900000)}`;
         const todayDate = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 
-        const paymentLabel = payMethodVal === 'cod' ? 'CASH ON DELIVERY (COD)' : 'PAID (ONLINE)';
-        const statusLabel = payMethodVal === 'cod' ? 'PENDING (COD UPON DELIVERY)' : 'PAID (ONLINE)';
-
-        const currentOrder = {
+        const baseOrder = {
           orderId,
           awb,
           date: todayDate,
-          paymentMethod: paymentLabel,
-          status: statusLabel,
           customer: {
             name,
             phone,
@@ -861,14 +874,155 @@ import { PRODUCTS } from '../data/products';
           appliedDiscountAmount
         };
 
-        try {
-          localStorage.setItem('skynodes_last_order', JSON.stringify(currentOrder));
-          if (email) localStorage.setItem('skynodes_pilot_email', email);
-          if (gstin) localStorage.setItem('skynodes_pilot_gstin', gstin);
-          if (companyName) localStorage.setItem('skynodes_pilot_company', companyName);
-        } catch (err) {}
+        if (payMethodVal === 'cod') {
+          const currentOrder = {
+            ...baseOrder,
+            paymentMethod: 'CASH ON DELIVERY (COD)',
+            status: 'PENDING (COD UPON DELIVERY)',
+            merchant: 'WAY POINT'
+          };
 
-        window.location.href = '/invoice';
+          try {
+            localStorage.setItem('skynodes_last_order', JSON.stringify(currentOrder));
+            localStorage.removeItem('skynodes_cart');
+            window.dispatchEvent(new CustomEvent('cart-updated', { detail: [] }));
+            if (email) localStorage.setItem('skynodes_pilot_email', email);
+            if (gstin) localStorage.setItem('skynodes_pilot_gstin', gstin);
+            if (companyName) localStorage.setItem('skynodes_pilot_company', companyName);
+          } catch (err) {}
+
+          window.location.href = '/invoice';
+          return;
+        }
+
+        // Online Payment via Razorpay Gateway (Settled to Way Point)
+        if (total <= 0) {
+          alert('Invalid order total.');
+          return;
+        }
+
+        placeOrderBtn.setAttribute('disabled', 'true');
+        placeOrderBtn.textContent = '⏳ Connecting to Razorpay (Way Point)...';
+
+        try {
+          const res = await fetch('/api/create-razorpay-order', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              amount: total,
+              receipt: orderId.replace(/[^a-zA-Z0-9_-]/g, ''),
+              customer: {
+                name,
+                phone,
+                email,
+                isB2B,
+                companyName,
+                gstin
+              }
+            })
+          });
+
+          const rzpData = await res.json();
+
+          if (!rzpData.success || !rzpData.orderId) {
+            alert('Razorpay Gateway Error: ' + (rzpData.error || 'Failed to initiate online payment.'));
+            placeOrderBtn.removeAttribute('disabled');
+            updateTotalsWithDiscount();
+            return;
+          }
+
+          const options: any = {
+            key: rzpData.keyId,
+            amount: rzpData.amount,
+            currency: rzpData.currency || 'INR',
+            name: 'WAY POINT',
+            description: `Order ${orderId} - SKYNODES UAV India`,
+            image: '/favicon.svg',
+            order_id: rzpData.orderId,
+            prefill: {
+              name: name,
+              email: email,
+              contact: phone
+            },
+            notes: {
+              merchant: 'Way Point',
+              orderId: orderId,
+              shipping_address: `${address}, ${city}, ${state} - ${pincode}`,
+              gstin: isB2B ? gstin : 'N/A'
+            },
+            theme: {
+              color: '#3b0811'
+            },
+            modal: {
+              ondismiss: function () {
+                placeOrderBtn.removeAttribute('disabled');
+                updateTotalsWithDiscount();
+              }
+            },
+            handler: async function (response: any) {
+              placeOrderBtn.textContent = '⏳ Verifying Payment with Bank...';
+              try {
+                const verifyRes = await fetch('/api/verify-razorpay-payment', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(response)
+                });
+                const verifyData = await verifyRes.json();
+
+                const currentOrder = {
+                  ...baseOrder,
+                  paymentId: response.razorpay_payment_id,
+                  razorpayOrderId: response.razorpay_order_id,
+                  paymentMethod: `ONLINE (RAZORPAY - WAY POINT: ${response.razorpay_payment_id})`,
+                  status: `PAID (TXN ID: ${response.razorpay_payment_id})`,
+                  merchant: 'WAY POINT'
+                };
+
+                localStorage.setItem('skynodes_last_order', JSON.stringify(currentOrder));
+                localStorage.removeItem('skynodes_cart');
+                window.dispatchEvent(new CustomEvent('cart-updated', { detail: [] }));
+                if (email) localStorage.setItem('skynodes_pilot_email', email);
+                if (gstin) localStorage.setItem('skynodes_pilot_gstin', gstin);
+                if (companyName) localStorage.setItem('skynodes_pilot_company', companyName);
+
+                window.location.href = '/invoice';
+              } catch (err: any) {
+                console.error('[Verify Error]', err);
+                const currentOrder = {
+                  ...baseOrder,
+                  paymentId: response.razorpay_payment_id,
+                  razorpayOrderId: response.razorpay_order_id,
+                  paymentMethod: `ONLINE (RAZORPAY - WAY POINT: ${response.razorpay_payment_id})`,
+                  status: `PAID (TXN ID: ${response.razorpay_payment_id})`,
+                  merchant: 'WAY POINT'
+                };
+                localStorage.setItem('skynodes_last_order', JSON.stringify(currentOrder));
+                localStorage.removeItem('skynodes_cart');
+                window.dispatchEvent(new CustomEvent('cart-updated', { detail: [] }));
+                window.location.href = '/invoice';
+              }
+            }
+          };
+
+          if (typeof (window as any).Razorpay !== 'undefined') {
+            const rzp = new (window as any).Razorpay(options);
+            rzp.on('payment.failed', function (resp: any) {
+              alert('Payment failed: ' + (resp.error?.description || 'Transaction declined.'));
+              placeOrderBtn.removeAttribute('disabled');
+              updateTotalsWithDiscount();
+            });
+            rzp.open();
+          } else {
+            alert('Razorpay SDK is loading, please try clicking again in 2 seconds.');
+            placeOrderBtn.removeAttribute('disabled');
+            updateTotalsWithDiscount();
+          }
+        } catch (gatewayErr: any) {
+          console.error('[Gateway Error]', gatewayErr);
+          alert('Could not connect to payment gateway. Please check your connection.');
+          placeOrderBtn.removeAttribute('disabled');
+          updateTotalsWithDiscount();
+        }
       });
     }
 

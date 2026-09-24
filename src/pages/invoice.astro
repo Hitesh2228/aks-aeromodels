@@ -44,6 +44,8 @@ const grandTotal = subtotal;
             <p class="inv-meta-row"><span>Invoice No:</span> <strong class="val" id="inv-no-val">#SKY-INV-2026-9842</strong></p>
             <p class="inv-meta-row"><span>Date:</span> <strong class="val" id="inv-date-val">09 Aug 2026</strong></p>
             <p class="inv-meta-row"><span>Payment Status:</span> <strong class="val status-paid" id="inv-status-val">PAID (ONLINE)</strong></p>
+            <p class="inv-meta-row" id="inv-txn-row" style="display: none;"><span>Payment Ref:</span> <strong class="val" id="inv-txn-val" style="font-family: monospace; font-size: 0.76rem; color: #059669;"></strong></p>
+            <p class="inv-meta-row" id="inv-merchant-row" style="display: none;"><span>Beneficiary:</span> <strong class="val" id="inv-merchant-val" style="color: #3b0811;">WAY POINT</strong></p>
           </div>
         </div>
 
@@ -137,6 +139,7 @@ const grandTotal = subtotal;
               <li>All engines & radios include 1-Year Official Manufacturer Defect Warranty.</li>
               <li>Includes 100% Transit Damage Coverage by SKYNODESUAV India.</li>
               <li>Input Tax Credit (ITC) subject to statutory GST filing rules under GSTR-2B.</li>
+              <li id="inv-settlement-note" style="display: none;">Banking & Payment Settlement Entity: <strong>WAY POINT</strong> (via Razorpay).</li>
             </ul>
           </div>
 
@@ -423,6 +426,22 @@ const grandTotal = subtotal;
           invStatusEl.className = order.paymentMethod?.includes('COD') ? 'val status-pending' : 'val status-paid';
         }
 
+        const invTxnRow = document.getElementById('inv-txn-row');
+        const invTxnVal = document.getElementById('inv-txn-val');
+        const invMerchantRow = document.getElementById('inv-merchant-row');
+        const invMerchantVal = document.getElementById('inv-merchant-val');
+        const invSettlementNote = document.getElementById('inv-settlement-note');
+
+        if (order.paymentId) {
+          if (invTxnRow) invTxnRow.style.display = 'block';
+          if (invTxnVal) invTxnVal.textContent = order.paymentId;
+        }
+        if (order.merchant) {
+          if (invMerchantRow) invMerchantRow.style.display = 'block';
+          if (invMerchantVal) invMerchantVal.textContent = order.merchant;
+          if (invSettlementNote) invSettlementNote.style.display = 'list-item';
+        }
+
         const custNameEl = document.getElementById('inv-cust-name');
         const custAddrEl = document.getElementById('inv-cust-address');
         const custPhoneEl = document.getElementById('inv-cust-phone');
@@ -546,7 +565,8 @@ const grandTotal = subtotal;
         const waBtn = document.getElementById('inv-wa-share-btn') as HTMLAnchorElement;
         if (waBtn) {
           const b2bText = isB2B ? ` [B2B Tax Invoice - GSTIN: ${order.customer.gstin}]` : '';
-          const msg = encodeURIComponent(`Hi SKYNODES UAV Support, I have placed Order ${order.orderId}${b2bText} for ₹${order.total.toLocaleString('en-IN')} via ${order.paymentMethod}. Customer: ${order.customer.name}, Phone: ${order.customer.phone}. Please confirm dispatch.`);
+          const txnText = order.paymentId ? ` [Txn ID: ${order.paymentId}]` : '';
+          const msg = encodeURIComponent(`Hi SKYNODES UAV Support, I have placed Order ${order.orderId}${b2bText}${txnText} for ₹${order.total.toLocaleString('en-IN')} via ${order.paymentMethod}. Customer: ${order.customer.name}, Phone: ${order.customer.phone}. Please confirm dispatch.`);
           waBtn.href = `https://wa.me/917722009120?text=${msg}`;
         }
       } catch (e) {
