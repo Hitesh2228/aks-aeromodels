@@ -1,0 +1,4 @@
+AKS.drive-images/
+node_modules/
+.astro/
+dist/

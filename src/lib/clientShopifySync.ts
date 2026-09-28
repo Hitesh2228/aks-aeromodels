@@ -1,4 +1,5 @@
 import { registerProductsCache } from './cartStore';
+import { PRODUCTS as staticProducts } from '../data/products';
 
 const SHOPIFY_DOMAIN = "skynodesuav.myshopify.com";
 const SHOPIFY_TOKEN = "ec578fcbf0e0c5a4b6234c56dd36288a";
@@ -391,6 +392,22 @@ export async function fetchLiveShopifyProducts(): Promise<LiveProduct[] | null> 
 
       const currentStock = rawTotalInv ?? rawQtyAvail ?? (availableForSale ? 10 : 0);
 
+      const prodHandle = node.handle || safeId || node.id;
+      const staticMatch = staticProducts.find(p =>
+        p.id === prodHandle ||
+        p.handle === prodHandle ||
+        (prodHandle && p.id.toLowerCase() === prodHandle.toLowerCase()) ||
+        p.name.toLowerCase().trim() === (node.title || '').toLowerCase().trim()
+      );
+
+      const nonPlaceholderShopifyImgs = imageList.filter((u: string) => u && !u.includes('photo-1') && !u.includes('unsplash.com'));
+      const resolvedMainImg = nonPlaceholderShopifyImgs.length > 0
+        ? nonPlaceholderShopifyImgs[0]
+        : (staticMatch?.image || imageList[0] || "https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800");
+      const resolvedGallery = nonPlaceholderShopifyImgs.length > 0
+        ? nonPlaceholderShopifyImgs
+        : (staticMatch?.images && staticMatch.images.length > 0 ? staticMatch.images : [resolvedMainImg]);
+
       return {
         id: node.handle || safeId || node.id,
         safeId,
@@ -412,8 +429,8 @@ export async function fetchLiveShopifyProducts(): Promise<LiveProduct[] | null> 
         youtubeVideoId,
         availableForSale,
         stock: currentStock,
-        imageUrl: imageList[0] || "https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800",
-        images: imageList,
+        imageUrl: resolvedMainImg,
+        images: resolvedGallery,
         isBestseller: tagsLower.some((t: string) => t === 'bestseller' || t === 'best-seller' || t === 'best seller' || t.includes('bestseller')),
         isCrazyDeal: tagsLower.some((t: string) => t === 'crazy-deal' || t === 'crazydeal' || t === 'crazy deal' || t.includes('crazy')),
         isNewArrival: tagsLower.some((t: string) => t === 'new' || t === 'new-arrival' || t === 'new arrival'),

@@ -434,8 +434,17 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
     p.id === prodId || 
     p.handle === sp.handle || 
     p.id === sp.handle ||
-    (sp.handle && p.id.toLowerCase() === sp.handle.toLowerCase())
+    (sp.handle && p.id.toLowerCase() === sp.handle.toLowerCase()) ||
+    p.name.toLowerCase().trim() === (sp.title || '').toLowerCase().trim()
   );
+
+  const nonPlaceholderShopifyImgs = (sp.images || []).filter(u => u && !u.includes('photo-1') && !u.includes('unsplash.com'));
+  const resolvedMainImage = nonPlaceholderShopifyImgs.length > 0
+    ? nonPlaceholderShopifyImgs[0]
+    : (staticProd?.image || sp.imageUrl);
+  const resolvedGallery = nonPlaceholderShopifyImgs.length > 0
+    ? nonPlaceholderShopifyImgs
+    : (staticProd?.images && staticProd.images.length > 0 ? staticProd.images : [resolvedMainImage]);
 
   return {
     id: prodId,
@@ -459,8 +468,8 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
     isNewArrival: isNewArrivalTag,
     isCrazyDeal: isCrazyDealTag,
     isFromShopify: true,
-    image: sp.imageUrl,
-    images: sp.images && sp.images.length > 0 ? sp.images : (staticProd?.images || [sp.imageUrl]),
+    image: resolvedMainImage,
+    images: resolvedGallery,
     description: (sp.description && sp.description.length > 20) ? sp.description : (staticProd?.description || 'Official SKYNODES UAV product synced live from Shopify Storefront.'),
     specs: staticProd?.specs || { Vendor: sp.vendor, Type: sp.productType, Status: sp.availableForSale ? 'In Stock' : 'Out of Stock' },
     inStock: sp.availableForSale,
