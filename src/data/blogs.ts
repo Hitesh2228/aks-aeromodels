@@ -459,7 +459,7 @@ export const FALLBACK_POSTS: BlogPost[] = [
     authorRole: 'Master Engine Builder & FAI Pylon Specialist',
     category: 'ENGINE TUNING',
     readTime: '9 min read',
-    image: 'https://cdn.shopify.com/s/files/1/1026/5726/1844/files/eng-4-1.jpg?v=1791020057',
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop',
     tags: ['Gas Engine', 'DLE 65cc', 'Carburetor Tuning', 'CDI Ignition', 'Giant Scale'],
     relatedCategory: 'engine',
     relatedProductId: 'eng-4',
