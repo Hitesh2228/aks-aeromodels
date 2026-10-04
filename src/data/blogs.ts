@@ -12,7 +12,7 @@ export interface BlogPost {
   readTime: string;
   image: string;
   tags: string[];
-  relatedCategory?: 'engine' | 'aeromodels' | 'radio-receiver' | 'balsa-wood';
+  relatedCategory?: 'engine' | 'aeromodels' | 'radio-receiver' | 'balsa-wood' | 'accessories';
   relatedProductId?: string;
   toc?: Array<{ id: string; title: string }>;
   keyTakeaways?: string[];
@@ -447,5 +447,361 @@ export const FALLBACK_POSTS: BlogPost[] = [
 
       <p>Combine precise CG with real-time telemetry voltage monitoring from our <a href="/blog/futaba-telemetry-setup-guide" class="inline-blog-link">Futaba Telemetry Guide</a> to ensure complete flight line confidence!</p>
     `
+  },
+  {
+    id: 'blog-7',
+    slug: 'dle-65cc-gas-engine-tuning-guide',
+    title: 'Giant Scale Power: Complete DLE 65cc Gas Engine Carburetor Tuning, CDI Setup & Prop Selection',
+    excerpt: 'Unlock 8.5 HP of raw vertical climb. Step-by-step Walbro carburetor needle tuning, Hall sensor timing, 30:1 synthetic fuel blending, and vibration-damped aluminum standoff mounting.',
+    date: 'Oct 04, 2026',
+    publishedAt: '2026-10-04T12:00:00Z',
+    author: 'Chief Flight Engineer K. Sharma',
+    authorRole: 'Master Engine Builder & FAI Pylon Specialist',
+    category: 'ENGINE TUNING',
+    readTime: '9 min read',
+    image: 'https://cdn.shopify.com/s/files/1/1026/5726/1844/files/eng-4-1.jpg?v=1791020057',
+    tags: ['Gas Engine', 'DLE 65cc', 'Carburetor Tuning', 'CDI Ignition', 'Giant Scale'],
+    relatedCategory: 'engine',
+    relatedProductId: 'eng-4',
+    keyTakeaways: [
+      'Walbro diaphragm carburetors require positive crankcase pulse pressure; never pinch the internal pulse port passage.',
+      'Set initial Walbro needles at: Low-Speed (L) = 1.25 to 1.5 turns open, High-Speed (H) = 1.5 to 1.75 turns open.',
+      'Mount the CDI electronic ignition module and ignition battery at least 250mm away from 2.4GHz receivers to prevent spark RF noise.',
+      'For 3D aerobatics, pair with a balanced 23x8 or 24x8 carbon fiber propeller drilled using an accurate CNC steel drill guide.'
+    ],
+    contentHtml: `
+      <div class="pilot-briefing">
+        <div class="briefing-title">📋 GIANT SCALE PILOT BRIEFING</div>
+        <p>Transitioning from glow engines to giant scale gas powerplants like the <strong>DLE 65cc Gas Engine</strong> transforms your aeromodelling experience. Producing an astounding <strong>8.5 Horsepower at 8,500 RPM</strong>, the DLE 65cc delivers instantaneous throttle punch for airframes in the 85" to 122" class (such as the <a href="/blog/giant-scale-decathlon-122-build-review" class="inline-blog-link">Champion Decathlon 122" V2</a>). However, gas engines require a distinct understanding of Walbro diaphragm carburetors, auto-advance CDI ignitions, and fuel-oil ratios.</p>
+      </div>
+
+      <h2 id="firewall-mounting">1. Firewall Standoff Rigging & Anti-Vibration Security</h2>
+      <p>A 65cc single-cylinder engine generates substantial low-frequency torque pulses. When mounting the DLE 65cc onto an aircraft firewall:</p>
+      <ul>
+        <li><strong>Use CNC Aluminum Standoffs:</strong> Always use the factory-matched machined aluminum standoffs. Never stack loose washers to adjust engine thrust angle.</li>
+        <li><strong>Firewall Backing Plates:</strong> Place oversized stainless steel fender washers or a continuous 3mm aluminum backer plate on the rear face of the firewall to prevent blind nuts (T-nuts) from crushing into the plywood.</li>
+        <li><strong>Thread Locking Compound:</strong> Apply medium-strength blue threadlocker (Loctite 242/243) to all four M5 mounting bolts. Re-torque after the first three flights.</li>
+      </ul>
+
+      <div class="pilot-callout warning">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <strong>Crankcase Pulse Port Alert:</strong> The Walbro carburetor draws crankcase pressure pulses through an internal channel to actuate its fuel pumping diaphragm. Ensure your carburetor mounting gasket is installed in the correct orientation so the small vacuum pulse hole remains completely open!
+        </div>
+      </div>
+
+      <h2 id="cdi-ignition">2. Electronic CDI Ignition & RF Isolation Strategy</h2>
+      <p>The DLE CDI auto-advance ignition unit operates from 4.8V up to 8.4V (direct 2S LiFe or LiPo battery). While modern 2.4GHz FHSS systems have high noise immunity, electrical spark discharge from high-voltage coils can generate wideband RF noise if improperly routed:</p>
+      <ol>
+        <li>Mount the CDI module forward of the firewall or in the extreme nose bay, keeping it a minimum of <strong>200mm to 250mm away</strong> from your <a href="/blog/futaba-telemetry-setup-guide" class="inline-blog-link">Futaba 2.4GHz receiver and servos</a>.</li>
+        <li>Never route the shielded spark plug high-tension lead parallel to servo wires or receiver antenna cables.</li>
+        <li>Always install an electronic optical kill switch between the receiver and ignition battery to permit immediate engine shutdown from your transmitter switch in an emergency.</li>
+      </ol>
+
+      <h2 id="carb-tuning">3. Dialing Walbro Needles: Low-Speed (L) vs High-Speed (H)</h2>
+      <p>Unlike glow carburetors with a single needle and air bleed, the Walbro carburetor features two independent metering circuits:</p>
+      <ul>
+        <li><strong>Low-Speed Needle (L):</strong> Controls idle mixture and throttle pickup from 1,400 RPM to approximately 4,000 RPM.</li>
+        <li><strong>High-Speed Needle (H):</strong> Controls fuel volume at 75% to 100% full-throttle operation.</li>
+      </ul>
+
+      <div class="pilot-callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <strong>Factory Baseline Settings:</strong><br />
+          • <strong>Low Needle (L):</strong> Turn gently in clockwise until seated, then open <strong>1 turn and 20 minutes (approx 1.3 turns)</strong>.<br />
+          • <strong>High Needle (H):</strong> Turn gently in until seated, then open <strong>1 turn and 35 minutes (approx 1.6 turns)</strong>.<br />
+          Always use a dedicated long flat-head carburetor screwdriver while the engine is stopped to avoid propeller contact!
+        </div>
+      </div>
+
+      <p>To tune the Low-Speed needle, start the engine using your <a href="/blog/rc-flight-line-pit-box-essentials" class="inline-blog-link">12V High-Torque Starter</a> and allow it to reach operating temperature (around 90°C to 110°C). Slam the throttle from idle to full. If the engine hesitates, coughs, and dies: the L needle is <em>too lean</em> (open 1/16th turn counter-clockwise). If it sputters, burbs heavily, and slowly clears its throat: the L needle is <em>too rich</em> (close 1/16th turn clockwise).</p>
+
+      <h2 id="prop-and-fuel">4. Propeller Selection & 30:1 Synthetic Fuel Blend</h2>
+      <p>For break-in (first 10 to 15 liters of fuel), run high-grade 91+ octane unleaded gasoline blended at <strong>30:1 with high-quality petroleum/mineral 2T two-stroke oil</strong>. Mineral oil allows the piston ring to properly seat against the nickel-plated cylinder wall. After the initial break-in period, transition to a premium 100% synthetic 2T racing oil mixed at <strong>40:1</strong> for cleaner combustion and zero carbon buildup.</p>
+      <p>For giant scale aerobatics, a <strong>23x8</strong> prop yields blistering acceleration, while a <strong>24x8 carbon fiber prop</strong> produces optimal vertical pull and low-speed braking during downhill dive sequences. Always use a hardened steel drill jig like the CNC Drill Guide to ensure propeller bolt holes are drilled with microscopic symmetry!</p>
+
+      <p>For airframe compatibility and comparison against nitro and electric powerplants, explore our detailed <a href="/blog/gas-vs-nitro-vs-electric-powerplants" class="inline-blog-link">Gas vs Nitro vs Electric Decision Matrix</a>.</p>
+    `
+  },
+  {
+    id: 'blog-8',
+    slug: 'giant-scale-decathlon-122-build-review',
+    title: 'Giant Scale Masterclass: Seagull Decathlon 122" V2 ARF Build Review, Aerobatics & Flight Trim',
+    excerpt: 'Comprehensive field test of the 122-inch giant scale Decathlon. Aerodynamic rigging, heavy-duty aluminum landing gear dampening, Oracover maintenance, and scale aerobatic flight techniques.',
+    date: 'Sep 29, 2026',
+    publishedAt: '2026-09-29T10:00:00Z',
+    author: 'Captain R. Verma',
+    authorRole: 'Chief Flight Instructor & Aerobatic Evaluator',
+    category: 'AIRFRAME COMPARISON',
+    readTime: '8 min read',
+    image: 'https://cdn.shopify.com/s/files/1/1026/5726/1844/files/sea-1-1.jpg?v=1791020060',
+    tags: ['Giant Scale', 'Decathlon 122', 'Seagull Models', 'Aerobatics', 'Gas Airframe'],
+    relatedCategory: 'aeromodels',
+    relatedProductId: 'sea-1',
+    keyTakeaways: [
+      'Aluminum wing struts on the 122" Decathlon are functional structural members—correct tension rigging is mandatory.',
+      'The massive 122" wingspan yields an ultra-light wing loading, enabling stable, slow-motion touch-and-goes.',
+      'Pair with 60cc to 80cc petrol engines (like the DLE 65cc) for effortless vertical power and scale hammerheads.',
+      'Equip dual high-torque metal-gear digital servos on elevators and a pull-pull wire setup on the rudder.'
+    ],
+    contentHtml: `
+      <div class="pilot-briefing">
+        <div class="briefing-title">📋 SCALE FLIGHT EVALUATION</div>
+        <p>Few sights on an aeromodelling flight strip match the majestic silhouette of a <strong>giant scale 122-inch wingspan aircraft</strong> lining up on the runway. The <strong>Seagull Champion Xtreme Decathlon 122" V2 ARF</strong> is an engineering tour-de-force: hand-crafted from selected balsa and aircraft plywood, covered in genuine German Oracover, and engineered specifically for 60cc to 80cc gasoline engines.</p>
+      </div>
+
+      <h2 id="scale-presence">1. True Scale Presence & Structural Engineering</h2>
+      <p>With an overall length of 86.6 inches and a wing area exceeding 2,500 square inches, this Decathlon is not merely an RC model—it is a light aircraft in miniature. The two-piece wings connect via a heavy-wall aluminum wing tube and are supported by aerodynamically streamlined functional wing struts.</p>
+
+      <div class="pilot-callout warning">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <strong>Structural Strut Pre-Flight Inspection:</strong> Unlike sport high-wing trainers where struts are cosmetic, the Decathlon 122" wing struts carry positive and negative G-flight loads. Always use high-grade M3 hex bolts with nylon locking nuts to secure strut clevises before flight!
+        </div>
+      </div>
+
+      <h2 id="powerplant-matching">2. Powerplant Matching: The DLE 65cc Advantage</h2>
+      <p>While the airframe accepts 60cc to 80cc powerplants, pairing it with the <a href="/blog/dle-65cc-gas-engine-tuning-guide" class="inline-blog-link">DLE 65cc Gas Engine</a> creates a sublime power-to-weight balance. At approximately 11.5 kg all-up weight, the DLE 65cc spins a 24x8 propeller with enough thrust to pull the Decathlon through giant vertical loops, knife-edge passes, and inverted low-approach flybys without breaking a sweat.</p>
+
+      <h2 id="servo-rigging">3. Servo Architecture & Linkage Geometry</h2>
+      <p>Giant control surfaces require immense torque and slop-free linkages:</p>
+      <ul>
+        <li><strong>Ailerons:</strong> Dual servos per wing half or a single 25 kg-cm high-torque servo per aileron. Utilizing <a href="/blog/futaba-sbus-digital-servos-guide" class="inline-blog-link">Futaba S.BUS Digital Architecture</a> eliminates thick multi-wire harnesses through the massive wing roots.</li>
+        <li><strong>Elevators:</strong> Individual servos for left and right elevator halves mounted directly in the rear fuselage with short, stiff titanium pushrods.</li>
+        <li><strong>Rudder:</strong> Heavy-duty vinyl-coated multi-strand stainless steel pull-pull cable linkage crossed inside the fuselage to guarantee dead-accurate center tracking.</li>
+      </ul>
+
+      <h2 id="flight-envelope">4. Flight Characteristics: Handling The Giant</h2>
+      <p>In the air, the Decathlon 122" displays true scale inertia. Roll response is crisp yet authoritative. Inverted flight requires only a breath of down-elevator when the Center of Gravity is correctly calibrated (as described in our <a href="/blog/cg-balancing-and-lateral-trimming" class="inline-blog-link">CG Balancing & Lateral Trimming Guide</a>).</p>
+      <p>Landing the Decathlon is pure joy: the high-camber airfoil provides immense low-speed lift. Cut throttle to 15% on final approach, hold a gentle nose-up flare, and let the robust sprung aluminum landing gear grease the mains onto the strip.</p>
+    `
+  },
+  {
+    id: 'blog-9',
+    slug: 'seagull-pilatus-pc9-scale-turboprop-guide',
+    title: 'Scale Warbird Mastery: Seagull Pilatus PC-9 60.6" ARF Flap Mixing, Retracts & Flight Dynamics',
+    excerpt: 'Scale Royal Air Force cockpit detailing, split-flap pitch compensation, high-speed tracking, and powerplant matching (.46-.55 Nitro or 10cc Gas) for the legendary Pilatus PC-9.',
+    date: 'Sep 22, 2026',
+    publishedAt: '2026-09-22T10:00:00Z',
+    author: 'Captain R. Verma',
+    authorRole: 'Chief Flight Instructor & Aerobatic Evaluator',
+    category: 'AIRFRAME COMPARISON',
+    readTime: '7 min read',
+    image: 'https://cdn.shopify.com/s/files/1/1026/5726/1844/files/sea-3-1.jpg?v=1791020061',
+    tags: ['Pilatus PC-9', 'Scale Warbird', 'Flap Mixing', 'Seagull Models', 'Military Trainer'],
+    relatedCategory: 'aeromodels',
+    relatedProductId: 'sea-3',
+    keyTakeaways: [
+      'Functional scale split-flaps introduce substantial aerodynamic drag—mix 3% to 5% down elevator to cancel nose pitch-up.',
+      'The semi-symmetrical thin airfoil requires pilots to maintain 25% throttle during base-to-final turns to prevent tip stall.',
+      'Mechanical retract linkages must be set up with zero servo binding at both locked-down and locked-up endpoints to prevent battery drain.',
+      'Powering with an O.S. Max .46 to .55 glow engine yields crisp 130+ km/h military passes and scale four-point rolls.'
+    ],
+    contentHtml: `
+      <div class="pilot-briefing">
+        <div class="briefing-title">📋 TACTICAL FLIGHT EVALUATION</div>
+        <p>The <strong>Pilatus PC-9</strong> is globally renowned as one of the most advanced military turboprop trainers ever flown by the Royal Air Force and air arms worldwide. The <strong>Seagull UK-Air Force Pilatus PC-9 60.6" ARF</strong> captures that sleek military silhouette with extraordinary fidelity: pre-painted fiberglass cowl, pilot bust, functional scale split-flaps, and provisions for retractable tricycle landing gear.</p>
+      </div>
+
+      <h2 id="low-wing-transition">1. The Transition from High-Wing to Low-Wing Warbirds</h2>
+      <p>If you learned on a high-wing trainer like the <a href="/blog/choosing-first-seagull-trainer" class="inline-blog-link">Seagull Boomerang V3</a>, the Pilatus PC-9 represents the perfect second or third aircraft. Its low-wing configuration has minimal inherent dihedral self-leveling, meaning the aircraft stays exactly at the bank angle you command until you roll it back level.</p>
+
+      <h2 id="flap-mixing">2. Setting Up Functional Split-Flaps</h2>
+      <p>Unlike standard plain flaps, split-flaps deploy downward from the bottom surface while the upper wing contour remains unbroken. This creates enormous parasitic and induced drag with moderate lift:</p>
+      <ul>
+        <li><strong>Takeoff Flap Setting (15°):</strong> Shortens the takeoff roll by 35% without creating excessive pitch-up moments.</li>
+        <li><strong>Landing Flap Setting (40°):</strong> Allows steep descent angles over runway obstacles without airspeed runaway.</li>
+      </ul>
+
+      <div class="pilot-callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <strong>Elevator Compensation Mix:</strong> Deploying full split flaps creates a slight nose-up pitching moment due to the aerodynamic downwash on the horizontal stabilizer. In your <a href="/blog/futaba-telemetry-setup-guide" class="inline-blog-link">Futaba Radio</a>, activate the Flap-to-Elevator mix with <strong>-4% to -6% down-elevator</strong> so the PC-9 stays perfectly level when flaps drop.
+        </div>
+      </div>
+
+      <h2 id="retract-setup">3. Mechanical Retract Geometry & Linkages</h2>
+      <p>Flying a scale turboprop with gear down diminishes its aesthetic charm. When installing mechanical retracts into the factory-prepared wing bays:</p>
+      <ol>
+        <li>Ensure the retract pushrod is perfectly straight between the dedicated 180° retract servo and the scissor cam.</li>
+        <li>Set the servo end points (ATV) so that the mechanical over-center lock engages fully without humming or binding. If the servo buzzes at endpoint, it will draw excess current and risk battery depletion.</li>
+      </ol>
+
+      <h2 id="engine-pairing">4. Powerplant Selection: Nitro Glow vs 10cc Gas</h2>
+      <p>For purists who love scale high-speed acoustics, an <a href="/blog/how-to-break-in-nitro-engine" class="inline-blog-link">O.S. Max .46 AX II or .65AX Nitro Engine</a> provides lightning-fast throttle acceleration and high RPM thrust. For pilots seeking maximum flight time and fuel economy, a 10cc gas engine fits comfortably inside the fiberglass cowl.</p>
+      <p>Keep your field box equipped with essential <a href="/blog/rc-flight-line-pit-box-essentials" class="inline-blog-link">Flight Line Pit Box Equipment</a> to ensure seamless starts and peak military performance every sortie!</p>
+    `
+  },
+  {
+    id: 'blog-10',
+    slug: 'futaba-sbus-digital-servos-guide',
+    title: 'Why Futaba S.BUS Digital Architecture Eliminates Mid-Air Control Failures on Multi-Servo Aircraft',
+    excerpt: 'Stop running heavy wire harnesses. How Futaba S.BUS and S-U300 digital servos daisy-chain up to 18 channels down a single serial bus wire with zero signal jitter and packet loss.',
+    date: 'Sep 15, 2026',
+    publishedAt: '2026-09-15T10:00:00Z',
+    author: 'Chief Electronics Specialist P. Joshi',
+    authorRole: 'RF Systems & Telemetry Systems Engineer',
+    category: 'RADIO & TELEMETRY',
+    readTime: '8 min read',
+    image: 'https://cdn.shopify.com/s/files/1/1026/5726/1844/files/rad-1-1.jpg?v=1791020058',
+    tags: ['Futaba S.BUS', 'Digital Servos', 'S-U300', 'Wiring Harness', 'Telemetry'],
+    relatedCategory: 'radio-receiver',
+    relatedProductId: 'acc-1',
+    keyTakeaways: [
+      'Standard PWM wiring requires 1 signal wire per servo; Futaba S.BUS transmits up to 18 channels serially over 1 three-wire bus.',
+      'Digital servos (such as the Futaba S-U300) update their internal motor drive at 300Hz, ensuring instantaneous surface holding stiffness.',
+      'Channel programming is stored inside the servo EEPROM, allowing two elevator or aileron servos to share a lead while traveling in opposite directions.',
+      'Always use heavy-gauge (20AWG or thicker) power bus leads to prevent brownout voltage sag when multiple digital servos drive simultaneously.'
+    ],
+    contentHtml: `
+      <div class="pilot-briefing">
+        <div class="briefing-title">📋 AVIONICS SYSTEM BRIEFING</div>
+        <p>In modern multi-servo aircraft—such as twin-engine bombers, giant scale 3D aerobats like the <a href="/blog/giant-scale-decathlon-122-build-review" class="inline-blog-link">Decathlon 122" V2</a>, or scale jets—traditional PWM servo wiring creates an unwieldy tangle of 8 to 14 individual extension leads. Each connector represents a potential point of failure. <strong>Futaba S.BUS (Serial Bus)</strong> revolutionizes radio control by transmitting all control channels down a single serial digital bus.</p>
+      </div>
+
+      <h2 id="pwm-vs-sbus">1. The Traditional PWM Rat’s Nest vs S.BUS Simplicity</h2>
+      <p>Traditional PWM (Pulse Width Modulation) requires each servo to be connected directly to an individual receiver port with its own power and signal line. If your wing has two ailerons and two split flaps, that requires four separate leads and four receiver ports.</p>
+      <p>With <strong>Futaba S.BUS</strong>, a single three-wire digital cable (Positive, Negative, Serial Signal) runs from the receiver (such as the Futaba R3008SB) down the length of the wing or fuselage. Servos are simply daisy-chained into terminal hubs along the route. Weight savings on giant scale models can exceed 150 to 200 grams!</p>
+
+      <div class="pilot-callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <strong>How S.BUS Knows Which Servo is Which:</strong> Every S.BUS servo (like the popular <strong>Futaba S-U300 Digital Servo</strong>) contains an onboard digital microprocessor and memory. You assign the servo its channel number (Channel 1, Channel 6, etc.) using your Futaba transmitter or S.BUS programmer. The servo listens to the continuous serial data stream and extracts only its designated channel commands!
+        </div>
+      </div>
+
+      <h2 id="digital-precision">2. Why Digital Servos Hold Surfaces Tighter than Analog</h2>
+      <p>Analog servos send power pulses to their DC motor only 50 times per second (50Hz). If external aerodynamic air loads push against an aileron between pulses, the surface can deflect slightly, creating sloppy flight tracking and high-speed flutter.</p>
+      <p>Digital servos like the <strong>Futaba S-U300</strong> evaluate position and apply motor drive pulses at <strong>300Hz (300 times per second)</strong>. The moment an external air load attempts to move the surface by even half a degree, full holding torque is applied instantaneously. This holding stiffness is critical for crisp roll stops and flutter prevention on high-speed airframes like the <a href="/blog/seagull-pilatus-pc9-scale-turboprop-guide" class="inline-blog-link">Seagull Pilatus PC-9</a>.</p>
+
+      <h2 id="power-distribution">3. Power Bus Architecture & Brownout Prevention</h2>
+      <p>Because multiple high-speed digital servos share a single physical bus wire, total current draw can spike to 5A-8A during violent high-alpha maneuvers. To ensure complete voltage stability:</p>
+      <ul>
+        <li>Use 20AWG or 18AWG heavy-duty S.BUS hub cables rather than standard 26AWG wire.</li>
+        <li>Pair your S.BUS system with real-time receiver voltage telemetry (detailed in our <a href="/blog/futaba-telemetry-setup-guide" class="inline-blog-link">Futaba Telemetry & Failsafe Guide</a>).</li>
+        <li>Set transmitter telemetry alarms at 5.8V for 2S LiFe setups so you are alerted the instant voltage sags.</li>
+      </ul>
+    `
+  },
+  {
+    id: 'blog-11',
+    slug: 'rc-flight-line-pit-box-essentials',
+    title: 'The Ultimate Flight Line Pit Box: 12V High-Torque Starters, LiPo Glow Ignitors & Fuel Flow Logistics',
+    excerpt: 'Never get grounded at the field again. Proven checklist for building a bulletproof field box: geared hand fuel pumps, 12V high-torque starters, glow ignitors, and emergency field repair kits.',
+    date: 'Sep 05, 2026',
+    publishedAt: '2026-09-05T10:00:00Z',
+    author: 'Chief Flight Engineer K. Sharma',
+    authorRole: 'Master Engine Builder & FAI Pylon Specialist',
+    category: 'BUILDING TECHNIQUES',
+    readTime: '7 min read',
+    image: 'https://cdn.shopify.com/s/files/1/1026/5726/1844/files/eng-1-1.jpg?v=1791020055',
+    tags: ['Pit Box', 'Flight Line Gear', '12V Starter', 'Glow Ignitor', 'Field Maintenance'],
+    relatedCategory: 'accessories',
+    relatedProductId: 'acc-4',
+    keyTakeaways: [
+      'High-torque 12V DC starters prevent dangerous prop-kickback injuries when starting high-compression glow and gas engines.',
+      'CNC aluminum geared hand fuel pumps ensure positive fuel flow for both nitro glow and petrol without deteriorating internal silicone seals.',
+      'LiPo glow plug ignitors with built-in ammeter LEDs provide instant diagnosis of flooded engines or burned-out plug filaments.',
+      'Keep a dedicated field caddy stocked with medium CA glue, accelerator spray, zip-ties, spare glow plugs, and blue Loctite.'
+    ],
+    contentHtml: `
+      <div class="pilot-briefing">
+        <div class="briefing-title">📋 PIT LANE LOGISTICS & FIELD READINESS</div>
+        <p>There is nothing more frustrating than packing up your airplane, driving 45 minutes to the RC flying field on a calm Saturday morning, and finding yourself grounded by a dead glow ignitor, a slipping starter, or a cracked fuel fitting. A disciplined, championship-grade <strong>flight line pit box</strong> is the pilot's mobile hangar.</p>
+      </div>
+
+      <h2 id="starters">1. The 12V High-Torque Starter: Taming High-Compression Engines</h2>
+      <p>Hand-flipping propellers on high-compression engines (like a brand new <a href="/blog/how-to-break-in-nitro-engine" class="inline-blog-link">O.S. Max .46 AX II</a> or a 20cc gas engine) risks severe propeller kickback injuries and flooded crankcases.</p>
+      <p>A heavy-duty <strong>12V High-Torque Starter</strong> equipped with a heavy-duty silicone rubber drive cone delivers instantaneous cranking torque up to 50cc displacement. When using your starter:</p>
+      <ul>
+        <li>Never hold the starter spinning continuously against a hydro-locked cylinder! If the prop refuses to turn, remove the glow plug or spark plug, invert the engine, and spin it free of raw fuel.</li>
+        <li>Seat the starter cone firmly against the spinner tip before depressing the trigger to prevent scuffing aluminum spinner cones.</li>
+      </ul>
+
+      <h2 id="fuel-logistics">2. Fuel Handling: Geared Hand Pumps vs Electric</h2>
+      <p>Electric fuel pumps can suffer from vapor lock in extreme Indian summer heat and internal switch corrosion. A <strong>CNC Aluminum Geared Rotary Hand Fuel Pump</strong> provides bulletproof, lifetime reliability:</p>
+      <ul>
+        <li>Direct gear drive delivers high volume per crank rotation (filling an 8oz tank in under 20 seconds).</li>
+        <li>Fuel-proof Viton internal seals work seamlessly with both 15% nitromethane glow fuel and gasoline petrol mixes.</li>
+        <li>Always install an inline sintered bronze filter between the fuel can pickup tube and the pump to prevent dirt from entering carburetors.</li>
+      </ul>
+
+      <div class="pilot-callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <strong>Glow Plug Diagnostic Trick:</strong> Modern <strong>LiPo Glow Starters with LED current indicators</strong> double as diagnostic tools. When attached to the glow plug: a bright LED indicates healthy current draw; a dead unlit LED warns that the filament is burnt out; a dim pulsing LED signals a cold, flooded plug that needs clearing!
+        </div>
+      </div>
+
+      <h2 id="field-caddy-checklist">3. Emergency Flight Line Caddy Checklist</h2>
+      <p>Keep these five items in your top drawer at all times:</p>
+      <ol>
+        <li><strong>Adhesives:</strong> 1 bottle of Medium CA glue + 1 can of CA kicker spray for 60-second wooden airframe emergency field fixes.</li>
+        <li><strong>Fasteners:</strong> Assorted M3 and M4 machine screws, nylon lock nuts, and blue Loctite 242.</li>
+        <li><strong>Propeller Wrench:</strong> A 10mm/12mm deep-socket wrench to verify prop nut tightness before every single flight.</li>
+        <li><strong>Spare Plugs:</strong> 2x O.S. #8 glow plugs or 1x CM6 spark plug for gas engines.</li>
+      </ol>
+
+      <p>Whether you fly sport trainers or giant scale warbirds like the <a href="/blog/seagull-pilatus-pc9-scale-turboprop-guide" class="inline-blog-link">Seagull Pilatus PC-9</a>, a well-organized field box guarantees maximum sorties and zero wasted weekends!</p>
+    `
+  },
+  {
+    id: 'blog-12',
+    slug: 'thick-balsa-wood-carving-and-formers-guide',
+    title: 'Heavy Balsa Engineering: 4mm to 15mm AAA Balsa Planks for Formers, Engine Firewalls & Cowl Blocks',
+    excerpt: 'Beyond thin wing sheeting: master the structural use of thick 4mm, 6mm, 10mm, and 15mm AAA balsa planks. Techniques for laminated engine bulkheads, razor plane shaping, and hollowed cowl blocks.',
+    date: 'Aug 20, 2026',
+    publishedAt: '2026-08-20T10:00:00Z',
+    author: 'Build Specialist A. Deshmukh',
+    authorRole: 'Master Craftsman & Scale Aircraft Modeler',
+    category: 'BUILDING TECHNIQUES',
+    readTime: '7 min read',
+    image: 'https://cdn.shopify.com/s/files/1/1026/5726/1844/files/balsa-sheet-1.jpg?v=1791020064',
+    tags: ['Balsa Wood', 'Scratch Building', 'Cowl Carving', 'Structural Formers', 'Woodworking'],
+    relatedCategory: 'balsa-wood',
+    relatedProductId: 'bal-7',
+    keyTakeaways: [
+      '4mm and 6mm balsa sheets are ideal for cutting fuselage formers, tailplane cores, and internal fuselage doublers.',
+      '10mm, 12mm, and 15mm balsa blocks can be shaped with Japanese razor planes into aerodynamically fair engine cowls and wing tips.',
+      'Carve outside contours first while the block is solid, then hollow out the interior using a rotary Dremel sanding drum to save up to 60% weight.',
+      'For high-vibration firewalls, laminate 5mm or 6mm balsa cores between 1.5mm aircraft birch plywood sheets with 30-minute epoxy.'
+    ],
+    contentHtml: `
+      <div class="pilot-briefing">
+        <div class="briefing-title">📋 MASTER CRAFTSMAN WORKSHOP BRIEFING</div>
+        <p>While lightweight 1.5mm and 2mm balsa sheets dominate wing rib capstrips and curved sheeting (as covered in our <a href="/blog/balsa-wood-density-guide" class="inline-blog-link">Balsa Wood Density & Grain Cuts Guide</a>), building true scale masterpieces requires working with heavy structural balsa planks ranging from <strong>4mm up to 15mm thickness</strong>.</p>
+      </div>
+
+      <h2 id="thickness-guide">1. Selecting the Right Thickness for Every Airframe Location</h2>
+      <ul>
+        <li><strong>4mm Balsa Sheet:</strong> The sweet spot for elevator control surfaces, rudder cores, and intermediate fuselage bulkheads where torsional rigidity without flutter is demanded.</li>
+        <li><strong>5mm to 6mm Balsa Sheet:</strong> Structural wing root doublers, landing gear bay floor supports, and tailplane trailing edges.</li>
+        <li><strong>8mm to 10mm Balsa Sheet:</strong> Solid carved wingtips, nose hatch cheek blocks, and spinner ring backing plates.</li>
+        <li><strong>12mm to 15mm Balsa Plank Blocks:</strong> Engine cowls for round-nose radial designs, scale wheel pants, and hollowed nacelles.</li>
+      </ul>
+
+      <h2 id="cowl-carving">2. Carving Nose Cowls & Wingtips: The Solid-to-Hollow Rule</h2>
+      <p>Many novice scratch-builders avoid carving solid balsa blocks because they fear the resulting nose cone will make the aircraft excessively nose-heavy (complicating your <a href="/blog/cg-balancing-and-lateral-trimming" class="inline-blog-link">Center of Gravity Balancing</a>). The secret lies in the two-stage carving method:</p>
+
+      <div class="pilot-callout tip">
+        <span class="callout-icon">🪚</span>
+        <div class="callout-body">
+          <strong>The Two-Stage Carving Method:</strong><br />
+          1. <strong>Carve the Exterior Solid:</strong> Tack-glue the 10mm or 15mm balsa block to the firewall using two tiny drops of CA glue. Use a razor plane to rough-shape the outside radius, following templates printed from your aircraft plans. Sand smooth with 150-grit sandpaper.<br />
+          2. <strong>Pop Off & Hollow the Interior:</strong> Slide a razor blade behind the block to pop the tack joint. Use a high-speed rotary tool with a coarse sanding drum to grind out the internal wood until a uniform 2.5mm to 3mm wall thickness remains. This hollow shell removes over 65% of the block's mass while retaining complete aerodynamic strength!
+        </div>
+      </div>
+
+      <h2 id="composite-bulkheads">3. Composite Balsa-Ply Sandwich Firewalls</h2>
+      <p>High-torque gas engines like the <a href="/blog/dle-65cc-gas-engine-tuning-guide" class="inline-blog-link">DLE 65cc Gas Engine</a> exert massive shear stresses across the mounting firewall. To create an ultra-stiff, vibration-damping bulkhead:</p>
+      <ol>
+        <li>Take a 6mm AAA C-grain balsa core sheet.</li>
+        <li>Bond 1.5mm 5-ply aircraft birch plywood to both the front and back faces using slow-cure 30-minute structural epoxy.</li>
+        <li>Clamp firmly between flat granite or heavy MDF boards for 24 hours.</li>
+      </ol>
+      <p>The resulting composite sandwich gives you the extreme flexural rigidity of heavy plywood with the acoustic and vibration-damping advantages of cellular balsa wood!</p>
+    `
   }
 ];
+

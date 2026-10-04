@@ -31,14 +31,20 @@ const morePosts = allPosts.filter(p => p.slug !== post.slug).slice(0, 3);
 const allProducts = await getCombinedProducts();
 let relatedProduct = allProducts.find(p => {
   if (post.relatedProductId && (p.id === post.relatedProductId || p.handle === post.relatedProductId)) return true;
-  if (post.relatedCategory) return p.category === post.relatedCategory;
-  const titleLower = post.title.toLowerCase();
-  if (titleLower.includes('engine') || titleLower.includes('nitro') || titleLower.includes('o.s.')) return p.category === 'engine';
-  if (titleLower.includes('seagull') || titleLower.includes('trainer') || titleLower.includes('arf')) return p.category === 'aeromodels';
-  if (titleLower.includes('balsa') || titleLower.includes('wood')) return p.category === 'balsa-wood';
-  if (titleLower.includes('radio') || titleLower.includes('futaba') || titleLower.includes('telemetry')) return p.category === 'radio-receiver';
   return false;
 });
+if (!relatedProduct) {
+  relatedProduct = allProducts.find(p => {
+    if (post.relatedCategory && p.category === post.relatedCategory) return true;
+    const titleLower = post.title.toLowerCase();
+    if (titleLower.includes('starter') || titleLower.includes('pump') || titleLower.includes('ignitor') || titleLower.includes('pit') || titleLower.includes('drill')) return p.category === 'accessories';
+    if (titleLower.includes('engine') || titleLower.includes('nitro') || titleLower.includes('gas') || titleLower.includes('dle') || titleLower.includes('o.s.')) return p.category === 'engine';
+    if (titleLower.includes('seagull') || titleLower.includes('trainer') || titleLower.includes('decathlon') || titleLower.includes('pilatus') || titleLower.includes('arf')) return p.category === 'aeromodels';
+    if (titleLower.includes('balsa') || titleLower.includes('wood') || titleLower.includes('cowl')) return p.category === 'balsa-wood';
+    if (titleLower.includes('radio') || titleLower.includes('futaba') || titleLower.includes('telemetry') || titleLower.includes('sbus') || titleLower.includes('servo')) return p.category === 'radio-receiver';
+    return false;
+  });
+}
 
 // JSON-LD Article Schema
 const articleSchema = {
