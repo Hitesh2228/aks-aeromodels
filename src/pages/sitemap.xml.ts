@@ -22,7 +22,7 @@ function resolveAbsoluteUrl(baseUrl: string, urlPath: string): string {
 }
 
 export const GET: APIRoute = async () => {
-  const baseUrl = 'https://skynodesuav.in';
+  const baseUrl = 'https://www.skynodesuav.in';
   const today = new Date().toISOString().split('T')[0];
 
   // 1. Core High-Priority Static Pages
@@ -161,7 +161,7 @@ export const GET: APIRoute = async () => {
     headers: {
       'Content-Type': 'application/xml; charset=utf-8',
       'Cache-Control': 'public, max-age=3600, s-maxage=86400',
-      'X-Robots-Tag': 'noindex', // Sitemap itself shouldn't be a search result, but its contents crawled
+      'X-Robots-Tag': 'all',
     },
   });
 };

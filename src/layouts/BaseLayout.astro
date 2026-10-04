@@ -24,6 +24,9 @@ const {
   schema,
   preloadImage
 } = Astro.props;
+
+// Explicitly send X-Robots-Tag: all for search engines
+Astro.response.headers.set('X-Robots-Tag', 'all');
 ---
 
 <!DOCTYPE html>
@@ -34,6 +37,11 @@ const {
   <title>{title}</title>
   <meta name="description" content={description} />
   {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+
+  <!-- Search Engine Crawling & Robots Directives -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 
   <!-- Preconnect to Font CDNs for Instant Handshake -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />

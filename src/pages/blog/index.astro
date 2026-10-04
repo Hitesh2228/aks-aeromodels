@@ -16,6 +16,8 @@ const categories = ['ALL', ...Array.from(new Set(posts.map(p => p.category)))];
 
 const featuredPost = posts[0];
 const standardPosts = posts.slice(1);
+
+Astro.response.headers.set('X-Robots-Tag', 'all');
 ---
 
 <!DOCTYPE html>
@@ -26,7 +28,10 @@ const standardPosts = posts.slice(1);
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RC Flight Blog & Tutorials | SKYNODES UAV India</title>
   <meta name="description" content="Technical aeromodelling tutorials, engine tuning guides, Seagull ARF setup, and scale flight techniques from master pilots." />
-  <link rel="canonical" href="https://skynodesuav.in/blog" />
+  <link rel="canonical" href="https://www.skynodesuav.in/blog" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 </head>
 <body class="bellavita-page-body">
   <GoogleTagManagerBody />

@@ -6,6 +6,8 @@ import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 import GoogleTagManagerHead from '../components/GoogleTagManagerHead.astro';
 import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
+
+Astro.response.headers.set('X-Robots-Tag', 'all');
 ---
 
 <!DOCTYPE html>
@@ -16,6 +18,10 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Advanced 3D Flight Showcase | SKYNODESUAV</title>
   <meta name="description" content="Next-generation interactive 3D aeromodelling inspection featuring HUD flight telemetry, real-time particle effects, and 360-degree GSAP scroll dynamics." />
+  <link rel="canonical" href="https://www.skynodesuav.in/aircrafts" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 </head>
 <body class="dark-showcase-theme">
   <GoogleTagManagerBody />

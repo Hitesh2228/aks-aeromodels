@@ -44,7 +44,9 @@ const pairedProducts = customComboProduct
 
 const pageTitle = `${product.name} - Buy Online at Best Price in India | SKYNODESUAV`;
 const metaDescription = `${product.description} Buy ${product.name} online for ₹${product.price.toLocaleString('en-IN')}. Original factory warranty & fast shipping across India.`;
-const canonicalUrl = `https://aks-aeromodels.com/product/${product.id}`;
+const canonicalUrl = `https://www.skynodesuav.in/product/${product.id}`;
+
+Astro.response.headers.set('X-Robots-Tag', 'all');
 
 const prepaidDiscountPct = product.prepaidDiscountPct ?? 5;
 const prepaidPrice = Math.round(product.price * (1 - prepaidDiscountPct / 100));
@@ -156,6 +158,9 @@ const productSchema = {
   <title>{pageTitle}</title>
   <meta name="description" content={metaDescription} />
   <link rel="canonical" href={canonicalUrl} />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
 </head>
 <body class="bellavita-pdp-body">

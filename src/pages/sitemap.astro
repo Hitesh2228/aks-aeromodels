@@ -32,6 +32,8 @@ const corePages = [
   { name: 'Privacy Policy', url: '/privacy', desc: 'Data Protection & Security' },
   { name: 'Terms of Service', url: '/terms', desc: 'Customer & Commercial Agreement' },
 ];
+
+Astro.response.headers.set('X-Robots-Tag', 'all');
 ---
 
 <!DOCTYPE html>
@@ -42,7 +44,10 @@ const corePages = [
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Complete HTML Site Directory & Sitemap | SKYNODES UAV India</title>
   <meta name="description" content="Explore every page, product, and technical guide on SKYNODES UAV India. Comprehensive crawlable directory for pilots, search engines, and AI models." />
-  <link rel="canonical" href="https://skynodesuav.in/sitemap" />
+  <link rel="canonical" href="https://www.skynodesuav.in/sitemap" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <style>
     .sitemap-container {
       max-width: 1200px;

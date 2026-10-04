@@ -5,6 +5,8 @@ import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 import GoogleTagManagerHead from '../components/GoogleTagManagerHead.astro';
 import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
+
+Astro.response.headers.set('X-Robots-Tag', 'all');
 ---
 
 <!DOCTYPE html>
@@ -15,6 +17,10 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SKYNODES 3D WebGL Open-World RC Flight Simulator 2026 | Metropolis & Airport</title>
   <meta name="description" content="Fly in a massive AAA 3D WebGL Metropolis with 100+ Skyscrapers, Airport Terminal, River Bridge, City Road Networks, Runway Touchdown Landing Guidance, and Pilot Missions!" />
+  <link rel="canonical" href="https://www.skynodesuav.in/flight-simulator" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <!-- Three.js 3D Engine CDN -->
   <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>

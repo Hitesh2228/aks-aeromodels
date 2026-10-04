@@ -5,6 +5,8 @@ import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 import GoogleTagManagerHead from '../components/GoogleTagManagerHead.astro';
 import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
+
+Astro.response.headers.set('X-Robots-Tag', 'all');
 ---
 
 <!DOCTYPE html>
@@ -15,6 +17,10 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aircraft Pro Experience | Apple-Grade 3D Showcase</title>
   <meta name="description" content="Experience Apple-grade 3D product design with real-time material customizer, 3D hotspot callouts, and assembly sequence control." />
+  <link rel="canonical" href="https://www.skynodesuav.in/pro-experience" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 </head>
 <body class="apple-pro-theme">
   <GoogleTagManagerBody />

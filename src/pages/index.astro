@@ -13,7 +13,7 @@ const orgSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "SKYNODESUAV",
-  "url": "https://aks-aeromodels.vercel.app",
+  "url": "https://www.skynodesuav.in",
   "logo": "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=400",
   "contactPoint": {
     "@type": "ContactPoint",
@@ -26,12 +26,13 @@ const orgSchema = {
 
 // Edge CDN Cache Control (TTFB < 50ms with stale-while-revalidate background refresh)
 Astro.response.headers.set('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+Astro.response.headers.set('X-Robots-Tag', 'all');
 
 // LCP Hero Banner 0 Preload
 const heroLcpImage = "https://cdn.shopify.com/s/files/1/1026/5726/1844/files/eng-1-1.jpg?v=1791020055";
 ---
 
-<BaseLayout schema={orgSchema} preloadImage={heroLcpImage}>
+<BaseLayout schema={orgSchema} preloadImage={heroLcpImage} canonicalUrl="https://www.skynodesuav.in/">
   <main>
     <HeroCarousel />
     <CategoryGrid />
