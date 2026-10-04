@@ -570,25 +570,117 @@ import LoginModal from './LoginModal.astro';
     border-radius: 6px;
   }
 
-  /* Responsive Rules for Mobile (< 900px) */
+  /* Responsive Rules for Mobile (< 900px) - Luxury Centered Brand & Proportional Action Icons */
   @media (max-width: 900px) {
     .header-grid {
-      padding: 0.85rem 1.25rem !important; /* Generous bezel clearance for hamburger & cart icons */
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      padding: 0.65rem 1rem !important;
+      position: relative !important;
+      min-height: 50px;
+    }
+    .header-search {
+      flex: 0 0 auto !important;
+      z-index: 2;
+      display: flex;
+      align-items: center;
     }
     .mobile-hamburger-btn {
-      display: block;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      padding: 0.35rem !important;
+      background: none;
+      border: none;
+      color: #111111;
+      cursor: pointer;
     }
     .desktop-search-only {
-      display: none;
+      display: none !important;
     }
-    .account-label {
-      display: none;
-    }
-    .nav-strip {
-      display: none;
+    .brand-logo {
+      position: absolute !important;
+      left: 50% !important;
+      top: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      text-align: center !important;
+      white-space: nowrap !important;
+      z-index: 1;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      pointer-events: auto;
+      max-width: 55%;
     }
     .brand-name {
-      font-size: 1.25rem;
+      font-size: 1.2rem !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.08em !important;
+      line-height: 1 !important;
+      color: #111111 !important;
+    }
+    .header-actions {
+      flex: 0 0 auto !important;
+      z-index: 2;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-end !important;
+      gap: 0.35rem !important; /* Elegant, tight spacing between account, wishlist, and cart */
+      padding-right: 0 !important;
+    }
+    .account-label, .wishlist-label {
+      display: none !important;
+    }
+    .account-btn-link, .wishlist-btn-link {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      padding: 0.35rem !important;
+      border-radius: 50%;
+      color: #111111;
+      width: 36px !important;
+      height: 36px !important;
+      box-sizing: border-box;
+      transition: background 0.15s ease;
+    }
+    .account-btn-link:active, .wishlist-btn-link:active {
+      background: #f0f0f0;
+    }
+    .account-btn-link svg, .wishlist-btn-link svg {
+      width: 19px !important;
+      height: 19px !important;
+    }
+    .cart-icon-btn {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      padding: 0.35rem !important;
+      margin: 0 !important;
+      border-radius: 50%;
+      width: 36px !important;
+      height: 36px !important;
+      box-sizing: border-box;
+      position: relative;
+    }
+    .cart-icon-btn:active {
+      background: #f0f0f0;
+    }
+    .cart-icon-btn svg {
+      width: 20px !important;
+      height: 20px !important;
+    }
+    .cart-badge {
+      top: 0px !important;
+      right: 0px !important;
+      width: 16px !important;
+      height: 16px !important;
+      font-size: 0.6rem !important;
+      font-weight: 800 !important;
+      border: 1.5px solid #ffffff;
+    }
+    .nav-strip {
+      display: none !important;
     }
   }
 
@@ -603,6 +695,24 @@ import LoginModal from './LoginModal.astro';
     .sub-ticker-strip {
       padding: 0.35rem 1rem;
       font-size: 0.74rem;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .header-grid {
+      padding: 0.55rem 0.65rem !important;
+    }
+    .brand-name {
+      font-size: 1.05rem !important;
+      letter-spacing: 0.05em !important;
+    }
+    .header-actions {
+      gap: 0.15rem !important;
+    }
+    .account-btn-link, .wishlist-btn-link, .cart-icon-btn, .mobile-hamburger-btn {
+      width: 32px !important;
+      height: 32px !important;
+      padding: 0.25rem !important;
     }
   }
 </style>
