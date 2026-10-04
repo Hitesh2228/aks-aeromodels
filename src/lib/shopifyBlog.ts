@@ -68,8 +68,25 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
   const shopifyPosts = await fetchShopifyAdminArticles();
   
   if (shopifyPosts.length > 0) {
-    // If client created articles in Shopify, prioritize them!
-    const combined = [...shopifyPosts];
+    // If client created or edited articles in Shopify, prioritize them!
+    const combined: BlogPost[] = shopifyPosts.map(sp => {
+      const matchingFallback = FALLBACK_POSTS.find(fp => fp.slug === sp.slug);
+      if (matchingFallback) {
+        return {
+          ...matchingFallback,
+          ...sp,
+          contentHtml: sp.contentHtml || matchingFallback.contentHtml,
+          title: sp.title || matchingFallback.title,
+          excerpt: sp.excerpt || matchingFallback.excerpt,
+          image: sp.image || matchingFallback.image,
+          keyTakeaways: matchingFallback.keyTakeaways,
+          relatedProductId: matchingFallback.relatedProductId || sp.relatedProductId,
+          relatedCategory: matchingFallback.relatedCategory || sp.relatedCategory,
+        };
+      }
+      return sp;
+    });
+
     // Merge fallback posts whose slugs don't clash
     FALLBACK_POSTS.forEach(fp => {
       if (!combined.some(cp => cp.slug === fp.slug)) {
