@@ -546,7 +546,7 @@ import { PRODUCTS } from '../data/products';
   </style>
 
   <script>
-    import { getCartFromStorage, getCachedProduct } from '../lib/cartStore';
+    import { getCartFromStorage, getCachedProduct, clearCart } from '../lib/cartStore';
 
     function getCartHydrated() {
       const items = getCartFromStorage();
@@ -596,11 +596,16 @@ import { PRODUCTS } from '../data/products';
       } else {
         itemsList.innerHTML = hydrated.map(item => {
           const gstPercent = item.product.gstRate ?? 18;
+          const prodUrl = `/product/${item.product.id || item.product.handle}`;
           return `
             <div class="chk-item-row">
-              <img src="${item.product.image}" alt="${item.product.name}" class="chk-item-img" />
+              <a href="${prodUrl}" target="_blank" style="text-decoration:none; flex-shrink:0;">
+                <img src="${item.product.image}" alt="${item.product.name}" class="chk-item-img" />
+              </a>
               <div class="chk-item-info">
-                <div class="chk-item-name">${item.product.name}</div>
+                <a href="${prodUrl}" target="_blank" style="text-decoration:none; color:inherit;">
+                  <div class="chk-item-name">${item.product.name}</div>
+                </a>
                 <div class="chk-item-qty">Qty: ${item.quantity} × ₹${item.product.price.toLocaleString('en-IN')} <span style="font-size: 0.68rem; color: #059669; font-weight: 700;">(GST ${gstPercent}%)</span></div>
               </div>
               <strong>₹${(item.product.price * item.quantity).toLocaleString('en-IN')}</strong>
@@ -901,7 +906,9 @@ import { PRODUCTS } from '../data/products';
           }
 
           try {
+            clearCart();
             localStorage.setItem('skynodes_last_order', JSON.stringify(currentOrder));
+            localStorage.removeItem('skynodes_cart_v2');
             localStorage.removeItem('skynodes_cart');
             window.dispatchEvent(new CustomEvent('cart-updated', { detail: [] }));
             if (email) localStorage.setItem('skynodes_pilot_email', email);
@@ -1069,7 +1076,9 @@ import { PRODUCTS } from '../data/products';
                   console.error('[Shopify Order Sync Error]', shopifyErr);
                 }
 
+                clearCart();
                 localStorage.setItem('skynodes_last_order', JSON.stringify(currentOrder));
+                localStorage.removeItem('skynodes_cart_v2');
                 localStorage.removeItem('skynodes_cart');
                 window.dispatchEvent(new CustomEvent('cart-updated', { detail: [] }));
                 if (email) localStorage.setItem('skynodes_pilot_email', email);

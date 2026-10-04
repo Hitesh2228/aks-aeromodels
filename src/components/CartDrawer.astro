@@ -190,6 +190,10 @@
     align-items: center;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
   }
+  :global(.item-thumb-link) {
+    display: block;
+    flex-shrink: 0;
+  }
   :global(.item-thumb) {
     width: 64px;
     height: 64px;
@@ -197,9 +201,24 @@
     border-radius: var(--radius-sm);
     border: 1px solid #e6e0d5;
     background: #f8f5ee;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  :global(.item-thumb-link:hover .item-thumb) {
+    transform: scale(1.05);
+    border-color: #3b0811;
   }
   :global(.item-details) {
     flex-grow: 1;
+    min-width: 0;
+  }
+  :global(.item-title-link) {
+    text-decoration: none;
+    display: block;
+    color: inherit;
+  }
+  :global(.item-title-link:hover .item-title) {
+    color: #3b0811 !important;
+    text-decoration: underline;
   }
   :global(.item-title) {
     font-size: 0.85rem;
@@ -210,6 +229,7 @@
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    transition: color 0.2s ease;
   }
   :global(.item-price) {
     font-size: 0.88rem;
@@ -370,21 +390,34 @@
       return;
     }
 
-    itemsList.innerHTML = hydrated.map(item => `
-      <div class="cart-item-card">
-        <img src="${item.product.image}" alt="${item.product.name}" class="item-thumb" />
-        <div class="item-details">
-          <div class="item-title">${item.product.name}</div>
-          <div class="item-price">₹${(item.product.price * item.quantity).toLocaleString('en-IN')}</div>
-          <div class="qty-controls">
-            <button class="qty-btn dec-btn" data-id="${item.product.id}" data-qty="${item.quantity - 1}">-</button>
-            <span class="qty-val">${item.quantity}</span>
-            <button class="qty-btn inc-btn" data-id="${item.product.id}" data-qty="${item.quantity + 1}">+</button>
+    itemsList.innerHTML = hydrated.map(item => {
+      const prodUrl = `/product/${item.product.id || item.product.handle}`;
+      return `
+        <div class="cart-item-card">
+          <a href="${prodUrl}" class="item-thumb-link" title="View ${item.product.name}">
+            <img src="${item.product.image}" alt="${item.product.name}" class="item-thumb" />
+          </a>
+          <div class="item-details">
+            <a href="${prodUrl}" class="item-title-link" title="View ${item.product.name}">
+              <div class="item-title">${item.product.name}</div>
+            </a>
+            <div class="item-price">₹${(item.product.price * item.quantity).toLocaleString('en-IN')}</div>
+            <div class="qty-controls">
+              <button class="qty-btn dec-btn" data-id="${item.product.id}" data-qty="${item.quantity - 1}">-</button>
+              <span class="qty-val">${item.quantity}</span>
+              <button class="qty-btn inc-btn" data-id="${item.product.id}" data-qty="${item.quantity + 1}">+</button>
+            </div>
           </div>
+          <button class="remove-item-btn" data-id="${item.product.id}" data-qty="0" title="Remove item">🗑️</button>
         </div>
-        <button class="remove-item-btn" data-id="${item.product.id}" data-qty="0" title="Remove item">🗑️</button>
-      </div>
-    `).join('');
+      `;
+    }).join('');
+
+    itemsList.querySelectorAll('.item-thumb-link, .item-title-link').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('cart-drawer-overlay')?.classList.remove('active');
+      });
+    });
 
     itemsList.querySelectorAll('.qty-btn, .remove-item-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {

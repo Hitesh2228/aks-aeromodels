@@ -209,3 +209,15 @@ export function getCartCount(): number {
   const items = getCartFromStorage();
   return items.reduce((acc, item) => acc + item.quantity, 0);
 }
+
+export function clearCart() {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.removeItem(CART_KEY);
+    localStorage.removeItem('skynodes_cart');
+    window.dispatchEvent(new CustomEvent('cart-updated', { detail: [] }));
+  } catch (e) {
+    console.error('Failed to clear cart:', e);
+  }
+}
+
