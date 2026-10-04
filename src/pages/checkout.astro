@@ -186,8 +186,8 @@ import { PRODUCTS } from '../data/products';
             <div class="suggested-coupons-wrap" style="margin-top: 0.6rem;">
               <span style="font-size: 0.68rem; color: #666; font-weight: 600;">Click to apply:</span>
               <div class="suggested-coupon-pills">
-                <button type="button" class="coupon-chip-btn" data-code="SKY80">SKY80 (₹80 OFF)</button>
-                <button type="button" class="coupon-chip-btn" data-code="PILOT10">PILOT10 (10% OFF)</button>
+                <button type="button" class="coupon-chip-btn" data-code="SKY80">SKY80 (₹80 OFF on ₹499+)</button>
+                <button type="button" class="coupon-chip-btn" data-code="PILOT10">PILOT10 (10% OFF on ₹999+)</button>
               </div>
             </div>
 
@@ -656,7 +656,7 @@ import { PRODUCTS } from '../data/products';
         }
 
         const totalDiscounts = appliedDiscountAmount + prepaidDiscount;
-        const finalSubtotal = Math.max(0, rawSubtotal - totalDiscounts);
+        const finalSubtotal = rawSubtotal > 0 ? Math.max(1, rawSubtotal - totalDiscounts) : 0;
         
         let estGst = 0;
         if (rawSubtotal > 0) {
@@ -709,20 +709,42 @@ import { PRODUCTS } from '../data/products';
         if (!cleanCode) return;
 
         if (cleanCode === 'SKY80') {
-          appliedDiscountAmount = 80;
-          appliedCouponCode = 'SKY80';
-          if (couponNotice) {
-            couponNotice.style.display = 'block';
-            couponNotice.className = 'coupon-notice-badge success';
-            couponNotice.textContent = '🎉 Coupon SKY80 Applied! ₹80 Instant Discount Granted.';
+          const MIN_ORDER = 499;
+          if (rawSubtotal < MIN_ORDER) {
+            appliedDiscountAmount = 0;
+            appliedCouponCode = '';
+            if (couponNotice) {
+              couponNotice.style.display = 'block';
+              couponNotice.className = 'coupon-notice-badge error';
+              couponNotice.textContent = `⚠️ Coupon SKY80 is valid on orders above ₹${MIN_ORDER}. (Add ₹${(MIN_ORDER - rawSubtotal).toLocaleString('en-IN')} more to apply).`;
+            }
+          } else {
+            appliedDiscountAmount = 80;
+            appliedCouponCode = 'SKY80';
+            if (couponNotice) {
+              couponNotice.style.display = 'block';
+              couponNotice.className = 'coupon-notice-badge success';
+              couponNotice.textContent = '🎉 Coupon SKY80 Applied! ₹80 Instant Discount Granted.';
+            }
           }
         } else if (cleanCode === 'PILOT10') {
-          appliedDiscountAmount = Math.round(rawSubtotal * 0.10);
-          appliedCouponCode = 'PILOT10';
-          if (couponNotice) {
-            couponNotice.style.display = 'block';
-            couponNotice.className = 'coupon-notice-badge success';
-            couponNotice.textContent = `🎉 Coupon PILOT10 Applied! 10% Off (Saved ₹${appliedDiscountAmount.toLocaleString('en-IN')}).`;
+          const MIN_ORDER = 999;
+          if (rawSubtotal < MIN_ORDER) {
+            appliedDiscountAmount = 0;
+            appliedCouponCode = '';
+            if (couponNotice) {
+              couponNotice.style.display = 'block';
+              couponNotice.className = 'coupon-notice-badge error';
+              couponNotice.textContent = `⚠️ Coupon PILOT10 is valid on orders above ₹${MIN_ORDER}. (Add ₹${(MIN_ORDER - rawSubtotal).toLocaleString('en-IN')} more to apply).`;
+            }
+          } else {
+            appliedDiscountAmount = Math.round(rawSubtotal * 0.10);
+            appliedCouponCode = 'PILOT10';
+            if (couponNotice) {
+              couponNotice.style.display = 'block';
+              couponNotice.className = 'coupon-notice-badge success';
+              couponNotice.textContent = `🎉 Coupon PILOT10 Applied! 10% Off (Saved ₹${appliedDiscountAmount.toLocaleString('en-IN')}).`;
+            }
           }
         } else {
           appliedDiscountAmount = 0;
