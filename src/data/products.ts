@@ -13,6 +13,10 @@ export interface Product {
   isBestseller?: boolean;
   isNewArrival?: boolean;
   isCrazyDeal?: boolean;
+  isHero?: boolean;
+  heroOrder?: number;
+  heroBadge?: string;
+  heroSub?: string;
   isFromShopify?: boolean;
   gstRate?: number; // Configurable GST Tax Rate (5%, 12%, 18%) per product
   hsnCode?: string; // HSN Code for Tax Invoicing & GSTR Reporting

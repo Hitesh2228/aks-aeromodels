@@ -164,10 +164,24 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
 
   const tagsLower = (sp.tags || []).map(t => t.toLowerCase().trim());
 
-  // Check tags for Bestseller, Crazy Deal, New Arrival
+  // Check tags for Bestseller, Crazy Deal, New Arrival, Hero Slider
   const isBestsellerTag = tagsLower.some(t => t === 'bestseller' || t === 'best-seller' || t === 'best seller' || t.includes('bestseller'));
   const isCrazyDealTag = tagsLower.some(t => t === 'crazy-deal' || t === 'crazydeal' || t === 'crazy deal' || t.includes('crazy'));
   const isNewArrivalTag = tagsLower.some(t => t === 'new' || t === 'new-arrival' || t === 'new arrival');
+
+  let isHeroTag = false;
+  let heroOrder = 99;
+  for (const raw of (sp.tags || [])) {
+    const t = raw.trim().toLowerCase();
+    if (t === 'hero' || t === 'hero-slider' || t === 'slider') {
+      isHeroTag = true;
+      heroOrder = Math.min(heroOrder, 50);
+    } else if (t.startsWith('hero:') || t.startsWith('slider:')) {
+      isHeroTag = true;
+      const num = parseInt(t.split(':')[1]?.trim() || '99', 10);
+      if (!isNaN(num)) heroOrder = num;
+    }
+  }
 
   function getTagValue(prefix: string): string | undefined {
     if (!sp.tags || !Array.isArray(sp.tags)) return undefined;
@@ -190,6 +204,9 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
   if (badgeVal) {
     customBadge = badgeVal;
   }
+
+  const heroBadge = getTagValue('hero-badge') || getTagValue('herobadge');
+  const heroSub = getTagValue('hero-sub') || getTagValue('herosub');
 
   // Parse Configurable Prepaid Discount Tag (e.g. "prepaid:10%", "prepaid: 7%", "prepaid : 10")
   let prepaidDiscountPct = 5;
@@ -467,6 +484,10 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
     isBestseller: isBestsellerTag,
     isNewArrival: isNewArrivalTag,
     isCrazyDeal: isCrazyDealTag,
+    isHero: isHeroTag,
+    heroOrder: heroOrder,
+    heroBadge: heroBadge,
+    heroSub: heroSub,
     isFromShopify: true,
     image: resolvedMainImage,
     images: resolvedGallery,

@@ -1,86 +1,137 @@
 ---
-const BANNERS = [
+import { getCombinedProducts } from '../lib/shopify';
+
+const allProducts = await getCombinedProducts();
+
+// 1. Check for products explicitly tagged with 'hero', 'hero-slider', or 'hero:1', 'hero:2', etc. in Shopify Admin
+const heroTaggedProducts = allProducts
+  .filter(p => p.isHero)
+  .sort((a, b) => (a.heroOrder ?? 99) - (b.heroOrder ?? 99));
+
+// Helper to find real product by handle or ID
+function findProd(idOrHandle: string) {
+  return allProducts.find(p => p.id === idOrHandle || p.handle === idOrHandle);
+}
+
+const eng1 = findProd('eng-1');
+const eng4 = findProd('eng-4');
+const rad1 = findProd('rad-1');
+const rad3 = findProd('rad-3');
+const sea1 = findProd('sea-1');
+const sea4 = findProd('sea-4');
+const bal1 = findProd('bal-1');
+const bal2 = findProd('bal-2');
+
+// Curated default banners using REAL products and REAL Shopify CDN images
+const defaultBanners = [
   {
     id: 1,
-    badgeTitle: "FLAT ₹800 OFF ENGINES",
+    badgeTitle: eng1?.discountBadge || "FLAT ₹800 OFF ENGINES",
     badgeSub: "SPECIAL PROMO • LIMITED TIME OFFER",
-    img: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=800&auto=format&fit=crop",
-    imgMobile: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=500&auto=format&fit=crop",
+    img: eng1?.image || "https://cdn.shopify.com/s/files/1/1026/5726/1844/files/eng-1-1.jpg?v=1791020055",
+    imgMobile: eng1?.image || "https://cdn.shopify.com/s/files/1/1026/5726/1844/files/eng-1-1.jpg?v=1791020055",
     brandSub: "SKYNODESUAV • NITRO & GAS POWER",
-    collName: "CONTEST GRADE POWERPLANTS",
+    collName: eng1?.name || "CONTEST GRADE POWERPLANTS",
     collSub: "GET EXTRA 5% PREPAID DISCOUNT ON CHECKOUT",
     wreathNum: "01",
     wreathText: "FEATURED DEAL",
     pill1Title: "BUY OS MAX",
-    pill1Was: "₹15,999",
-    pill1Now: "₹12,499",
+    pill1Was: eng1 ? `₹${eng1.originalPrice.toLocaleString('en-IN')}` : "₹15,999",
+    pill1Now: eng1 ? `₹${eng1.price.toLocaleString('en-IN')}` : "₹12,499",
     pill2Title: "BUY DLE 65",
-    pill2Was: "₹48,999",
-    pill2Now: "₹42,999",
-    ctaLink: "/shop?category=engine",
+    pill2Was: eng4 ? `₹${eng4.originalPrice.toLocaleString('en-IN')}` : "₹48,999",
+    pill2Now: eng4 ? `₹${eng4.price.toLocaleString('en-IN')}` : "₹42,999",
+    ctaLink: eng1 ? `/product/${eng1.id}` : "/shop?category=engine",
     ctaText: "CLAIM OFFER NOW ➔"
   },
   {
     id: 2,
-    badgeTitle: "UP TO 25% OFF RADIOS",
+    badgeTitle: rad1?.discountBadge || "UP TO 25% OFF RADIOS",
     badgeSub: "FUTABA & FRSKY 2.4GHz SYSTEMS",
-    img: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800&auto=format&fit=crop",
-    imgMobile: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=500&auto=format&fit=crop",
+    img: rad1?.image || "https://cdn.shopify.com/s/files/1/1026/5726/1844/files/rad-1-1.jpg?v=1791020058",
+    imgMobile: rad1?.image || "https://cdn.shopify.com/s/files/1/1026/5726/1844/files/rad-1-1.jpg?v=1791020058",
     brandSub: "PRECISION TELEMETRY & CONTROL",
-    collName: "FUTABA 6K & 16IZ TRANSMITTERS",
-    collSub: "FREE RECEIVER BUNDLE WITH SELECT RADIOS",
+    collName: rad1?.name || "FUTABA 6K TRANSMITTER",
+    collSub: "FAST DISPATCH & 100% FACTORY FRESH SYSTEMS",
     wreathNum: "02",
     wreathText: "LIMITED DEAL",
     pill1Title: "FUTABA 6K",
-    pill1Was: "₹24,999",
-    pill1Now: "₹19,999",
-    pill2Title: "R3006SB RCVR",
-    pill2Was: "₹6,499",
-    pill2Now: "₹4,999",
-    ctaLink: "/shop?category=radio-receiver",
+    pill1Was: rad1 ? `₹${rad1.originalPrice.toLocaleString('en-IN')}` : "₹24,999",
+    pill1Now: rad1 ? `₹${rad1.price.toLocaleString('en-IN')}` : "₹19,999",
+    pill2Title: "R3008SB RCVR",
+    pill2Was: rad3 ? `₹${rad3.originalPrice.toLocaleString('en-IN')}` : "₹6,499",
+    pill2Now: rad3 ? `₹${rad3.price.toLocaleString('en-IN')}` : "₹4,999",
+    ctaLink: rad1 ? `/product/${rad1.id}` : "/shop?category=radio-receiver",
     ctaText: "GET RADIO OFFER ➔"
   },
   {
     id: 3,
-    badgeTitle: "SAVE UP TO ₹12,500",
+    badgeTitle: sea1?.discountBadge || "SAVE UP TO ₹12,500",
     badgeSub: "PREMIUM SEAGULL ARF KITS",
-    img: "https://images.unsplash.com/photo-1519074069444-1ba4eff56024?q=80&w=800&auto=format&fit=crop",
-    imgMobile: "https://images.unsplash.com/photo-1519074069444-1ba4eff56024?q=80&w=500&auto=format&fit=crop",
+    img: sea1?.image || "https://cdn.shopify.com/s/files/1/1026/5726/1844/files/sea-1-1.jpg?v=1791020060",
+    imgMobile: sea1?.image || "https://cdn.shopify.com/s/files/1/1026/5726/1844/files/sea-1-1.jpg?v=1791020060",
     brandSub: "SEAGULL MODELS OFFICIAL DISTRIBUTOR",
-    collName: "DECATHLON 122\" & BOOMERANG V3",
-    collSub: "100% FACTORY SEALED WITH FAST EXPRESS SHIPPING",
+    collName: sea1?.name || "DECATHLON 122\" V2 ARF",
+    collSub: "100% FACTORY SEALED WITH EXPRESS SHIPPING",
     wreathNum: "03",
     wreathText: "TOP ARF SALE",
     pill1Title: "BOOMERANG V3",
-    pill1Was: "₹18,999",
-    pill1Now: "₹15,999",
+    pill1Was: sea4 ? `₹${sea4.originalPrice.toLocaleString('en-IN')}` : "₹18,999",
+    pill1Now: sea4 ? `₹${sea4.price.toLocaleString('en-IN')}` : "₹15,999",
     pill2Title: "DECATHLON 122\"",
-    pill2Was: "₹85,000",
-    pill2Now: "₹72,499",
-    ctaLink: "/shop?category=aeromodels",
+    pill2Was: sea1 ? `₹${sea1.originalPrice.toLocaleString('en-IN')}` : "₹85,000",
+    pill2Now: sea1 ? `₹${sea1.price.toLocaleString('en-IN')}` : "₹72,499",
+    ctaLink: sea1 ? `/product/${sea1.id}` : "/shop?category=aeromodels",
     ctaText: "SHOP MODEL DEALS ➔"
   },
   {
     id: 4,
-    badgeTitle: "MEGA BALSA WOOD SALE",
+    badgeTitle: bal1?.discountBadge || "MEGA BALSA WOOD SALE",
     badgeSub: "CONTEST DENSITY LASER CUT SHEETS",
-    img: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?q=80&w=800&auto=format&fit=crop",
-    imgMobile: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?q=80&w=500&auto=format&fit=crop",
+    img: bal1?.image || "https://cdn.shopify.com/s/files/1/1026/5726/1844/files/balsa-sheet-1.jpg?v=1791020064",
+    imgMobile: bal1?.image || "https://cdn.shopify.com/s/files/1/1026/5726/1844/files/balsa-sheet-1.jpg?v=1791020064",
     brandSub: "RAW MATERIALS & ACCESSORIES",
-    collName: "BALSA SHEETS, STRIPS & SPARS",
+    collName: bal1?.name || "BALSA SHEETS 100x1000MM",
     collSub: "FLAT ₹80 INSTANT COUPON DISCOUNT APPLIED",
     wreathNum: "04",
     wreathText: "RAW MATERIAL",
     pill1Title: "BALSA 2MM",
-    pill1Was: "₹299",
-    pill1Now: "₹199",
-    pill2Title: "PRO SPARS",
-    pill2Was: "₹4,999",
-    pill2Now: "₹3,499",
-    ctaLink: "/shop?category=balsa-wood",
+    pill1Was: bal1 ? `₹${bal1.originalPrice.toLocaleString('en-IN')}` : "₹299",
+    pill1Now: bal1 ? `₹${bal1.price.toLocaleString('en-IN')}` : "₹199",
+    pill2Title: "BALSA 3MM",
+    pill2Was: bal2 ? `₹${bal2.originalPrice.toLocaleString('en-IN')}` : "₹399",
+    pill2Now: bal2 ? `₹${bal2.price.toLocaleString('en-IN')}` : "₹249",
+    ctaLink: bal1 ? `/product/${bal1.id}` : "/shop?category=balsa-wood",
     ctaText: "CLAIM BALSA DEAL ➔"
   }
 ];
+
+// If client has tagged specific products with 'hero' or 'hero:1' in Shopify, dynamically convert them!
+const BANNERS = heroTaggedProducts.length > 0
+  ? heroTaggedProducts.map((p, idx) => {
+      const prepaidPrice = Math.round(p.price * 0.95);
+      return {
+        id: idx + 1,
+        badgeTitle: p.heroBadge || p.discountBadge || "EXCLUSIVE DEAL",
+        badgeSub: p.heroSub || `${p.categoryLabel.toUpperCase()} • LIMITED TIME`,
+        img: p.image,
+        imgMobile: p.image,
+        brandSub: `SKYNODESUAV • ${p.categoryLabel.toUpperCase()}`,
+        collName: p.name,
+        collSub: p.specs?.['Wingspan'] || p.specs?.['Power Output'] || p.specs?.['Displacement'] || "100% FACTORY FRESH • EXPRESS SHIPPING",
+        wreathNum: String(idx + 1).padStart(2, '0'),
+        wreathText: "FEATURED",
+        pill1Title: "BUY ONLINE",
+        pill1Was: `₹${p.originalPrice.toLocaleString('en-IN')}`,
+        pill1Now: `₹${p.price.toLocaleString('en-IN')}`,
+        pill2Title: "PREPAID 5% OFF",
+        pill2Was: `₹${p.price.toLocaleString('en-IN')}`,
+        pill2Now: `₹${prepaidPrice.toLocaleString('en-IN')}`,
+        ctaLink: `/product/${p.id}`,
+        ctaText: "CLAIM OFFER NOW ➔"
+      };
+    })
+  : defaultBanners;
 ---
 
 <section class="bellavita-hero-section">
@@ -400,8 +451,13 @@ const BANNERS = [
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const track = document.getElementById('hero-track');
+    if (!track) return;
+
+    const slides = track.querySelectorAll('.slide-item');
+    const totalSlides = slides.length;
+    if (totalSlides <= 1) return;
+
     let currentIndex = 0;
-    const totalSlides = 4;
     let autoSlideInterval: any;
 
     function goToSlide(index: number) {
@@ -409,16 +465,48 @@ const BANNERS = [
       if (index >= totalSlides) index = 0;
       currentIndex = index;
 
-      if (track) {
-        track.style.transform = `translateX(-${currentIndex * 100}%)`;
-      }
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
 
     function startAutoSlide() {
       if (autoSlideInterval) clearInterval(autoSlideInterval);
       autoSlideInterval = setInterval(() => {
         goToSlide(currentIndex + 1);
-      }, 4000);
+      }, 4500);
+    }
+
+    function stopAutoSlide() {
+      if (autoSlideInterval) clearInterval(autoSlideInterval);
+    }
+
+    // Pause on hover
+    track.addEventListener('mouseenter', stopAutoSlide);
+    track.addEventListener('mouseleave', startAutoSlide);
+
+    // Mobile Touch Swipe Support
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    track.addEventListener('touchstart', (e: any) => {
+      touchStartX = e.changedTouches[0].screenX;
+      stopAutoSlide();
+    }, { passive: true });
+
+    track.addEventListener('touchend', (e: any) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+      startAutoSlide();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 40) {
+        if (diff < 0) {
+          goToSlide(currentIndex + 1); // Swipe Left -> Next
+        } else {
+          goToSlide(currentIndex - 1); // Swipe Right -> Prev
+        }
+      }
     }
 
     startAutoSlide();
