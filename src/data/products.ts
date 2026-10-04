@@ -118,7 +118,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'eng-4',
-    name: 'DLE 65 cc Gas engine',
+    name: 'DLE 65cc Gas Engine',
     category: 'engine',
     categoryLabel: 'Engine',
     price: 38999,
@@ -140,7 +140,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'eng-5',
-    name: 'DLE 20 cc gas engine',
+    name: 'DLE 20cc Gas Engine',
     category: 'engine',
     categoryLabel: 'Engine',
     price: 24999,
@@ -163,7 +163,7 @@ export const PRODUCTS: Product[] = [
   // --- 2. RADIO AND RECEIVER (18% GST - HSN 8526) ---
   {
     id: 'rad-1',
-    name: 'futaba Radio 6k (8 Channel) With Reciver',
+    name: 'Futaba Radio 6K (8 Channel) With Receiver',
     category: 'radio-receiver',
     categoryLabel: 'Radio & Receiver',
     price: 29199,
@@ -186,7 +186,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'rad-2',
-    name: 'futaba TM 18-R9001SB (Transmitter and Receiver set)',
+    name: 'Futaba TM 18-R9001SB (Transmitter and Receiver Set)',
     category: 'radio-receiver',
     categoryLabel: 'Radio & Receiver',
     price: 54999,
@@ -206,7 +206,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'rad-3',
-    name: 'RECEIVER R3008 SB 2.4G',
+    name: 'Futaba Receiver R3008SB 2.4GHz Telemetry',
     category: 'radio-receiver',
     categoryLabel: 'Radio & Receiver',
     price: 7559,
@@ -253,7 +253,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sea-2',
-    name: "Edge 540 V2 77.4\" Wing Span 35-40 CC",
+    name: "Edge 540 V2 77.4\" Wingspan ARF 35-40cc",
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 79999,
@@ -298,7 +298,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sea-4',
-    name: "Boomerang V3 Trainer 61\" ARF .46 2 Stroke",
+    name: "Boomerang V3 Trainer 61\" ARF .46 2-Stroke",
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 18249,
@@ -342,7 +342,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sea-6',
-    name: "YAK 54 3D ARF 64\" ARF 20-26CC",
+    name: "Yak 54 3D ARF 64\" 20-26cc",
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 49999,
@@ -363,7 +363,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sea-7',
-    name: "Arising Star V2 Trainer 63\" ARF .46 2 Stroke",
+    name: "Arising Star V2 Trainer 63\" ARF .46 2-Stroke",
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 18249,
@@ -384,7 +384,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sea-8',
-    name: "Ultimate Bi-Plane 54.3\" ARF 20CC",
+    name: "Ultimate Bi-Plane 54.3\" ARF 20cc",
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 59999,
@@ -406,7 +406,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sea-9',
-    name: "Extra 330 LX 3D 82.1\" ARF 50-60 CC \" B /R",
+    name: "Extra 330 LX 3D 82.1\" ARF 50-60cc (Blue/Red)",
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 114999,
@@ -429,7 +429,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sea-10',
-    name: "EXTRA 330 LX 3D 82.1\" ARF 50-60CC YELLOW",
+    name: "Extra 330 LX 3D 82.1\" ARF 50-60cc (Yellow)",
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 114999,
@@ -450,7 +450,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sea-11',
-    name: "Zivko Edge 540 V3 92\" ARF 60CC",
+    name: "Zivko Edge 540 V3 92\" ARF 60cc",
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 149999,
@@ -470,7 +470,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'sea-12',
-    name: "YAK 54 73\" ARF 35 -40cc 3D",
+    name: "Yak 54 73\" ARF 35-40cc 3D",
     category: 'aeromodels',
     categoryLabel: 'Seagull Aeromodels',
     price: 96999,
@@ -679,7 +679,7 @@ export const PRODUCTS: Product[] = [
   // --- 5. AEROMODEL ACCESSORIES (12% GST - HSN 8501/8504/9504) ---
   {
     id: 'acc-1',
-    name: 'futaba servo S-U300',
+    name: 'Futaba Servo S-U300',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 1449,
@@ -700,7 +700,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-2',
-    name: 'Futaba trainer coard m-m top',
+    name: 'Futaba Trainer Cord M-M Top',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 2719,
@@ -719,7 +719,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-3',
-    name: 'hand fuel pump',
+    name: 'Hand Fuel Pump',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 1759,
@@ -738,7 +738,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-4',
-    name: 'high torque 12v starter',
+    name: 'High Torque 12V Starter',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 7499,
@@ -758,7 +758,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-5',
-    name: 'Glow starter c size with charger',
+    name: 'Glow Starter C-Size With Charger',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 2399,
@@ -777,7 +777,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-6',
-    name: 'LIPO GLOW STARTER IGNITOR WITH LED & ADAPTOR',
+    name: 'LiPo Glow Starter Ignitor With LED & Adaptor',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 3499,
@@ -796,7 +796,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-7',
-    name: 'Glow plug starter ignitor',
+    name: 'Glow Plug Starter Ignitor',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 999,
@@ -815,7 +815,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-8',
-    name: 'Drill guid 30-55',
+    name: 'Drill Guide 30-55',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 1499,
@@ -834,7 +834,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-9',
-    name: 'Drill guide 110 to 150',
+    name: 'Drill Guide 110 to 150',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 2199,
@@ -853,7 +853,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-10',
-    name: '12 v electric fuel pump',
+    name: '12V Electric Fuel Pump',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 2699,
@@ -872,7 +872,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-11',
-    name: "DU-BRO Tygon gas tubing, large 30' spool",
+    name: "DU-BRO Tygon Gas Tubing (Large 30' Spool)",
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 3499,
@@ -914,7 +914,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-13',
-    name: 'O.S. Glow Plug no .8',
+    name: 'O.S. Glow Plug No. 8',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 889,
@@ -935,7 +935,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-14',
-    name: 'BR-4000 Battery/Servo/Receiver Checker',
+    name: 'Futaba BR-4000 Battery/Servo/Receiver Checker',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 6999,
@@ -955,7 +955,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'acc-15',
-    name: 'BR-3000 Battery Checker',
+    name: 'Futaba BR-3000 Battery Checker',
     category: 'accessories',
     categoryLabel: 'Aeromodel Accessories',
     price: 4799,

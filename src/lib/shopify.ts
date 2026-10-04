@@ -1,4 +1,5 @@
 import { PRODUCTS as staticProducts, type Product } from '../data/products';
+import { formatCleanProductTitle } from './productTitleHelper';
 
 export interface ShopifyProduct {
   id: string;
@@ -466,7 +467,7 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
   return {
     id: prodId,
     handle: sp.handle,
-    name: sp.title,
+    name: staticProd?.name || formatCleanProductTitle(sp.title),
     category: assignedCat.id,
     categoryLabel: assignedCat.label,
     price: price,

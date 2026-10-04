@@ -1,5 +1,6 @@
 import { registerProductsCache } from './cartStore';
 import { PRODUCTS as staticProducts } from '../data/products';
+import { formatCleanProductTitle } from './productTitleHelper';
 
 const SHOPIFY_DOMAIN = "skynodesuav.myshopify.com";
 const SHOPIFY_TOKEN = "ec578fcbf0e0c5a4b6234c56dd36288a";
@@ -412,7 +413,7 @@ export async function fetchLiveShopifyProducts(): Promise<LiveProduct[] | null> 
         id: node.handle || safeId || node.id,
         safeId,
         handle: node.handle || safeId,
-        title: node.title,
+        title: staticMatch?.name || formatCleanProductTitle(node.title),
         description: node.description || "",
         category: assignedCatId,
         categoryLabel: assignedCatLabel,
