@@ -2,42 +2,20 @@
 import Header from '../../components/Header.astro';
 import CartDrawer from '../../components/CartDrawer.astro';
 import Footer from '../../components/Footer.astro';
-import '../../styles/global.css';
-
-export const POSTS = [
-  {
-    slug: 'how-to-break-in-nitro-engine',
-    title: 'Complete Guide: How to Break-in an O.S. Max Nitro Engine for Maximum Lifespan',
-    excerpt: 'Step-by-step needle valve adjustment, heat-cycling process, and fuel oil ratios for your new .46 or .65 nitro engine.',
-    date: 'August 1, 2026',
-    author: 'Chief Engineer K. Sharma',
-    category: 'ENGINE TUNING',
-    readTime: '6 min read',
-    image: 'https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?q=80&w=800&auto=format&fit=crop'
-  },
-  {
-    slug: 'choosing-first-seagull-trainer',
-    title: 'Seagull Boomerang V3 vs. Arising Star: Which ARF Trainer Is Right For You?',
-    excerpt: 'Comparing wing loading, dihedral stability, landing gear durability, and repairability for novice pilot setup.',
-    date: 'July 24, 2026',
-    author: 'Captain R. Verma',
-    category: 'AIRFRAME COMPARISON',
-    readTime: '8 min read',
-    image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=800&auto=format&fit=crop'
-  },
-  {
-    slug: 'balsa-wood-density-guide',
-    title: 'Understanding Balsa Sheet Densities: Light, Medium, and Hard Wood Selection',
-    excerpt: 'How to pick between 6 lb contest grade balsa for wing ribs vs 12 lb structural balsa for fuselage formers.',
-    date: 'July 15, 2026',
-    author: 'Build Specialist A. Deshmukh',
-    category: 'BUILDING TECHNIQUES',
-    readTime: '5 min read',
-    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop'
-  }
-];
 import GoogleTagManagerHead from '../../components/GoogleTagManagerHead.astro';
 import GoogleTagManagerBody from '../../components/GoogleTagManagerBody.astro';
+import { getAllBlogPosts } from '../../lib/shopifyBlog';
+import '../../styles/global.css';
+
+export const prerender = false;
+
+const posts = await getAllBlogPosts();
+
+// Extract unique categories
+const categories = ['ALL', ...Array.from(new Set(posts.map(p => p.category)))];
+
+const featuredPost = posts[0];
+const standardPosts = posts.slice(1);
 ---
 
 <!DOCTYPE html>
@@ -46,8 +24,9 @@ import GoogleTagManagerBody from '../../components/GoogleTagManagerBody.astro';
   <GoogleTagManagerHead />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RC Flight Blog & Tutorials | SKYNODESUAV</title>
-  <meta name="description" content="Technical aeromodelling tutorials, engine tuning guides, and scale flight techniques from master pilots." />
+  <title>RC Flight Blog & Tutorials | SKYNODES UAV India</title>
+  <meta name="description" content="Technical aeromodelling tutorials, engine tuning guides, Seagull ARF setup, and scale flight techniques from master pilots." />
+  <link rel="canonical" href="https://skynodesuav.in/blog" />
 </head>
 <body class="bellavita-page-body">
   <GoogleTagManagerBody />
@@ -55,14 +34,78 @@ import GoogleTagManagerBody from '../../components/GoogleTagManagerBody.astro';
   <Header />
 
   <main class="container page-padding reveal-on-scroll">
+    
+    <!-- Hero Header -->
     <div class="blog-hero">
+      <div class="blog-pill-badge">✈️ AVIATION INSIGHTS & ACADEMY</div>
       <h1 class="blog-page-title">RC FLIGHT BLOG & TECHNICAL GUIDES</h1>
-      <p class="blog-page-sub">Master engine tuning, radio telemetry, balsa scratch building, and aerobatic flight dynamics</p>
+      <p class="blog-page-sub">Master engine tuning, radio telemetry, balsa scratch building, and aerobatic flight dynamics from India's scale aeromodelling specialists.</p>
+      
+      <!-- Live Search Bar -->
+      <div class="blog-search-bar">
+        <span class="search-icon">🔍</span>
+        <input 
+          type="text" 
+          id="blog-search-input" 
+          placeholder="Search guides, O.S. Max engines, Futaba telemetry, Seagull ARF..." 
+          aria-label="Search articles"
+        />
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="blog-category-filter" id="category-filter-wrap">
+        {categories.map((cat, idx) => (
+          <button 
+            type="button" 
+            class={`cat-filter-btn ${idx === 0 ? 'active' : ''}`}
+            data-category={cat}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
     </div>
 
-    <div class="blog-grid">
-      {POSTS.map(post => (
-        <article class="blog-card glass-panel">
+    <!-- Featured Post Spotlight (When Available) -->
+    {featuredPost && (
+      <section class="featured-post-section" id="featured-post-container" data-category={featuredPost.category} data-title={featuredPost.title.toLowerCase()}>
+        <div class="featured-card">
+          <div class="featured-media">
+            <span class="featured-badge">⭐ FEATURED MASTERCLASS</span>
+            <a href={`/blog/${featuredPost.slug}`}>
+              <img src={featuredPost.image} alt={featuredPost.title} loading="eager" />
+            </a>
+          </div>
+          <div class="featured-content">
+            <div class="post-meta">
+              <span class="cat-label">{featuredPost.category}</span>
+              <span class="meta-dot">•</span>
+              <span class="date-label">{featuredPost.date}</span>
+              <span class="meta-dot">•</span>
+              <span class="read-label">⏱️ {featuredPost.readTime}</span>
+            </div>
+            <h2 class="featured-title">
+              <a href={`/blog/${featuredPost.slug}`}>{featuredPost.title}</a>
+            </h2>
+            <p class="featured-excerpt">{featuredPost.excerpt}</p>
+            <div class="featured-footer">
+              <div class="author-info">
+                <span class="avatar-initial">✈️</span>
+                <span class="author-text">{featuredPost.author}</span>
+              </div>
+              <a href={`/blog/${featuredPost.slug}`} class="btn-read-featured">
+                READ COMPLETE GUIDE ➔
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Standard Blog Posts Grid -->
+    <div class="blog-grid" id="blog-posts-grid">
+      {standardPosts.map(post => (
+        <article class="blog-card glass-panel" data-category={post.category} data-title={post.title.toLowerCase()} data-excerpt={post.excerpt.toLowerCase()}>
           <div class="blog-media">
             <span class="blog-cat-badge">{post.category}</span>
             <a href={`/blog/${post.slug}`}>
@@ -87,6 +130,28 @@ import GoogleTagManagerBody from '../../components/GoogleTagManagerBody.astro';
         </article>
       ))}
     </div>
+
+    <!-- Empty Filter State -->
+    <div id="no-articles-found" class="no-articles-state" style="display: none;">
+      <span class="empty-icon">🛩️</span>
+      <h3>No matching guides found</h3>
+      <p>Try searching for a different keyword or select another category filter.</p>
+      <button type="button" id="reset-filter-btn" class="btn-reset">SHOW ALL ARTICLES</button>
+    </div>
+
+    <!-- Newsletter / Flight Club Banner -->
+    <section class="blog-newsletter-banner">
+      <div class="newsletter-content">
+        <span class="nl-badge">SKYNODES PILOT COMMUNITY</span>
+        <h3>Stay Ahead in Model Aviation & Technical Tuning</h3>
+        <p>Get master pilot build logs, engine telemetry guides, and exclusive discount drops delivered directly to your inbox.</p>
+        <form class="nl-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing to SKYNODES Flight Dispatch!');">
+          <input type="email" placeholder="Enter your pilot email address..." required class="nl-input" />
+          <button type="submit" class="nl-submit">JOIN DISPATCH ➔</button>
+        </form>
+      </div>
+    </section>
+
   </main>
 
   <CartDrawer />
@@ -98,25 +163,219 @@ import GoogleTagManagerBody from '../../components/GoogleTagManagerBody.astro';
       color: #1a1a1a !important;
     }
 
-    .page-padding { padding: 4rem 1.25rem 6rem; }
-    .blog-hero { text-align: center; margin-bottom: 3.5rem; }
+    .page-padding { padding: 3rem 1.25rem 5rem; }
+    
+    .blog-hero { 
+      text-align: center; 
+      max-width: 820px; 
+      margin: 0 auto 3rem; 
+    }
+    .blog-pill-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #3b0811;
+      background: #fae8eb;
+      border: 1px solid #f2c7ce;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.85rem;
+    }
     .blog-page-title {
       font-family: var(--font-display);
       font-size: 2.2rem;
       font-weight: 800;
       color: #1a1a1a;
-      letter-spacing: 0.04em;
-      margin-bottom: 0.5rem;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.65rem;
+      line-height: 1.2;
     }
     .blog-page-sub {
       color: #666666;
       font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
     }
 
+    /* Search Bar */
+    .blog-search-bar {
+      position: relative;
+      max-width: 580px;
+      margin: 0 auto 1.5rem;
+    }
+    .blog-search-bar .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1rem;
+      opacity: 0.6;
+    }
+    .blog-search-bar input {
+      width: 100%;
+      padding: 0.85rem 1rem 0.85rem 2.75rem;
+      border: 1px solid #d5cfc5;
+      border-radius: 999px;
+      background: #ffffff;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    .blog-search-bar input:focus {
+      border-color: #3b0811;
+      box-shadow: 0 4px 20px rgba(59, 8, 17, 0.12);
+    }
+
+    /* Category Filter Pills */
+    .blog-category-filter {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .cat-filter-btn {
+      background: #ffffff;
+      border: 1px solid #e6e0d5;
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #555555;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .cat-filter-btn:hover {
+      background: #f4ede3;
+      color: #1a1a1a;
+      border-color: #c9bfb0;
+    }
+    .cat-filter-btn.active {
+      background: #3b0811;
+      color: #ffffff;
+      border-color: #3b0811;
+      box-shadow: 0 4px 12px rgba(59, 8, 17, 0.25);
+    }
+
+    /* Featured Post Spotlight */
+    .featured-post-section {
+      margin-bottom: 3.5rem;
+    }
+    .featured-card {
+      background: #ffffff;
+      border: 1px solid #e6e0d5;
+      border-radius: 14px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+    .featured-card:hover {
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.09);
+      border-color: #3b0811;
+    }
+    .featured-media {
+      position: relative;
+      height: 380px;
+      overflow: hidden;
+      background: #111111;
+    }
+    .featured-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .featured-card:hover .featured-media img {
+      transform: scale(1.04);
+    }
+    .featured-badge {
+      position: absolute;
+      top: 1.25rem;
+      left: 1.25rem;
+      background: #eab308;
+      color: #111111;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.35rem 0.85rem;
+      border-radius: 6px;
+      letter-spacing: 0.04em;
+      z-index: 2;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+    .featured-content {
+      padding: 2.75rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      color: #666666;
+      font-weight: 700;
+      margin-bottom: 0.85rem;
+    }
+    .cat-label { color: #3b0811; }
+    .meta-dot { opacity: 0.4; }
+    .featured-title {
+      font-family: var(--font-display);
+      font-size: 1.65rem;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 1rem;
+      color: #1a1a1a;
+    }
+    .featured-title a:hover { color: #3b0811; }
+    .featured-excerpt {
+      font-size: 0.95rem;
+      color: #555555;
+      line-height: 1.65;
+      margin-bottom: 1.75rem;
+    }
+    .featured-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #f0eae1;
+      padding-top: 1.25rem;
+      margin-top: auto;
+    }
+    .author-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: #666666;
+      font-weight: 700;
+    }
+    .avatar-initial { font-size: 1rem; }
+    .btn-read-featured {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #ffffff;
+      background: #3b0811;
+      padding: 0.65rem 1.25rem;
+      border-radius: 6px;
+      letter-spacing: 0.04em;
+      transition: all 0.2s ease;
+    }
+    .btn-read-featured:hover {
+      background: #111111;
+      transform: translateY(-2px);
+    }
+
+    /* Standard Grid */
     .blog-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
       gap: 2.25rem;
+      margin-bottom: 4rem;
     }
     .blog-card {
       background: #ffffff;
@@ -129,10 +388,9 @@ import GoogleTagManagerBody from '../../components/GoogleTagManagerBody.astro';
     }
     .blog-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
       border-color: #3b0811;
     }
-
     .blog-media {
       position: relative;
       height: 220px;
@@ -148,7 +406,6 @@ import GoogleTagManagerBody from '../../components/GoogleTagManagerBody.astro';
     .blog-card:hover .blog-media img {
       transform: scale(1.06);
     }
-
     .blog-cat-badge {
       position: absolute;
       top: 1rem;
@@ -162,7 +419,6 @@ import GoogleTagManagerBody from '../../components/GoogleTagManagerBody.astro';
       letter-spacing: 0.08em;
       z-index: 2;
     }
-
     .blog-body {
       padding: 1.5rem;
       display: flex;
@@ -177,7 +433,6 @@ import GoogleTagManagerBody from '../../components/GoogleTagManagerBody.astro';
       margin-bottom: 0.6rem;
       font-weight: 600;
     }
-
     .blog-card-title {
       font-family: var(--font-display);
       font-size: 1.15rem;
@@ -189,14 +444,12 @@ import GoogleTagManagerBody from '../../components/GoogleTagManagerBody.astro';
     .blog-card-title a:hover {
       color: #3b0811;
     }
-
     .blog-excerpt {
       font-size: 0.88rem;
       color: #555555;
       line-height: 1.6;
       margin-bottom: 1.5rem;
     }
-
     .blog-footer-row {
       margin-top: auto;
       display: flex;
@@ -216,7 +469,194 @@ import GoogleTagManagerBody from '../../components/GoogleTagManagerBody.astro';
       color: #3b0811;
       letter-spacing: 0.04em;
     }
+
+    /* Empty state */
+    .no-articles-state {
+      text-align: center;
+      padding: 4rem 1rem;
+      background: #ffffff;
+      border: 1px dashed #d5cfc5;
+      border-radius: 12px;
+      margin-bottom: 3rem;
+    }
+    .no-articles-state .empty-icon { font-size: 3rem; margin-bottom: 0.5rem; display: block; }
+    .no-articles-state h3 { font-size: 1.25rem; font-weight: 800; color: #1a1a1a; margin-bottom: 0.35rem; }
+    .no-articles-state p { color: #666666; font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .btn-reset {
+      background: #3b0811;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 0.6rem 1.25rem;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Newsletter Banner */
+    .blog-newsletter-banner {
+      background: linear-gradient(135deg, #2b050d 0%, #4a0e17 50%, #31060e 100%);
+      color: #ffffff;
+      padding: 3.5rem 2rem;
+      border-radius: 14px;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(43, 5, 13, 0.25);
+    }
+    .newsletter-content { max-width: 620px; margin: 0 auto; }
+    .nl-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #eab308;
+      background: rgba(234, 179, 8, 0.15);
+      border: 1px solid rgba(234, 179, 8, 0.3);
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+      letter-spacing: 0.08em;
+    }
+    .newsletter-content h3 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+    }
+    .newsletter-content p {
+      color: #cbd5e1;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      margin-bottom: 1.75rem;
+    }
+    .nl-form {
+      display: flex;
+      gap: 0.5rem;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .nl-input {
+      flex: 1;
+      padding: 0.85rem 1.25rem;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .nl-input::placeholder { color: #94a3b8; }
+    .nl-submit {
+      background: #eab308;
+      color: #111111;
+      font-weight: 800;
+      padding: 0.85rem 1.5rem;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.85rem;
+      letter-spacing: 0.03em;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .nl-submit:hover {
+      background: #ffffff;
+    }
+
+    @media (max-width: 900px) {
+      .featured-card {
+        grid-template-columns: 1fr;
+      }
+      .featured-media {
+        height: 240px;
+      }
+      .featured-content {
+        padding: 1.75rem 1.25rem;
+      }
+      .nl-form {
+        flex-direction: column;
+      }
+    }
   </style>
+
+  <!-- Client-Side Search & Filter Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput = document.getElementById('blog-search-input') as HTMLInputElement;
+      const catBtns = document.querySelectorAll('.cat-filter-btn');
+      const cards = document.querySelectorAll('.blog-card');
+      const featured = document.getElementById('featured-post-container');
+      const noArticles = document.getElementById('no-articles-found');
+      const resetBtn = document.getElementById('reset-filter-btn');
+
+      let currentCategory = 'ALL';
+      let currentQuery = '';
+
+      function applyFilter() {
+        let visibleCount = 0;
+
+        // Check featured post
+        if (featured) {
+          const fCat = featured.getAttribute('data-category') || '';
+          const fTitle = featured.getAttribute('data-title') || '';
+          const matchesCat = currentCategory === 'ALL' || fCat.toUpperCase() === currentCategory.toUpperCase();
+          const matchesQuery = !currentQuery || fTitle.includes(currentQuery);
+
+          if (matchesCat && matchesQuery) {
+            featured.style.display = 'block';
+            visibleCount++;
+          } else {
+            featured.style.display = 'none';
+          }
+        }
+
+        // Check standard cards
+        cards.forEach(card => {
+          const el = card as HTMLElement;
+          const cCat = el.getAttribute('data-category') || '';
+          const cTitle = el.getAttribute('data-title') || '';
+          const cExcerpt = el.getAttribute('data-excerpt') || '';
+
+          const matchesCat = currentCategory === 'ALL' || cCat.toUpperCase() === currentCategory.toUpperCase();
+          const matchesQuery = !currentQuery || cTitle.includes(currentQuery) || cExcerpt.includes(currentQuery);
+
+          if (matchesCat && matchesQuery) {
+            el.style.display = 'flex';
+            visibleCount++;
+          } else {
+            el.style.display = 'none';
+          }
+        });
+
+        if (noArticles) {
+          noArticles.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+      }
+
+      searchInput?.addEventListener('input', () => {
+        currentQuery = searchInput.value.trim().toLowerCase();
+        applyFilter();
+      });
+
+      catBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          catBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentCategory = btn.getAttribute('data-category') || 'ALL';
+          applyFilter();
+        });
+      });
+
+      resetBtn?.addEventListener('click', () => {
+        if (searchInput) searchInput.value = '';
+        currentQuery = '';
+        currentCategory = 'ALL';
+        catBtns.forEach(b => {
+          if (b.getAttribute('data-category') === 'ALL') b.classList.add('active');
+          else b.classList.remove('active');
+        });
+        applyFilter();
+      });
+    });
+  </script>
 
 </body>
 </html>

@@ -2,29 +2,65 @@
 import Header from '../../components/Header.astro';
 import CartDrawer from '../../components/CartDrawer.astro';
 import Footer from '../../components/Footer.astro';
-import { POSTS } from './index.astro';
+import GoogleTagManagerHead from '../../components/GoogleTagManagerHead.astro';
+import GoogleTagManagerBody from '../../components/GoogleTagManagerBody.astro';
+import { getBlogPostBySlug, getAllBlogPosts } from '../../lib/shopifyBlog';
+import { getCombinedProducts } from '../../lib/shopify';
 import '../../styles/global.css';
 
+export const prerender = false;
+
 const { slug } = Astro.params;
-const post = POSTS.find(p => p.slug === slug);
+if (!slug) {
+  return Astro.redirect('/blog');
+}
+
+const post = await getBlogPostBySlug(slug);
 if (!post) {
   return Astro.redirect('/blog');
 }
+
+// Fetch all posts to show recommendations
+const allPosts = await getAllBlogPosts();
+const morePosts = allPosts.filter(p => p.slug !== post.slug).slice(0, 3);
+
+// Fetch a related product matching this article category
+const allProducts = await getCombinedProducts();
+let relatedProduct = allProducts.find(p => {
+  if (post.relatedCategory) return p.category === post.relatedCategory;
+  const titleLower = post.title.toLowerCase();
+  if (titleLower.includes('engine') || titleLower.includes('nitro') || titleLower.includes('o.s.')) return p.category === 'engine';
+  if (titleLower.includes('seagull') || titleLower.includes('trainer') || titleLower.includes('arf')) return p.category === 'aeromodels';
+  if (titleLower.includes('balsa') || titleLower.includes('wood')) return p.category === 'balsa-wood';
+  if (titleLower.includes('radio') || titleLower.includes('futaba') || titleLower.includes('telemetry')) return p.category === 'radio-receiver';
+  return false;
+});
 
 // JSON-LD Article Schema
 const articleSchema = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": post.title,
+  "description": post.excerpt,
   "image": [post.image],
-  "datePublished": "2026-08-01",
+  "datePublished": post.publishedAt || "2026-08-01",
   "author": {
     "@type": "Person",
     "name": post.author
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "SKYNODES UAV India",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://skynodesuav.in/favicon.svg"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": `https://skynodesuav.in/blog/${post.slug}`
   }
 };
-import GoogleTagManagerHead from '../../components/GoogleTagManagerHead.astro';
-import GoogleTagManagerBody from '../../components/GoogleTagManagerBody.astro';
 ---
 
 <!DOCTYPE html>
@@ -33,8 +69,25 @@ import GoogleTagManagerBody from '../../components/GoogleTagManagerBody.astro';
   <GoogleTagManagerHead />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{post.title} | SKYNODESUAV</title>
+  <title>{post.title} | SKYNODES UAV Blog</title>
   <meta name="description" content={post.excerpt} />
+  <link rel="canonical" href={`https://skynodesuav.in/blog/${post.slug}`} />
+
+  <!-- OpenGraph Social Tags -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content={post.title} />
+  <meta property="og:description" content={post.excerpt} />
+  <meta property="og:image" content={post.image} />
+  <meta property="og:url" content={`https://skynodesuav.in/blog/${post.slug}`} />
+  <meta property="article:published_time" content={post.publishedAt || "2026-08-01"} />
+  <meta property="article:author" content={post.author} />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={post.title} />
+  <meta name="twitter:description" content={post.excerpt} />
+  <meta name="twitter:image" content={post.image} />
+
   <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
 </head>
 <body class="bellavita-page-body">
@@ -43,38 +96,134 @@ import GoogleTagManagerBody from '../../components/GoogleTagManagerBody.astro';
   <Header />
 
   <main class="container page-padding reveal-on-scroll">
+    
+    <!-- Breadcrumb Navigation -->
+    <nav class="article-breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span class="crumb-sep">/</span>
+      <a href="/blog">Flight Blog</a>
+      <span class="crumb-sep">/</span>
+      <span class="crumb-cat">{post.category}</span>
+    </nav>
+
     <article class="article-card glass-panel">
       
-      <div class="article-header">
-        <div class="blog-meta">{post.date} • By {post.author} • {post.readTime}</div>
+      <!-- Article Header -->
+      <header class="article-header">
+        <div class="header-cat-badge">{post.category}</div>
         <h1 class="article-title">{post.title}</h1>
-      </div>
+        <div class="blog-meta">
+          <span>📅 {post.date}</span>
+          <span class="meta-dot">•</span>
+          <span>✍️ By {post.author}</span>
+          <span class="meta-dot">•</span>
+          <span>⏱️ {post.readTime}</span>
+        </div>
+      </header>
 
+      <!-- Featured Image -->
       <div class="img-wrapper">
         <img src={post.image} alt={post.title} class="article-featured-img" />
       </div>
 
+      <!-- Article Rich Content Body -->
       <div class="article-body">
-        <p class="lead">{post.excerpt}</p>
-        
-        <h2>Step 1: Bench Mounting and Fuel Setup</h2>
-        <p>Before running your engine for the first time, securely bolt it onto a rigid wooden or aluminum test stand. Never attempt to break-in an engine hand-held or in an unreinforced airframe.</p>
-
-        <h2>Step 2: Rich Needle Setting</h2>
-        <p>Open the high-speed needle valve 2.5 to 3 full turns counter-clockwise from closed. Connect 10%-15% nitro fuel with high-quality synthetic/castor oil blend for optimal lubrication.</p>
-
-        <h2>Step 3: Initial Heat Cycles</h2>
-        <p>Start the engine using a high-torque 12V electric starter. Run at full throttle in a rich 4-cycle burble for 2 minutes, then shut down to cool completely. Repeat this thermal cycle 4 to 5 times for optimal compression ring seating.</p>
-
-        <h2>Step 4: Final Needle Fine-Tuning</h2>
-        <p>Lean out the needle valve 2-3 clicks at a time while listening to the RPM rise. Peak the RPM, then back off 200 RPM rich for safe in-flight operating temperatures.</p>
+        <div class="article-html-content" set:html={post.contentHtml} />
       </div>
 
+      <!-- Related Equipment Widget (If Product Matched) -->
+      {relatedProduct && (
+        <div class="related-product-widget">
+          <div class="rp-badge">FEATURED EQUIPMENT IN THIS GUIDE</div>
+          <div class="rp-card">
+            <a href={`/product/${relatedProduct.id}`} class="rp-thumb-link">
+              <img src={relatedProduct.image} alt={relatedProduct.name} class="rp-img" />
+            </a>
+            <div class="rp-info">
+              <span class="rp-cat">{relatedProduct.categoryLabel}</span>
+              <h4 class="rp-title">
+                <a href={`/product/${relatedProduct.id}`}>{relatedProduct.name}</a>
+              </h4>
+              <div class="rp-price-row">
+                <span class="rp-price">₹{relatedProduct.price.toLocaleString('en-IN')}</span>
+                <span class="rp-badge-save">{relatedProduct.discountBadge || 'IN STOCK'}</span>
+              </div>
+            </div>
+            <a href={`/product/${relatedProduct.id}`} class="btn-buy-related">
+              VIEW GEAR ➔
+            </a>
+          </div>
+        </div>
+      )}
+
+      <!-- Social Sharing Bar -->
+      <div class="social-share-strip">
+        <span class="share-title">SHARE THIS GUIDE:</span>
+        <div class="share-buttons">
+          <a 
+            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(post.title + ' - https://skynodesuav.in/blog/' + post.slug)}`} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="share-btn wa-btn"
+            title="Share on WhatsApp"
+          >
+            💬 WhatsApp
+          </a>
+          <a 
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent('https://skynodesuav.in/blog/' + post.slug)}`} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="share-btn tw-btn"
+            title="Share on Twitter / X"
+          >
+            🐦 X (Twitter)
+          </a>
+          <button 
+            type="button" 
+            id="copy-link-btn" 
+            class="share-btn copy-btn"
+            data-url={`https://skynodesuav.in/blog/${post.slug}`}
+          >
+            🔗 Copy Link
+          </button>
+        </div>
+      </div>
+
+      <!-- Author Bio -->
+      <div class="author-bio-card">
+        <div class="author-avatar">✈️</div>
+        <div class="author-details">
+          <h4>{post.author}</h4>
+          <p>Technical Contributor & Scale Flight Specialist at <strong>SKYNODES UAV India</strong>. Dedicated to advancing contest-grade aeromodelling, glow/gas engine mastery, and telemetry precision for Indian model aviation pilots.</p>
+        </div>
+      </div>
+
+      <!-- Footer Action -->
       <div class="article-footer">
-        <a href="/blog" class="btn-primary">← BACK TO ALL ARTICLES</a>
+        <a href="/blog" class="btn-back">← RETURN TO ALL FLIGHT GUIDES</a>
       </div>
 
     </article>
+
+    <!-- More Recommended Articles -->
+    {morePosts.length > 0 && (
+      <section class="more-guides-section">
+        <h3 class="more-guides-title">MORE PILOT GUIDES & TUTORIALS</h3>
+        <div class="more-guides-grid">
+          {morePosts.map(mp => (
+            <a href={`/blog/${mp.slug}`} class="more-guide-card">
+              <img src={mp.image} alt={mp.title} class="more-guide-img" loading="lazy" />
+              <div class="more-guide-content">
+                <span class="more-guide-cat">{mp.category}</span>
+                <h4 class="more-guide-h">{mp.title}</h4>
+                <span class="more-guide-date">{mp.date} • {mp.readTime}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
   </main>
 
   <CartDrawer />
@@ -86,68 +235,337 @@ import GoogleTagManagerBody from '../../components/GoogleTagManagerBody.astro';
       color: #1a1a1a !important;
     }
 
-    .page-padding { padding: 4rem 1.25rem 6rem; }
+    .page-padding { padding: 3rem 1.25rem 6rem; }
+
+    /* Breadcrumbs */
+    .article-breadcrumbs {
+      max-width: 860px;
+      margin: 0 auto 1.5rem;
+      font-size: 0.8rem;
+      color: #777777;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .article-breadcrumbs a { color: #555555; text-decoration: none; }
+    .article-breadcrumbs a:hover { color: #3b0811; text-decoration: underline; }
+    .crumb-sep { opacity: 0.4; }
+    .crumb-cat { color: #3b0811; font-weight: 700; }
+
+    /* Article Card */
     .article-card {
-      max-width: 840px;
+      max-width: 860px;
       margin: 0 auto;
-      padding: 3rem;
+      padding: 3.5rem 3rem;
       background: #ffffff;
       border: 1px solid #e6e0d5;
-      border-radius: var(--radius-md);
+      border-radius: 14px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
     }
     .article-header { margin-bottom: 2rem; }
-    .blog-meta { color: #3b0811; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .header-cat-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #3b0811;
+      background: #fae8eb;
+      border: 1px solid #f2c7ce;
+      padding: 0.3rem 0.75rem;
+      border-radius: 4px;
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+    }
     .article-title {
       font-family: var(--font-display);
-      font-size: 2.1rem;
-      color: #1a1a1a;
-      line-height: 1.25;
+      font-size: 2.2rem;
       font-weight: 800;
+      line-height: 1.25;
+      color: #1a1a1a;
+      letter-spacing: 0.02em;
+      margin-bottom: 1rem;
     }
+    .blog-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: #777777;
+      font-size: 0.82rem;
+      font-weight: 600;
+      flex-wrap: wrap;
+    }
+    .meta-dot { opacity: 0.4; }
 
     .img-wrapper {
-      width: 100%;
-      height: 380px;
-      border-radius: var(--radius-md);
-      overflow: hidden;
       margin-bottom: 2.5rem;
-      background: #f3eee7;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #e6e0d5;
+      max-height: 440px;
+      background: #111111;
     }
     .article-featured-img {
       width: 100%;
       height: 100%;
+      max-height: 440px;
       object-fit: cover;
+      display: block;
     }
 
+    /* Content Typography */
     .article-body {
-      color: #444444;
+      color: #333333;
       font-size: 1.05rem;
-      line-height: 1.85;
+      line-height: 1.8;
+      margin-bottom: 3rem;
     }
-    .article-body .lead {
-      font-size: 1.15rem;
-      font-weight: 600;
+    :global(.article-html-content p) {
+      margin-bottom: 1.5rem;
+    }
+    :global(.article-html-content p.lead) {
+      font-size: 1.2rem;
+      font-weight: 500;
       color: #1a1a1a;
-      border-left: 3px solid #3b0811;
-      padding-left: 1rem;
+      line-height: 1.7;
+      border-left: 4px solid #3b0811;
+      padding-left: 1.25rem;
       margin-bottom: 2rem;
+      background: #faf7f2;
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+      border-radius: 0 6px 6px 0;
     }
-    .article-body h2 {
+    :global(.article-html-content h2) {
       font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 800;
       color: #1a1a1a;
-      font-size: 1.35rem;
-      margin: 2rem 0 0.75rem;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #f0eae1;
+    }
+    :global(.article-html-content h3) {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
       font-weight: 700;
-      border-bottom: 1px solid #e6e0d5;
-      padding-bottom: 0.4rem;
+      color: #2b050d;
+      margin-top: 1.75rem;
+      margin-bottom: 0.75rem;
+    }
+    :global(.article-html-content ul),
+    :global(.article-html-content ol) {
+      margin-bottom: 1.75rem;
+      padding-left: 1.5rem;
+    }
+    :global(.article-html-content li) {
+      margin-bottom: 0.6rem;
+    }
+    :global(.article-html-content strong) {
+      color: #111111;
+      font-weight: 700;
     }
 
-    .article-footer {
-      margin-top: 3rem;
-      border-top: 1px solid #e6e0d5;
-      padding-top: 2rem;
+    /* Related Equipment Widget */
+    .related-product-widget {
+      background: #faf7f2;
+      border: 1px solid #ebdccb;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .rp-badge {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #3b0811;
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+    }
+    .rp-card {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+    .rp-thumb-link {
+      flex-shrink: 0;
+      width: 75px;
+      height: 75px;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid #e6e0d5;
+      background: #ffffff;
+    }
+    .rp-img { width: 100%; height: 100%; object-fit: cover; }
+    .rp-info { flex: 1; min-width: 0; }
+    .rp-cat { font-size: 0.7rem; color: #888888; font-weight: 700; text-transform: uppercase; }
+    .rp-title { font-size: 0.95rem; font-weight: 700; margin: 0.15rem 0 0.35rem; }
+    .rp-title a { color: #1a1a1a; text-decoration: none; }
+    .rp-title a:hover { color: #3b0811; }
+    .rp-price-row { display: flex; align-items: center; gap: 0.6rem; }
+    .rp-price { font-weight: 800; color: #3b0811; font-size: 1rem; }
+    .rp-badge-save {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+    }
+    .btn-buy-related {
+      background: #3b0811;
+      color: #ffffff;
+      padding: 0.65rem 1.2rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.2s ease;
+    }
+    .btn-buy-related:hover { background: #111111; }
+
+    /* Social Share Strip */
+    .social-share-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #f0eae1;
+      border-bottom: 1px solid #f0eae1;
+      padding: 1.25rem 0;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .share-title { font-size: 0.75rem; font-weight: 800; color: #777777; letter-spacing: 0.06em; }
+    .share-buttons { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .share-btn {
+      padding: 0.45rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid #e6e0d5;
+      background: #ffffff;
+      color: #333333;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+    }
+    .share-btn:hover { background: #f4ede3; border-color: #3b0811; color: #3b0811; }
+    .wa-btn:hover { background: #25d366; color: #ffffff; border-color: #25d366; }
+    .tw-btn:hover { background: #000000; color: #ffffff; border-color: #000000; }
+
+    /* Author Bio Card */
+    .author-bio-card {
+      display: flex;
+      gap: 1.25rem;
+      background: #fdfbf7;
+      border: 1px solid #ebdccb;
+      padding: 1.75rem;
+      border-radius: 10px;
+      margin-bottom: 2.5rem;
+      align-items: center;
+    }
+    .author-avatar {
+      font-size: 2.2rem;
+      background: #ffffff;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #ebdccb;
+      flex-shrink: 0;
+    }
+    .author-details h4 { font-size: 1rem; font-weight: 800; color: #1a1a1a; margin-bottom: 0.35rem; }
+    .author-details p { font-size: 0.85rem; color: #666666; line-height: 1.6; margin: 0; }
+
+    .article-footer { text-align: center; }
+    .btn-back {
+      display: inline-block;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #3b0811;
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border: 1px solid #3b0811;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+    .btn-back:hover { background: #3b0811; color: #ffffff; }
+
+    /* More Guides Section */
+    .more-guides-section {
+      max-width: 860px;
+      margin: 4rem auto 0;
+    }
+    .more-guides-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #1a1a1a;
+      letter-spacing: 0.04em;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .more-guides-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    .more-guide-card {
+      background: #ffffff;
+      border: 1px solid #e6e0d5;
+      border-radius: 10px;
+      overflow: hidden;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .more-guide-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      border-color: #3b0811;
+    }
+    .more-guide-img { width: 100%; height: 160px; object-fit: cover; }
+    .more-guide-content { padding: 1.25rem; display: flex; flex-direction: column; flex-grow: 1; }
+    .more-guide-cat { font-size: 0.68rem; font-weight: 800; color: #3b0811; letter-spacing: 0.06em; margin-bottom: 0.35rem; }
+    .more-guide-h { font-size: 0.95rem; font-weight: 700; color: #1a1a1a; line-height: 1.4; margin-bottom: 0.65rem; }
+    .more-guide-date { font-size: 0.72rem; color: #888888; font-weight: 600; margin-top: auto; }
+
+    @media (max-width: 768px) {
+      .article-card { padding: 2rem 1.25rem; }
+      .article-title { font-size: 1.65rem; }
+      .rp-card { flex-direction: column; text-align: center; }
+      .rp-price-row { justify-content: center; }
+      .author-bio-card { flex-direction: column; text-align: center; }
+      .social-share-strip { justify-content: center; }
     }
   </style>
+
+  <!-- Copy link script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const copyBtn = document.getElementById('copy-link-btn');
+      copyBtn?.addEventListener('click', async () => {
+        const url = copyBtn.getAttribute('data-url') || window.location.href;
+        try {
+          await navigator.clipboard.writeText(url);
+          copyBtn.textContent = '✅ Link Copied!';
+          setTimeout(() => {
+            copyBtn.textContent = '🔗 Copy Link';
+          }, 2500);
+        } catch (e) {
+          alert('Link: ' + url);
+        }
+      });
+    });
+  </script>
 
 </body>
 </html>
