@@ -879,12 +879,26 @@ import { PRODUCTS } from '../data/products';
         };
 
         if (payMethodVal === 'cod') {
+          placeOrderBtn.setAttribute('disabled', 'true');
+          placeOrderBtn.textContent = '⏳ Recording Order in System...';
+
           const currentOrder = {
             ...baseOrder,
             paymentMethod: 'CASH ON DELIVERY (COD)',
             status: 'PENDING (COD UPON DELIVERY)',
-            merchant: 'WAY POINT'
+            merchant: 'WAY POINT',
+            isPaid: false
           };
+
+          try {
+            await fetch('/api/create-shopify-order', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(currentOrder)
+            });
+          } catch (e) {
+            console.error('[Shopify Sync Error]', e);
+          }
 
           try {
             localStorage.setItem('skynodes_last_order', JSON.stringify(currentOrder));
@@ -1039,8 +1053,21 @@ import { PRODUCTS } from '../data/products';
                   razorpayOrderId: response.razorpay_order_id,
                   paymentMethod: `ONLINE (${methodLabel} - WAY POINT: ${response.razorpay_payment_id})`,
                   status: `PAID (TXN ID: ${response.razorpay_payment_id})`,
-                  merchant: 'WAY POINT'
+                  merchant: 'WAY POINT',
+                  isPaid: true
                 };
+
+                // Sync order to Shopify Admin immediately
+                placeOrderBtn.textContent = '⏳ Syncing Order with Shopify...';
+                try {
+                  await fetch('/api/create-shopify-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(currentOrder)
+                  });
+                } catch (shopifyErr) {
+                  console.error('[Shopify Order Sync Error]', shopifyErr);
+                }
 
                 localStorage.setItem('skynodes_last_order', JSON.stringify(currentOrder));
                 localStorage.removeItem('skynodes_cart');
@@ -1058,8 +1085,18 @@ import { PRODUCTS } from '../data/products';
                   razorpayOrderId: response.razorpay_order_id,
                   paymentMethod: `ONLINE (${methodLabel} - WAY POINT: ${response.razorpay_payment_id})`,
                   status: `PAID (TXN ID: ${response.razorpay_payment_id})`,
-                  merchant: 'WAY POINT'
+                  merchant: 'WAY POINT',
+                  isPaid: true
                 };
+
+                try {
+                  await fetch('/api/create-shopify-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(currentOrder)
+                  });
+                } catch (e) {}
+
                 localStorage.setItem('skynodes_last_order', JSON.stringify(currentOrder));
                 localStorage.removeItem('skynodes_cart');
                 window.dispatchEvent(new CustomEvent('cart-updated', { detail: [] }));
