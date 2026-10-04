@@ -20,13 +20,17 @@ if (!post) {
   return Astro.redirect('/blog');
 }
 
-// Fetch all posts to show recommendations
+// Fetch all posts for Next / Prev and Recommendations
 const allPosts = await getAllBlogPosts();
+const currentIndex = allPosts.findIndex(p => p.slug === post.slug);
+const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
 const morePosts = allPosts.filter(p => p.slug !== post.slug).slice(0, 3);
 
 // Fetch a related product matching this article category
 const allProducts = await getCombinedProducts();
 let relatedProduct = allProducts.find(p => {
+  if (post.relatedProductId && (p.id === post.relatedProductId || p.handle === post.relatedProductId)) return true;
   if (post.relatedCategory) return p.category === post.relatedCategory;
   const titleLower = post.title.toLowerCase();
   if (titleLower.includes('engine') || titleLower.includes('nitro') || titleLower.includes('o.s.')) return p.category === 'engine';
@@ -46,7 +50,8 @@ const articleSchema = {
   "datePublished": post.publishedAt || "2026-08-01",
   "author": {
     "@type": "Person",
-    "name": post.author
+    "name": post.author,
+    "jobTitle": post.authorRole || "Flight Instructor"
   },
   "publisher": {
     "@type": "Organization",
@@ -93,6 +98,9 @@ const articleSchema = {
 <body class="bellavita-page-body">
   <GoogleTagManagerBody />
 
+  <!-- Reading Progress Bar -->
+  <div id="reading-progress-bar" class="reading-progress-bar"></div>
+
   <Header />
 
   <main class="container page-padding reveal-on-scroll">
@@ -101,122 +109,231 @@ const articleSchema = {
     <nav class="article-breadcrumbs" aria-label="Breadcrumb">
       <a href="/">Home</a>
       <span class="crumb-sep">/</span>
-      <a href="/blog">Flight Blog</a>
+      <a href="/blog">Flight Academy Blog</a>
       <span class="crumb-sep">/</span>
       <span class="crumb-cat">{post.category}</span>
     </nav>
 
-    <article class="article-card glass-panel">
+    <!-- Reading Layout: Main Column + Sidebar -->
+    <div class="reading-layout">
       
-      <!-- Article Header -->
-      <header class="article-header">
-        <div class="header-cat-badge">{post.category}</div>
-        <h1 class="article-title">{post.title}</h1>
-        <div class="blog-meta">
-          <span>📅 {post.date}</span>
-          <span class="meta-dot">•</span>
-          <span>✍️ By {post.author}</span>
-          <span class="meta-dot">•</span>
-          <span>⏱️ {post.readTime}</span>
-        </div>
-      </header>
-
-      <!-- Featured Image -->
-      <div class="img-wrapper">
-        <img src={post.image} alt={post.title} class="article-featured-img" />
-      </div>
-
-      <!-- Article Rich Content Body -->
-      <div class="article-body">
-        <div class="article-html-content" set:html={post.contentHtml} />
-      </div>
-
-      <!-- Related Equipment Widget (If Product Matched) -->
-      {relatedProduct && (
-        <div class="related-product-widget">
-          <div class="rp-badge">FEATURED EQUIPMENT IN THIS GUIDE</div>
-          <div class="rp-card">
-            <a href={`/product/${relatedProduct.id}`} class="rp-thumb-link">
-              <img src={relatedProduct.image} alt={relatedProduct.name} class="rp-img" />
-            </a>
-            <div class="rp-info">
-              <span class="rp-cat">{relatedProduct.categoryLabel}</span>
-              <h4 class="rp-title">
-                <a href={`/product/${relatedProduct.id}`}>{relatedProduct.name}</a>
-              </h4>
-              <div class="rp-price-row">
-                <span class="rp-price">₹{relatedProduct.price.toLocaleString('en-IN')}</span>
-                <span class="rp-badge-save">{relatedProduct.discountBadge || 'IN STOCK'}</span>
+      <!-- Main Editorial Column -->
+      <article class="article-card glass-panel" id="main-article-card">
+        
+        <!-- Article Header -->
+        <header class="article-header">
+          <div class="header-badges-row">
+            <span class="header-cat-badge">{post.category}</span>
+            <span class="verified-badge">✓ Verified Flight Guide</span>
+          </div>
+          
+          <h1 class="article-title">{post.title}</h1>
+          
+          <div class="blog-meta-bar">
+            <div class="author-meta-item">
+              <span class="author-icon">👨‍✈️</span>
+              <div>
+                <strong class="author-title">{post.author}</strong>
+                <span class="author-sub">{post.authorRole || 'SKYNODES Technical Flight Specialist'}</span>
               </div>
             </div>
-            <a href={`/product/${relatedProduct.id}`} class="btn-buy-related">
-              VIEW GEAR ➔
+            
+            <div class="stats-meta-item">
+              <span>📅 {post.date}</span>
+              <span class="meta-dot">•</span>
+              <span>⏱️ {post.readTime}</span>
+              <span class="meta-dot">•</span>
+              <div class="reader-control-group">
+                <button type="button" id="btn-font-smaller" class="font-size-btn" title="Smaller text">A-</button>
+                <button type="button" id="btn-font-larger" class="font-size-btn" title="Larger text">A+</button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Featured Image -->
+        <div class="img-wrapper">
+          <img src={post.image} alt={post.title} class="article-featured-img" />
+          <div class="img-caption">SKYNODES UAV Flight Academy Technical Documentation</div>
+        </div>
+
+        <!-- Key Takeaways / Pilot Briefing Box -->
+        {post.keyTakeaways && post.keyTakeaways.length > 0 && (
+          <div class="key-takeaways-box">
+            <div class="kt-header">
+              <span class="kt-icon">⚡</span>
+              <h4>QUICK PILOT BRIEFING (KEY TAKEAWAYS)</h4>
+            </div>
+            <ul class="kt-list">
+              {post.keyTakeaways.map(point => (
+                <li>{point}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <!-- Mobile Table of Contents Dropdown -->
+        <div class="mobile-toc-box">
+          <details class="mobile-toc-details">
+            <summary class="mobile-toc-summary">📑 Jump to Section (Table of Contents)</summary>
+            <div id="mobile-toc-links" class="mobile-toc-content"></div>
+          </details>
+        </div>
+
+        <!-- Article Rich Content Body -->
+        <div class="article-body" id="article-content-body">
+          <div class="article-html-content" set:html={post.contentHtml} />
+        </div>
+
+        <!-- Related Equipment Widget (Bridge Content to Commerce) -->
+        {relatedProduct && (
+          <div class="related-product-widget">
+            <div class="rp-badge">🛠️ RECOMMENDED GEAR DISCUSSED IN THIS GUIDE</div>
+            <div class="rp-card">
+              <a href={`/product/${relatedProduct.id}`} class="rp-thumb-link">
+                <img src={relatedProduct.image} alt={relatedProduct.name} class="rp-img" />
+              </a>
+              <div class="rp-info">
+                <span class="rp-cat">{relatedProduct.categoryLabel}</span>
+                <h4 class="rp-title">
+                  <a href={`/product/${relatedProduct.id}`}>{relatedProduct.name}</a>
+                </h4>
+                <div class="rp-price-row">
+                  <span class="rp-price">₹{relatedProduct.price.toLocaleString('en-IN')}</span>
+                  <span class="rp-badge-save">{relatedProduct.discountBadge || 'OFFICIAL DISTRIBUTOR'}</span>
+                </div>
+              </div>
+              <a href={`/product/${relatedProduct.id}`} class="btn-buy-related">
+                ORDER EQUIPMENT ➔
+              </a>
+            </div>
+          </div>
+        )}
+
+        <!-- Social Sharing Bar -->
+        <div class="social-share-strip">
+          <span class="share-title">SHARE THIS GUIDE WITH YOUR FLYING CLUB:</span>
+          <div class="share-buttons">
+            <a 
+              href={`https://api.whatsapp.com/send?text=${encodeURIComponent(post.title + ' - https://skynodesuav.in/blog/' + post.slug)}`} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="share-btn wa-btn"
+              title="Share on WhatsApp"
+            >
+              💬 WhatsApp
             </a>
+            <a 
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent('https://skynodesuav.in/blog/' + post.slug)}`} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="share-btn tw-btn"
+              title="Share on Twitter / X"
+            >
+              🐦 X (Twitter)
+            </a>
+            <button 
+              type="button" 
+              id="copy-link-btn" 
+              class="share-btn copy-btn"
+              data-url={`https://skynodesuav.in/blog/${post.slug}`}
+            >
+              🔗 Copy Link
+            </button>
           </div>
         </div>
-      )}
 
-      <!-- Social Sharing Bar -->
-      <div class="social-share-strip">
-        <span class="share-title">SHARE THIS GUIDE:</span>
-        <div class="share-buttons">
-          <a 
-            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(post.title + ' - https://skynodesuav.in/blog/' + post.slug)}`} 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            class="share-btn wa-btn"
-            title="Share on WhatsApp"
-          >
-            💬 WhatsApp
-          </a>
-          <a 
-            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent('https://skynodesuav.in/blog/' + post.slug)}`} 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            class="share-btn tw-btn"
-            title="Share on Twitter / X"
-          >
-            🐦 X (Twitter)
-          </a>
-          <button 
-            type="button" 
-            id="copy-link-btn" 
-            class="share-btn copy-btn"
-            data-url={`https://skynodesuav.in/blog/${post.slug}`}
-          >
-            🔗 Copy Link
-          </button>
+        <!-- Author Bio Card -->
+        <div class="author-bio-card">
+          <div class="author-avatar">👨‍✈️</div>
+          <div class="author-details">
+            <div class="author-badge-row">
+              <h4>{post.author}</h4>
+              <span class="verified-pill">Certified Master Builder</span>
+            </div>
+            <p class="author-desc">{post.authorRole || 'Technical Flight Specialist'} at <strong>SKYNODES UAV India</strong>. Specializing in high-performance glow/gas engine break-in, telemetry link validation, and contest-grade balsa airframe architecture for Indian aeromodelling pilots.</p>
+          </div>
         </div>
-      </div>
 
-      <!-- Author Bio -->
-      <div class="author-bio-card">
-        <div class="author-avatar">✈️</div>
-        <div class="author-details">
-          <h4>{post.author}</h4>
-          <p>Technical Contributor & Scale Flight Specialist at <strong>SKYNODES UAV India</strong>. Dedicated to advancing contest-grade aeromodelling, glow/gas engine mastery, and telemetry precision for Indian model aviation pilots.</p>
+        <!-- Next / Previous Guide Navigation -->
+        <div class="prev-next-nav">
+          {prevPost ? (
+            <a href={`/blog/${prevPost.slug}`} class="nav-tile prev-tile">
+              <span class="nav-dir">← PREVIOUS GUIDE</span>
+              <span class="nav-title">{prevPost.title}</span>
+            </a>
+          ) : <div class="nav-tile placeholder"></div>}
+
+          {nextPost ? (
+            <a href={`/blog/${nextPost.slug}`} class="nav-tile next-tile">
+              <span class="nav-dir">NEXT GUIDE →</span>
+              <span class="nav-title">{nextPost.title}</span>
+            </a>
+          ) : <div class="nav-tile placeholder"></div>}
         </div>
-      </div>
 
-      <!-- Footer Action -->
-      <div class="article-footer">
-        <a href="/blog" class="btn-back">← RETURN TO ALL FLIGHT GUIDES</a>
-      </div>
+      </article>
 
-    </article>
+      <!-- Sticky Sidebar (Table of Contents & Quick Action) -->
+      <aside class="article-sidebar">
+        
+        <div class="sticky-sidebar-inner">
+          
+          <!-- Table of Contents Widget -->
+          <div class="sidebar-widget toc-widget">
+            <h4 class="widget-title">📑 TABLE OF CONTENTS</h4>
+            <nav id="desktop-toc-links" class="desktop-toc-nav">
+              <!-- Dynamically populated via JS -->
+            </nav>
+          </div>
 
-    <!-- More Recommended Articles -->
+          <!-- Quick Help / Technical Support Box -->
+          <div class="sidebar-widget support-widget">
+            <span class="support-icon">📞</span>
+            <h4>Need Build or Tuning Advice?</h4>
+            <p>Our senior pilots and engine builders are available via phone and WhatsApp to guide your model setup.</p>
+            <a href="/contact" class="btn-sidebar-contact">CONTACT FLIGHT TEAM ➔</a>
+          </div>
+
+          <!-- Category Shortcut Badges -->
+          <div class="sidebar-widget tags-widget">
+            <h4 class="widget-title">CATEGORIES</h4>
+            <div class="sidebar-tags">
+              <a href="/blog" class="sidebar-tag-pill">All Guides</a>
+              <a href="/shop?category=engine" class="sidebar-tag-pill">Nitro & Gas Engines</a>
+              <a href="/shop?category=aeromodels" class="sidebar-tag-pill">Seagull ARF Kits</a>
+              <a href="/shop?category=balsa-wood" class="sidebar-tag-pill">Balsa Wood Sheets</a>
+              <a href="/shop?category=radio-receiver" class="sidebar-tag-pill">Futaba Radios</a>
+            </div>
+          </div>
+
+        </div>
+
+      </aside>
+
+    </div>
+
+    <!-- More Recommended Articles Grid -->
     {morePosts.length > 0 && (
       <section class="more-guides-section">
-        <h3 class="more-guides-title">MORE PILOT GUIDES & TUTORIALS</h3>
+        <div class="more-header-wrap">
+          <span class="more-sub">CONTINUE LEARNING</span>
+          <h3 class="more-guides-title">RECOMMENDED FLIGHT ACADEMY GUIDES</h3>
+        </div>
         <div class="more-guides-grid">
           {morePosts.map(mp => (
             <a href={`/blog/${mp.slug}`} class="more-guide-card">
-              <img src={mp.image} alt={mp.title} class="more-guide-img" loading="lazy" />
+              <div class="more-img-wrap">
+                <img src={mp.image} alt={mp.title} class="more-guide-img" loading="lazy" />
+                <span class="more-cat-tag">{mp.category}</span>
+              </div>
               <div class="more-guide-content">
-                <span class="more-guide-cat">{mp.category}</span>
                 <h4 class="more-guide-h">{mp.title}</h4>
-                <span class="more-guide-date">{mp.date} • {mp.readTime}</span>
+                <p class="more-guide-excerpt">{mp.excerpt}</p>
+                <div class="more-guide-footer">
+                  <span class="more-guide-date">📅 {mp.date}</span>
+                  <span class="more-read-link">READ ➔</span>
+                </div>
               </div>
             </a>
           ))}
@@ -235,13 +352,25 @@ const articleSchema = {
       color: #1a1a1a !important;
     }
 
-    .page-padding { padding: 3rem 1.25rem 6rem; }
+    /* Reading Progress Bar */
+    .reading-progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #3b0811, #eab308);
+      width: 0%;
+      z-index: 999999;
+      transition: width 0.1s ease-out;
+    }
+
+    .page-padding { padding: 2.5rem 1.25rem 6rem; }
 
     /* Breadcrumbs */
     .article-breadcrumbs {
-      max-width: 860px;
+      max-width: 1200px;
       margin: 0 auto 1.5rem;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       color: #777777;
       display: flex;
       align-items: center;
@@ -253,177 +382,376 @@ const articleSchema = {
     .crumb-sep { opacity: 0.4; }
     .crumb-cat { color: #3b0811; font-weight: 700; }
 
-    /* Article Card */
-    .article-card {
-      max-width: 860px;
+    /* Reading Layout Grid */
+    .reading-layout {
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 3.5rem 3rem;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 2.5rem;
+      align-items: flex-start;
+    }
+
+    /* Article Card Main Column */
+    .article-card {
       background: #ffffff;
       border: 1px solid #e6e0d5;
       border-radius: 14px;
+      padding: 3.5rem 3.5rem;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+      min-width: 0;
     }
-    .article-header { margin-bottom: 2rem; }
+
+    /* Header */
+    .header-badges-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
     .header-cat-badge {
-      display: inline-block;
-      font-size: 0.7rem;
+      font-size: 0.72rem;
       font-weight: 800;
       color: #3b0811;
       background: #fae8eb;
       border: 1px solid #f2c7ce;
-      padding: 0.3rem 0.75rem;
-      border-radius: 4px;
-      letter-spacing: 0.08em;
-      margin-bottom: 1rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      letter-spacing: 0.06em;
+    }
+    .verified-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #065f46;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
     }
     .article-title {
       font-family: var(--font-display);
-      font-size: 2.2rem;
+      font-size: 2.35rem;
       font-weight: 800;
       line-height: 1.25;
       color: #1a1a1a;
       letter-spacing: 0.02em;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
-    .blog-meta {
+
+    /* Author & Meta Bar */
+    .blog-meta-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #f0eae1;
+      border-bottom: 1px solid #f0eae1;
+      padding: 1.15rem 0;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .author-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .author-icon {
+      font-size: 1.5rem;
+      background: #faf7f2;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #ebdccb;
+    }
+    .author-title {
+      display: block;
+      font-size: 0.95rem;
+      color: #1a1a1a;
+      font-weight: 800;
+    }
+    .author-sub {
+      display: block;
+      font-size: 0.75rem;
+      color: #666666;
+    }
+    .stats-meta-item {
       display: flex;
       align-items: center;
       gap: 0.6rem;
+      font-size: 0.8rem;
       color: #777777;
-      font-size: 0.82rem;
       font-weight: 600;
-      flex-wrap: wrap;
     }
     .meta-dot { opacity: 0.4; }
 
+    .reader-control-group {
+      display: flex;
+      gap: 0.25rem;
+      background: #f4ede3;
+      padding: 0.2rem;
+      border-radius: 4px;
+      margin-left: 0.5rem;
+    }
+    .font-size-btn {
+      background: none;
+      border: none;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #3b0811;
+      padding: 0.2rem 0.45rem;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+    .font-size-btn:hover { background: #ffffff; }
+
+    /* Featured Image */
     .img-wrapper {
       margin-bottom: 2.5rem;
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
       border: 1px solid #e6e0d5;
-      max-height: 440px;
       background: #111111;
     }
     .article-featured-img {
       width: 100%;
       height: 100%;
-      max-height: 440px;
+      max-height: 460px;
       object-fit: cover;
       display: block;
     }
+    .img-caption {
+      background: #f8f5ee;
+      padding: 0.5rem 1rem;
+      font-size: 0.72rem;
+      color: #777777;
+      text-align: center;
+      font-style: italic;
+      border-top: 1px solid #e6e0d5;
+    }
 
-    /* Content Typography */
-    .article-body {
+    /* Key Takeaways Box */
+    .key-takeaways-box {
+      background: #faf7f2;
+      border: 1px solid #ebdccb;
+      border-left: 5px solid #eab308;
+      border-radius: 8px;
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 2.75rem;
+    }
+    .kt-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.85rem;
+    }
+    .kt-header h4 {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #3b0811;
+      letter-spacing: 0.08em;
+      margin: 0;
+    }
+    .kt-list {
+      margin: 0;
+      padding-left: 1.25rem;
+      font-size: 0.95rem;
       color: #333333;
-      font-size: 1.05rem;
-      line-height: 1.8;
-      margin-bottom: 3rem;
+      line-height: 1.7;
+    }
+    .kt-list li { margin-bottom: 0.45rem; }
+
+    /* Mobile TOC */
+    .mobile-toc-box { display: none; margin-bottom: 2rem; }
+    .mobile-toc-details {
+      background: #fdfbf7;
+      border: 1px solid #ebdccb;
+      border-radius: 8px;
+      padding: 0.85rem 1.25rem;
+    }
+    .mobile-toc-summary {
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: #3b0811;
+      cursor: pointer;
+    }
+    .mobile-toc-content {
+      padding-top: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    :global(.mobile-toc-content a) {
+      font-size: 0.85rem;
+      color: #444444;
+      text-decoration: none;
+      padding: 0.25rem 0;
+    }
+
+    /* Article Rich Typography */
+    .article-body {
+      font-size: 1.1rem;
+      line-height: 1.85;
+      color: #2b2b2b;
+      margin-bottom: 3.5rem;
     }
     :global(.article-html-content p) {
-      margin-bottom: 1.5rem;
-    }
-    :global(.article-html-content p.lead) {
-      font-size: 1.2rem;
-      font-weight: 500;
-      color: #1a1a1a;
-      line-height: 1.7;
-      border-left: 4px solid #3b0811;
-      padding-left: 1.25rem;
-      margin-bottom: 2rem;
-      background: #faf7f2;
-      padding-top: 0.75rem;
-      padding-bottom: 0.75rem;
-      border-radius: 0 6px 6px 0;
+      margin-bottom: 1.6rem;
     }
     :global(.article-html-content h2) {
       font-family: var(--font-display);
-      font-size: 1.5rem;
+      font-size: 1.65rem;
       font-weight: 800;
       color: #1a1a1a;
-      margin-top: 2.5rem;
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid #f0eae1;
+      margin-top: 3rem;
+      margin-bottom: 1.15rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 2px solid #f0eae1;
+      scroll-margin-top: 80px;
     }
     :global(.article-html-content h3) {
       font-family: var(--font-display);
-      font-size: 1.25rem;
+      font-size: 1.3rem;
       font-weight: 700;
-      color: #2b050d;
-      margin-top: 1.75rem;
-      margin-bottom: 0.75rem;
+      color: #3b0811;
+      margin-top: 2rem;
+      margin-bottom: 0.85rem;
     }
     :global(.article-html-content ul),
     :global(.article-html-content ol) {
       margin-bottom: 1.75rem;
-      padding-left: 1.5rem;
+      padding-left: 1.75rem;
     }
     :global(.article-html-content li) {
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.65rem;
     }
     :global(.article-html-content strong) {
       color: #111111;
       font-weight: 700;
     }
 
+    /* Natural Inline Blog Link Styling */
+    :global(.inline-blog-link) {
+      color: #3b0811 !important;
+      font-weight: 700 !important;
+      text-decoration: none !important;
+      background: #fae8eb;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      border-bottom: 1.5px solid #3b0811;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    :global(.inline-blog-link:hover) {
+      background: #3b0811;
+      color: #ffffff !important;
+      border-color: #3b0811;
+    }
+
+    /* Pilot Callout Blocks */
+    :global(.pilot-briefing) {
+      background: #fdfbf7;
+      border: 1px solid #ebdccb;
+      border-left: 4px solid #3b0811;
+      padding: 1.25rem 1.5rem;
+      border-radius: 0 8px 8px 0;
+      margin: 1.75rem 0 2.25rem;
+      font-size: 1.05rem;
+    }
+    :global(.briefing-title) {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #3b0811;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+    :global(.pilot-callout) {
+      display: flex;
+      gap: 1rem;
+      padding: 1.25rem 1.5rem;
+      border-radius: 8px;
+      margin: 2rem 0;
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+    :global(.pilot-callout .callout-icon) {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    :global(.pilot-callout.tip) {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #14532d;
+    }
+    :global(.pilot-callout.warning) {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #78350f;
+    }
+
     /* Related Equipment Widget */
     .related-product-widget {
       background: #faf7f2;
       border: 1px solid #ebdccb;
-      border-radius: 10px;
-      padding: 1.5rem;
-      margin-bottom: 2.5rem;
+      border-radius: 12px;
+      padding: 1.75rem;
+      margin-bottom: 3rem;
     }
     .rp-badge {
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       font-weight: 800;
       color: #3b0811;
       letter-spacing: 0.08em;
-      margin-bottom: 1rem;
+      margin-bottom: 1.15rem;
     }
     .rp-card {
       display: flex;
       align-items: center;
-      gap: 1.25rem;
+      gap: 1.5rem;
     }
     .rp-thumb-link {
       flex-shrink: 0;
-      width: 75px;
-      height: 75px;
-      border-radius: 6px;
+      width: 85px;
+      height: 85px;
+      border-radius: 8px;
       overflow: hidden;
       border: 1px solid #e6e0d5;
       background: #ffffff;
     }
     .rp-img { width: 100%; height: 100%; object-fit: cover; }
     .rp-info { flex: 1; min-width: 0; }
-    .rp-cat { font-size: 0.7rem; color: #888888; font-weight: 700; text-transform: uppercase; }
-    .rp-title { font-size: 0.95rem; font-weight: 700; margin: 0.15rem 0 0.35rem; }
+    .rp-cat { font-size: 0.72rem; color: #888888; font-weight: 700; text-transform: uppercase; }
+    .rp-title { font-size: 1.05rem; font-weight: 800; margin: 0.2rem 0 0.4rem; }
     .rp-title a { color: #1a1a1a; text-decoration: none; }
     .rp-title a:hover { color: #3b0811; }
-    .rp-price-row { display: flex; align-items: center; gap: 0.6rem; }
-    .rp-price { font-weight: 800; color: #3b0811; font-size: 1rem; }
+    .rp-price-row { display: flex; align-items: center; gap: 0.65rem; }
+    .rp-price { font-weight: 800; color: #3b0811; font-size: 1.1rem; }
     .rp-badge-save {
       background: #ecfdf5;
       color: #065f46;
       border: 1px solid #a7f3d0;
-      font-size: 0.65rem;
+      font-size: 0.68rem;
       font-weight: 800;
-      padding: 0.15rem 0.45rem;
+      padding: 0.2rem 0.5rem;
       border-radius: 4px;
     }
     .btn-buy-related {
       background: #3b0811;
       color: #ffffff;
-      padding: 0.65rem 1.2rem;
+      padding: 0.75rem 1.4rem;
       border-radius: 6px;
-      font-size: 0.78rem;
+      font-size: 0.82rem;
       font-weight: 800;
       text-decoration: none;
       white-space: nowrap;
-      transition: background 0.2s ease;
+      transition: all 0.2s ease;
     }
-    .btn-buy-related:hover { background: #111111; }
+    .btn-buy-related:hover { background: #111111; transform: translateY(-2px); }
 
     /* Social Share Strip */
     .social-share-strip {
@@ -433,14 +761,14 @@ const articleSchema = {
       border-top: 1px solid #f0eae1;
       border-bottom: 1px solid #f0eae1;
       padding: 1.25rem 0;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2.75rem;
       flex-wrap: wrap;
       gap: 1rem;
     }
-    .share-title { font-size: 0.75rem; font-weight: 800; color: #777777; letter-spacing: 0.06em; }
+    .share-title { font-size: 0.75rem; font-weight: 800; color: #666666; letter-spacing: 0.05em; }
     .share-buttons { display: flex; gap: 0.5rem; flex-wrap: wrap; }
     .share-btn {
-      padding: 0.45rem 0.85rem;
+      padding: 0.5rem 0.95rem;
       border-radius: 6px;
       font-size: 0.78rem;
       font-weight: 700;
@@ -461,19 +789,19 @@ const articleSchema = {
     /* Author Bio Card */
     .author-bio-card {
       display: flex;
-      gap: 1.25rem;
+      gap: 1.5rem;
       background: #fdfbf7;
       border: 1px solid #ebdccb;
-      padding: 1.75rem;
-      border-radius: 10px;
-      margin-bottom: 2.5rem;
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 3rem;
       align-items: center;
     }
     .author-avatar {
-      font-size: 2.2rem;
+      font-size: 2.5rem;
       background: #ffffff;
-      width: 60px;
-      height: 60px;
+      width: 70px;
+      height: 70px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -481,66 +809,250 @@ const articleSchema = {
       border: 1px solid #ebdccb;
       flex-shrink: 0;
     }
-    .author-details h4 { font-size: 1rem; font-weight: 800; color: #1a1a1a; margin-bottom: 0.35rem; }
-    .author-details p { font-size: 0.85rem; color: #666666; line-height: 1.6; margin: 0; }
-
-    .article-footer { text-align: center; }
-    .btn-back {
-      display: inline-block;
-      font-size: 0.85rem;
+    .author-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin-bottom: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .author-badge-row h4 { font-size: 1.1rem; font-weight: 800; color: #1a1a1a; margin: 0; }
+    .verified-pill {
+      font-size: 0.68rem;
       font-weight: 800;
       color: #3b0811;
+      background: #fae8eb;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+    .author-desc { font-size: 0.88rem; color: #555555; line-height: 1.6; margin: 0; }
+
+    /* Prev / Next Nav Tiles */
+    .prev-next-nav {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      border-top: 1px solid #f0eae1;
+      padding-top: 2rem;
+    }
+    .nav-tile {
+      display: flex;
+      flex-direction: column;
+      padding: 1.25rem;
+      border: 1px solid #e6e0d5;
+      border-radius: 8px;
       text-decoration: none;
-      padding: 0.75rem 1.5rem;
-      border: 1px solid #3b0811;
-      border-radius: 6px;
+      background: #ffffff;
       transition: all 0.2s ease;
     }
-    .btn-back:hover { background: #3b0811; color: #ffffff; }
+    .nav-tile:hover {
+      border-color: #3b0811;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      transform: translateY(-2px);
+    }
+    .nav-dir { font-size: 0.7rem; font-weight: 800; color: #888888; letter-spacing: 0.08em; margin-bottom: 0.35rem; }
+    .nav-title { font-size: 0.95rem; font-weight: 700; color: #1a1a1a; line-height: 1.4; }
+    .nav-tile.next-tile { text-align: right; }
+    .nav-tile.placeholder { border: none; background: none; }
 
-    /* More Guides Section */
+    /* Sticky Sidebar */
+    .article-sidebar {
+      position: sticky;
+      top: 90px;
+    }
+    .sticky-sidebar-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+    .sidebar-widget {
+      background: #ffffff;
+      border: 1px solid #e6e0d5;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    }
+    .widget-title {
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #3b0811;
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #f0eae1;
+      padding-bottom: 0.5rem;
+    }
+    .desktop-toc-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    :global(.toc-link) {
+      font-size: 0.85rem;
+      color: #555555;
+      text-decoration: none;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      border-left: 2px solid transparent;
+      transition: all 0.2s ease;
+      line-height: 1.4;
+    }
+    :global(.toc-link:hover) {
+      color: #3b0811;
+      background: #faf7f2;
+      border-left-color: #3b0811;
+    }
+    :global(.toc-link.active) {
+      color: #3b0811;
+      font-weight: 800;
+      background: #fae8eb;
+      border-left-color: #3b0811;
+    }
+
+    /* Support Widget */
+    .support-widget {
+      background: #faf7f2;
+      border-color: #ebdccb;
+      text-align: center;
+    }
+    .support-icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+    .support-widget h4 { font-size: 1rem; font-weight: 800; color: #1a1a1a; margin-bottom: 0.4rem; }
+    .support-widget p { font-size: 0.82rem; color: #666666; line-height: 1.5; margin-bottom: 1.25rem; }
+    .btn-sidebar-contact {
+      display: block;
+      background: #3b0811;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.78rem;
+      padding: 0.65rem 1rem;
+      border-radius: 6px;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: background 0.2s ease;
+    }
+    .btn-sidebar-contact:hover { background: #111111; }
+
+    /* Tags Widget */
+    .sidebar-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+    .sidebar-tag-pill {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #555555;
+      background: #f4ede3;
+      padding: 0.35rem 0.7rem;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .sidebar-tag-pill:hover { background: #3b0811; color: #ffffff; }
+
+    /* More Guides Grid at Bottom */
     .more-guides-section {
-      max-width: 860px;
-      margin: 4rem auto 0;
+      max-width: 1200px;
+      margin: 5rem auto 0;
+    }
+    .more-header-wrap {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .more-sub {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #3b0811;
+      letter-spacing: 0.08em;
+      display: block;
+      margin-bottom: 0.35rem;
     }
     .more-guides-title {
       font-family: var(--font-display);
-      font-size: 1.35rem;
+      font-size: 1.7rem;
       font-weight: 800;
       color: #1a1a1a;
-      letter-spacing: 0.04em;
-      margin-bottom: 1.5rem;
-      text-align: center;
+      letter-spacing: 0.03em;
     }
     .more-guides-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
     }
     .more-guide-card {
       background: #ffffff;
       border: 1px solid #e6e0d5;
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
       text-decoration: none;
       display: flex;
       flex-direction: column;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
     .more-guide-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
       border-color: #3b0811;
     }
-    .more-guide-img { width: 100%; height: 160px; object-fit: cover; }
-    .more-guide-content { padding: 1.25rem; display: flex; flex-direction: column; flex-grow: 1; }
-    .more-guide-cat { font-size: 0.68rem; font-weight: 800; color: #3b0811; letter-spacing: 0.06em; margin-bottom: 0.35rem; }
-    .more-guide-h { font-size: 0.95rem; font-weight: 700; color: #1a1a1a; line-height: 1.4; margin-bottom: 0.65rem; }
-    .more-guide-date { font-size: 0.72rem; color: #888888; font-weight: 600; margin-top: auto; }
+    .more-img-wrap {
+      position: relative;
+      height: 180px;
+      background: #111111;
+    }
+    .more-guide-img { width: 100%; height: 100%; object-fit: cover; }
+    .more-cat-tag {
+      position: absolute;
+      top: 0.85rem;
+      left: 0.85rem;
+      background: #3b0811;
+      color: #ffffff;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      letter-spacing: 0.06em;
+    }
+    .more-guide-content { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
+    .more-guide-h {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #1a1a1a;
+      line-height: 1.35;
+      margin-bottom: 0.5rem;
+    }
+    .more-guide-excerpt {
+      font-size: 0.85rem;
+      color: #666666;
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .more-guide-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #f0eae1;
+      padding-top: 0.85rem;
+      margin-top: auto;
+    }
+    .more-guide-date { font-size: 0.75rem; color: #888888; font-weight: 600; }
+    .more-read-link { font-size: 0.78rem; font-weight: 800; color: #3b0811; letter-spacing: 0.04em; }
 
-    @media (max-width: 768px) {
-      .article-card { padding: 2rem 1.25rem; }
-      .article-title { font-size: 1.65rem; }
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+      .reading-layout { grid-template-columns: 1fr; }
+      .article-sidebar { display: none; }
+      .mobile-toc-box { display: block; }
+      .article-card { padding: 2.25rem 1.5rem; }
+      .article-title { font-size: 1.85rem; }
+    }
+    @media (max-width: 640px) {
+      .prev-next-nav { grid-template-columns: 1fr; }
       .rp-card { flex-direction: column; text-align: center; }
       .rp-price-row { justify-content: center; }
       .author-bio-card { flex-direction: column; text-align: center; }
@@ -548,15 +1060,104 @@ const articleSchema = {
     }
   </style>
 
-  <!-- Copy link script -->
+  <!-- Interactive Scripts: Progress Bar, Auto TOC, Font Size Adjuster -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // 1. Reading Progress Bar
+      const progressBar = document.getElementById('reading-progress-bar');
+      const articleCard = document.getElementById('main-article-card');
+
+      window.addEventListener('scroll', () => {
+        if (!progressBar || !articleCard) return;
+        const totalHeight = articleCard.clientHeight;
+        const offsetTop = articleCard.offsetTop;
+        const scrollPosition = window.scrollY - offsetTop;
+        const percent = Math.min(100, Math.max(0, (scrollPosition / (totalHeight - window.innerHeight + 200)) * 100));
+        progressBar.style.width = `${percent}%`;
+      }, { passive: true });
+
+      // 2. Auto Generate Table of Contents (TOC) from H2s in content
+      const content = document.getElementById('article-content-body');
+      const desktopToc = document.getElementById('desktop-toc-links');
+      const mobileToc = document.getElementById('mobile-toc-links');
+
+      if (content) {
+        const headings = content.querySelectorAll('h2');
+        if (headings.length > 0) {
+          headings.forEach((h, idx) => {
+            if (!h.id) {
+              h.id = `section-${idx + 1}`;
+            }
+            const cleanTitle = h.textContent || `Section ${idx + 1}`;
+            
+            // Desktop TOC item
+            if (desktopToc) {
+              const a = document.createElement('a');
+              a.href = `#${h.id}`;
+              a.className = 'toc-link';
+              a.textContent = cleanTitle;
+              desktopToc.appendChild(a);
+            }
+
+            // Mobile TOC item
+            if (mobileToc) {
+              const a = document.createElement('a');
+              a.href = `#${h.id}`;
+              a.textContent = `➔ ${cleanTitle}`;
+              mobileToc.appendChild(a);
+            }
+          });
+
+          // Highlight Active Section on Scroll
+          const tocLinks = document.querySelectorAll('.toc-link');
+          window.addEventListener('scroll', () => {
+            let activeId = '';
+            headings.forEach(h => {
+              const rect = h.getBoundingClientRect();
+              if (rect.top <= 140) {
+                activeId = h.id;
+              }
+            });
+            tocLinks.forEach(link => {
+              if (link.getAttribute('href') === `#${activeId}`) {
+                link.classList.add('active');
+              } else {
+                link.classList.remove('active');
+              }
+            });
+          }, { passive: true });
+        } else if (desktopToc) {
+          const parentWidget = desktopToc.closest('.toc-widget');
+          if (parentWidget) (parentWidget as HTMLElement).style.display = 'none';
+        }
+      }
+
+      // 3. Reader Font Size Adjuster
+      const btnSmaller = document.getElementById('btn-font-smaller');
+      const btnLarger = document.getElementById('btn-font-larger');
+      let currentSize = 1.1; // rem
+
+      btnSmaller?.addEventListener('click', () => {
+        if (currentSize > 0.95 && content) {
+          currentSize -= 0.08;
+          content.style.fontSize = `${currentSize}rem`;
+        }
+      });
+
+      btnLarger?.addEventListener('click', () => {
+        if (currentSize < 1.45 && content) {
+          currentSize += 0.08;
+          content.style.fontSize = `${currentSize}rem`;
+        }
+      });
+
+      // 4. Copy Link Button with Toast
       const copyBtn = document.getElementById('copy-link-btn');
       copyBtn?.addEventListener('click', async () => {
         const url = copyBtn.getAttribute('data-url') || window.location.href;
         try {
           await navigator.clipboard.writeText(url);
-          copyBtn.textContent = '✅ Link Copied!';
+          copyBtn.textContent = '✅ Copied!';
           setTimeout(() => {
             copyBtn.textContent = '🔗 Copy Link';
           }, 2500);
