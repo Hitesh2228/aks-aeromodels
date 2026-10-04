@@ -86,14 +86,22 @@ export async function createShopifyAdminOrder(data: CreateOrderPayload) {
         name: cleanOrderId,
         email: data.customer.email && data.customer.email.includes('@') ? data.customer.email : 'orders@skynodesuav.in',
         phone: data.customer.phone ? String(data.customer.phone).replace(/[^0-9+]/g, '') : undefined,
+        currency: 'INR',
         financial_status: isPaid ? 'paid' : 'pending',
-        tags: [
-          isPaid ? 'Paid' : 'COD-Pending',
-          data.paymentMethod?.includes('UPI') ? 'UPI' : (data.paymentMethod?.includes('CARD') ? 'Card' : 'Online'),
+        payment_gateway_names: [isPaid ? 'Razorpay (Way Point)' : 'Cash on Delivery (COD)'],
+        tags: (isPaid ? [
+          'Paid',
+          'Online',
+          data.paymentMethod?.includes('UPI') ? 'UPI' : (data.paymentMethod?.includes('CARD') ? 'Card' : 'NetBanking'),
           'Razorpay',
           'Way-Point',
           isB2B ? 'B2B-Tax-Invoice' : 'B2C'
-        ].join(', '),
+        ] : [
+          'COD',
+          'COD-Pending',
+          'Cash-on-Delivery',
+          isB2B ? 'B2B-Tax-Invoice' : 'B2C'
+        ]).join(', '),
         note: `Order: ${cleanOrderId} | ${paymentNote}${b2bNote}`,
         line_items: lineItems.length > 0 ? lineItems : [{ title: 'SKYNODES UAV Gear', price: data.total.toString(), quantity: 1 }],
         customer: {
@@ -131,6 +139,7 @@ export async function createShopifyAdminOrder(data: CreateOrderPayload) {
           kind: 'sale',
           status: 'success',
           amount: data.total.toString(),
+          currency: 'INR',
           gateway: 'Razorpay (Way Point)',
           authorization: data.paymentId
         }
