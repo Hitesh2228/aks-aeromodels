@@ -1,0 +1,331 @@
+---
+import Header from '../components/Header.astro';
+import CartDrawer from '../components/CartDrawer.astro';
+import MobileBottomNav from '../components/MobileBottomNav.astro';
+import Footer from '../components/Footer.astro';
+import GoogleTagManagerHead from '../components/GoogleTagManagerHead.astro';
+import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
+import { getCombinedProducts } from '../lib/shopify';
+import { getAllBlogPosts } from '../lib/shopifyBlog';
+import '../styles/global.css';
+
+const products = await getCombinedProducts();
+const blogs = await getAllBlogPosts();
+
+const engines = products.filter(p => p.category === 'engine');
+const radios = products.filter(p => p.category === 'radio-receiver');
+const aeromodels = products.filter(p => p.category === 'aeromodels');
+const balsa = products.filter(p => p.category === 'balsa-wood');
+const accessories = products.filter(p => p.category === 'accessories');
+
+const corePages = [
+  { name: 'Home Page', url: '/', desc: 'Official Storefront & Featured Releases' },
+  { name: 'Shop All Catalog', url: '/shop', desc: 'Browse Full 45+ Hardware Inventory' },
+  { name: 'RC Flight Academy Blog', url: '/blog', desc: '12 Technical Engineering Masterclasses' },
+  { name: 'Fleet Showcase', url: '/aircrafts', desc: 'Seagull Models ARF Aerobatic Airframes' },
+  { name: 'Flight Simulator Experience', url: '/flight-simulator', desc: 'RealFlight Evolution & InterLink DX USB' },
+  { name: 'Professional Pilot Experience', url: '/pro-experience', desc: 'Scale Aeromodelling & Competition Setup' },
+  { name: 'About SKYNODES UAV', url: '/about', desc: 'Aviation Heritage & Mission' },
+  { name: 'Contact & Support', url: '/contact', desc: 'Direct WhatsApp Helpline & FAQ' },
+  { name: 'Pilot Profile & Orders', url: '/profile', desc: 'User Account & Order Tracking' },
+  { name: 'Pricing & Refund Policy', url: '/pricing-policy', desc: 'GST Invoices, Shipping & Return Terms' },
+  { name: 'Privacy Policy', url: '/privacy', desc: 'Data Protection & Security' },
+  { name: 'Terms of Service', url: '/terms', desc: 'Customer & Commercial Agreement' },
+];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <GoogleTagManagerHead />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Complete HTML Site Directory & Sitemap | SKYNODES UAV India</title>
+  <meta name="description" content="Explore every page, product, and technical guide on SKYNODES UAV India. Comprehensive crawlable directory for pilots, search engines, and AI models." />
+  <link rel="canonical" href="https://skynodesuav.in/sitemap" />
+  <style>
+    .sitemap-container {
+      max-width: 1200px;
+      margin: 40px auto 80px;
+      padding: 0 20px;
+    }
+    .sitemap-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .sitemap-badge {
+      display: inline-block;
+      background: #111111;
+      color: #ffffff;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .sitemap-title {
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: #111111;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+    }
+    .sitemap-sub {
+      font-size: 1rem;
+      color: #666666;
+      max-width: 680px;
+      margin: 0 auto 24px;
+      line-height: 1.6;
+    }
+    .sitemap-quick-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .sitemap-action-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: #f4efe9;
+      color: #3b0811;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: 1px solid #e5ded6;
+    }
+    .sitemap-action-pill:hover {
+      background: #3b0811;
+      color: #ffffff;
+    }
+
+    .sitemap-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+    }
+    .sitemap-section-card {
+      background: #ffffff;
+      border: 1px solid #e8e4df;
+      border-radius: 14px;
+      padding: 28px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    }
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #f2ede6;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+    .section-head h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #111111;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+    .section-count {
+      background: #f4efe9;
+      color: #3b0811;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+    .sitemap-links-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .sitemap-link-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .sitemap-link-item a {
+      color: #111111;
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 600;
+      line-height: 1.4;
+      transition: color 0.2s ease;
+    }
+    .sitemap-link-item a:hover {
+      color: #3b0811;
+      text-decoration: underline;
+    }
+    .link-subinfo {
+      font-size: 0.75rem;
+      color: #888888;
+      margin-top: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .sitemap-title {
+        font-size: 1.8rem;
+      }
+      .sitemap-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .sitemap-section-card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body class="bellavita-about-body">
+  <GoogleTagManagerBody />
+
+  <Header />
+
+  <main class="sitemap-container">
+    <header class="sitemap-header">
+      <span class="sitemap-badge">Enterprise SEO & AI Directory</span>
+      <h1 class="sitemap-title">SKYNODES UAV Site Directory</h1>
+      <p class="sitemap-sub">
+        Access every public landing page, technical engineering flight tutorial, and authentic RC aviation product across India's premier scale aeromodelling portal.
+      </p>
+
+      <div class="sitemap-quick-actions">
+        <a href="/sitemap.xml" target="_blank" class="sitemap-action-pill">
+          📄 XML Sitemap (For Search Engines)
+        </a>
+        <a href="/robots.txt" target="_blank" class="sitemap-action-pill">
+          🤖 Robots.txt (Bot Permissions)
+        </a>
+        <a href="/llms.txt" target="_blank" class="sitemap-action-pill">
+          🧠 llms.txt (AI Knowledge Base)
+        </a>
+      </div>
+    </header>
+
+    <div class="sitemap-grid">
+      <!-- 1. Core Platform Pages -->
+      <section class="sitemap-section-card">
+        <div class="section-head">
+          <h2>🌐 Core Pages & Policies</h2>
+          <span class="section-count">{corePages.length} Pages</span>
+        </div>
+        <ul class="sitemap-links-list">
+          {corePages.map(page => (
+            <li class="sitemap-link-item">
+              <a href={page.url}>{page.name}</a>
+              <span class="link-subinfo">{page.desc}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- 2. Flight Academy Masterclasses -->
+      <section class="sitemap-section-card">
+        <div class="section-head">
+          <h2>📚 RC Flight Academy Guides</h2>
+          <span class="section-count">{blogs.length} Articles</span>
+        </div>
+        <ul class="sitemap-links-list">
+          {blogs.map(b => (
+            <li class="sitemap-link-item">
+              <a href={`/blog/${b.slug}`}>{b.title}</a>
+              <span class="link-subinfo">{b.readTime} • {b.category}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- 3. Engines & Powerplants -->
+      <section class="sitemap-section-card">
+        <div class="section-head">
+          <h2>⚡ Nitro & Gas Engines</h2>
+          <span class="section-count">{engines.length} Products</span>
+        </div>
+        <ul class="sitemap-links-list">
+          {engines.map(p => (
+            <li class="sitemap-link-item">
+              <a href={`/product/${p.id}`}>{p.name}</a>
+              <span class="link-subinfo">₹{p.price.toLocaleString('en-IN')} • {p.specs?.Displacement || 'Contest Grade'}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- 4. Seagull Aeromodels -->
+      <section class="sitemap-section-card">
+        <div class="section-head">
+          <h2>✈️ Seagull Aeromodels (ARF)</h2>
+          <span class="section-count">{aeromodels.length} Models</span>
+        </div>
+        <ul class="sitemap-links-list">
+          {aeromodels.map(p => (
+            <li class="sitemap-link-item">
+              <a href={`/product/${p.id}`}>{p.name}</a>
+              <span class="link-subinfo">₹{p.price.toLocaleString('en-IN')} • {p.specs?.Wingspan || 'ARF Balsa'}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- 5. Radios & Receivers -->
+      <section class="sitemap-section-card">
+        <div class="section-head">
+          <h2>📡 Futaba Radios & Telemetry</h2>
+          <span class="section-count">{radios.length} Systems</span>
+        </div>
+        <ul class="sitemap-links-list">
+          {radios.map(p => (
+            <li class="sitemap-link-item">
+              <a href={`/product/${p.id}`}>{p.name}</a>
+              <span class="link-subinfo">₹{p.price.toLocaleString('en-IN')} • {p.specs?.Channels || '2.4GHz Telemetry'}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- 6. Balsa Wood Sheets -->
+      <section class="sitemap-section-card">
+        <div class="section-head">
+          <h2>🪵 AAA Contest Balsa Sheets</h2>
+          <span class="section-count">{balsa.length} Gauges</span>
+        </div>
+        <ul class="sitemap-links-list">
+          {balsa.map(p => (
+            <li class="sitemap-link-item">
+              <a href={`/product/${p.id}`}>{p.name}</a>
+              <span class="link-subinfo">₹{p.price.toLocaleString('en-IN')} • 100mm x 1000mm Contest Milled</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- 7. Flight Accessories -->
+      <section class="sitemap-section-card">
+        <div class="section-head">
+          <h2>🛠️ Flight Line Accessories</h2>
+          <span class="section-count">{accessories.length} Tools</span>
+        </div>
+        <ul class="sitemap-links-list">
+          {accessories.map(p => (
+            <li class="sitemap-link-item">
+              <a href={`/product/${p.id}`}>{p.name}</a>
+              <span class="link-subinfo">₹{p.price.toLocaleString('en-IN')} • Field Tested</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <Footer />
+  <CartDrawer />
+  <MobileBottomNav />
+</body>
+</html>
