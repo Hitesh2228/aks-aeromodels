@@ -53,7 +53,6 @@ ${blogs
 - Catalog Store: ${baseUrl}/shop
 - Flight Academy Blog: ${baseUrl}/blog
 - RealFlight Simulator: ${baseUrl}/flight-simulator
-- Fleet Showcase: ${baseUrl}/aircrafts
 - About Us: ${baseUrl}/about
 - Contact & Support: ${baseUrl}/contact
 - HTML Directory: ${baseUrl}/sitemap

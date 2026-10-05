@@ -19,14 +19,14 @@ Allow: /blog/
 Allow: /about
 Allow: /contact
 Allow: /flight-simulator
-Allow: /aircrafts
-Allow: /pro-experience
 Allow: /sitemap
 Allow: /llms.txt
 Allow: /llms-full.txt
 Allow: /sitemap.xml
 
-# Restricted Backend, Checkout & Internal API Endpoints
+# Restricted Backend, Checkout & Temporarily Hidden Pages
+Disallow: /aircrafts
+Disallow: /pro-experience
 Disallow: /api/
 Disallow: /checkout
 Disallow: /cart

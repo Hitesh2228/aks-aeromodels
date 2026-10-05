@@ -21,11 +21,14 @@
     <span>Shop All</span>
   </a>
 
-  <a href="/aircrafts" class="nav-dock-item" id="dock-deals">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-    </svg>
-    <span>3D Showcase</span>
+  <a href="/profile#wishlist" class="nav-dock-item" id="dock-wishlist">
+    <div class="wishlist-icon-dock-wrap">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+      <span class="dock-wishlist-badge" id="dock-wishlist-badge">0</span>
+    </div>
+    <span>Wishlist</span>
   </a>
 
   <a href="/profile" class="nav-dock-item" id="dock-account">
@@ -106,14 +109,16 @@
       transform: translateY(-1px);
     }
 
-    .cart-icon-dock-wrap {
+    .cart-icon-dock-wrap,
+    .wishlist-icon-dock-wrap {
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .dock-cart-badge {
+    .dock-cart-badge,
+    .dock-wishlist-badge {
       position: absolute;
       top: -4px;
       right: -8px;
@@ -128,16 +133,23 @@
       align-items: center;
       justify-content: center;
     }
+
+    .dock-wishlist-badge {
+      background: #991b1b;
+    }
   }
 </style>
 
 <script>
   import { getCartCount } from '../lib/cartStore';
+  import { getWishlistCount } from '../lib/wishlistStore';
 
   document.addEventListener('DOMContentLoaded', () => {
     const dockCartBtn = document.getElementById('dock-cart-btn');
     const dockBadge = document.getElementById('dock-cart-badge');
+    const dockWishlistBadge = document.getElementById('dock-wishlist-badge');
     const path = window.location.pathname;
+    const hash = window.location.hash;
 
     // Highlight active tab
     const dockItems = document.querySelectorAll('.nav-dock-item');
@@ -146,6 +158,18 @@
       if (href) {
         if (href === '/' && path === '/') {
           item.classList.add('active');
+        } else if (href === '/profile#wishlist') {
+          if (path.startsWith('/profile') && hash === '#wishlist') {
+            item.classList.add('active');
+          } else {
+            item.classList.remove('active');
+          }
+        } else if (href === '/profile') {
+          if (path.startsWith('/profile') && hash !== '#wishlist') {
+            item.classList.add('active');
+          } else {
+            item.classList.remove('active');
+          }
         } else if (href !== '/' && path.startsWith(href)) {
           item.classList.add('active');
         } else {
@@ -162,11 +186,21 @@
       }
     }
 
+    function updateDockWishlistBadge() {
+      const wCount = getWishlistCount();
+      if (dockWishlistBadge) {
+        dockWishlistBadge.textContent = wCount.toString();
+        dockWishlistBadge.style.display = wCount > 0 ? 'flex' : 'none';
+      }
+    }
+
     dockCartBtn?.addEventListener('click', () => {
       window.dispatchEvent(new CustomEvent('open-cart-drawer'));
     });
 
     window.addEventListener('cart-updated', updateDockBadge);
+    window.addEventListener('wishlist-updated', updateDockWishlistBadge);
     updateDockBadge();
+    updateDockWishlistBadge();
   });
 </script>
