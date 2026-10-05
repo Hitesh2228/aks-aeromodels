@@ -49,7 +49,7 @@ const REVIEWS = [
   <div class="container">
     <h2 class="bellavita-title">WHAT OUR CUSTOMERS HAVE TO SAY</h2>
 
-    <div class="bellavita-review-stage">
+    <div class="bellavita-review-stage" id="bellavita-review-stage">
       
       <!-- Fixed 5-Avatar Row on Desktop / 3-Avatar Row on Mobile -->
       <div class="bellavita-avatar-carousel">
@@ -81,19 +81,28 @@ const REVIEWS = [
         <button class="carousel-arrow next-arr" id="rev-arrow-next" aria-label="Next Review">→</button>
       </div>
 
-      <!-- Center Review Content Box (Exact Bellavita Style) -->
-      <div class="center-review-content" id="review-content-box">
-        <div class="stars-gold-center">★★★★★</div>
-        <p class="review-quote-text" id="rev-quote-display">
-          "{REVIEWS[0].text}"
-        </p>
-        <div class="review-author-name" id="rev-author-display">
-          – {REVIEWS[0].name}
+      <!-- Center Review Content Box (Smooth Right-to-Left Sliding Window) -->
+      <div class="review-slide-window">
+        <div class="center-review-content" id="review-content-box">
+          <div class="stars-gold-center">★★★★★</div>
+          <p class="review-quote-text" id="rev-quote-display">
+            "{REVIEWS[0].text}"
+          </p>
+          <div class="review-author-name" id="rev-author-display">
+            – {REVIEWS[0].name}
+          </div>
+          <div class="review-social-handle" id="rev-handle-display">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            <span id="handle-text">{REVIEWS[0].handle}</span>
+          </div>
         </div>
-        <div class="review-social-handle" id="rev-handle-display">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-          <span id="handle-text">{REVIEWS[0].handle}</span>
-        </div>
+      </div>
+
+      <!-- Smooth Progress Indicator Dots / Slider Pills -->
+      <div class="reviews-slider-dots" id="reviews-dots" aria-label="Review Navigation">
+        {REVIEWS.map((_, i) => (
+          <button type="button" class={`review-dot ${i === 0 ? 'active' : ''}`} data-index={i} aria-label={`View review ${i + 1} of ${REVIEWS.length}`} />
+        ))}
       </div>
 
     </div>
@@ -125,6 +134,9 @@ const REVIEWS = [
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
+    position: relative;
+    user-select: none;
   }
 
   /* Carousel Outer Layout */
@@ -145,7 +157,7 @@ const REVIEWS = [
     color: #555555;
     cursor: pointer;
     padding: 0.4rem 0.6rem;
-    transition: transform 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease, opacity 0.2s ease;
     user-select: none;
     flex-shrink: 0;
     opacity: 0.7;
@@ -164,13 +176,15 @@ const REVIEWS = [
     justify-content: center;
     gap: 2.5rem;
     height: 130px;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+    will-change: transform, opacity;
   }
 
   /* Avatar Card Styling */
   .avatar-card {
     cursor: pointer;
     overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -183,7 +197,7 @@ const REVIEWS = [
     height: 100%;
     object-fit: cover;
     pointer-events: none;
-    transition: opacity 0.25s ease, transform 0.25s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
   }
 
   /* Slot 2: CENTER ZOOMED (110px) */
@@ -221,7 +235,15 @@ const REVIEWS = [
     opacity: 1 !important;
   }
 
-  /* Center Review Content Box (Fixed Min-Height to Eliminate Layout Fluctuation) */
+  /* Center Review Content Box (Smooth Sliding Window) */
+  .review-slide-window {
+    width: 100%;
+    max-width: 620px;
+    overflow: hidden;
+    position: relative;
+    padding: 0.25rem 0.5rem;
+  }
+
   .center-review-content {
     text-align: center;
     max-width: 620px;
@@ -232,7 +254,8 @@ const REVIEWS = [
     align-items: center;
     justify-content: center;
     gap: 0.65rem;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+    will-change: transform, opacity;
   }
   .stars-gold-center {
     color: #f59e0b;
@@ -268,10 +291,36 @@ const REVIEWS = [
     color: #444444;
   }
 
-  /* Mobile Adjustments (< 768px): Show EXACTLY 3 Avatars (Hide Far Left & Far Right) */
+  /* Slider Navigation Dots / Indicator Pills */
+  .reviews-slider-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.75rem;
+  }
+  .review-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #dcd8cf;
+    border: none;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 0;
+  }
+  .review-dot.active {
+    width: 26px;
+    background: #3b0811;
+  }
+  .review-dot:hover:not(.active) {
+    background: #999999;
+  }
+
+  /* Mobile Adjustments (< 768px): Show EXACTLY 3 Avatars & Smooth Slide */
   @media (max-width: 768px) {
     .bellavita-reviews-section {
-      padding: 2.5rem 0 1.5rem;
+      padding: 2.5rem 0 1.75rem;
     }
     .bellavita-title {
       font-size: 1.2rem;
@@ -279,7 +328,7 @@ const REVIEWS = [
     }
     .bellavita-avatar-carousel {
       gap: 0.75rem;
-      margin-bottom: 1.75rem;
+      margin-bottom: 1.5rem;
     }
     .avatars-5-row {
       gap: 1.25rem;
@@ -311,6 +360,9 @@ const REVIEWS = [
     }
     .review-author-name {
       font-size: 0.85rem;
+    }
+    .reviews-slider-dots {
+      margin-top: 1.25rem;
     }
   }
 </style>
@@ -350,8 +402,9 @@ const REVIEWS = [
   ];
 
   function initFixedReviewSlider() {
-    let centerIndex = 0; // Starts with Sanna Thakur at center
+    let centerIndex = 0;
     const N = reviewsData.length;
+    let isAnimating = false;
 
     const cards = [
       document.getElementById('card-0'),
@@ -367,11 +420,16 @@ const REVIEWS = [
     const handleDisplay = document.getElementById('handle-text');
     const prevBtn = document.getElementById('rev-arrow-prev');
     const nextBtn = document.getElementById('rev-arrow-next');
+    const dots = document.querySelectorAll('.review-dot');
+    const avatarRow = document.getElementById('avatars-5-row');
+    const stage = document.getElementById('bellavita-review-stage');
 
-    if (!cards[2]) return;
+    if (!cards[2] || !contentBox) return;
 
     function update5Cards(direction = 'next') {
-      // Review indices for 5 slots: [far-left, near-left, center, near-right, far-right]
+      if (isAnimating) return;
+      isAnimating = true;
+
       const indices = [
         (centerIndex - 2 + N) % N,
         (centerIndex - 1 + N) % N,
@@ -380,101 +438,170 @@ const REVIEWS = [
         (centerIndex + 2) % N
       ];
 
-      cards.forEach((card, slotPos) => {
-        const img = card?.querySelector('img');
-        const rev = reviewsData[indices[slotPos]];
-        if (img && rev) {
-          img.style.opacity = '0.2';
-          img.style.transform = direction === 'next' ? 'scale(0.85)' : 'scale(1.15)';
-          
-          setTimeout(() => {
-            img.src = rev.avatar;
-            img.alt = rev.name;
-            img.style.opacity = '1';
-            img.style.transform = 'scale(1)';
-          }, 140);
-        }
-      });
+      // 1. Smooth Avatar Row Shift Transition
+      if (avatarRow) {
+        avatarRow.style.transition = 'transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.22s ease';
+        avatarRow.style.transform = direction === 'next' ? 'translateX(-28px)' : 'translateX(28px)';
+        avatarRow.style.opacity = '0.65';
 
-      // Update text quote box below
+        setTimeout(() => {
+          cards.forEach((card, slotPos) => {
+            const img = card?.querySelector('img');
+            const rev = reviewsData[indices[slotPos]];
+            if (img && rev) {
+              img.src = rev.avatar;
+              img.alt = rev.name;
+            }
+          });
+
+          // Reset to opposite side and smoothly slide into center
+          avatarRow.style.transition = 'none';
+          avatarRow.style.transform = direction === 'next' ? 'translateX(28px)' : 'translateX(-28px)';
+          void avatarRow.offsetWidth; // Force browser reflow
+
+          avatarRow.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease';
+          avatarRow.style.transform = 'translateX(0)';
+          avatarRow.style.opacity = '1';
+        }, 150);
+      }
+
+      // 2. Smooth Right-to-Left / Left-to-Right Quote Slider Transition
       const activeRev = reviewsData[centerIndex];
       if (activeRev && contentBox) {
-        contentBox.style.opacity = '0.2';
-        contentBox.style.transform = 'translateY(4px)';
+        contentBox.style.transition = 'transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.22s ease';
+        contentBox.style.transform = direction === 'next' ? 'translateX(-45px)' : 'translateX(45px)';
+        contentBox.style.opacity = '0';
 
         setTimeout(() => {
           if (quoteDisplay) quoteDisplay.textContent = `"${activeRev.text}"`;
           if (authorDisplay) authorDisplay.textContent = `– ${activeRev.name}`;
           if (handleDisplay) handleDisplay.textContent = activeRev.handle;
 
+          contentBox.style.transition = 'none';
+          contentBox.style.transform = direction === 'next' ? 'translateX(45px)' : 'translateX(-45px)';
+          void contentBox.offsetWidth; // Force browser reflow
+
+          contentBox.style.transition = 'transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.42s ease';
+          contentBox.style.transform = 'translateX(0)';
           contentBox.style.opacity = '1';
-          contentBox.style.transform = 'translateY(0)';
-        }, 140);
+
+          setTimeout(() => {
+            isAnimating = false;
+          }, 320);
+        }, 150);
+      } else {
+        isAnimating = false;
       }
+
+      // 3. Update Progress Dots
+      dots.forEach((dot, idx) => {
+        if (idx === centerIndex) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
     }
 
     function stepNext() {
+      if (isAnimating) return;
       centerIndex = (centerIndex + 1) % N;
       update5Cards('next');
     }
 
     function stepPrev() {
+      if (isAnimating) return;
       centerIndex = (centerIndex - 1 + N) % N;
       update5Cards('prev');
     }
 
-    // Arrow clicks
-    nextBtn?.addEventListener('click', stepNext);
-    prevBtn?.addEventListener('click', stepPrev);
+    // Auto-slide every 5 seconds (slides smoothly right to left)
+    let autoTimer = setInterval(stepNext, 5000);
 
-    // Card clicks
+    function resetTimer() {
+      clearInterval(autoTimer);
+      autoTimer = setInterval(stepNext, 5000);
+    }
+
+    // Arrow navigation
+    nextBtn?.addEventListener('click', () => {
+      stepNext();
+      resetTimer();
+    });
+    prevBtn?.addEventListener('click', () => {
+      stepPrev();
+      resetTimer();
+    });
+
+    // Dot navigation
+    dots.forEach(dot => {
+      dot.addEventListener('click', (e) => {
+        const target = parseInt((e.currentTarget as HTMLElement).getAttribute('data-index') || '0', 10);
+        if (target === centerIndex || isAnimating) return;
+        const dir = target > centerIndex ? 'next' : 'prev';
+        centerIndex = target;
+        update5Cards(dir);
+        resetTimer();
+      });
+    });
+
+    // Card avatar click
     cards.forEach((card, slotPos) => {
       card?.addEventListener('click', () => {
+        if (isAnimating) return;
         if (slotPos === 0) {
           centerIndex = (centerIndex - 2 + N) % N;
           update5Cards('prev');
+          resetTimer();
         } else if (slotPos === 1) {
           centerIndex = (centerIndex - 1 + N) % N;
           update5Cards('prev');
+          resetTimer();
         } else if (slotPos === 2) {
-          return; // Already active center
+          return;
         } else if (slotPos === 3) {
           centerIndex = (centerIndex + 1) % N;
           update5Cards('next');
+          resetTimer();
         } else if (slotPos === 4) {
           centerIndex = (centerIndex + 2) % N;
           update5Cards('next');
+          resetTimer();
         }
       });
     });
 
-    // Touch Swipe Gestures for Mobile
-    const rowContainer = document.getElementById('avatars-5-row');
-    let startX = 0;
-    let endX = 0;
+    // Touch Swipe Gestures for Mobile (Right to Left & Left to Right)
+    let touchStartX = 0;
+    let touchStartY = 0;
 
-    rowContainer?.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
+    stage?.addEventListener('touchstart', (e: any) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      clearInterval(autoTimer);
     }, { passive: true });
 
-    rowContainer?.addEventListener('touchend', (e) => {
-      endX = e.changedTouches[0].clientX;
-      const diff = startX - endX;
-      if (diff > 35) {
-        stepNext();
-      } else if (diff < -35) {
-        stepPrev();
+    stage?.addEventListener('touchend', (e: any) => {
+      const endX = e.changedTouches[0].clientX;
+      const endY = e.changedTouches[0].clientY;
+      const diffX = touchStartX - endX;
+      const diffY = touchStartY - endY;
+
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 35) {
+        if (diffX > 35) {
+          stepNext(); // Swipe right-to-left
+        } else if (diffX < -35) {
+          stepPrev(); // Swipe left-to-right
+        }
       }
+      resetTimer();
     }, { passive: true });
 
-    // Auto rotation every 4.5 seconds
-    setInterval(stepNext, 4500);
-
-    // Initial render
-    update5Cards('next');
+    // Pause auto-sliding when hovering with mouse
+    stage?.addEventListener('mouseenter', () => clearInterval(autoTimer));
+    stage?.addEventListener('mouseleave', () => resetTimer());
   }
 
-  // Auto initialize on DOM and Astro page load
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initFixedReviewSlider);
   } else {

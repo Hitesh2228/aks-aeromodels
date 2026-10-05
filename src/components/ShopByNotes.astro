@@ -2,32 +2,24 @@
 const NOTES = [
   { 
     label: 'NITRO POWER', 
+    url: '/shop?category=engine',
     svg: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b0811" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>` 
   },
   { 
     label: 'GASOLINE', 
+    url: '/shop?category=engine',
     svg: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b0811" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/><path d="M15 11h2a2 2 0 0 1 2 2v5a2 2 0 0 0 4 0V9l-3-3"/><path d="M3 10h12"/></svg>` 
   },
   { 
     label: '2-STROKE', 
+    url: '/shop?category=engine',
     svg: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b0811" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l4 4"/></svg>` 
   },
   { 
     label: '4-STROKE', 
+    url: '/shop?category=engine',
     svg: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b0811" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>` 
-  },
-  { 
-    label: 'ARF SCALE', 
-    svg: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b0811" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.7 5.2c.3.4.8.5 1.3.3l.5-.3c.4-.2.6-.6.5-1.1z"/></svg>` 
-  },
-  { 
-    label: 'TRAINER', 
-    svg: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b0811" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>` 
-  },
-  { 
-    label: '3D FREESTYLE', 
-    svg: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b0811" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z"/></svg>` 
-  },
+  }
 ];
 ---
 
@@ -38,7 +30,7 @@ const NOTES = [
     <div class="slider-wrapper-relative">
       <div class="notes-icons-grid" id="notes-slider-container">
         {NOTES.map(note => (
-          <a href="/shop" class="note-item">
+          <a href={note.url} class="note-item">
             <div class="note-circle">
               <Fragment set:html={note.svg} />
             </div>
@@ -70,13 +62,15 @@ const NOTES = [
     width: 100%;
   }
 
-  /* Desktop Flex Row (Centered Wrap) */
+  /* Desktop Flex Row (Centered) */
   .notes-icons-grid {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2.5rem;
+    gap: 3.5rem;
     flex-wrap: wrap;
+    width: 100%;
+    margin: 0 auto;
   }
 
   .note-item {
@@ -86,6 +80,7 @@ const NOTES = [
     gap: 0.75rem;
     text-decoration: none;
     transition: var(--transition-smooth);
+    min-width: 90px;
   }
   .note-item:hover {
     transform: translateY(-4px);
@@ -114,45 +109,79 @@ const NOTES = [
     text-align: center;
   }
 
-  /* Mobile Only Touch Horizontal Slider (< 768px) */
+  /* Mobile View - Balanced 4-Item Centered Symmetrical Grid */
   @media (max-width: 768px) {
     .bellavita-notes-section {
-      padding: 2rem 0;
-      overflow: hidden;
+      padding: 2.25rem 0;
     }
     .bellavita-title {
-      font-size: 1.2rem;
-      margin-bottom: 1.25rem;
+      font-size: 1.15rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.5rem;
+      text-align: center;
     }
 
     .notes-icons-grid {
-      display: flex !important;
-      flex-wrap: nowrap !important;
-      overflow-x: auto !important;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      gap: 1.25rem !important;
-      padding: 0.5rem 1.25rem 1rem !important;
-      margin: 0 -1.25rem !important;
-      justify-content: flex-start !important;
-      scrollbar-width: none !important;
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 0.5rem !important;
+      padding: 0 !important;
+      margin: 0 auto !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      justify-content: center !important;
+      align-items: flex-start !important;
+      overflow-x: visible !important;
     }
-    .notes-icons-grid::-webkit-scrollbar {
-      display: none !important;
-    }
+
     .note-item {
-      flex: 0 0 85px !important;
-      max-width: 85px !important;
-      scroll-snap-align: start !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      text-align: center !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      gap: 0.45rem !important;
+    }
+
+    .note-circle {
+      width: 56px !important;
+      height: 56px !important;
+      margin: 0 auto !important;
+    }
+    .note-circle svg {
+      width: 22px !important;
+      height: 22px !important;
+    }
+
+    .note-label {
+      font-size: 0.65rem !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.02em !important;
+      text-align: center !important;
+      white-space: normal !important;
+      line-height: 1.2 !important;
+      word-break: normal !important;
+      color: #1a1a1a !important;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .notes-icons-grid {
+      gap: 0.25rem !important;
     }
     .note-circle {
-      width: 64px !important;
-      height: 64px !important;
+      width: 48px !important;
+      height: 48px !important;
+    }
+    .note-circle svg {
+      width: 18px !important;
+      height: 18px !important;
     }
     .note-label {
-      font-size: 0.68rem !important;
-      text-align: center !important;
-      white-space: nowrap !important;
+      font-size: 0.58rem !important;
     }
   }
 </style>
