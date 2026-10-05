@@ -119,3 +119,6 @@ SKYNODES UAV stocks AAA contest grade balsa sheets milled to 100mm x 1000mm in t
     },
   });
 };
+
+export const HEAD: APIRoute = GET;
+

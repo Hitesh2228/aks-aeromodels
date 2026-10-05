@@ -187,3 +187,5 @@ Host: https://www.skynodesuav.in
     },
   });
 };
+
+export const HEAD: APIRoute = GET;
