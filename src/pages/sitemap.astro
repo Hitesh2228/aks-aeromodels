@@ -5,6 +5,7 @@ import MobileBottomNav from '../components/MobileBottomNav.astro';
 import Footer from '../components/Footer.astro';
 import GoogleTagManagerHead from '../components/GoogleTagManagerHead.astro';
 import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
+import FaviconAndSeoHead from '../components/FaviconAndSeoHead.astro';
 import { getCombinedProducts } from '../lib/shopify';
 import { getAllBlogPosts } from '../lib/shopifyBlog';
 import '../styles/global.css';
@@ -40,6 +41,7 @@ Astro.response.headers.set('X-Robots-Tag', 'all');
 <html lang="en">
 <head>
   <GoogleTagManagerHead />
+  <FaviconAndSeoHead />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Complete HTML Site Directory & Sitemap | SKYNODES UAV India</title>

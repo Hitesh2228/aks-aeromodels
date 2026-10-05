@@ -1,6 +1,7 @@
 ---
 import GoogleTagManagerHead from '../components/GoogleTagManagerHead.astro';
 import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
+import FaviconAndSeoHead from '../components/FaviconAndSeoHead.astro';
 import Header from '../components/Header.astro';
 import CartDrawer from '../components/CartDrawer.astro';
 import MobileBottomNav from '../components/MobileBottomNav.astro';
@@ -32,6 +33,7 @@ Astro.response.headers.set('X-Robots-Tag', 'all');
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <FaviconAndSeoHead />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>

@@ -5,6 +5,7 @@ import MobileBottomNav from '../../components/MobileBottomNav.astro';
 import Footer from '../../components/Footer.astro';
 import GoogleTagManagerHead from '../../components/GoogleTagManagerHead.astro';
 import GoogleTagManagerBody from '../../components/GoogleTagManagerBody.astro';
+import FaviconAndSeoHead from '../../components/FaviconAndSeoHead.astro';
 import { type Product } from '../../data/products';
 import { getCombinedProducts } from '../../lib/shopify';
 import '../../styles/global.css';
@@ -153,6 +154,7 @@ const productSchema = {
 <html lang="en">
 <head>
   <GoogleTagManagerHead />
+  <FaviconAndSeoHead />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{pageTitle}</title>

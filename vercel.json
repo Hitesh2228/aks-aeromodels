@@ -10,6 +10,28 @@
       ],
       "destination": "https://www.skynodesuav.in/:path*",
       "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "aks-aeromodels.vercel.app"
+        }
+      ],
+      "destination": "https://www.skynodesuav.in/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "aks-aeromodels-nashikmarketing8-7985s-projects.vercel.app"
+        }
+      ],
+      "destination": "https://www.skynodesuav.in/:path*",
+      "permanent": true
     }
   ],
   "headers": [
@@ -49,11 +71,15 @@
       ]
     },
     {
-      "source": "/(.*)\\.(ico|png|jpg|jpeg|svg|webp|avif|woff2|woff)",
+      "source": "/(.*)\\.(ico|png|jpg|jpeg|svg|webp|avif|woff2|woff|webmanifest)",
       "headers": [
         {
           "key": "Cache-Control",
           "value": "public, max-age=31536000, immutable"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "all"
         }
       ]
     }
