@@ -47,6 +47,16 @@ const pageTitle = `${product.name} - Buy Online at Best Price in India | SKYNODE
 const metaDescription = `${product.description.slice(0, 160).trim()}... Buy ${product.name} online in India at SKYNODES UAV for ₹${product.price.toLocaleString('en-IN')}. Genuine manufacturer warranty, GST tax invoice, and fast Pan-India delivery.`;
 const canonicalUrl = `https://www.skynodesuav.in/product/${product.id}`;
 
+const productBrandName = 
+  product.name.toLowerCase().includes('o.s.') || product.name.toLowerCase().includes('os max') ? 'O.S. Engines' :
+  product.name.toLowerCase().includes('dle') ? 'DLE Engines' :
+  product.name.toLowerCase().includes('futaba') ? 'Futaba' :
+  product.name.toLowerCase().includes('seagull') ? 'Seagull Models' :
+  product.name.toLowerCase().includes('balsa') ? 'AAA Contest Grade Balsa' :
+  product.name.toLowerCase().includes('realflight') ? 'RealFlight' :
+  product.name.toLowerCase().includes('du-bro') ? 'DU-BRO' :
+  'SKYNODES UAV';
+
 // E-Commerce Semantic Keywords Mapping (Transactional & Commercial Intent)
 const categoryKeywordsMap: Record<string, string[]> = {
   'engine': ['buy RC nitro engine India', 'gas engine for RC plane', 'RC airplane glow engine price', 'O.S. Engines India dealer', 'DLE engines official store', '2 stroke model airplane engine'],
@@ -136,17 +146,6 @@ const usageLocations = product.whereToFly && product.whereToFly.length > 0
 const trustBadgesList = product.trustBadges && product.trustBadges.length >= 4
   ? product.trustBadges.slice(0, 4)
   : ['Imported Quality', '100% Genuine', 'AMA Certified', 'Assured Delivery'];
-
-// Brand determination for Google Knowledge Graph
-const productBrandName = product.name.startsWith('O.S.')
-  ? 'O.S. Engines'
-  : product.name.startsWith('Futaba')
-  ? 'Futaba'
-  : product.name.startsWith('DLE')
-  ? 'DLE Engines'
-  : product.categoryLabel === 'Seagull Aeromodels'
-  ? 'Seagull Models'
-  : 'SKYNODES UAV';
 
 // Reviews Schema mapping
 const reviewsListSchema = pilotReviews.map(r => ({
