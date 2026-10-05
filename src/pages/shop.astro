@@ -12,6 +12,31 @@ import '../styles/global.css';
 
 const PRODUCTS = await getCombinedProducts();
 
+// Google E-Commerce Category & Collection Schema (ItemList)
+const itemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "SKYNODES UAV Official Aeromodelling & Scale UAV Catalog",
+  "description": "Authorized online store for O.S. Nitro Engines, DLE Gas Engines, Futaba 2.4GHz Transmitters, Seagull Aeromodels, and AAA Balsa Wood in India.",
+  "numberOfItems": PRODUCTS.length,
+  "itemListElement": PRODUCTS.map((item, idx) => ({
+    "@type": "ListItem",
+    "position": idx + 1,
+    "item": {
+      "@type": "Product",
+      "name": item.name,
+      "url": `https://www.skynodesuav.in/product/${item.id}`,
+      "image": item.image.startsWith('http') ? item.image : `https://www.skynodesuav.in${item.image}`,
+      "offers": {
+        "@type": "Offer",
+        "price": item.price,
+        "priceCurrency": "INR",
+        "availability": item.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+      }
+    }
+  }))
+};
+
 Astro.response.headers.set('X-Robots-Tag', 'all');
 ---
 
@@ -22,12 +47,29 @@ Astro.response.headers.set('X-Robots-Tag', 'all');
   <FaviconAndSeoHead />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shop All Products | SKYNODESUAV</title>
-  <meta name="description" content="Browse 43+ premium contest grade RC engines, Futaba transmitters, Seagull aeromodels, balsa wood sheets, and flight accessories." />
+  <title>Shop All Aeromodelling & Scale UAV Products Online India | Best Price | SKYNODES UAV</title>
+  <meta name="description" content="Buy authentic O.S. Nitro Engines, DLE Gas Engines, Futaba 2.4GHz Transmitters, Seagull ARF Scale Aeromodels, and AAA Balsa Wood Sheets online in India at SKYNODES UAV. Fast express shipping & GST tax invoice." />
+  <meta name="keywords" content="buy RC airplane engine India, O.S. Max nitro engine, DLE gas engine, Futaba 6K transmitter, Seagull models ARF India, balsa wood sheet 100x1000mm, aeromodelling accessories Nashik, RC hobby shop India, SKYNODES UAV" />
   <link rel="canonical" href="https://www.skynodesuav.in/shop" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+
+  <!-- OpenGraph Collection Tags -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="SKYNODES UAV" />
+  <meta property="og:title" content="Shop All Aeromodelling & Scale UAV Products Online India | SKYNODES UAV" />
+  <meta property="og:description" content="Browse 45+ premium contest grade RC engines, Futaba transmitters, Seagull aeromodels, balsa wood sheets, and flight accessories with official warranty across India." />
+  <meta property="og:url" content="https://www.skynodesuav.in/shop" />
+  <meta property="og:image" content="https://www.skynodesuav.in/images/products/sea-1-1.jpg" />
+
+  <!-- Twitter Card Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Shop All Aeromodelling & Scale UAV Products Online India | SKYNODES UAV" />
+  <meta name="twitter:description" content="Browse 45+ premium contest grade RC engines, Futaba transmitters, Seagull aeromodels, balsa wood sheets, and flight accessories with official warranty across India." />
+  <meta name="twitter:image" content="https://www.skynodesuav.in/images/products/sea-1-1.jpg" />
+
+  <script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />
 </head>
 <body class="bellavita-shop-body">
   <GoogleTagManagerBody />
@@ -141,6 +183,43 @@ Astro.response.headers.set('X-Robots-Tag', 'all');
         </article>
       ))}
     </div>
+
+    <!-- E-Commerce Buyer's Guide & SEO Directory Section (Semantic Keyword Authority) -->
+    <section class="shop-seo-guide-section" aria-label="Aeromodelling Buyer Guide">
+      <div class="shop-seo-card">
+        <h2 class="shop-seo-title">India’s Premier Destination for Scale Aeromodels, RC Engines & Balsa Wood</h2>
+        <p class="shop-seo-lead">
+          Welcome to <strong>SKYNODES UAV</strong>, the authorized Indian distributor and official specialist store for high-performance aeromodelling, drone engineering kits, and RC pilot equipment. Whether you are a club novice assembling your first high-wing trainer or a competitive 3D aerobatic pilot building a giant scale IMAC model, we supply 100% authentic equipment backed by official manufacturer warranties, formal GST input tax credit (ITC) invoicing, and express pan-India dispatch from our Nashik facility.
+        </p>
+
+        <div class="shop-seo-grid">
+          <div class="shop-seo-col">
+            <h3>⚡ Nitro & Gasoline RC Engines</h3>
+            <p>
+              Explore legendary Japanese <strong>O.S. Max 2-stroke nitro engines</strong> (.46 AX II, .65 AX) engineered with Advanced Bimetallic Liner (ABL) technology and 40K carburetors for rock-solid idle and high power-to-weight ratio. For giant scale aircraft, we stock <strong>DLE gasoline engines</strong> (20cc, 35RA, 65cc) equipped with electronic auto-advancing CDI ignition, Walbro carburetors, and rear exhaust routing.
+            </p>
+          </div>
+          <div class="shop-seo-col">
+            <h3>✈️ Seagull Models ARF Scale Airplanes</h3>
+            <p>
+              Seagull Models Almost-Ready-to-Fly (ARF) airframes are hand-built from laser-cut balsa and aviation plywood, factory-covered in genuine German <strong>Oracover</strong> film. From stable novice trainers like the <strong>Boomerang V3</strong> and <strong>Arising Star V2</strong> to extreme 3D aerobatic airframes like the <strong>Decathlon 122" V2</strong> and <strong>Edge 540</strong>.
+            </p>
+          </div>
+          <div class="shop-seo-col">
+            <h3>📡 Futaba 2.4GHz Radios & Telemetry</h3>
+            <p>
+              Command your models with unmatched signal reliability using genuine <strong>Futaba computerized transmitters</strong> (Futaba 6K, TM-18) and high-sensitivity <strong>T-FHSS / FASSTest telemetry receivers</strong> (R3006SB, R3008SB) featuring digital S.BUS / S.BUS2 multi-bus wiring and real-time battery voltage monitoring.
+            </p>
+          </div>
+          <div class="shop-seo-col">
+            <h3>🪵 AAA Contest Grade Balsa Wood Sheets</h3>
+            <p>
+              Premium AAA contest grade balsa wood sheets (100mm width x 1000mm length) available in thicknesses from <strong>2mm to 15mm</strong>. Hand-sorted for straight uniform grain (6-12 lbs/cu.ft density), calibrated to tight aero tolerances for scratch builders, university aero-design teams, and UAV prototypes.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
 
   </main>
 
@@ -431,14 +510,62 @@ Astro.response.headers.set('X-Robots-Tag', 'all');
     }
 
 
+    /* E-Commerce Buyer's Guide & SEO Section Styling */
+    .shop-seo-guide-section {
+      margin-top: 5rem;
+      border-top: 1.5px solid #e6e0d5;
+      padding-top: 3.5rem;
+    }
+    .shop-seo-card {
+      background: #ffffff;
+      border: 1px solid #e8e2d8;
+      border-radius: 8px;
+      padding: 2.5rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+    .shop-seo-title {
+      font-family: var(--font-display, serif);
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+    }
+    .shop-seo-lead {
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: #555555;
+      margin-bottom: 2rem;
+      max-width: 1050px;
+    }
+    .shop-seo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+    .shop-seo-col h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #3b0811;
+      margin-bottom: 0.6rem;
+    }
+    .shop-seo-col p {
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: #666666;
+    }
+
     @media (max-width: 1100px) {
       .pdf-shop-grid-5 { grid-template-columns: repeat(3, 1fr); }
       .explore-grid { grid-template-columns: repeat(3, 1fr); }
+      .shop-seo-grid { grid-template-columns: 1fr; gap: 1.5rem; }
     }
     @media (max-width: 700px) {
       .pdf-shop-grid-5 { grid-template-columns: repeat(2, 1fr); }
       .explore-grid { grid-template-columns: repeat(2, 1fr); }
       .pdf-shop-container { padding: 1rem 1rem 4rem !important; }
+      .shop-seo-card { padding: 1.5rem 1.25rem; }
+      .shop-seo-title { font-size: 1.25rem; }
     }
   </style>
 

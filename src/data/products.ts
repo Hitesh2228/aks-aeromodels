@@ -328,8 +328,8 @@ export const PRODUCTS: Product[] = [
     stock: 2,
     image: '/images/products/sea-3-1.jpg',
     images: ["/images/products/sea-3-1.jpg","/images/products/sea-3-2.jpg","/images/products/sea-3-3.jpg","/images/products/sea-3-4.jpg"],
-    description: 'Scale military turboprop trainer scheme featuring functional split flaps, factory painted fiberglass cowl, pilot bust, and optional mechanical retract installation.',
-    specs: { Wingspan: '60.6 in (154 cm)', Engine: '.46-.55 Nitro or 10cc Gas', Scale: 'Royal Air Force Trainer', Weight: '3.2 kg' },
+    description: 'Buy the Seagull Pilatus PC-9 60.6" ARF scale military turboprop trainer online in India at SKYNODES UAV. Factory finished in authentic Royal Air Force livery with genuine Oracover covering. Features functional split flaps for short-field landings, painted fiberglass cowl, detailed scale pilot cockpit, and mechanical retract compatibility. Designed for .46-.55 2-stroke glow or 10cc gas powerplants with official warranty and GST invoice.',
+    specs: { Wingspan: '60.6 in (154 cm)', WingArea: '635.5 sq in', Engine: '.46-.55 Nitro 2-Stroke or 10cc Gas', Scale: 'RAF Military Turboprop Trainer', Weight: '3.2 kg (7.0 lbs)', 'Radio System': '5-6 Channel with 6 Servos' },
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
@@ -351,8 +351,8 @@ export const PRODUCTS: Product[] = [
     stock: 2,
     image: '/images/products/sea-4-1.jpg',
     images: ["/images/products/sea-4-1.jpg","/images/products/sea-4-2.jpg","/images/products/sea-4-3.jpg","/images/products/sea-4-4.jpg"],
-    description: 'The premier choice for beginner aeromodelers! High-wing stability, forgiving stall characteristics, self-correcting dihedral, and robust tricycle landing gear.',
-    specs: { Wingspan: '61 in (155 cm)', Engine: '.46 2-Stroke Glow', Level: 'Beginner Flight Training', Weight: '2.8 kg' },
+    description: 'Buy the legendary Seagull Boomerang V3 Trainer 61" ARF online in India at SKYNODES UAV. Recognized as India’s #1 balsa trainer airplane for beginner pilots and aeromodelling training academies. Features high-wing dihedral stability, gentle stall recovery, heavy duty aluminum tricycle landing gear with steerable nose wheel, and genuine Oracover film. Compatible with .40 to .46 size glow engines.',
+    specs: { Wingspan: '61 in (155 cm)', WingArea: '612 sq in', Engine: '.40-.46 2-Stroke Glow / Electric 800W', Level: 'Beginner Pilot Training', Weight: '2.8 kg', Assembly: 'ARF (Almost-Ready-to-Fly)' },
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
@@ -372,8 +372,8 @@ export const PRODUCTS: Product[] = [
     stock: 2,
     image: '/images/products/sea-5-1.jpg',
     images: ["/images/products/sea-5-1.jpg","/images/products/sea-5-2.jpg","/images/products/sea-5-3.jpg","/images/products/sea-5-4.jpg"],
-    description: 'Low-wing sport aircraft designed for smooth aerobatic maneuvers, inverted flight practice, crisp roll rates, and precision landings.',
-    specs: { Wingspan: '60 in (152.4 cm)', Engine: '.46 Glow or 10cc Gas', Wing: 'Low-Wing Aerobatic Sport', Weight: '2.9 kg' },
+    description: 'Buy the Seagull Low Wing Sport V2 60" ARF aerobatic sport model online in India at SKYNODES UAV. The ultimate second airplane for pilots stepping up from a high-wing trainer. Engineered for crisp axial rolls, inside/outside loops, inverted flight, and razor-sharp control response with .46 glow or 10cc petrol engines. High-vis German Oracover finish and rapid field assembly.',
+    specs: { Wingspan: '60 in (152.4 cm)', WingArea: '610 sq in', Engine: '.46-.55 Glow or 10cc Gas', Wing: 'Low-Wing Symmetrical Airfoil', Weight: '2.9 kg', 'Skill Level': 'Intermediate Pilot' },
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
@@ -393,8 +393,8 @@ export const PRODUCTS: Product[] = [
     stock: 2,
     image: '/images/products/sea-6-1.jpg',
     images: ["/images/products/sea-6-1.jpg","/images/products/sea-6-2.jpg","/images/products/sea-6-3.jpg","/images/products/sea-6-4.jpg"],
-    description: 'Aggressive 3D performer with large control surfaces, carbon fiber wing joiner tube, laser-cut balsa framework, and eye-catching scheme.',
-    specs: { Wingspan: '64 in (162.5 cm)', Engine: '20-26 cc Gas', Style: '3D Aerobatic Freestyle', Weight: '4.5 kg' },
+    description: 'Buy the Seagull Yak 54 3D ARF 64" wingspan aerobatic airplane online in India at SKYNODES UAV. Optimized for high-alpha harriers, hovers, rolling harriers, and knife-edge spins. Features lightweight CNC laser-cut balsa structure, carbon fiber wing tube, oversized 3D control surfaces with double-beveled hinges, and factory-painted fiberglass cowl for 20cc-26cc gas engines.',
+    specs: { Wingspan: '64 in (162.5 cm)', WingArea: '880 sq in', Engine: '20-26 cc Gas (DLE 20cc compatible)', Style: 'Extreme 3D Aerobatics & IMAC', Weight: '4.5 kg' },
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
@@ -414,8 +414,8 @@ export const PRODUCTS: Product[] = [
     stock: 2,
     image: '/images/products/sea-7-1.jpg',
     images: ["/images/products/sea-7-1.jpg","/images/products/sea-7-2.jpg","/images/products/sea-7-3.jpg","/images/products/sea-7-4.jpg"],
-    description: 'Classic high-wing trainer aircraft engineered for effortless assembly, high lift airfoil, and smooth landings at flight training clubs.',
-    specs: { Wingspan: '63 in (160 cm)', Engine: '.46 Glow Engine', Construction: 'Laser Cut Balsa & Ply', Weight: '2.7 kg' },
+    description: 'Buy the Seagull Arising Star V2 63" ARF trainer airplane online in India at SKYNODES UAV. Classic high-lift semi-symmetrical flat-bottom airfoil delivering unmatched low-speed gliding stability and soft touch-and-go landings. Built with genuine AAA contest balsa and ply, tricycle landing gear, and heavy-duty motor mount. Ideal for RC pilot training across India.',
+    specs: { Wingspan: '63 in (160 cm)', WingArea: '645 sq in', Engine: '.40-.46 2-Stroke Nitro Glow', Construction: 'Laser-Cut Balsa & Plywood', Weight: '2.7 kg' },
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
@@ -436,8 +436,8 @@ export const PRODUCTS: Product[] = [
     stock: 1,
     image: '/images/products/sea-8-1.jpg',
     images: ["/images/products/sea-8-1.jpg","/images/products/sea-8-2.jpg","/images/products/sea-8-3.jpg","/images/products/sea-8-4.jpg"],
-    description: 'Iconic aerobatic biplane featuring dual wings, massive surface wing area, precise snap-roll capability, and painted glass fiber cowl.',
-    specs: { Wingspan: '54.3 in (138 cm)', Engine: '20 cc Gas / 1.20 4-Stroke', Style: 'Scale aerobatic Biplane', Weight: '4.8 kg' },
+    description: 'Buy the Seagull Ultimate Bi-Plane 54.3" ARF aerobatic biplane online in India at SKYNODES UAV. Legendary aerobatic performer featuring dual high-lift wings, massive control authority, lightning-fast snap rolls, and rock-solid knife edges. Factory covered in vibrant Oracover scheme with painted fiberglass cowl and wheel pants. Powered by 20cc petrol or 1.20 4-stroke glow engines.',
+    specs: { Wingspan: '54.3 in (138 cm)', WingArea: '1070 sq in dual-wing', Engine: '20 cc Gas / 1.20 4-Stroke Glow', Style: 'Scale Aerobatic Biplane', Weight: '4.8 kg' },
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
@@ -459,8 +459,8 @@ export const PRODUCTS: Product[] = [
     stock: 1,
     image: '/images/products/sea-9-1.jpg',
     images: ["/images/products/sea-9-1.jpg","/images/products/sea-9-2.jpg","/images/products/sea-9-3.jpg","/images/products/sea-9-4.jpg"],
-    description: 'Competition grade 50-60cc aerobatic machine. Pre-built with titanium pushrods, ball links, carbon fiber landing gear, and high-spec Oracover film.',
-    specs: { Wingspan: '82.1 in (208.5 cm)', Engine: '50-60 cc Gas', Scheme: 'Black & Red Competition', Weight: '7.2 kg' },
+    description: 'Buy the Seagull Extra 330 LX 82.1" ARF (Blue/Red Competition Edition) online in India at SKYNODES UAV. Giant scale 50cc to 60cc competition aerobatic airframe designed for IMAC and 3D freestyle champions. Features carbon fiber landing gear, carbon wing tube, titanium pushrods with heavy-duty ball links, and pre-hinged control surfaces for DLE 55cc / DLE 65cc engines.',
+    specs: { Wingspan: '82.1 in (208.5 cm)', WingArea: '1310 sq in', Engine: '50-60 cc Gas Engine (DLE 65cc ideal)', Scheme: 'Blue & Red Competition Oracover', Weight: '7.2 kg' },
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
@@ -480,8 +480,8 @@ export const PRODUCTS: Product[] = [
     stock: 1,
     image: '/images/products/sea-10-1.jpg',
     images: ["/images/products/sea-10-1.jpg","/images/products/sea-10-2.jpg","/images/products/sea-10-3.jpg","/images/products/sea-10-4.jpg"],
-    description: 'High-visibility fluorescent yellow scale graphics edition of the Extra 330LX for extreme freestyle 3D flight and high-alpha tumbling.',
-    specs: { Wingspan: '82.1 in (208.5 cm)', Engine: '50-60 cc Gas', Scheme: 'High-Vis Yellow', Weight: '7.2 kg' },
+    description: 'Buy the Seagull Extra 330 LX 82.1" ARF (Fluorescent High-Vis Yellow Edition) online in India at SKYNODES UAV. Striking high-contrast color scheme for enhanced orientation during high-energy tumbling, waterfalls, and blenders. Built for 50-60cc petrol power with carbon fiber landing gear and genuine Oracover covering.',
+    specs: { Wingspan: '82.1 in (208.5 cm)', WingArea: '1310 sq in', Engine: '50-60 cc Gas', Scheme: 'Fluorescent High-Vis Yellow', Weight: '7.2 kg' },
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
@@ -500,8 +500,8 @@ export const PRODUCTS: Product[] = [
     basePrice: 127118,
     stock: 1,
     image: 'https://images.unsplash.com/photo-1517976487492-5750f3195933?q=80&w=800&auto=format&fit=crop',
-    description: '92-inch giant scale Zivko Edge 540 V3. Engineered for precision IMAC aerobatic maneuvers and high-alpha harriers.',
-    specs: { Wingspan: '92 in (233.6 cm)', Engine: '60 cc Gas', Servos: '6 High Torque Metal Gear', Weight: '8.9 kg' },
+    description: 'Buy the giant scale Seagull Zivko Edge 540 V3 92" ARF online in India at SKYNODES UAV. The pinnacle of precision aerobatics featuring a 92-inch wingspan, straight leading-edge wing geometry for zero-coupling knife edges, carbon fiber wing tube and landing gear, and heavy-duty hardware package. Designed for 60cc to 70cc gas powerplants with official warranty and GST invoice.',
+    specs: { Wingspan: '92 in (233.6 cm)', WingArea: '1540 sq in', Engine: '60-70 cc Gas (DLE 65cc recommended)', Servos: '6 High Torque Metal Gear Servos (18kg+)', Weight: '8.9 kg' },
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
@@ -521,8 +521,8 @@ export const PRODUCTS: Product[] = [
     stock: 2,
     image: '/images/products/sea-12-1.jpg',
     images: ["/images/products/sea-12-1.jpg","/images/products/sea-12-2.jpg","/images/products/sea-12-3.jpg","/images/products/sea-12-4.jpg"],
-    description: '73-inch wingspan YAK 54 featuring ultra-light airframe construction, removable wings, detailed painted canopy, and fuel tank assembly.',
-    specs: { Wingspan: '73 in (185 cm)', Engine: '35-40 cc Gas', WingArea: '1020 sq in', Weight: '5.2 kg' },
+    description: 'Buy the Seagull Yak 54 73" ARF 35-40cc 3D aerobatic aircraft online in India at SKYNODES UAV. Features plug-in two-piece wings with aluminum joiner tube, scale fiberglass cowl, detailed canopy with pilot figure, and carbon fiber reinforcement for aggressive freestyle routines. Designed for 35cc to 40cc gas engines.',
+    specs: { Wingspan: '73 in (185 cm)', WingArea: '1020 sq in', Engine: '35-40 cc Gas (DLE 35RA compatible)', Weight: '5.2 kg', Covering: 'Genuine German Oracover' },
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
@@ -595,8 +595,8 @@ export const PRODUCTS: Product[] = [
     stock: 60,
     image: '/images/products/balsa-sheet-1.jpg',
     images: ["/images/products/balsa-sheet-1.jpg","/images/products/balsa-sheet-2.jpg","/images/products/balsa-sheet-3.jpg","/images/products/balsa-sheet-4.jpg"],
-    description: 'Medium density 4mm balsa sheet for tail surfaces, elevator control leaves, and rib webs in balsa scale models.',
-    specs: { Dimensions: '4mm x 100mm x 1000mm', Density: '8-10 lbs/cu.ft', Grade: 'AAA Grade' },
+    description: 'Buy 4mm AAA Contest Grade Balsa Wood Sheet (100x1000mm) online in India at SKYNODES UAV. Precision-calibrated medium-density balsa wood sheet for cutting tailplane surfaces, elevator control leaves, rudder frames, and rib shear webs in RC model aircraft and drone frames. Packaged flat with rigid protective sandwich sheets for safe Pan-India delivery.',
+    specs: { Dimensions: '4mm x 100mm x 1000mm (1 Meter)', Density: '8-10 lbs/cu.ft', Grade: 'AAA Contest Grade', Grain: 'Uniform Straight Grain' },
     inStock: true
   },
   {
@@ -615,8 +615,8 @@ export const PRODUCTS: Product[] = [
     stock: 100,
     image: '/images/products/balsa-sheet-1.jpg',
     images: ["/images/products/balsa-sheet-1.jpg","/images/products/balsa-sheet-2.jpg","/images/products/balsa-sheet-3.jpg","/images/products/balsa-sheet-4.jpg"],
-    description: '5mm thick balsa sheet for structural formers, firewall reinforcement backing, and tail surfaces.',
-    specs: { Dimensions: '5mm x 100mm x 1000mm', Density: '9-11 lbs/cu.ft', Grade: 'AAA Grade' },
+    description: 'Buy 5mm AAA Contest Grade Balsa Wood Sheet (100x1000mm) online in India at SKYNODES UAV. Heavy duty structural balsa plank engineered for fuselage formers, firewall reinforcement backing, wing root doublers, and robust aeromodel empennage construction with official GST billing.',
+    specs: { Dimensions: '5mm x 100mm x 1000mm (1 Meter)', Density: '9-11 lbs/cu.ft', Grade: 'AAA Contest Grade', Grain: 'Straight & Uniform' },
     inStock: true
   },
   {
@@ -635,8 +635,8 @@ export const PRODUCTS: Product[] = [
     stock: 50,
     image: '/images/products/balsa-sheet-1.jpg',
     images: ["/images/products/balsa-sheet-1.jpg","/images/products/balsa-sheet-2.jpg","/images/products/balsa-sheet-3.jpg","/images/products/balsa-sheet-4.jpg"],
-    description: 'Heavy duty 6mm balsa sheet used for thick tailplane trailing edges and structural gussets.',
-    specs: { Dimensions: '6mm x 100mm x 1000mm', Density: '10 lbs/cu.ft', Grade: 'AAA Grade' },
+    description: 'Buy 6mm AAA Contest Grade Balsa Wood Sheet (100x1000mm) online in India at SKYNODES UAV. Extra-thick balsa plank engineered for thick tailplane trailing edges, structural wing gussets, landing gear mounting blocks, and giant scale airplane framing.',
+    specs: { Dimensions: '6mm x 100mm x 1000mm (1 Meter)', Density: '10 lbs/cu.ft', Grade: 'AAA Grade Aeromodelling Wood' },
     inStock: true
   },
   {
@@ -655,8 +655,8 @@ export const PRODUCTS: Product[] = [
     stock: 50,
     image: '/images/products/balsa-sheet-1.jpg',
     images: ["/images/products/balsa-sheet-1.jpg","/images/products/balsa-sheet-2.jpg","/images/products/balsa-sheet-3.jpg","/images/products/balsa-sheet-4.jpg"],
-    description: '8mm thick balsa plank sheet for carving wing tips, nose blocks, and scale fillets.',
-    specs: { Dimensions: '8mm x 100mm x 1000mm', Density: '10-12 lbs/cu.ft', Grade: 'AAA Grade' },
+    description: 'Buy 8mm AAA Contest Grade Balsa Wood Plank (100x1000mm) online in India at SKYNODES UAV. Precision carving wood sheet ideal for shaped wingtips, solid nose blocks, turtle decks, and scale aerodynamic fairings with silky smooth sanded texture.',
+    specs: { Dimensions: '8mm x 100mm x 1000mm (1 Meter)', Density: '10-12 lbs/cu.ft', Grade: 'AAA Contest Carving Grade' },
     inStock: true
   },
   {
@@ -675,8 +675,8 @@ export const PRODUCTS: Product[] = [
     stock: 25,
     image: '/images/products/balsa-sheet-1.jpg',
     images: ["/images/products/balsa-sheet-1.jpg","/images/products/balsa-sheet-2.jpg","/images/products/balsa-sheet-3.jpg","/images/products/balsa-sheet-4.jpg"],
-    description: '10mm balsa block sheet engineered for carving cowl moldings, wingtip blocks, and hatch covers.',
-    specs: { Dimensions: '10mm x 100mm x 1000mm', Density: '10-12 lbs/cu.ft', Grade: 'AAA Grade' },
+    description: 'Buy 10mm AAA Contest Grade Balsa Block Sheet (100x1000mm) online in India at SKYNODES UAV. Solid carving balsa block for cowl moldings, float noses, wing fillets, scale cockpit hatches, and scratch-built aeromodelling prototypes.',
+    specs: { Dimensions: '10mm x 100mm x 1000mm (1 Meter)', Density: '10-12 lbs/cu.ft', Grade: 'AAA Grade Solid Block' },
     inStock: true
   },
   {
@@ -695,8 +695,8 @@ export const PRODUCTS: Product[] = [
     stock: 30,
     image: '/images/products/balsa-sheet-1.jpg',
     images: ["/images/products/balsa-sheet-1.jpg","/images/products/balsa-sheet-2.jpg","/images/products/balsa-sheet-3.jpg","/images/products/balsa-sheet-4.jpg"],
-    description: '12mm thick balsa carving wood sheet for solid fuselage construction and scale spinners.',
-    specs: { Dimensions: '12mm x 100mm x 1000mm', Density: '11 lbs/cu.ft', Grade: 'AAA Grade' },
+    description: 'Buy 12mm AAA Contest Grade Balsa Carving Block (100x1000mm) online in India at SKYNODES UAV. Thick carving wood block for solid fuselage construction, custom scale spinners, aerodynamic nacelles, and heavy drone testing mounts.',
+    specs: { Dimensions: '12mm x 100mm x 1000mm (1 Meter)', Density: '11 lbs/cu.ft', Grade: 'AAA Contest Grade' },
     inStock: true
   },
   {
@@ -716,8 +716,8 @@ export const PRODUCTS: Product[] = [
     stock: 22,
     image: '/images/products/balsa-sheet-1.jpg',
     images: ["/images/products/balsa-sheet-1.jpg","/images/products/balsa-sheet-2.jpg","/images/products/balsa-sheet-3.jpg","/images/products/balsa-sheet-4.jpg"],
-    description: 'Extra thick 15mm balsa block sheet for heavy carving, float construction, and scale nacelles.',
-    specs: { Dimensions: '15mm x 100mm x 1000mm', Density: '12 lbs/cu.ft', Grade: 'AAA Grade' },
+    description: 'Buy 15mm AAA Contest Grade Balsa Block Sheet (100x1000mm) online in India at SKYNODES UAV. The thickest solid balsa carving block available, engineered for giant scale aircraft nacelles, custom seaplane float hulls, and UAV wind tunnel models.',
+    specs: { Dimensions: '15mm x 100mm x 1000mm (1 Meter)', Density: '12 lbs/cu.ft', Grade: 'AAA Grade Solid Block' },
     inStock: true
   },
 
@@ -827,8 +827,8 @@ export const PRODUCTS: Product[] = [
     basePrice: 2033,
     stock: 5,
     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop',
-    description: 'Heavy duty lock-on ignitor connector with anodized aluminum body accepting standard C-cell battery.',
-    specs: { Casing: 'Anodized Red Aluminum', Battery: 'Takes 1x C-Cell 1.5V', Lock: 'Spring Steel Claw' },
+    description: 'Buy the C-Size Glow Starter with AC Charger online in India at SKYNODES UAV. Heavy-duty lock-on aluminum ignitor designed for starting all nitro glow RC airplane engines (.15 to .91 size) at the flight line. Spring-steel locking jaws ensure vibration-proof grip on glow plugs with included wall charger.',
+    specs: { Casing: 'Anodized Red Aluminum', Battery: 'Takes 1x C-Cell 1.5V (Included)', Lock: 'Spring Steel Claw Lock' },
     inStock: true
   },
   {
@@ -846,8 +846,8 @@ export const PRODUCTS: Product[] = [
     basePrice: 2965,
     stock: 4,
     image: 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=800&auto=format&fit=crop',
-    description: 'Integrated pit box power panel controlling glow plug current, 12V starter supply, and electric fuel pump direction.',
-    specs: { Supply: '12V Field Battery', Ammeter: 'Analog Current Meter', Ports: 'Glow, Starter, Pump' },
+    description: 'Buy the LiPo Glow Starter Ignitor with LED Status & Charger online in India at SKYNODES UAV. Advanced 1S LiPo powered glow plug ignitor with intelligent LED filament check. Instantly shows whether your glow plug is burning healthy or burnt out before starting your nitro engine.',
+    specs: { Supply: '1S 1200mAh LiPo Built-in', Indicator: 'Smart Status LED Indicator', Charger: 'Included USB/AC Charging Adaptor' },
     inStock: true
   },
   {
@@ -865,8 +865,8 @@ export const PRODUCTS: Product[] = [
     basePrice: 847,
     stock: 10,
     image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop',
-    description: 'Built-in 1800mAh NiMH cell with LED glow status indicator and overnight wall charger.',
-    specs: { Cell: '1.2V 1800mAh NiMH', Indicator: 'Glow Current LED', Charger: '220V Wall Plug' },
+    description: 'Buy the 1800mAh NiMH Glow Plug Starter Ignitor online in India at SKYNODES UAV. Compact flight-line essential featuring high-capacity rechargeable 1800mAh NiMH cell, durable twist-lock connector, and overnight 220V wall charger for instant glow engine ignition.',
+    specs: { Cell: '1.2V 1800mAh NiMH Rechargeable', Indicator: 'Glow Current LED', Charger: '220V Wall Plug Charger Included' },
     inStock: true
   },
   {
@@ -884,8 +884,8 @@ export const PRODUCTS: Product[] = [
     basePrice: 1270,
     stock: 10,
     image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop',
-    description: 'CNC machined steel propeller drill jig for perfect bolt circle alignment on 30-55cc gas engines.',
-    specs: { Pattern: '30-55cc Engine Hubs', Material: 'Hardened Steel', DrillBit: '5mm Included' },
+    description: 'Buy the CNC Propeller Drill Jig Guide (30cc to 55cc) online in India at SKYNODES UAV. Precision hardened-steel propeller drilling fixture ensuring concentric 4-bolt and 6-bolt hole patterns for DLE 30cc, 35RA, and 55cc gas engines without wobbles or shaft vibrations.',
+    specs: { Pattern: '30-55cc Engine Hubs', Material: 'Hardened Tool Steel', DrillBit: '5mm Hardened Drill Bit Included' },
     inStock: true
   },
   {
@@ -903,8 +903,8 @@ export const PRODUCTS: Product[] = [
     basePrice: 1864,
     stock: 10,
     image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop',
-    description: 'Giant scale propeller drilling fixture for 100-150cc twin and quad cylinder gas engines.',
-    specs: { Pattern: '110-150cc Hub Pattern', Precision: '+/- 0.05mm CNC', Material: 'Tool Steel' },
+    description: 'Buy the Giant Scale Propeller Drill Jig Guide (100cc to 150cc) online in India at SKYNODES UAV. Tool-steel CNC drilling template for giant scale twin-cylinder gas engines (DLE 111, DLE 120, DA 100/150) providing micron-level hub balance and propeller alignment.',
+    specs: { Pattern: '110-150cc Hub Pattern', Precision: '+/- 0.05mm CNC Machined', Material: 'Hardened Tool Steel' },
     inStock: true
   },
   {
@@ -922,8 +922,8 @@ export const PRODUCTS: Product[] = [
     basePrice: 2287,
     stock: 10,
     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop',
-    description: 'Bi-directional electric fuel pump with metal casing. Fills or defueling gas and nitro tanks at 1000ml/min.',
-    specs: { Voltage: '12V DC', FlowRate: '1000 ml/min', Seals: 'Viton Gasoline Seals' },
+    description: 'Buy the 12V Electric High-Flow Fuel Pump online in India at SKYNODES UAV. Heavy-duty reversible electric pump delivering 1000ml/min flow rate with fuel-proof fluororubber seals for rapid fueling and de-fueling of nitro glow, gasoline, and smoke oil tanks.',
+    specs: { Voltage: '12V DC', FlowRate: '1000 ml/min Rapid Flow', Seals: 'Viton & Fluororubber Gasoline Seals' },
     inStock: true
   },
   {
@@ -942,8 +942,8 @@ export const PRODUCTS: Product[] = [
     basePrice: 2965,
     stock: 10,
     image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=800&auto=format&fit=crop',
-    description: 'Genuine DU-BRO USA Tygon gasoline fuel tubing. Never hardens or cracks over time.',
-    specs: { Length: "30' Spool", Diameter: '1/8" ID x 1/4" OD', Fuel: 'Gasoline & Kerosene' },
+    description: 'Buy genuine DU-BRO Tygon Gasoline Fuel Tubing (30ft Spool) online in India at SKYNODES UAV. Made in USA 1/8" ID x 1/4" OD high-grade yellow Tygon tubing engineered specifically for petrol and kerosene engines. Guaranteed never to harden, crack, or swell over time.',
+    specs: { Length: "30' Spool (9.1 Meters)", Diameter: '1/8" ID x 1/4" OD', Fuel: 'Gasoline, Petrol, Diesel & Kerosene' },
     inStock: true
   },
   {
@@ -964,8 +964,12 @@ export const PRODUCTS: Product[] = [
     stock: 1,
     image: '/images/products/acc-12-1.jpg',
     images: ["/images/products/acc-12-1.jpg","/images/products/acc-12-2.jpg","/images/products/acc-12-3.jpg","/images/products/acc-12-4.jpg"],
-    description: 'The world’s #1 RC flight simulator! Features over 175 aircraft, realistic physics, and Spektrum InterLink DX USB transmitter controller.',
-    specs: { Platform: 'Windows PC', Controller: 'InterLink DX USB', Aircraft: '175+ Planes/Helis' },
+    description: 'Buy the RealFlight Evolution RC Flight Simulator with Spektrum InterLink DX USB Controller online in India at SKYNODES UAV. The world’s #1 RC flight simulator software for Windows PC, featuring 175+ scale aircraft, real-world physics, wind turbulence modeling, and plug-and-play USB transmitter controller.',
+    specs: { Platform: 'Windows PC (Steam / Standalone)', Controller: 'Spektrum InterLink DX USB', Aircraft: '175+ Scale Airplanes, Jets & Helis' },
+    faqList: [
+      { q: 'Is the physical USB transmitter controller included in the box?', a: 'Yes! It includes the authentic Spektrum InterLink DX simulator controller with realistic gimbal switches, reset button, and USB connection.' },
+      { q: 'Does RealFlight Evolution help beginners learn to fly?', a: 'Yes, practicing on RealFlight saves thousands in crash costs and builds muscle memory for orientation, stalls, wind compensation, and landing approaches.' }
+    ],
     inStock: true
   },
   {
@@ -985,8 +989,11 @@ export const PRODUCTS: Product[] = [
     stock: 200,
     image: '/images/products/acc-13-1.jpg',
     images: ["/images/products/acc-13-1.jpg","/images/products/acc-13-2.jpg","/images/products/acc-13-3.jpg","/images/products/acc-13-4.jpg"],
-    description: 'The gold standard glow plug for all 2-stroke nitro airplane engines (.12 to .61 size).',
-    specs: { HeatRange: 'Medium Hot', Type: 'Standard 2-Stroke', Threads: '1/4-32 UNEF' },
+    description: 'Buy authentic O.S. Glow Plug No. 8 (Standard Medium-Hot) online in India at SKYNODES UAV. The worldwide gold-standard glow plug for all O.S. Max and 2-stroke nitro airplane engines (.15 to .91 size). Delivers dependable hot ignition, smooth idling, and maximum RPM.',
+    specs: { HeatRange: 'Medium Hot', Type: 'Standard 2-Stroke Nitro Glow', Threads: '1/4-32 UNEF Worldwide Standard', Manufacturer: 'O.S. Engines Japan' },
+    faqList: [
+      { q: 'Which engines are compatible with O.S. No. 8 glow plug?', a: 'It is compatible with almost all 2-stroke nitro glow engines including O.S. Max .46 AX, .55 AX, .65 AX, Evolution, Thunder Tiger, and ASP engines.' }
+    ],
     inStock: true
   },
   {
@@ -1005,8 +1012,8 @@ export const PRODUCTS: Product[] = [
     basePrice: 5931,
     stock: 2,
     image: 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=800&auto=format&fit=crop',
-    description: 'Multi-functional OLED battery capacity checker, servo signal generator tester, and receiver voltage meter.',
-    specs: { Support: 'LiPo / LiFe / LiIon / NiMH', ServoTest: 'Manual & Auto Sweep', Screen: 'OLED Display' },
+    description: 'Buy the Futaba BR-4000 Multifunction Battery Checker & Servo Tester online in India at SKYNODES UAV. Premium color OLED diagnostic meter testing 1-8S LiPo, LiFe, and Li-Ion packs with individual cell balancing, USB-C fast charging port, and PWM / S.BUS servo signal tester.',
+    specs: { Support: 'LiPo / LiFe / LiIon (1-8S), NiMH', ServoTest: 'Manual & Auto Sweep PWM / S.BUS', Screen: 'Full Color OLED Display', Extra: 'USB-C Output Fast Charging' },
     inStock: true
   },
   {
@@ -1025,7 +1032,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 4067,
     stock: 2,
     image: 'https://images.unsplash.com/photo-1563770660941-20978e870e26?q=80&w=800&auto=format&fit=crop',
-    description: 'The Futaba BR-3000 Battery Checker is a precision handheld diagnostic tool designed for testing LiPo, LiFe, Li-Ion, NiCd, and NiMH battery packs. Features high-contrast LCD display, individual cell voltage balance monitoring, total pack voltage, and remaining capacity percentage display.',
+    description: 'Buy the Futaba BR-3000 Battery Checker online in India at SKYNODES UAV. Precision handheld diagnostic tool for testing 2-8S LiPo, LiFe, Li-Ion and 4-8S NiMH receiver battery packs with total voltage, individual cell readouts, and remaining capacity percentage display.',
     specs: { Function: 'Battery Voltage & Cell Balance Checker', Compatibility: 'LiPo, LiFe, Li-Ion (2-8S), NiCd/NiMH (4-8S)', Display: 'High Contrast Backlit LCD', Measurement: 'Cell & Total Voltage, Remaining %', Port: 'Standard JST-XH Balance Port' },
     inStock: true
   }

@@ -43,9 +43,32 @@ const pairedProducts = customComboProduct
   ? [customComboProduct, ...defaultPaired.filter(p => p.id !== customComboProduct?.id)].slice(0, 4)
   : defaultPaired.slice(0, 4);
 
-const pageTitle = `${product.name} - Buy Online at Best Price in India | SKYNODESUAV`;
-const metaDescription = `${product.description} Buy ${product.name} online for ₹${product.price.toLocaleString('en-IN')}. Original factory warranty & fast shipping across India.`;
+const pageTitle = `${product.name} - Buy Online at Best Price in India | SKYNODES UAV`;
+const metaDescription = `${product.description.slice(0, 160).trim()}... Buy ${product.name} online in India at SKYNODES UAV for ₹${product.price.toLocaleString('en-IN')}. Genuine manufacturer warranty, GST tax invoice, and fast Pan-India delivery.`;
 const canonicalUrl = `https://www.skynodesuav.in/product/${product.id}`;
+
+// E-Commerce Semantic Keywords Mapping (Transactional & Commercial Intent)
+const categoryKeywordsMap: Record<string, string[]> = {
+  'engine': ['buy RC nitro engine India', 'gas engine for RC plane', 'RC airplane glow engine price', 'O.S. Engines India dealer', 'DLE engines official store', '2 stroke model airplane engine'],
+  'radio-receiver': ['Futaba transmitter India', '2.4GHz RC radio controller', 'Futaba telemetry receiver', 'buy RC airplane transmitter', 'S.BUS digital radio system India'],
+  'aeromodels': ['Seagull models ARF India', 'buy balsa RC airplane kit', 'scale aeromodel online India', 'giant scale RC plane', 'aerobatic RC airframe India'],
+  'balsa-wood': ['buy balsa wood sheet India', 'contest grade balsa 100x1000mm', 'aeromodelling balsa wood online', 'scratch building balsa sheets', 'balsa wood price India'],
+  'accessories': ['aeromodelling accessories India', '12V starter for RC plane', 'rotary hand fuel pump', 'glow plug ignitor India', 'Futaba digital servo price']
+};
+
+const baseCategoryKeywords = categoryKeywordsMap[product.category] || ['aeromodelling India', 'RC plane parts'];
+const productKeywords = [
+  product.name,
+  `buy ${product.name} India`,
+  `${product.name} price India`,
+  `${product.name} online`,
+  productBrandName,
+  product.categoryLabel,
+  ...baseCategoryKeywords,
+  'SKYNODES UAV',
+  'RC hobby shop Nashik Maharashtra',
+  'Pan-India express shipping'
+].join(', ');
 
 Astro.response.headers.set('X-Robots-Tag', 'all');
 
@@ -276,10 +299,31 @@ const faqSchema = (product.faqList && product.faqList.length > 0) ? {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{pageTitle}</title>
   <meta name="description" content={metaDescription} />
+  <meta name="keywords" content={productKeywords} />
   <link rel="canonical" href={canonicalUrl} />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+
+  <!-- OpenGraph E-Commerce Tags -->
+  <meta property="og:type" content="product" />
+  <meta property="og:site_name" content="SKYNODES UAV" />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={metaDescription} />
+  <meta property="og:url" content={canonicalUrl} />
+  <meta property="og:image" content={product.image.startsWith('http') ? product.image : `https://www.skynodesuav.in${product.image}`} />
+  <meta property="product:price:amount" content={String(product.price)} />
+  <meta property="product:price:currency" content="INR" />
+  <meta property="product:availability" content={product.inStock ? "in stock" : "out of stock"} />
+  <meta property="product:brand" content={productBrandName} />
+  <meta property="product:retailer_item_id" content={product.id} />
+
+  <!-- Twitter Card Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={pageTitle} />
+  <meta name="twitter:description" content={metaDescription} />
+  <meta name="twitter:image" content={product.image.startsWith('http') ? product.image : `https://www.skynodesuav.in${product.image}`} />
+
   <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
   {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
