@@ -3,7 +3,7 @@ import { getCombinedProducts } from '../lib/shopify';
 import { getAllBlogPosts } from '../lib/shopifyBlog';
 
 export const GET: APIRoute = async () => {
-  const baseUrl = 'https://skynodesuav.in';
+  const baseUrl = 'https://www.skynodesuav.in';
 
   let products: any[] = [];
   try {
@@ -58,12 +58,14 @@ ${blogs
 - Contact & Support: ${baseUrl}/contact
 - HTML Directory: ${baseUrl}/sitemap
 - XML Sitemap: ${baseUrl}/sitemap.xml
+- Full AI Grounding Knowledge Base: ${baseUrl}/llms-full.txt
 `;
 
   return new Response(text, {
     headers: {
       'Content-Type': 'text/plain; charset=utf-8',
       'Cache-Control': 'public, max-age=86400',
+      'X-Robots-Tag': 'all',
     },
   });
 };

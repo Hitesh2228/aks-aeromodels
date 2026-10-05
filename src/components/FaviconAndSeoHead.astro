@@ -1,5 +1,5 @@
 ---
-// Reusable Favicon, Google Site Name, and PWA Manifest Header
+// Reusable Favicon, Google Site Name, Local Citations, and PWA Manifest Header
 ---
 <!-- Favicons for Browsers, Googlebot & Mobile Devices -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -16,13 +16,85 @@
 <meta name="application-name" content="SKYNODES UAV" />
 <meta name="apple-mobile-web-app-title" content="SKYNODES UAV" />
 
-<!-- Official Google WebSite Structured Data Schema (Guarantees Site Name 'SKYNODES UAV' in SERP) -->
+<!-- Official Google WebSite Structured Data Schema with Sitelinks SearchAction -->
 <script type="application/ld+json" is:inline>
 {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": "https://www.skynodesuav.in/#website",
   "name": "SKYNODES UAV",
-  "alternateName": ["SKYNODES", "SKYNODESUAV", "SKYNODES UAV India"],
-  "url": "https://www.skynodesuav.in"
+  "alternateName": ["SKYNODES", "SKYNODESUAV", "SKYNODES UAV India", "AKS Aeromodels"],
+  "url": "https://www.skynodesuav.in",
+  "description": "India's premier high-performance scale aeromodelling, RC aviation hardware, and UAV technology specialist store.",
+  "inLanguage": "en-IN",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://www.skynodesuav.in/shop?search={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<!-- Official LocalBusiness / HobbyShop Store Schema (NAP, Geo-Coordinates & Citations) -->
+<script type="application/ld+json" is:inline>
+{
+  "@context": "https://schema.org",
+  "@type": ["HobbyShop", "Store", "LocalBusiness"],
+  "@id": "https://www.skynodesuav.in/#store",
+  "name": "SKYNODES UAV",
+  "legalName": "SKYNODES UAV India Private Limited",
+  "alternateName": ["SKYNODES", "SKYNODESUAV", "SKYNODES UAV Store"],
+  "url": "https://www.skynodesuav.in",
+  "logo": "https://www.skynodesuav.in/favicon-512x512.png",
+  "image": "https://www.skynodesuav.in/favicon-512x512.png",
+  "description": "Authorized specialist distributor of O.S. Max Nitro Engines, DLE Gas Engines, Futaba Radio Systems, and Seagull Models ARF Aeromodels in India.",
+  "telephone": "+91-7722009120",
+  "email": "support@skynodesuav.in",
+  "priceRange": "₹₹₹",
+  "currenciesAccepted": "INR",
+  "paymentAccepted": "UPI, Net Banking, Credit Card, Debit Card, Razorpay, Cash on Delivery",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Devlali Camp, Near HP Petrol Pump",
+    "addressLocality": "Nashik",
+    "addressRegion": "Maharashtra",
+    "postalCode": "422502",
+    "addressCountry": "IN"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 19.9142,
+    "longitude": 73.8340
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "opens": "10:00",
+      "closes": "19:00"
+    }
+  ],
+  "areaServed": {
+    "@type": "Country",
+    "name": "India"
+  },
+  "knowsAbout": [
+    "Aeromodelling",
+    "Radio Controlled Aircraft",
+    "UAV Propulsion Systems",
+    "Nitro Engines",
+    "CDI Gasoline Engines",
+    "Futaba FASSTest & T-FHSS Telemetry",
+    "Seagull Models ARF",
+    "Contest Grade Balsa Wood"
+  ],
+  "sameAs": [
+    "https://www.facebook.com/skynodesuav",
+    "https://www.instagram.com/skynodesuav",
+    "https://www.youtube.com/@skynodesuav"
+  ]
 }
 </script>

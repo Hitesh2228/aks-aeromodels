@@ -68,8 +68,14 @@ export const PRODUCTS: Product[] = [
     stock: 12,
     image: '/images/products/eng-1-1.jpg',
     images: ["/images/products/eng-1-1.jpg","/images/products/eng-1-2.jpg","/images/products/eng-1-3.jpg","/images/products/eng-1-4.jpg"],
-    description: 'The legendary O.S. Max 0.46 AX II delivers exceptional power-to-weight ratio, ultra-smooth idle, and bulletproof reliability for .40-.46 size trainers and sport models. Designed with advanced ABL cylinder liner technology and 40K carburetor.',
-    specs: { Displacement: '7.45 cc (0.455 cu in)', Power: '1.65 hp @ 16,000 RPM', Weight: '378g (13.3 oz)', Fuel: 'Nitro Glow (10-20%)', Manufacturer: 'O.S. Engines Japan', Compatibility: '.40-.46 Size Airframes' },
+    description: 'The legendary O.S. Max 0.46 AX II delivers exceptional power-to-weight ratio, ultra-smooth idle, and bulletproof reliability for .40-.46 size trainers, sport aircraft, and scale aerobatic models in India. Manufactured in Japan with advanced ABL (Advanced Bimetallic Liner) technology, a precision 40K two-needle carburetor, and E-3071 quiet silencer.',
+    specs: { Displacement: '7.45 cc (0.455 cu in)', Power: '1.65 hp @ 16,000 RPM', Weight: '378g (13.3 oz)', Fuel: 'Nitro Glow (10-20% Nitro, 18-20% Oil)', Manufacturer: 'O.S. Engines Japan', Compatibility: '.40-.46 Size Airframes', 'Recommended Props': '10.5x6, 11x6, 11x7, 12x4' },
+    faqList: [
+      { q: 'What type of fuel is recommended for the O.S. Max 0.46 AX II Nitro Engine?', a: 'We recommend high-quality hobby glow fuel containing 10% to 15% nitromethane with 18% to 20% synthetic or castor oil lubricant. Avoid standard petrol or automotive oils.' },
+      { q: 'What propeller sizes are ideal for the O.S. .46 AX II?', a: 'For sport and trainer aircraft, a 10x6 or 11x6 propeller is ideal. For aerobatic or scale airplanes requiring higher thrust, an 11x7 or 12x4 propeller can be used.' },
+      { q: 'What break-in procedure should be followed for this engine?', a: 'Run 4-5 bench heat-cycles using a slightly rich high-speed needle setting at alternating throttle levels. Let it cool completely between cycles before final high-RPM needle adjustment.' },
+      { q: 'Does SKYNODES UAV provide authentic O.S. Engines warranty and GST billing?', a: 'Yes, every O.S. Engine purchased from SKYNODES UAV comes with 1-Year official manufacturer warranty, 100% genuine Japan origin certification, and formal GST tax invoice with Input Tax Credit (ITC).' }
+    ],
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
@@ -90,8 +96,12 @@ export const PRODUCTS: Product[] = [
     stock: 4,
     image: '/images/products/eng-2-1.jpg',
     images: ["/images/products/eng-2-1.jpg","/images/products/eng-2-2.jpg","/images/products/eng-2-3.jpg","/images/products/eng-2-4.jpg"],
-    description: 'High-displacement 2-stroke glow engine featuring Advanced Bimetallic Liner (ABL) technology and the high-efficiency E-4050 quiet silencer for maximum top-end thrust.',
-    specs: { Displacement: '10.63 cc (0.649 cu in)', Power: '1.73 hp @ 16,000 RPM', Weight: '497g', Muffler: 'E-4050 Quiet Silencer', Manufacturer: 'O.S. Engines Japan' },
+    description: 'High-displacement 2-stroke glow engine featuring Advanced Bimetallic Liner (ABL) technology and the high-efficiency E-4050 quiet silencer for maximum top-end thrust without excessive noise. Designed to fit in .60 size engine mounts.',
+    specs: { Displacement: '10.63 cc (0.649 cu in)', Power: '1.73 hp @ 16,000 RPM', Weight: '497g', Muffler: 'E-4050 Quiet Silencer', Manufacturer: 'O.S. Engines Japan', 'Recommended Props': '12x6, 13x6, 13x7, 14x6' },
+    faqList: [
+      { q: 'Does the O.S. MAX-65AX fit into standard .60 size engine mounts?', a: 'Yes, O.S. specifically engineered the crankcase footprint of the MAX-65AX to drop directly into standard .60-size aircraft mountings while providing the thrust of a .65 displacement engine.' },
+      { q: 'What is the benefit of the included E-4050 silencer?', a: 'The E-4050 power box muffler features multi-chamber baffle dampening that drastically cuts exhaust noise to club-compliant levels while preserving maximum engine RPM and torque.' }
+    ],
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
@@ -133,8 +143,12 @@ export const PRODUCTS: Product[] = [
     basePrice: 37142,
     stock: 10,
     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop',
-    description: 'Massive 65cc single cylinder 2-stroke gas engine with electronic CDI ignition and aluminum mounting standoffs. Perfect power plant for 85-92" 3D aerobatic giant scale aircraft.',
-    specs: { Displacement: '65 cc', Output: '8.5 HP @ 8,500 RPM', Weight: '1450g', Fuel: 'Unleaded Petrol + 2T Oil (30:1)', Ignition: 'Electronic CDI Auto Advance' },
+    description: 'Massive 65cc single cylinder 2-stroke gas engine with electronic CDI ignition and CNC aluminum mounting standoffs. Perfect high-thrust power plant for 85-92" 3D aerobatic giant scale aircraft.',
+    specs: { Displacement: '65 cc', Output: '8.5 HP @ 8,500 RPM', Weight: '1450g', Fuel: 'Unleaded Petrol + 2T Oil (30:1)', Ignition: 'Electronic CDI Auto Advance (4.8V-8.4V)', 'Recommended Props': '23x10, 24x8, 24x10' },
+    faqList: [
+      { q: 'What size propeller is recommended for the DLE 65cc engine?', a: 'For aerobatics and 3D flight, a 23x10 or 24x8 2-blade wood/carbon propeller is recommended. For high-speed scale flight, a 24x10 propeller provides maximum airspeed.' },
+      { q: 'What is the fuel oil ratio for the DLE 65cc?', a: 'Use clean unleaded petrol mixed with high-performance 2T synthetic oil at a 30:1 ratio (or 25:1 during initial engine break-in).' }
+    ],
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
@@ -154,8 +168,13 @@ export const PRODUCTS: Product[] = [
     basePrice: 21186,
     stock: 10,
     image: 'https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800&auto=format&fit=crop',
-    description: 'Compact 20cc petrol engine replacing 0.90-1.20 glow engines with massive fuel savings, easy starting, and rear exhaust routing for clean cowl installations.',
-    specs: { Displacement: '20 cc', Output: '2.5 HP @ 9,000 RPM', Weight: '820g', Fuel: 'Gasoline 30:1', Muffler: 'Rear Exhaust Silencer' },
+    description: 'Compact 20cc petrol engine replacing 0.90-1.20 glow engines with massive fuel savings, easy starting, and rear exhaust routing for clean cowl installations in scale aeromodels.',
+    specs: { Displacement: '20 cc', Output: '2.5 HP @ 9,000 RPM', Weight: '820g', Fuel: 'Gasoline 30:1', Muffler: 'Rear Exhaust Silencer', 'Ignition Battery': '4.8V - 8.4V LiPo Compatible', 'Recommended Props': '14x10, 15x8, 16x6, 17x6' },
+    faqList: [
+      { q: 'Can the DLE 20cc replace .90 to 1.20 size glow engines?', a: 'Yes! The DLE 20cc shares the beam mount dimensions of standard .90-1.20 glow engines, allowing modelers to convert nitro airplanes to petrol for dramatically lower running costs.' },
+      { q: 'What fuel mixture should be used in the DLE 20cc?', a: 'Mix regular unleaded gasoline with high quality 2-cycle oil at a 30:1 ratio. For break-in, run 2-3 tanks at 25:1 ratio.' },
+      { q: 'Is the electronic ignition unit included?', a: 'Yes, an authentic DLE automatic timing advance electronic CDI ignition module and spark plug are included in the factory sealed box.' }
+    ],
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
@@ -179,8 +198,13 @@ export const PRODUCTS: Product[] = [
     stock: 8,
     image: '/images/products/rad-1-1.jpg',
     images: ["/images/products/rad-1-1.jpg","/images/products/rad-1-2.jpg"],
-    description: '6-Channel computerized transmitter with real-time telemetry, telemetry speech output, backlit LCD display, and 30-model internal memory for RC airplanes, gliders, and helicopters.',
-    specs: { Channels: '6', Protocol: 'T-FHSS Air / S-FHSS', Display: '128x64 Backlit LCD', Telemetry: 'Real-Time Voice Speech', Manufacturer: 'Futaba Corporation Japan' },
+    description: 'The Futaba 6K (V3S 8-Channel capability) is an advanced 2.4GHz computerized transmitter system engineered in Japan. Features bidirectional T-FHSS telemetry, audible voice speech output, 30-model internal memory, and full S.BUS / S.BUS2 multi-channel integration for aircraft, gliders, and helicopters.',
+    specs: { Channels: '6 physical / 8 digital channels (V3 firmware)', Protocol: 'T-FHSS Air & S-FHSS 2.4GHz', Display: '128x64 Backlit Dot Matrix LCD', Telemetry: 'Real-Time Voice Speech & Screen Alerts', Manufacturer: 'Futaba Corporation Japan', Memory: '30 Models with Model Copy' },
+    faqList: [
+      { q: 'How many channels does the Futaba 6K transmitter support?', a: 'While named 6K, the current version with updated firmware provides 8 full channels with multi-rotor, airplane, glider, and helicopter flight modes.' },
+      { q: 'What is the line-of-sight signal range of the Futaba 6K?', a: 'Operating on Futaba patented T-FHSS frequency hopping spread spectrum, the 6K delivers full telemetry control range up to 1.5 to 2 kilometers line-of-sight.' },
+      { q: 'Is the Futaba receiver included in the set?', a: 'Yes, an authentic Futaba T-FHSS telemetry receiver (R3006SB or R3008SB) is included along with the user manual.' }
+    ],
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
@@ -221,8 +245,12 @@ export const PRODUCTS: Product[] = [
     stock: 4,
     image: '/images/products/rad-3-1.jpg',
     images: ["/images/products/rad-3-1.jpg","/images/products/rad-3-2.jpg"],
-    description: '8-Channel T-FHSS telemetry receiver with S.BUS and S.BUS2 ports plus external battery voltage sensing port (0-70V DC). High sensitivity dual coaxial antennas.',
-    specs: { Channels: '8 PWM / Unlimited S.BUS', Voltage: '3.7V - 7.4V HV Compatible', Weight: '10.1g', Dimensions: '24.9 x 47.3 x 14.3mm' },
+    description: '8-Channel T-FHSS bidirectional telemetry receiver with S.BUS and S.BUS2 ports plus external battery voltage sensing port (0-70V DC). Equipped with dual coaxial diversity antennas for maximum signal reception in high-interference environments.',
+    specs: { Channels: '8 PWM / Unlimited S.BUS Channels', Voltage: '3.7V - 7.4V HV Compatible', Weight: '10.1g', Dimensions: '24.9 x 47.3 x 14.3mm', Antennas: 'Dual Diversity Coaxial 150mm' },
+    faqList: [
+      { q: 'Can the Futaba R3008SB measure flight battery voltage directly?', a: 'Yes, it features an extra external voltage port (Extra Voltage Port) capable of reading up to 70V DC directly from your LiPo drive battery without additional sensors.' },
+      { q: 'Is this receiver compatible with Futaba 6K and 10J transmitters?', a: 'Yes, it binds seamlessly with any Futaba T-FHSS Air transmitter including 6K, 10J, 16IZ, 18SZ, and 32MZ.' }
+    ],
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
@@ -246,8 +274,13 @@ export const PRODUCTS: Product[] = [
     stock: 1,
     image: '/images/products/sea-1-1.jpg',
     images: ["/images/products/sea-1-1.jpg","/images/products/sea-1-2.jpg","/images/products/sea-1-3.jpg","/images/products/sea-1-4.jpg"],
-    description: 'Giant scale 122" wingspan aerobatic trainer wrapped in genuine German Oracover. Designed for 60-80cc gas engines with scale aluminum landing gear and removable two-piece wings.',
-    specs: { Wingspan: '122 in (310 cm)', Engine: '60-80 cc Gasoline', Material: 'Hand Selected Balsa & Ply / Genuine Oracover', Weight: '11.5 kg', Skill: 'Intermediate to Advanced' },
+    description: 'Giant scale 122" wingspan aerobatic trainer wrapped in genuine German Oracover polyester covering. Built with laser-cut balsa and aviation plywood, scale aluminum landing gear, functional wing struts, and plug-in two-piece wings for 60-80cc petrol powerplants.',
+    specs: { Wingspan: '122 in (310 cm)', WingArea: '2280 sq in (147 sq dm)', Engine: '60-80 cc Gasoline / Electric Equivalent', Material: 'Hand-Selected Contest Balsa & Plywood / Genuine Oracover', Weight: '11.5 kg (25.3 lbs)', Skill: 'Intermediate to Advanced', 'Radio System': '6 Channel with 7-8 High Torque Servos' },
+    faqList: [
+      { q: 'What engine size is recommended for the Decathlon 122" V2 ARF?', a: 'A 60cc to 80cc single or twin-cylinder gasoline engine (such as the DLE 65cc or DLE 85cc) provides ample power for scale aerobatics, knife-edges, and glider towing.' },
+      { q: 'What covering material does Seagull Models use on this airplane?', a: 'It is factory covered with authentic German Oracover film, renowned worldwide for high UV resistance, weather durability, and non-wrinkling finish.' },
+      { q: 'Can the wings be removed for easy vehicle transport?', a: 'Yes, the wings are two-piece plug-in panels built on an anodized aluminum wing joiner tube with quick-release scale wing struts.' }
+    ],
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
@@ -269,8 +302,12 @@ export const PRODUCTS: Product[] = [
     stock: 1,
     image: '/images/products/sea-2-1.jpg',
     images: ["/images/products/sea-2-1.jpg","/images/products/sea-2-2.jpg","/images/products/sea-2-3.jpg","/images/products/sea-2-4.jpg"],
-    description: 'Extreme 3D aerobatic performer with carbon fiber wing joiner tube, pre-hinged control surfaces, painted fiberglass cowl, and vibrant high-vis scale graphics scheme.',
-    specs: { Wingspan: '77.4 in (196.5 cm)', Engine: '35-40 cc Gas', Control: '6 Servo Channels', Weight: '5.8 kg', Assembly: 'ARF (Almost Ready to Fly)' },
+    description: 'High-performance 3D freestyle aerobatic powerhouse featuring carbon fiber wing joiner tube, pre-hinged control surfaces, painted fiberglass cowl, and vibrant high-vis scale graphics scheme for 35cc to 40cc engines.',
+    specs: { Wingspan: '77.4 in (196.5 cm)', WingArea: '1070 sq in', Engine: '35-40 cc Gas / 1.80-2.10 Glow', Control: '6 Servos (High Torque Metal Gear)', Weight: '5.8 kg', Assembly: 'ARF (Almost Ready to Fly)' },
+    faqList: [
+      { q: 'What engine size is best suited for the Seagull Edge 540 V2 77.4"?', a: 'A 35cc to 40cc gasoline engine (such as DLE 35RA or DLE 40cc) offers unlimited vertical climb and crisp 3D high-alpha performance.' },
+      { q: 'Is carbon fiber hardware included in the kit?', a: 'Yes, it comes with a high-strength carbon fiber wing joiner tube and carbon fiber tail wheel assembly.' }
+    ],
     inStock: true,
     youtubeVideoId: 'l4J81G3H5e0'
   },
@@ -509,8 +546,13 @@ export const PRODUCTS: Product[] = [
     stock: 60,
     image: '/images/products/balsa-sheet-1.jpg',
     images: ["/images/products/balsa-sheet-1.jpg","/images/products/balsa-sheet-2.jpg","/images/products/balsa-sheet-3.jpg","/images/products/balsa-sheet-4.jpg"],
-    description: 'Precision-milled AAA contest grade balsa sheet. 2mm thickness is ideal for rib capstrips, wing sheeting, trailing edges, and light fairings.',
-    specs: { Dimensions: '2mm x 100mm x 1000mm', Density: '6-8 lbs/cu.ft', Grade: 'AAA Contest Grade', Grain: 'Straight & Uniform' },
+    description: 'Precision-milled AAA contest grade balsa sheet imported and calibrated to tight aero tolerances. The 2mm thickness is ideal for leading-edge wing sheeting, rib capstrips, control surface skins, fuselage fairings, and precision drone prototyping in India.',
+    specs: { Dimensions: '2mm x 100mm x 1000mm (1 Meter)', Density: '6-8 lbs/cu.ft (Ultralight Contest Grade)', Grade: 'AAA Contest Certified', Cut: 'Straight & Uniform Quarter Grain', Finish: 'Silky Sanded Surface' },
+    faqList: [
+      { q: 'What is AAA Contest Grade Balsa?', a: 'AAA Contest Grade balsa is individually weighed and selected for light weight (6-8 lbs/cu.ft), uniform grain pattern, and freedom from warps or sap pockets, making it the choice for national aeromodelling competitions.' },
+      { q: 'What adhesive is recommended for assembling 2mm balsa sheets?', a: 'Cyanoacrylate (CA / Super Glue) with CA kicker or aliphatic resin wood glue (Titebond) provides maximum bond strength with minimal added weight.' },
+      { q: 'How is balsa wood protected during shipping across India?', a: 'All balsa sheets are packed flat between stiff corrugated sandwich boards and moisture-resistant bubble polywrap to guarantee zero damage or bending during dispatch.' }
+    ],
     inStock: true
   },
   {
@@ -530,8 +572,11 @@ export const PRODUCTS: Product[] = [
     stock: 100,
     image: '/images/products/balsa-sheet-1.jpg',
     images: ["/images/products/balsa-sheet-1.jpg","/images/products/balsa-sheet-2.jpg","/images/products/balsa-sheet-3.jpg","/images/products/balsa-sheet-4.jpg"],
-    description: 'Standard wing rib and fuselage side balsa sheet. Milled to exact tolerances for scratch builders and aeromodelling kit assembly.',
-    specs: { Dimensions: '3mm x 100mm x 1000mm', Density: '8-10 lbs/cu.ft', Grade: 'AAA Contest Grade' },
+    description: 'Standard 3mm thickness AAA balsa sheet for main wing ribs, fuselage sides, bulkheads, and tailplane framing. Delivers optimum balance of structural rigidity and ultralight flight performance.',
+    specs: { Dimensions: '3mm x 100mm x 1000mm (1 Meter)', Density: '7-9 lbs/cu.ft', Grade: 'AAA Grade Aeromodelling Wood', Grain: 'Uniform C-Grain / Quarter Sawn' },
+    faqList: [
+      { q: 'What are the main applications of 3mm balsa sheet?', a: '3mm balsa is the worldwide standard for cutting wing ribs, fuselage doublers, empennage formers, and tail surfaces on .25 to .60 size aeromodels.' }
+    ],
     inStock: true
   },
   {
@@ -694,8 +739,12 @@ export const PRODUCTS: Product[] = [
     basePrice: 1228,
     stock: 50,
     image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop',
-    description: 'Universal standard digital S.BUS servo providing 4.5 kg-cm torque for primary flight control surfaces (ailerons, elevator, rudder).',
-    specs: { Torque: '4.5 kg-cm @ 6.0V', Speed: '0.19 sec/60°', Gears: 'Resin', Weight: '36g', Connector: 'Futaba Standard' },
+    description: 'Universal standard digital S.BUS servo providing 4.5 kg-cm torque for primary flight control surfaces (ailerons, elevator, rudder). Designed with precise digital amplifier circuitry for rapid centering and response.',
+    specs: { Torque: '4.5 kg-cm @ 6.0V (3.8 kg-cm @ 4.8V)', Speed: '0.19 sec/60° @ 6.0V', Gears: 'Resin / Reinforced Composite', Weight: '36g', Connector: 'Futaba Standard S.BUS / PWM Compatible' },
+    faqList: [
+      { q: 'Can the Futaba S-U300 servo be used with conventional PWM receivers?', a: 'Yes! While fully S.BUS compatible, it operates identically as a standard analog/digital PWM servo when connected to conventional receiver channel ports.' },
+      { q: 'What airplane models is this servo suitable for?', a: 'It is ideal for .40 to .60 size nitro trainers, sport airplanes, and scale balsa aeromodels requiring reliable control surface actuation.' }
+    ],
     inStock: true
   },
   {
@@ -732,8 +781,12 @@ export const PRODUCTS: Product[] = [
     basePrice: 1491,
     stock: 5,
     image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop',
-    description: 'High flow aluminum geared rotary hand pump with fuel-proof silicone seals for rapid tank filling and defueling.',
-    specs: { Flow: 'Direct Gear Drive', Compatibility: 'Nitro & Gasoline', Material: 'CNC Aluminum Casing' },
+    description: 'High flow CNC aluminum geared rotary manual hand pump with fuel-proof fluororubber seals for rapid fueling and de-fueling without leaks or priming issues.',
+    specs: { Flow: 'Direct Gear Drive Mechanism', Compatibility: 'Nitro Glow, Gasoline / Petrol, Smoke Oil', Material: 'CNC Anodized Aluminum Casing' },
+    faqList: [
+      { q: 'Is this hand fuel pump safe for gasoline/petrol as well as nitro fuel?', a: 'Yes! The internal gear mechanism and seals are specifically formulated to withstand both methanol/nitro fuel blends and gasoline without swelling or leaking.' },
+      { q: 'Does it support two-way operation (filling and draining)?', a: 'Yes, turning the crank handle clockwise fills the model tank, while counter-clockwise rotation drains residual fuel back into your field container.' }
+    ],
     inStock: true
   },
   {
@@ -752,8 +805,11 @@ export const PRODUCTS: Product[] = [
     basePrice: 6355,
     stock: 5,
     image: 'https://images.unsplash.com/photo-1581092162384-8987c1d64718?q=80&w=800&auto=format&fit=crop',
-    description: 'Heavy duty 12V DC starter motor with aluminum spinner cone rubber insert. Effortlessly spins up to 50cc petrol engines.',
-    specs: { Voltage: '12V DC Battery', Capacity: '.40 up to 50cc Gas', Current: '30A Peak' },
+    description: 'Heavy duty 12V DC starter motor with aluminum spinner cone rubber insert. Effortlessly spins up to 50cc petrol engines and all nitro glow engines.',
+    specs: { Voltage: '12V DC (Battery Clips Included)', Capacity: '.049 Nitro up to 50cc Gas Engines', Current: '30A Peak Starting Current', Cone: 'Reversible Dual-Size Rubber Insert' },
+    faqList: [
+      { q: 'What battery should be used to power this 12V electric starter?', a: 'A standard 12V 7Ah lead-acid field battery or a 3S / 4S LiPo battery pack (with XT60 or alligator clips) provides immense cranking power.' }
+    ],
     inStock: true
   },
   {

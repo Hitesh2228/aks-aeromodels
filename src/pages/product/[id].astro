@@ -114,18 +114,51 @@ const trustBadgesList = product.trustBadges && product.trustBadges.length >= 4
   ? product.trustBadges.slice(0, 4)
   : ['Imported Quality', '100% Genuine', 'AMA Certified', 'Assured Delivery'];
 
+// Brand determination for Google Knowledge Graph
+const productBrandName = product.name.startsWith('O.S.')
+  ? 'O.S. Engines'
+  : product.name.startsWith('Futaba')
+  ? 'Futaba'
+  : product.name.startsWith('DLE')
+  ? 'DLE Engines'
+  : product.categoryLabel === 'Seagull Aeromodels'
+  ? 'Seagull Models'
+  : 'SKYNODES UAV';
+
+// Reviews Schema mapping
+const reviewsListSchema = pilotReviews.map(r => ({
+  "@type": "Review",
+  "author": {
+    "@type": "Person",
+    "name": r.name
+  },
+  "datePublished": "2026-08-15",
+  "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": r.rating,
+    "bestRating": "5"
+  },
+  "name": r.title,
+  "reviewBody": r.text
+}));
+
 // Structured Data (JSON-LD Product Schema for SEO & Rich Results)
 const productSchema = {
   "@context": "https://schema.org/",
   "@type": "Product",
   "name": product.name,
-  "image": [product.image],
+  "image": [product.image, ...(product.images || [])],
   "description": product.description,
   "sku": product.id,
   "mpn": product.id,
+  "category": "Toys & Games > Hobbies > Remote & Radio Control > Airplanes & Parts",
   "brand": {
     "@type": "Brand",
-    "name": product.categoryLabel === 'Seagull Aeromodels' ? 'Seagull Models' : 'SKYNODESUAV'
+    "name": productBrandName
+  },
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "RC Airplane Pilots, Aeromodelling Hobbyists, Drone Engineers"
   },
   "offers": {
     "@type": "Offer",
@@ -137,7 +170,44 @@ const productSchema = {
     "availability": product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
     "seller": {
       "@type": "Organization",
-      "name": "SKYNODESUAV"
+      "name": "SKYNODES UAV",
+      "url": "https://www.skynodesuav.in"
+    },
+    "hasMerchantReturnPolicy": {
+      "@type": "MerchantReturnPolicy",
+      "applicableCountry": "IN",
+      "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+      "merchantReturnDays": 7,
+      "returnMethod": "https://schema.org/ReturnByMail",
+      "returnFees": "https://schema.org/FreeReturn",
+      "refundType": "https://schema.org/ExchangeRefund"
+    },
+    "shippingDetails": {
+      "@type": "OfferShippingDetails",
+      "shippingRate": {
+        "@type": "MonetaryAmount",
+        "value": "0",
+        "currency": "INR"
+      },
+      "shippingDestination": {
+        "@type": "DefinedRegion",
+        "addressCountry": "IN"
+      },
+      "deliveryTime": {
+        "@type": "ShippingDeliveryTime",
+        "handlingTime": {
+          "@type": "QuantitativeValue",
+          "minValue": 0,
+          "maxValue": 1,
+          "unitCode": "DAY"
+        },
+        "transitTime": {
+          "@type": "QuantitativeValue",
+          "minValue": 1,
+          "maxValue": 3,
+          "unitCode": "DAY"
+        }
+      }
     }
   },
   "aggregateRating": {
@@ -146,8 +216,55 @@ const productSchema = {
     "reviewCount": product.reviewsCount,
     "bestRating": "5",
     "worstRating": "1"
-  }
+  },
+  "review": reviewsListSchema
 };
+
+// BreadcrumbList Schema for Google SERP Navigation Rich Snippets
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.skynodesuav.in"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Shop All",
+      "item": "https://www.skynodesuav.in/shop"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": product.categoryLabel,
+      "item": `https://www.skynodesuav.in/shop?category=${product.category}`
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": product.name,
+      "item": canonicalUrl
+    }
+  ]
+};
+
+// FAQPage Schema for SERP Interactive Rich Accordions
+const faqSchema = (product.faqList && product.faqList.length > 0) ? {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": product.faqList.map(item => ({
+    "@type": "Question",
+    "name": item.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.a
+    }
+  }))
+} : null;
 ---
 
 <!DOCTYPE html>
@@ -164,6 +281,8 @@ const productSchema = {
   <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
 </head>
 <body class="bellavita-pdp-body">
   <GoogleTagManagerBody />
