@@ -153,25 +153,27 @@ const BANNERS = heroTaggedProducts.length > 0
             </div>
 
             <!-- Center Product Showcase -->
-            <div class="hero-center-products">
-              <img
-                src={banner.img}
-                srcset={`${banner.imgMobile || banner.img} 500w, ${banner.img} 800w`}
-                sizes="(max-width: 768px) 100vw, 800px"
-                alt={banner.collName}
-                class="hero-products-img"
-                loading={index === 0 ? "eager" : "lazy"}
-                decoding={index === 0 ? "sync" : "async"}
-                fetchpriority={index === 0 ? "high" : "low"}
-                width="800"
-                height="500"
-              />
+            <a href={banner.ctaLink} class="hero-center-products" aria-label={`View ${banner.collName}`}>
+              <div class="hero-product-frame">
+                <img
+                  src={banner.img}
+                  srcset={`${banner.imgMobile || banner.img} 500w, ${banner.img} 800w`}
+                  sizes="(max-width: 768px) 100vw, 800px"
+                  alt={banner.collName}
+                  class="hero-products-img"
+                  loading={index === 0 ? "eager" : "lazy"}
+                  decoding={index === 0 ? "sync" : "async"}
+                  fetchpriority={index === 0 ? "high" : "low"}
+                  width="800"
+                  height="500"
+                />
+              </div>
               <div class="collection-title-badge">
                 <span class="brand-sub">{banner.brandSub}</span>
                 <span class="coll-name">{banner.collName}</span>
                 <span class="coll-sub">{banner.collSub}</span>
               </div>
-            </div>
+            </a>
 
             <!-- Right Promo -->
             <div class="hero-right-promo">
@@ -287,26 +289,51 @@ const BANNERS = heroTaggedProducts.length > 0
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-decoration: none;
+    width: 100%;
+  }
+  .hero-product-frame {
+    width: 100%;
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, rgba(15, 2, 5, 0.55) 75%);
+    border-radius: 14px;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 35px rgba(0, 0, 0, 0.35);
+    padding: 1.25rem 1.5rem 1.85rem;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .hero-center-products:hover .hero-product-frame {
+    transform: translateY(-3px);
+    border-color: rgba(245, 158, 11, 0.6);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), 0 0 25px rgba(234, 179, 8, 0.25);
   }
   .hero-products-img {
     width: 100%;
-    height: 340px;
-    max-height: 380px;
-    object-fit: cover;
-    border-radius: 12px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    height: 100%;
+    max-height: 310px;
+    object-fit: contain !important; /* CRITICAL: 100% full view, never cropped */
+    filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.75));
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .hero-center-products:hover .hero-products-img {
+    transform: scale(1.04);
   }
   .collection-title-badge {
     position: absolute;
     bottom: -15px;
-    background: rgba(17, 17, 17, 0.92);
+    background: rgba(17, 17, 17, 0.94);
     backdrop-filter: blur(8px);
-    border: 1px solid rgba(245, 158, 11, 0.4);
+    border: 1px solid rgba(245, 158, 11, 0.45);
     padding: 0.6rem 1.25rem;
     border-radius: 30px;
     text-align: center;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    z-index: 2;
   }
   .brand-sub {
     display: block;
@@ -424,14 +451,23 @@ const BANNERS = heroTaggedProducts.length > 0
     .hero-banner-card {
       grid-template-columns: 1fr;
       text-align: center;
-      padding: 0.5rem;
-      gap: 0.75rem;
+      padding: 0.75rem 0.5rem;
+      gap: 1rem;
+      min-height: auto;
     }
     .hero-left-offer, .hero-right-promo {
       align-items: center;
+      width: 100%;
+    }
+    .hero-product-frame {
+      height: 240px;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.12) 0%, rgba(15, 2, 5, 0.6) 80%);
     }
     .hero-products-img {
-      max-height: 160px;
+      max-height: 210px;
+      object-fit: contain !important;
     }
     .collection-title-badge {
       position: relative;
@@ -440,6 +476,9 @@ const BANNERS = heroTaggedProducts.length > 0
       transform: none;
       margin-top: 0.5rem;
       border-radius: 8px;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0.45rem 0.75rem;
     }
     .hero-pills-stack {
       max-width: 100%;

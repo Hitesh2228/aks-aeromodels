@@ -95,11 +95,11 @@ import LoginModal from './LoginModal.astro';
       <div class="ticker-message">
         <span class="yellow-dot">●</span> <strong>Buzz Offer Ends</strong> — Extra ₹80 OFF on all orders!
       </div>
-      <div class="countdown-widget desktop-countdown-only">
-        <span class="time-box" id="hours">00</span> <small>Days</small>
-        <span class="time-box" id="mins">08</span> <small>Hrs</small>
-        <span class="time-box" id="secs">42</span> <small>Min</small>
-        <span class="time-box" id="sec-ticks">19</span> <small>Sec</small>
+      <div class="countdown-widget" id="header-countdown-widget">
+        <span class="time-box" id="countdown-days">02</span> <small>Days</small>
+        <span class="time-box" id="countdown-hours">14</span> <small>Hrs</small>
+        <span class="time-box" id="countdown-mins">35</span> <small>Min</small>
+        <span class="time-box" id="countdown-secs">19</span> <small>Sec</small>
       </div>
     </div>
   </div>
@@ -429,10 +429,23 @@ import LoginModal from './LoginModal.astro';
     gap: 0.35rem;
     font-weight: 700;
   }
+  .countdown-widget small {
+    font-size: 0.68rem;
+    color: #e2e8f0;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
   .time-box {
-    background: rgba(255, 255, 255, 0.15);
-    padding: 0.1rem 0.3rem;
-    border-radius: 2px;
+    background: rgba(234, 179, 8, 0.2);
+    border: 1px solid rgba(234, 179, 8, 0.45);
+    color: #fef08a;
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    font-weight: 800;
+    font-family: monospace, var(--font-sans);
+    min-width: 22px;
+    text-align: center;
+    display: inline-block;
   }
 
   /* Mobile Drawer Overlay & Content (Bellavita Luxury White Theme) */
@@ -686,15 +699,26 @@ import LoginModal from './LoginModal.astro';
 
   @media (max-width: 768px) {
     .sub-ticker-flex {
+      flex-direction: column !important;
+      gap: 0.25rem !important;
       justify-content: center !important;
       text-align: center;
     }
-    .desktop-countdown-only {
-      display: none !important; /* Hide bulky timer blocks on mobile to eliminate clutter */
+    .countdown-widget {
+      justify-content: center;
+      gap: 0.25rem !important;
+    }
+    .countdown-widget small {
+      font-size: 0.62rem;
+    }
+    .time-box {
+      font-size: 0.68rem;
+      padding: 0.05rem 0.25rem;
+      min-width: 18px;
     }
     .sub-ticker-strip {
-      padding: 0.35rem 1rem;
-      font-size: 0.74rem;
+      padding: 0.35rem 0.5rem;
+      font-size: 0.72rem;
     }
   }
 
@@ -856,6 +880,71 @@ import LoginModal from './LoginModal.astro';
       });
     }
     highlightActiveNav();
+
+    // Auto-Repeating Buzz Offer Countdown Timer (Days - Hrs - Min - Sec)
+    function initBuzzCountdown() {
+      const daysEl = document.getElementById('countdown-days');
+      const hoursEl = document.getElementById('countdown-hours');
+      const minsEl = document.getElementById('countdown-mins');
+      const secsEl = document.getElementById('countdown-secs');
+
+      if (!daysEl && !hoursEl && !minsEl && !secsEl) return;
+
+      const STORAGE_KEY = 'skynode_buzz_countdown_target_v1';
+      // 2 Days, 14 Hours, 35 Minutes, 19 Seconds cycle in milliseconds
+      const CYCLE_MS = (2 * 24 * 3600 + 14 * 3600 + 35 * 60 + 19) * 1000;
+
+      function getValidTarget(): number {
+        const now = Date.now();
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+          const parsed = parseInt(stored, 10);
+          if (!isNaN(parsed) && parsed > now) {
+            return parsed;
+          }
+        }
+        // When zero reached or expired, auto-repeat with fresh cycle
+        const newTarget = now + CYCLE_MS;
+        try {
+          localStorage.setItem(STORAGE_KEY, String(newTarget));
+        } catch (e) {}
+        return newTarget;
+      }
+
+      let targetTime = getValidTarget();
+
+      function updateTimerDisplay() {
+        const now = Date.now();
+        let remaining = targetTime - now;
+
+        // Auto-repeat when counter reaches zero
+        if (remaining <= 0) {
+          targetTime = now + CYCLE_MS;
+          try {
+            localStorage.setItem(STORAGE_KEY, String(targetTime));
+          } catch (e) {}
+          remaining = targetTime - now;
+        }
+
+        const d = Math.floor(remaining / (1000 * 60 * 60 * 24));
+        const h = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((remaining % (1000 * 60)) / 1000);
+
+        if (daysEl) daysEl.textContent = String(d).padStart(2, '0');
+        if (hoursEl) hoursEl.textContent = String(h).padStart(2, '0');
+        if (minsEl) minsEl.textContent = String(m).padStart(2, '0');
+        if (secsEl) secsEl.textContent = String(s).padStart(2, '0');
+      }
+
+      updateTimerDisplay();
+
+      if ((window as any).__skynodeCountdownTimer) {
+        clearInterval((window as any).__skynodeCountdownTimer);
+      }
+      (window as any).__skynodeCountdownTimer = setInterval(updateTimerDisplay, 1000);
+    }
+    initBuzzCountdown();
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
