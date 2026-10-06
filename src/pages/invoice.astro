@@ -11,8 +11,8 @@ const halfTax = Math.round((gstTax / 2) * 100) / 100;
 ---
 
 <BaseLayout
-  title="Official Tax Invoice Bill | SKYNODESUAV"
-  description="Official GST Tax Invoice Bill for SKYNODESUAV flight order."
+  title="Official Tax Invoice Bill | Sky Nodes UAV"
+  description="Official GST Tax Invoice Bill for Sky Nodes UAV (WAY POINT)."
   bodyClass="invoice-body-clean"
 >
   <main class="invoice-page-viewport">
@@ -50,8 +50,8 @@ const halfTax = Math.round((gstTax / 2) * 100) / 100;
             <svg class="inv-watermark-emblem" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
               <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
             </svg>
-            <span class="inv-watermark-brand">SKYNODESUAV</span>
-            <span class="inv-watermark-tag">ORIGINAL TAX INVOICE • VERIFIED & AUTHENTIC</span>
+            <span class="inv-watermark-brand">SKY NODES UAV</span>
+            <span class="inv-watermark-tag">WAY POINT • ORIGINAL TAX INVOICE • VERIFIED</span>
           </div>
         </div>
 
@@ -59,15 +59,14 @@ const halfTax = Math.round((gstTax / 2) * 100) / 100;
         <div class="inv-header">
           <div class="inv-brand-col">
             <div class="inv-brand-lockup">
-              <span class="inv-company-name">SKYNODESUAV</span>
+              <span class="inv-company-name">Sky Nodes UAV</span>
               <span class="inv-legal-tag">GOVT. GST REGISTERED</span>
             </div>
-            <p class="inv-legal-entity">AKS AEROMODELS INDIA • DEFENSE & UAV SYSTEMS DIVISION</p>
-            <p class="inv-subtitle">Authorized Distributor: O.S. Engines, Futaba, DLE Engines & Seagull Models</p>
+            <p class="inv-legal-entity"><strong>Seller Billing Name:</strong> WAY POINT</p>
             <div class="inv-address-block">
-              <span><strong>Central Hub:</strong> Devlali Camp, Near HP Petrol Pump, Nashik, Maharashtra – 422401</span>
-              <span><strong>GSTIN:</strong> 27AAECK8821F1Z8 • <strong>State Code:</strong> 27 (Maharashtra)</span>
-              <span><strong>Support:</strong> +91 7722009120 • <strong>Email:</strong> support@skynodesuav.in</span>
+              <span><strong>Address:</strong> Shop No. 104, Satish Complex, Howson Road, Deolali Camp, Nashik, Maharashtra – 422401</span>
+              <span><strong>Seller GSTIN:</strong> 27ERZPS3567Q2Z5 • <strong>State Code:</strong> 27 (Maharashtra)</span>
+              <span><strong>Mob:</strong> +91 7722009120 • <strong>Email:</strong> support@skynodesuav.in</span>
             </div>
           </div>
 
@@ -104,17 +103,18 @@ const halfTax = Math.round((gstTax / 2) * 100) / 100;
               <div id="inv-b2b-gstin-row" style="display: none;" class="b2b-gstin-pill">
                 Buyer GSTIN: <strong id="inv-cust-gstin-val"></strong>
               </div>
-              <p class="party-address" id="inv-cust-address">Devlali Camp, Near HP Petrol Pump, Nashik, Maharashtra 422502</p>
+              <p class="party-address" id="inv-cust-address">Shop No. 104, Satish Complex, Howson Road, Deolali Camp, Nashik, Maharashtra 422401</p>
               <p class="party-contact" id="inv-cust-phone">Phone: +91 8888502568</p>
               <p class="party-contact" id="inv-cust-email"></p>
             </div>
           </div>
 
           <div class="party-box dispatched-from">
-            <div class="party-header-title">SUPPLIER / DISPATCH LOCATION:</div>
+            <div class="party-header-title">SELLER / DISPATCH LOCATION:</div>
             <div class="party-body">
-              <p class="party-name">SKYNODESUAV Central Hub</p>
-              <p class="party-address">Devlali Camp, Near HP Petrol Pump, Nashik, Maharashtra, India 422401</p>
+              <p class="party-name">WAY POINT (Sky Nodes UAV)</p>
+              <p class="party-address">Shop No. 104, Satish Complex, Howson Road, Deolali Camp, Nashik, Maharashtra – 422401</p>
+              <p class="party-contact"><strong>Seller GSTIN:</strong> 27ERZPS3567Q2Z5 • <strong>Mob:</strong> +91 7722009120</p>
               <p class="party-courier"><strong>Dispatch Rail:</strong> Insured Priority Air Freight Express</p>
               <p class="party-courier"><strong>Tracking AWB:</strong> <span id="inv-awb-val" class="awb-badge">#AWB-987270066</span></p>
               <p class="party-courier"><strong>Supply Type:</strong> <span id="inv-supply-type">Intra-State (CGST + SGST)</span></p>
@@ -191,7 +191,7 @@ const halfTax = Math.round((gstTax / 2) * 100) / 100;
         <!-- Summary Totals & Guarantee Section -->
         <div class="inv-summary-flex">
           
-          <!-- Left Side: Amount In Words, QR Code & Warranty Terms -->
+          <!-- Left Side: Amount In Words, Bank Details, QR Code & Warranty Terms -->
           <div class="inv-left-terms-box">
             
             <div class="inv-amount-words-card">
@@ -199,11 +199,38 @@ const halfTax = Math.round((gstTax / 2) * 100) / 100;
               <strong class="words-val" id="inv-words-val">Seven Thousand Five Hundred Fifty-Nine Rupees Only</strong>
             </div>
 
+            <!-- Company's Bank Details Card (NEFT / RTGS / IMPS) -->
+            <div class="inv-bank-card">
+              <div class="bank-card-header">
+                <span class="bank-badge-title">🏦 COMPANY’S BANK DETAILS</span>
+                <span class="bank-sub-title">NEFT / RTGS / Direct Bank Transfer</span>
+              </div>
+              <div class="bank-grid">
+                <div class="bank-item">
+                  <span class="b-lbl">A/c Holder Name:</span>
+                  <strong class="b-val">way point</strong>
+                </div>
+                <div class="bank-item">
+                  <span class="b-lbl">Bank Name:</span>
+                  <strong class="b-val">Bank of Baroda</strong>
+                </div>
+                <div class="bank-item">
+                  <span class="b-lbl">A/c Number:</span>
+                  <strong class="b-val b-acc">04740200002240</strong>
+                </div>
+                <div class="bank-item">
+                  <span class="b-lbl">Branch & IFSC Code:</span>
+                  <strong class="b-val">DEOLALI CAMP & BARB0DEOLAL</strong>
+                  <span class="ifsc-zero-pill">5th Char is Zero '0'</span>
+                </div>
+              </div>
+            </div>
+
             <div class="inv-terms-notes">
               <strong>Terms & Statutory Notes:</strong>
               <ul>
                 <li>All engines, radios & ARF models carry 1-Year Official Manufacturer Warranty.</li>
-                <li>100% Transit Damage & Loss Coverage provided by SKYNODESUAV India.</li>
+                <li>100% Transit Damage & Loss Coverage provided by Sky Nodes UAV (WAY POINT).</li>
                 <li>Input Tax Credit (ITC) valid and claimable under GSTR-2B statutory filing.</li>
                 <li id="inv-settlement-note" style="display: none;">Payment Collection & Settlement Rail: <strong>WAY POINT</strong> (via Razorpay).</li>
               </ul>
@@ -269,14 +296,14 @@ const halfTax = Math.round((gstTax / 2) * 100) / 100;
               <div class="stamp-circular-crest">
                 <div class="stamp-inner-circle">
                   <span class="stamp-star-top">★ ★ ★</span>
-                  <span class="stamp-core-title">SKYNODESUAV</span>
-                  <span class="stamp-core-sub">AUTHENTIC & VERIFIED</span>
+                  <span class="stamp-core-title">WAY POINT</span>
+                  <span class="stamp-core-sub">SKY NODES UAV</span>
                   <span class="stamp-core-state">NASHIK • MH</span>
                 </div>
               </div>
               <div class="stamp-sign-wrap">
                 <div class="stamp-signature-line">Authorised Signatory</div>
-                <div class="stamp-sign-role">For SKYNODESUAV (AKS Aeromodels)</div>
+                <div class="stamp-sign-role">For WAY POINT (Sky Nodes UAV)</div>
                 <small class="stamp-rule-text">Computer-generated tax invoice issued under Rule 46 of CGST Rules, 2017</small>
               </div>
             </div>
@@ -287,7 +314,7 @@ const halfTax = Math.round((gstTax / 2) * 100) / 100;
 
         <!-- Footer Strip -->
         <div class="inv-bottom-footer-note">
-          <p>Thank you for choosing SKYNODESUAV India! For flight support, contact support@skynodesuav.in or WhatsApp +91 7722009120.</p>
+          <p>Thank you for choosing Sky Nodes UAV (WAY POINT)! For flight support, contact support@skynodesuav.in or WhatsApp +91 7722009120.</p>
         </div>
 
       </div>
@@ -743,6 +770,72 @@ const halfTax = Math.round((gstTax / 2) * 100) / 100;
       font-weight: 800;
       letter-spacing: 0.01em;
     }
+
+    /* Company's Bank Details Card */
+    .inv-bank-card {
+      background: #fdfcf9;
+      border: 1px solid #e2d7c7;
+      border-radius: 5px;
+      padding: 0.45rem 0.65rem;
+    }
+    .bank-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.3rem;
+      border-bottom: 1px dashed #e2d7c7;
+      padding-bottom: 0.2rem;
+    }
+    .bank-badge-title {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #3b0811;
+      letter-spacing: 0.03em;
+    }
+    .bank-sub-title {
+      font-size: 0.62rem;
+      color: #6b7280;
+      font-weight: 600;
+    }
+    .bank-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.25rem 0.5rem;
+      font-size: 0.72rem;
+    }
+    .bank-item {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.25;
+    }
+    .bank-item .b-lbl {
+      color: #6b7280;
+      font-size: 0.64rem;
+      font-weight: 700;
+    }
+    .bank-item .b-val {
+      color: #111827;
+      font-weight: 800;
+    }
+    .bank-item .b-acc {
+      font-family: monospace;
+      font-size: 0.78rem;
+      color: #3b0811;
+      letter-spacing: 0.04em;
+    }
+    .ifsc-zero-pill {
+      font-size: 0.58rem;
+      color: #065f46;
+      font-weight: 700;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      padding: 0.05rem 0.25rem;
+      border-radius: 3px;
+      display: inline-block;
+      margin-top: 2px;
+      width: fit-content;
+    }
+
     .inv-terms-notes {
       font-size: 0.72rem;
       color: #4b5563;
@@ -1309,7 +1402,7 @@ const halfTax = Math.round((gstTax / 2) * 100) / 100;
         if (waBtn) {
           const b2bText = isB2B ? ` [B2B Tax Invoice - GSTIN: ${order.customer.gstin}]` : '';
           const txnText = order.paymentId ? ` [Txn ID: ${order.paymentId}]` : '';
-          const msg = encodeURIComponent(`Hi SKYNODES UAV Support, I have placed Order ${order.orderId}${b2bText}${txnText} for ₹${Number(order.total).toLocaleString('en-IN')} via ${order.paymentMethod}. Customer: ${order.customer.name}, Phone: ${order.customer.phone}. Please confirm dispatch.`);
+          const msg = encodeURIComponent(`Hi Sky Nodes UAV (WAY POINT) Support, I have placed Order ${order.orderId}${b2bText}${txnText} for ₹${Number(order.total).toLocaleString('en-IN')} via ${order.paymentMethod}. Customer: ${order.customer.name}, Phone: ${order.customer.phone}. Please confirm dispatch.`);
           waBtn.href = `https://wa.me/917722009120?text=${msg}`;
         }
       } catch (e) {
