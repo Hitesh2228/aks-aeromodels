@@ -2,266 +2,542 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { PRODUCTS } from '../data/products';
 
-const sampleProducts = [PRODUCTS[0], PRODUCTS[5], PRODUCTS[10]];
-const subtotal = sampleProducts.reduce((acc, p) => acc + p.price, 0);
-const gstTax = Math.round(subtotal * 0.18);
+// Fallback sample product for static preview if no order in localStorage
+const sampleProducts = [PRODUCTS[0]];
+const subtotal = sampleProducts[0].price;
+const gstTax = Math.round(subtotal - (subtotal / 1.18));
 const grandTotal = subtotal;
 ---
 
 <BaseLayout
   title="Official Tax Invoice Bill | SKYNODESUAV"
-  description="View and print your official tax invoice bill for your SKYNODESUAV flight order."
-  bodyClass="bellavita-page-body"
+  description="Official GST Tax Invoice Bill for SKYNODESUAV flight order."
+  bodyClass="invoice-body-clean"
 >
-  <main class="container page-padding reveal-on-scroll">
+  <main class="invoice-page-viewport">
     <div class="invoice-wrapper">
       
-      <!-- Top Action Bar (Print & WhatsApp Share) -->
+      <!-- Top Action Bar (Print & WhatsApp Share & Store Return) -->
       <div class="invoice-action-bar no-print">
-        <button onclick="window.print()" class="btn-primary print-btn">
-          🖨️ PRINT / DOWNLOAD INVOICE PDF
-        </button>
-        <a href="https://wa.me/917722009120" id="inv-wa-share-btn" target="_blank" class="btn-whatsapp-share">
-          💬 Send Invoice Copy to WhatsApp Support
+        <a href="/shop" class="btn-return-store">
+          ← Return to Store
         </a>
+        <div class="action-buttons-group">
+          <button onclick="window.print()" class="btn-print-invoice">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 6 2 18 2 18 9"></polyline>
+              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+              <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+            PRINT / DOWNLOAD PDF
+          </button>
+          <a href="https://wa.me/917722009120" id="inv-wa-share-btn" target="_blank" class="btn-whatsapp-share">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.54 1.769.839 2.796.839 3.18 0 5.767-2.586 5.768-5.766 0-3.18-2.587-5.766-5.768-5.766zm3.385 8.163c-.149.42-.767.808-1.077.859-.288.047-.655.068-2.095-.532-1.841-.767-3.037-2.645-3.13-2.768-.093-.124-.746-.991-.746-1.891 0-.9.467-1.343.633-1.528.166-.186.363-.232.484-.232.121 0 .243.002.348.007.112.005.263-.042.411.314.155.372.528 1.287.575 1.38.047.093.078.202.016.326-.062.124-.093.202-.186.31-.093.109-.196.243-.28.326-.093.093-.19.194-.082.38.109.186.484.798 1.037 1.291.712.634 1.312.83 1.498.923.186.093.295.078.404-.047.109-.124.466-.543.59-.73.124-.186.248-.155.419-.093.171.062 1.086.512 1.272.605.186.093.31.14.357.217.047.078.047.45-.102.87z"/>
+            </svg>
+            WhatsApp Copy
+          </a>
+        </div>
       </div>
 
-      <!-- Printable Tax Invoice Document -->
+      <!-- Printable Tax Invoice Document (A4 Ratio Optimized) -->
       <div class="invoice-paper" id="printable-invoice">
         
-        <!-- Header -->
-        <div class="inv-header">
-          <div>
-            <h1 class="inv-company-name">SKYNODESUAV INDIA</h1>
-            <p class="inv-subtitle">Authorized Distributor of O.S. Engines, Futaba, DLE & Seagull Models</p>
-            <p class="inv-address">Plot No. 417, Udyog Vihar Phase III, Gurgaon, Haryana 122016 • Seller GSTIN: 27AAAAA0000A1Z5</p>
-          </div>
-          <div class="inv-meta-box">
-            <h2 class="inv-title" id="inv-doc-title">TAX INVOICE</h2>
-            <div id="b2b-itc-badge" style="display: none; background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; font-size: 0.68rem; font-weight: 800; padding: 0.25rem 0.5rem; border-radius: 4px; margin-bottom: 0.5rem; text-align: center;">
-              🏢 B2B TAX INVOICE — ELIGIBLE FOR INPUT TAX CREDIT (ITC)
-            </div>
-            <p class="inv-meta-row"><span>Invoice No:</span> <strong class="val" id="inv-no-val">#SKY-INV-2026-9842</strong></p>
-            <p class="inv-meta-row"><span>Date:</span> <strong class="val" id="inv-date-val">09 Aug 2026</strong></p>
-            <p class="inv-meta-row"><span>Payment Status:</span> <strong class="val status-paid" id="inv-status-val">PAID (ONLINE)</strong></p>
-            <p class="inv-meta-row" id="inv-txn-row" style="display: none;"><span>Payment Ref:</span> <strong class="val" id="inv-txn-val" style="font-family: monospace; font-size: 0.76rem; color: #059669;"></strong></p>
-            <p class="inv-meta-row" id="inv-merchant-row" style="display: none;"><span>Beneficiary:</span> <strong class="val" id="inv-merchant-val" style="color: #3b0811;">WAY POINT</strong></p>
+        <!-- Official Watermark Security Background -->
+        <div class="inv-watermark-overlay" aria-hidden="true">
+          <div class="inv-watermark-inner">
+            <svg class="inv-watermark-emblem" width="140" height="140" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            <span class="inv-watermark-brand">SKYNODESUAV</span>
+            <span class="inv-watermark-tag">ORIGINAL TAX INVOICE • VERIFIED & AUTHENTIC</span>
           </div>
         </div>
 
-        <hr class="inv-divider" />
-
-        <!-- Bill To & Ship To -->
-        <div class="inv-parties-grid">
-          <div class="party-box">
-            <h3>Billed To (Customer):</h3>
-            <p><strong id="inv-cust-name">Customer</strong></p>
-            <div id="inv-b2b-company-row" style="display: none; font-weight: 700; color: #3b0811; font-size: 0.85rem; margin-bottom: 0.25rem;">
-              Company: <span id="inv-cust-company-val"></span>
+        <!-- Header / Letterhead -->
+        <div class="inv-header">
+          <div class="inv-brand-col">
+            <div class="inv-brand-lockup">
+              <span class="inv-company-name">SKYNODESUAV</span>
+              <span class="inv-legal-tag">GOVT. GST REGISTERED</span>
             </div>
-            <div id="inv-b2b-gstin-row" style="display: none; font-weight: 800; color: #0f172a; font-size: 0.82rem; margin-bottom: 0.25rem;">
-              Buyer GSTIN: <span id="inv-cust-gstin-val" style="background: #f1f5f9; padding: 2px 6px; border-radius: 3px;"></span>
+            <p class="inv-legal-entity">AKS AEROMODELS INDIA • DEFENSE & UAV SYSTEMS DIVISION</p>
+            <p class="inv-subtitle">Authorized Distributor: O.S. Engines, Futaba, DLE Engines & Seagull Models</p>
+            <div class="inv-address-block">
+              <span><strong>Central Hub:</strong> Devlali Camp, Near HP Petrol Pump, Nashik, Maharashtra – 422401</span>
+              <span><strong>GSTIN:</strong> 27AAECK8821F1Z8 • <strong>State Code:</strong> 27 (Maharashtra)</span>
+              <span><strong>Support:</strong> +91 7722009120 • <strong>Email:</strong> support@skynodesuav.in</span>
             </div>
-            <p id="inv-cust-address">Devlali Camp, Near HP Petrol Pump, Nashik, Maharashtra 422502</p>
-            <p id="inv-cust-phone">Phone: +91-7722009120</p>
-            <p id="inv-cust-email" style="font-size: 0.78rem; color: #555;"></p>
           </div>
-          <div class="party-box">
-            <h3>Supplier / Dispatch Location:</h3>
-            <p><strong>SKYNODESUAV Central Hub</strong></p>
-            <p>Devlali camp, near HP petrol pump, Maharashtra, India 422 502</p>
-            <p><strong>Courier:</strong> Insured Air Freight Express</p>
-            <p><strong>Tracking AWB:</strong> <span id="inv-awb-val">#AWB-9871029412</span></p>
+
+          <div class="inv-meta-box">
+            <div class="inv-title-badge-wrap">
+              <h2 class="inv-title" id="inv-doc-title">TAX INVOICE</h2>
+              <span class="inv-copy-badge">ORIGINAL FOR RECIPIENT</span>
+            </div>
+            <div id="b2b-itc-badge" style="display: none;" class="b2b-itc-badge-pill">
+              🏢 B2B TAX INVOICE — ELIGIBLE FOR INPUT TAX CREDIT (ITC)
+            </div>
+            <div class="inv-meta-table">
+              <div class="inv-meta-row"><span>Invoice No:</span> <strong class="val" id="inv-no-val">#SKY-INV-2026-9842</strong></div>
+              <div class="inv-meta-row"><span>Invoice Date:</span> <strong class="val" id="inv-date-val">06 Oct 2026</strong></div>
+              <div class="inv-meta-row"><span>Payment Status:</span> <strong class="val status-paid" id="inv-status-val">PAID (ONLINE)</strong></div>
+              <div class="inv-meta-row"><span>Place of Supply:</span> <strong class="val" id="inv-pos-val">Maharashtra (27)</strong></div>
+              <div class="inv-meta-row" id="inv-txn-row" style="display: none;"><span>Payment Ref:</span> <strong class="val" id="inv-txn-val"></strong></div>
+              <div class="inv-meta-row" id="inv-merchant-row" style="display: none;"><span>Settlement Rail:</span> <strong class="val" id="inv-merchant-val">WAY POINT</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="inv-divider"></div>
+
+        <!-- Billed To & Dispatched From Cards -->
+        <div class="inv-parties-grid">
+          <div class="party-box billed-to">
+            <div class="party-header-title">BILLED TO (CUSTOMER):</div>
+            <div class="party-body">
+              <p class="party-name" id="inv-cust-name">Customer</p>
+              <div id="inv-b2b-company-row" style="display: none;" class="b2b-company-line">
+                Company: <span id="inv-cust-company-val"></span>
+              </div>
+              <div id="inv-b2b-gstin-row" style="display: none;" class="b2b-gstin-pill">
+                Buyer GSTIN: <strong id="inv-cust-gstin-val"></strong>
+              </div>
+              <p class="party-address" id="inv-cust-address">Devlali Camp, Near HP Petrol Pump, Nashik, Maharashtra 422502</p>
+              <p class="party-contact" id="inv-cust-phone">Phone: +91 8888502568</p>
+              <p class="party-contact" id="inv-cust-email"></p>
+            </div>
+          </div>
+
+          <div class="party-box dispatched-from">
+            <div class="party-header-title">SUPPLIER / DISPATCH LOCATION:</div>
+            <div class="party-body">
+              <p class="party-name">SKYNODESUAV Central Hub</p>
+              <p class="party-address">Devlali Camp, Near HP Petrol Pump, Nashik, Maharashtra, India 422401</p>
+              <p class="party-courier"><strong>Dispatch Rail:</strong> Insured Priority Air Freight Express</p>
+              <p class="party-courier"><strong>Tracking AWB:</strong> <span id="inv-awb-val" class="awb-badge">#AWB-987270066</span></p>
+              <p class="party-courier"><strong>Supply Type:</strong> <span id="inv-supply-type">Intra-State (CGST + SGST)</span></p>
+            </div>
           </div>
         </div>
 
         <!-- Itemized Products Table with Multi-Tier GST -->
-        <div class="table-responsive-wrapper" style="margin-top: 1.5rem;">
+        <div class="table-responsive-wrapper">
           <table class="inv-items-table">
             <thead>
               <tr>
-                <th>#</th>
-                <th>PRODUCT DESCRIPTION</th>
-                <th>HSN</th>
-                <th>QTY</th>
-                <th>BASE PRICE (₹)</th>
-                <th>GST %</th>
-                <th>TAX (₹)</th>
-                <th>TOTAL (₹)</th>
+                <th style="width: 4%;">#</th>
+                <th style="width: 36%;">PRODUCT DESCRIPTION</th>
+                <th style="width: 13%; text-align: center;">HSN CODE</th>
+                <th style="width: 7%; text-align: center;">QTY</th>
+                <th style="width: 13%; text-align: right;">TAXABLE (₹)</th>
+                <th style="width: 8%; text-align: center;">GST %</th>
+                <th style="width: 11%; text-align: right;">TAX (₹)</th>
+                <th style="width: 14%; text-align: right;">TOTAL (₹)</th>
               </tr>
             </thead>
             <tbody id="inv-tbody-list">
-              {sampleProducts.map((p, idx) => (
-                <tr>
-                  <td>{idx + 1}</td>
-                  <td>
-                    <strong>{p.name}</strong>
-                    <small style="display: block; color: #666; font-size: 0.72rem;">Category: {p.categoryLabel}</small>
-                  </td>
-                  <td>{p.hsnCode || '9503'}</td>
-                  <td>1</td>
-                  <td>₹{Math.round(p.price / 1.18).toLocaleString('en-IN')}.00</td>
-                  <td>{p.gstRate || 18}%</td>
-                  <td>₹{Math.round(p.price - (p.price / 1.18)).toLocaleString('en-IN')}.00</td>
-                  <td>₹{p.price.toLocaleString('en-IN')}.00</td>
-                </tr>
-              ))}
+              {sampleProducts.map((p, idx) => {
+                const baseVal = Math.round((p.price / 1.18) * 100) / 100;
+                const taxVal = Math.round((p.price - baseVal) * 100) / 100;
+                return (
+                  <tr>
+                    <td>{idx + 1}</td>
+                    <td>
+                      <strong>{p.name}</strong>
+                      <small class="item-cat-sub">Category: {p.categoryLabel}</small>
+                    </td>
+                    <td style="text-align: center; font-family: monospace;">{p.hsnCode || '9503'}</td>
+                    <td style="text-align: center; font-weight: 700;">1</td>
+                    <td style="text-align: right;">₹{baseVal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td style="text-align: center; color: #059669; font-weight: 700;">{p.gstRate || 18}%</td>
+                    <td style="text-align: right;">₹{taxVal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td style="text-align: right; font-weight: 700;">₹{p.price.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
 
-        <!-- Statutory HSN/SAC Tax Summary Block -->
-        <div id="hsn-tax-summary-box" style="margin-top: 1.5rem; background: #faf8f5; border: 1px solid #e6e0d5; border-radius: 6px; padding: 1rem;">
-          <strong style="display: block; font-size: 0.8rem; color: #1a1a1a; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.04em;">
-            📊 STATUTORY GST BREAKDOWN (HSN / SAC SUMMARY)
-          </strong>
-          <table class="hsn-summary-table" style="width: 100%; font-size: 0.75rem; border-collapse: collapse;">
+        <!-- Statutory HSN/SAC Tax Breakdown Block (Rule 46) -->
+        <div id="hsn-tax-summary-box" class="hsn-summary-card">
+          <div class="hsn-card-header">
+            <span>📊 STATUTORY GST BREAKDOWN (HSN / SAC SUMMARY - RULE 46)</span>
+          </div>
+          <table class="hsn-summary-table">
             <thead>
-              <tr style="background: #efebe4; text-align: left;">
-                <th style="padding: 6px 8px;">HSN/SAC</th>
-                <th style="padding: 6px 8px;">Taxable Value (₹)</th>
-                <th style="padding: 6px 8px;" id="th-cgst">CGST (Rate / Amt)</th>
-                <th style="padding: 6px 8px;" id="th-sgst">SGST (Rate / Amt)</th>
-                <th style="padding: 6px 8px;">Total Tax (₹)</th>
+              <tr>
+                <th style="width: 18%;">HSN/SAC</th>
+                <th style="width: 22%; text-align: right;">Taxable Value (₹)</th>
+                <th style="width: 20%; text-align: center;" id="th-cgst">CGST (Rate / Amt)</th>
+                <th style="width: 20%; text-align: center;" id="th-sgst">SGST (Rate / Amt)</th>
+                <th style="width: 20%; text-align: right;">Total Tax (₹)</th>
               </tr>
             </thead>
             <tbody id="hsn-summary-tbody">
-              <!-- Hydrated dynamically -->
+              <!-- Dynamically hydrated with exact fractional formatting -->
             </tbody>
           </table>
         </div>
 
-        <!-- Summary Totals -->
-        <div class="inv-summary-flex" style="margin-top: 1.5rem;">
-          <div class="inv-terms-notes">
-            <strong>Terms & Guarantee:</strong>
-            <ul>
-              <li>All engines & radios include 1-Year Official Manufacturer Defect Warranty.</li>
-              <li>Includes 100% Transit Damage Coverage by SKYNODESUAV India.</li>
-              <li>Input Tax Credit (ITC) subject to statutory GST filing rules under GSTR-2B.</li>
-              <li id="inv-settlement-note" style="display: none;">Banking & Payment Settlement Entity: <strong>WAY POINT</strong> (via Razorpay).</li>
-            </ul>
+        <!-- Summary Totals & Guarantee Section -->
+        <div class="inv-summary-flex">
+          
+          <!-- Left Side: Amount In Words, QR Code & Warranty Terms -->
+          <div class="inv-left-terms-box">
+            
+            <div class="inv-amount-words-card">
+              <span class="words-label">AMOUNT IN WORDS:</span>
+              <strong class="words-val" id="inv-words-val">Seven Thousand Five Hundred Fifty-Nine Rupees Only</strong>
+            </div>
+
+            <div class="inv-terms-notes">
+              <strong>Terms & Statutory Notes:</strong>
+              <ul>
+                <li>All engines, radios & ARF models carry 1-Year Official Manufacturer Warranty.</li>
+                <li>100% Transit Damage & Loss Coverage provided by SKYNODESUAV India.</li>
+                <li>Input Tax Credit (ITC) valid and claimable under GSTR-2B statutory filing.</li>
+                <li id="inv-settlement-note" style="display: none;">Payment Collection & Settlement Rail: <strong>WAY POINT</strong> (via Razorpay).</li>
+              </ul>
+            </div>
+
+            <!-- Digital Verification QR Code Card -->
+            <div class="inv-qr-card">
+              <div class="qr-svg-wrap">
+                <svg width="64" height="64" viewBox="0 0 100 100" fill="none">
+                  <rect width="100" height="100" fill="#ffffff" rx="4" />
+                  <rect x="8" y="8" width="28" height="28" stroke="#1a1a1a" stroke-width="6" fill="none" />
+                  <rect x="16" y="16" width="12" height="12" fill="#1a1a1a" />
+                  <rect x="64" y="8" width="28" height="28" stroke="#1a1a1a" stroke-width="6" fill="none" />
+                  <rect x="72" y="16" width="12" height="12" fill="#1a1a1a" />
+                  <rect x="8" y="64" width="28" height="28" stroke="#1a1a1a" stroke-width="6" fill="none" />
+                  <rect x="16" y="72" width="12" height="12" fill="#1a1a1a" />
+                  <rect x="44" y="12" width="8" height="8" fill="#1a1a1a" />
+                  <rect x="44" y="28" width="8" height="18" fill="#1a1a1a" />
+                  <rect x="64" y="44" width="16" height="8" fill="#1a1a1a" />
+                  <rect x="44" y="54" width="8" height="16" fill="#1a1a1a" />
+                  <rect x="72" y="64" width="16" height="8" fill="#1a1a1a" />
+                  <rect x="64" y="80" width="8" height="12" fill="#1a1a1a" />
+                  <rect x="80" y="80" width="12" height="12" fill="#1a1a1a" />
+                </svg>
+              </div>
+              <div class="qr-info-wrap">
+                <span class="qr-status-pill">✓ DIGITAL VERIFIED</span>
+                <p class="qr-desc">Scan to verify digital dispatch, AWB tracking, and GST e-invoice registry authenticity.</p>
+              </div>
+            </div>
+
           </div>
 
-          <div class="inv-totals-box">
-            <div class="t-row"><span>Gross Subtotal:</span> <strong id="inv-subtotal-val">₹{subtotal.toLocaleString('en-IN')}.00</strong></div>
-            <div class="t-row"><span>Total Output GST Tax:</span> <strong id="inv-gst-val">₹{gstTax.toLocaleString('en-IN')}.00</strong></div>
-            <div class="t-row"><span>Insured Freight Shipping:</span> <strong style="color: #059669;">FREE</strong></div>
-            <hr />
-            <div class="t-row grand-total">
-              <span>FINAL BILL TOTAL:</span>
-              <strong id="inv-total-val">₹{grandTotal.toLocaleString('en-IN')}.00</strong>
+          <!-- Right Side: Totals Card & Official Signatory Stamp -->
+          <div class="inv-right-totals-box">
+            
+            <div class="inv-totals-box">
+              <div class="t-row">
+                <span>Taxable Value (Base):</span>
+                <strong id="inv-subtotal-val">₹0.00</strong>
+              </div>
+              <div class="t-row" id="inv-coupon-discount-row" style="display: none; color: #059669;">
+                <span id="inv-coupon-label">Coupon Discount:</span>
+                <strong id="inv-discount-val">-₹0.00</strong>
+              </div>
+              <div class="t-row">
+                <span>Total Output GST Tax:</span>
+                <strong id="inv-gst-val">₹0.00</strong>
+              </div>
+              <div class="t-row">
+                <span>Insured Freight Courier:</span>
+                <strong style="color: #059669;">FREE</strong>
+              </div>
+              <hr class="totals-divider" />
+              <div class="t-row grand-total">
+                <span>FINAL BILL TOTAL:</span>
+                <strong id="inv-total-val" class="grand-total-val">₹0.00</strong>
+              </div>
             </div>
+
+            <!-- Official Seal & Authorised Signatory Stamp -->
+            <div class="inv-auth-stamp-card">
+              <div class="stamp-circular-crest">
+                <div class="stamp-inner-circle">
+                  <span class="stamp-star-top">★ ★ ★</span>
+                  <span class="stamp-core-title">SKYNODESUAV</span>
+                  <span class="stamp-core-sub">AUTHENTIC & VERIFIED</span>
+                  <span class="stamp-core-state">NASHIK • MH</span>
+                </div>
+              </div>
+              <div class="stamp-sign-wrap">
+                <div class="stamp-signature-line">Authorised Signatory</div>
+                <div class="stamp-sign-role">For SKYNODESUAV (AKS Aeromodels)</div>
+                <small class="stamp-rule-text">Computer-generated tax invoice issued under Rule 46 of CGST Rules, 2017</small>
+              </div>
+            </div>
+
           </div>
+
         </div>
 
-        <!-- Footer Stamp -->
-        <div class="inv-footer-stamp">
-          <div class="stamp-badge">STAMP VERIFIED</div>
-          <p>Thank you for flying with SKYNODESUAV India!</p>
+        <!-- Footer Strip -->
+        <div class="inv-bottom-footer-note">
+          <p>Thank you for choosing SKYNODESUAV India! For flight support, contact support@skynodesuav.in or WhatsApp +91 7722009120.</p>
         </div>
 
       </div>
+
     </div>
   </main>
 
   <style>
-    .page-padding {
-      padding: 3rem 1.25rem 5rem;
+    /* Clean Page Background for Web Viewing */
+    :global(body.invoice-body-clean) {
+      background-color: #f5f2eb !important;
+      color: #1a1a1a !important;
+      margin: 0 !important;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    .invoice-page-viewport {
+      padding: 2rem 1rem 4rem;
     }
 
     .invoice-wrapper {
-      max-width: 850px;
+      max-width: 900px;
       margin: 0 auto;
     }
 
+    /* Top Action Bar (Hidden in Print) */
     .invoice-action-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
       gap: 1rem;
     }
-
-    .print-btn {
-      padding: 0.75rem 1.25rem;
+    .btn-return-store {
+      color: #3b0811;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      background: #ffffff;
+      border: 1px solid #dcd3c5;
+      transition: all 0.2s ease;
+    }
+    .btn-return-store:hover {
+      background: #eee4d5;
+    }
+    .action-buttons-group {
+      display: flex;
+      gap: 0.75rem;
+    }
+    .btn-print-invoice {
+      background: #3b0811;
+      color: #ffffff;
+      border: none;
+      padding: 0.65rem 1.25rem;
       font-size: 0.85rem;
       font-weight: 800;
+      letter-spacing: 0.04em;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 12px rgba(59, 8, 17, 0.2);
+      transition: all 0.2s ease;
     }
-
+    .btn-print-invoice:hover {
+      background: #000000;
+      transform: translateY(-1px);
+    }
     .btn-whatsapp-share {
       background: #25d366;
       color: #ffffff;
       font-size: 0.85rem;
       font-weight: 800;
-      padding: 0.75rem 1.25rem;
-      border-radius: var(--radius-sm);
+      padding: 0.65rem 1.15rem;
+      border-radius: 6px;
       text-decoration: none;
-      transition: background 0.2s ease;
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+      transition: all 0.2s ease;
     }
     .btn-whatsapp-share:hover {
       background: #1da851;
+      transform: translateY(-1px);
     }
 
-    /* Printable Sheet */
+    /* Printable Invoice Paper Sheet */
     .invoice-paper {
+      position: relative;
       background: #ffffff;
-      border: 1px solid #d6cfc2;
-      border-radius: var(--radius-md);
-      padding: 2.5rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      border: 1px solid #d8cfc0;
+      border-radius: 8px;
+      padding: 2.25rem 2.25rem 2rem;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
       color: #1a1a1a;
-      font-family: system-ui, -apple-system, sans-serif;
+      overflow: hidden;
     }
 
+    /* Luxury Security Watermark */
+    .inv-watermark-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-28deg);
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      opacity: 0.045;
+      text-align: center;
+      width: 650px;
+    }
+    .inv-watermark-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .inv-watermark-emblem {
+      color: #3b0811;
+      margin-bottom: 0.5rem;
+    }
+    .inv-watermark-brand {
+      font-family: var(--font-display, Georgia, serif);
+      font-size: 4.8rem;
+      font-weight: 900;
+      letter-spacing: 0.22em;
+      color: #3b0811;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+    .inv-watermark-tag {
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.35em;
+      color: #1a1a1a;
+      margin-top: 0.75rem;
+      text-transform: uppercase;
+    }
+
+    /* Letterhead / Header */
     .inv-header {
+      position: relative;
+      z-index: 1;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
       gap: 2rem;
     }
-
+    .inv-brand-col {
+      flex: 1;
+    }
+    .inv-brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.25rem;
+    }
     .inv-company-name {
-      font-family: var(--font-display);
-      font-size: 1.6rem;
+      font-family: var(--font-display, Georgia, serif);
+      font-size: 1.85rem;
+      font-weight: 900;
       color: #3b0811;
-      margin: 0 0 0.2rem;
-      letter-spacing: -0.01em;
-    }
-    .inv-subtitle {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #1a1a1a;
-      margin: 0 0 0.3rem;
-    }
-    .inv-address {
-      font-size: 0.75rem;
-      color: #666666;
       margin: 0;
-      line-height: 1.4;
+      letter-spacing: 0.04em;
     }
-
-    .inv-meta-box {
-      text-align: right;
-      min-width: 220px;
-    }
-    .inv-title {
-      font-family: var(--font-display);
-      font-size: 1.4rem;
-      color: #1a1a1a;
-      margin: 0 0 0.5rem;
+    .inv-legal-tag {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
       letter-spacing: 0.05em;
     }
+    .inv-legal-entity {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #1a1a1a;
+      margin: 0 0 0.2rem;
+      letter-spacing: 0.05em;
+    }
+    .inv-subtitle {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: #4b5563;
+      margin: 0 0 0.4rem;
+    }
+    .inv-address-block {
+      font-size: 0.74rem;
+      color: #4b5563;
+      line-height: 1.45;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    /* Invoice Meta Box (Right Side) */
+    .inv-meta-box {
+      text-align: right;
+      min-width: 250px;
+    }
+    .inv-title-badge-wrap {
+      margin-bottom: 0.4rem;
+    }
+    .inv-title {
+      font-family: var(--font-display, Georgia, serif);
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #1a1a1a;
+      margin: 0 0 0.15rem;
+      letter-spacing: 0.08em;
+    }
+    .inv-copy-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #6b7280;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+      letter-spacing: 0.05em;
+    }
+    .b2b-itc-badge-pill {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      margin: 0.4rem 0;
+      text-align: center;
+    }
+    .inv-meta-table {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      margin-top: 0.35rem;
+    }
     .inv-meta-row {
-      font-size: 0.8rem;
-      color: #555555;
-      margin: 0.2rem 0;
+      font-size: 0.78rem;
+      color: #4b5563;
+    }
+    .inv-meta-row span {
+      margin-right: 0.4rem;
     }
     .inv-meta-row .val {
-      color: #1a1a1a;
+      color: #111827;
+      font-weight: 700;
     }
     .status-paid {
       color: #059669 !important;
@@ -272,142 +548,523 @@ const grandTotal = subtotal;
 
     .inv-divider {
       border: none;
-      border-top: 1px solid #e6e0d5;
-      margin: 1.5rem 0;
+      border-top: 1px solid #e5dfd4;
+      margin: 1.25rem 0;
+      position: relative;
+      z-index: 1;
     }
 
+    /* Parties Grid (Billed To vs Dispatched From) */
     .inv-parties-grid {
+      position: relative;
+      z-index: 1;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 2rem;
+      gap: 1.25rem;
     }
-    .party-box h3 {
-      font-size: 0.82rem;
-      color: #666666;
+    .party-box {
+      background: #fdfbf7;
+      border: 1px solid #ebdccb;
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+    }
+    .party-header-title {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #6b7280;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.45rem;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin: 0 0 0.5rem;
+      border-bottom: 1px dashed #e2d7c7;
+      padding-bottom: 0.3rem;
     }
-    .party-box p {
-      font-size: 0.85rem;
+    .party-body p {
       margin: 0.2rem 0;
-      line-height: 1.4;
+      line-height: 1.35;
+    }
+    .party-name {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #111827;
+    }
+    .b2b-company-line {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #3b0811;
+      margin: 0.15rem 0;
+    }
+    .b2b-gstin-pill {
+      font-size: 0.78rem;
+      color: #111827;
+      background: #eef2f6;
+      border: 1px solid #cbd5e1;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      display: inline-block;
+      margin: 0.2rem 0 0.35rem;
+    }
+    .party-address {
+      font-size: 0.78rem;
+      color: #4b5563;
+    }
+    .party-contact, .party-courier {
+      font-size: 0.76rem;
+      color: #4b5563;
+    }
+    .awb-badge {
+      font-family: monospace;
+      font-weight: 700;
+      color: #3b0811;
     }
 
+    /* Itemized Table */
     .table-responsive-wrapper {
+      position: relative;
+      z-index: 1;
+      margin-top: 1.25rem;
       overflow-x: auto;
     }
     .inv-items-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
+      border: 1px solid #ebdccb;
     }
     .inv-items-table th {
-      background: #faf8f5;
+      background: #fbf8f3;
       color: #1a1a1a;
-      text-align: left;
-      padding: 0.75rem;
+      padding: 0.65rem 0.6rem;
       font-weight: 800;
+      font-size: 0.74rem;
+      letter-spacing: 0.04em;
       border-bottom: 2px solid #d6cfc2;
+      border-right: 1px solid #ebdccb;
+    }
+    .inv-items-table th:last-child {
+      border-right: none;
     }
     .inv-items-table td {
-      padding: 0.75rem;
-      border-bottom: 1px solid #eee;
+      padding: 0.65rem 0.6rem;
+      border-bottom: 1px solid #f0e9df;
+      border-right: 1px solid #f0e9df;
+      vertical-align: middle;
+    }
+    .inv-items-table td:last-child {
+      border-right: none;
+    }
+    .inv-items-table tbody tr:nth-child(even) {
+      background-color: #fdfcf9;
+    }
+    .item-cat-sub {
+      display: block;
+      color: #6b7280;
+      font-size: 0.7rem;
+      margin-top: 0.15rem;
     }
 
+    /* HSN / SAC Summary Block */
+    .hsn-summary-card {
+      position: relative;
+      z-index: 1;
+      margin-top: 1.15rem;
+      background: #faf7f2;
+      border: 1px solid #e5dcce;
+      border-radius: 6px;
+      padding: 0.75rem 0.85rem;
+    }
+    .hsn-card-header {
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: #1a1a1a;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.5rem;
+    }
+    .hsn-summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.74rem;
+    }
+    .hsn-summary-table th {
+      background: #ede6dc;
+      color: #1f2937;
+      padding: 0.4rem 0.6rem;
+      font-weight: 700;
+      border: 1px solid #dfd6c8;
+    }
+    .hsn-summary-table td {
+      padding: 0.45rem 0.6rem;
+      border: 1px solid #dfd6c8;
+      background: #ffffff;
+    }
+
+    /* Summary Flex Section */
     .inv-summary-flex {
+      position: relative;
+      z-index: 1;
       display: grid;
-      grid-template-columns: 1fr 280px;
-      gap: 2rem;
+      grid-template-columns: 1fr 300px;
+      gap: 1.5rem;
+      margin-top: 1.25rem;
       align-items: flex-start;
     }
+
+    /* Left Side: Amount in Words, Terms & QR */
+    .inv-left-terms-box {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .inv-amount-words-card {
+      background: #fbf9f5;
+      border: 1px solid #e7ded2;
+      border-left: 3px solid #3b0811;
+      padding: 0.55rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.76rem;
+    }
+    .words-label {
+      color: #6b7280;
+      font-weight: 800;
+      margin-right: 0.4rem;
+      font-size: 0.7rem;
+    }
+    .words-val {
+      color: #111827;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
     .inv-terms-notes {
-      font-size: 0.78rem;
-      color: #666666;
+      font-size: 0.74rem;
+      color: #4b5563;
       background: #faf8f5;
-      padding: 1rem;
-      border-radius: var(--radius-sm);
       border: 1px solid #e6e0d5;
+      border-radius: 4px;
+      padding: 0.75rem 0.85rem;
+    }
+    .inv-terms-notes strong {
+      color: #111827;
+      display: block;
+      margin-bottom: 0.25rem;
     }
     .inv-terms-notes ul {
-      margin: 0.4rem 0 0;
+      margin: 0;
       padding-left: 1.1rem;
     }
     .inv-terms-notes li {
       margin-bottom: 0.2rem;
+      line-height: 1.35;
     }
 
+    /* QR Code Card */
+    .inv-qr-card {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: #ffffff;
+      border: 1px solid #e5dcce;
+      border-radius: 6px;
+      padding: 0.6rem 0.75rem;
+    }
+    .qr-svg-wrap {
+      flex-shrink: 0;
+      border: 1px solid #e5e7eb;
+      border-radius: 4px;
+      padding: 2px;
+      background: #ffffff;
+    }
+    .qr-info-wrap {
+      flex: 1;
+    }
+    .qr-status-pill {
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: #065f46;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      padding: 0.15rem 0.45rem;
+      border-radius: 3px;
+      display: inline-block;
+      margin-bottom: 0.2rem;
+    }
+    .qr-desc {
+      font-size: 0.7rem;
+      color: #6b7280;
+      margin: 0;
+      line-height: 1.3;
+    }
+
+    /* Right Side: Totals & Stamp */
+    .inv-right-totals-box {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
     .inv-totals-box {
-      font-size: 0.85rem;
+      background: #fdfaf6;
+      border: 1px solid #e5dcce;
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+      font-size: 0.8rem;
     }
     .t-row {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 0.4rem;
-      color: #555555;
+      margin-bottom: 0.35rem;
+      color: #4b5563;
+    }
+    .totals-divider {
+      border: none;
+      border-top: 1px solid #dfd5c7;
+      margin: 0.55rem 0;
     }
     .grand-total {
-      font-size: 1rem;
-      color: #1a1a1a;
+      font-size: 0.95rem;
+      color: #111827;
       font-weight: 800;
-      margin-top: 0.5rem;
+      margin-bottom: 0;
+    }
+    .grand-total-val {
+      color: #3b0811;
+      font-size: 1.15rem;
+      font-family: var(--font-display, Georgia, serif);
+      font-weight: 900;
     }
 
-    .inv-footer-stamp {
-      margin-top: 3rem;
+    /* Official Authorised Signatory Stamp */
+    .inv-auth-stamp-card {
+      background: #ffffff;
+      border: 1px solid #e5dcce;
+      border-radius: 6px;
+      padding: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .stamp-circular-crest {
+      flex-shrink: 0;
+      width: 66px;
+      height: 66px;
+      border: 2px dashed #3b0811;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px;
+      background: #fbf7f4;
+    }
+    .stamp-inner-circle {
+      width: 100%;
+      height: 100%;
+      border: 1px solid #3b0811;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      padding-top: 1.5rem;
+      line-height: 1;
+    }
+    .stamp-star-top {
+      font-size: 0.5rem;
+      color: #d97706;
+      margin-bottom: 2px;
+    }
+    .stamp-core-title {
+      font-size: 0.48rem;
+      font-weight: 900;
+      color: #3b0811;
+      letter-spacing: 0.05em;
+    }
+    .stamp-core-sub {
+      font-size: 0.4rem;
+      font-weight: 800;
+      color: #059669;
+      letter-spacing: 0.03em;
+      margin-top: 2px;
+    }
+    .stamp-core-state {
+      font-size: 0.4rem;
+      color: #6b7280;
+      margin-top: 1px;
+    }
+    .stamp-sign-wrap {
+      flex: 1;
+    }
+    .stamp-signature-line {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #111827;
+    }
+    .stamp-sign-role {
+      font-size: 0.7rem;
+      color: #3b0811;
+      font-weight: 700;
+    }
+    .stamp-rule-text {
+      display: block;
+      font-size: 0.62rem;
+      color: #6b7280;
+      line-height: 1.25;
+      margin-top: 0.2rem;
+    }
+
+    /* Bottom Footer Note */
+    .inv-bottom-footer-note {
+      position: relative;
+      z-index: 1;
+      margin-top: 1.5rem;
+      text-align: center;
+      padding-top: 0.75rem;
       border-top: 1px dashed #d6cfc2;
     }
-    .stamp-badge {
-      display: inline-block;
-      border: 2px solid #059669;
-      color: #059669;
-      font-weight: 800;
-      font-size: 0.7rem;
-      padding: 0.2rem 0.6rem;
-      letter-spacing: 0.1em;
-      border-radius: 4px;
-      margin-bottom: 0.4rem;
-    }
-    .inv-footer-stamp p {
-      font-size: 0.78rem;
-      color: #666666;
+    .inv-bottom-footer-note p {
+      font-size: 0.72rem;
+      color: #6b7280;
       margin: 0;
     }
 
+    /* STRICT PRINT MEDIA STYLES (Single Page A4 Precision) */
     @media print {
-      .no-print, header, footer, nav, .bellavita-mobile-bottom-nav {
+      /* Obliterate all website headers, announcements, footers, navigation */
+      :global(header),
+      :global(footer),
+      :global(.announcement-bar),
+      :global(.sub-ticker-strip),
+      :global(.main-header),
+      :global(.site-footer),
+      :global(.bellavita-mobile-bottom-nav),
+      :global(.whatsapp-float),
+      :global(#mobile-nav-drawer),
+      :global(#cart-drawer-overlay),
+      :global(#login-modal-overlay),
+      .no-print {
         display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
       }
-      body {
+
+      @page {
+        size: A4 portrait;
+        margin: 6mm 8mm 6mm 8mm;
+      }
+
+      html, body, :global(body.invoice-body-clean) {
         background: #ffffff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
+
+      .invoice-page-viewport {
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+      }
+
+      .invoice-wrapper {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
       .invoice-paper {
-        border: none !important;
+        border: 1px solid #d4cbbd !important;
         box-shadow: none !important;
-        padding: 0 !important;
+        border-radius: 0 !important;
+        padding: 6mm 8mm !important;
+        margin: 0 !important;
+        page-break-inside: avoid !important;
       }
-      .page-padding {
-        padding: 0 !important;
+
+      .inv-items-table th {
+        background-color: #f7f3ed !important;
+        -webkit-print-color-adjust: exact !important;
+      }
+
+      .hsn-summary-table th {
+        background-color: #ede6dc !important;
+        -webkit-print-color-adjust: exact !important;
+      }
+
+      .inv-watermark-overlay {
+        opacity: 0.05 !important;
+        -webkit-print-color-adjust: exact !important;
       }
     }
 
-    @media (max-width: 600px) {
-      .inv-header { flex-direction: column; }
-      .inv-meta-box { text-align: left; min-width: 100%; margin-top: 1rem; }
-      .inv-parties-grid { grid-template-columns: 1fr; gap: 1rem; }
-      .inv-summary-flex { grid-template-columns: 1fr; gap: 1.5rem; }
-      .inv-items-table { font-size: 0.72rem; min-width: 520px; }
-      .inv-items-table th, .inv-items-table td { padding: 0.5rem 0.6rem; }
-      .invoice-action-bar { flex-direction: column; align-items: stretch; gap: 0.75rem; }
-      .print-btn, .btn-whatsapp-share { width: 100%; text-align: center; justify-content: center; }
-      .inv-company-name { font-size: 1.3rem; }
-      .inv-title { font-size: 1.2rem; }
+    /* Mobile Responsive Screen View */
+    @media (max-width: 768px) {
+      .inv-header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .inv-meta-box {
+        text-align: left;
+        min-width: 100%;
+      }
+      .inv-parties-grid {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+      }
+      .inv-summary-flex {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+      .invoice-action-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .action-buttons-group {
+        flex-direction: column;
+      }
+      .btn-print-invoice, .btn-whatsapp-share, .btn-return-store {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        box-sizing: border-box;
+      }
+      .invoice-paper {
+        padding: 1.25rem 1rem;
+      }
+      .inv-watermark-brand {
+        font-size: 3.2rem;
+      }
     }
   </style>
 
   <script>
+    // Bulletproof Indian Currency Formatter (Fixed 2 decimals: ₹6,405.93, ₹7,559.00)
+    function formatINR(val: number): string {
+      if (isNaN(val)) return '₹0.00';
+      return '₹' + Number(val).toLocaleString('en-IN', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }
+
+    // Amount in Words Generator (Indian English: Lakhs, Thousands)
+    function numberToWordsINR(num: number): string {
+      const a = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+      const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+      
+      function inWords(n: number): string {
+        if (n === 0) return '';
+        if (n < 20) return a[n] + ' ';
+        if (n < 100) return b[Math.floor(n / 10)] + ' ' + (n % 10 !== 0 ? a[n % 10] + ' ' : '');
+        if (n < 1000) return a[Math.floor(n / 100)] + ' Hundred ' + inWords(n % 100);
+        if (n < 100000) return inWords(Math.floor(n / 1000)) + 'Thousand ' + inWords(n % 1000);
+        if (n < 10000000) return inWords(Math.floor(n / 100000)) + 'Lakh ' + inWords(n % 100000);
+        return inWords(Math.floor(n / 10000000)) + 'Crore ' + inWords(n % 10000000);
+      }
+
+      const rounded = Math.round(num);
+      if (rounded === 0) return 'Zero Rupees Only';
+      return inWords(rounded).trim().replace(/\s+/g, ' ') + ' Rupees Only';
+    }
+
     function hydrateInvoiceData() {
       const rawOrder = localStorage.getItem('skynodes_last_order');
       if (!rawOrder) return;
@@ -418,12 +1075,25 @@ const grandTotal = subtotal;
         const invNoEl = document.getElementById('inv-no-val');
         const invDateEl = document.getElementById('inv-date-val');
         const invStatusEl = document.getElementById('inv-status-val');
+        const invPosEl = document.getElementById('inv-pos-val');
 
         if (invNoEl) invNoEl.textContent = order.orderId;
         if (invDateEl) invDateEl.textContent = order.date;
         if (invStatusEl) {
           invStatusEl.textContent = order.status || order.paymentMethod;
           invStatusEl.className = order.paymentMethod?.includes('COD') ? 'val status-pending' : 'val status-paid';
+        }
+
+        const buyerState = order.customer?.state || 'Maharashtra';
+        const isInterState = !buyerState.toLowerCase().includes('maharashtra');
+        
+        if (invPosEl) {
+          invPosEl.textContent = `${buyerState} ${isInterState ? '' : '(27)'}`;
+        }
+
+        const invSupplyType = document.getElementById('inv-supply-type');
+        if (invSupplyType) {
+          invSupplyType.textContent = isInterState ? 'Inter-State (IGST 18%)' : 'Intra-State (CGST 9% + SGST 9%)';
         }
 
         const invTxnRow = document.getElementById('inv-txn-row');
@@ -448,7 +1118,7 @@ const grandTotal = subtotal;
         const custEmailEl = document.getElementById('inv-cust-email');
 
         if (custNameEl) custNameEl.textContent = order.customer.name;
-        if (custAddrEl) custAddrEl.textContent = `${order.customer.address}, ${order.customer.city}, ${order.customer.state || 'Maharashtra'} - ${order.customer.pincode}`;
+        if (custAddrEl) custAddrEl.textContent = `${order.customer.address}, ${order.customer.city}, ${buyerState} - ${order.customer.pincode}`;
         if (custPhoneEl) custPhoneEl.textContent = `Phone: ${order.customer.phone}`;
         if (custEmailEl && order.customer.email) custEmailEl.textContent = `Email: ${order.customer.email}`;
 
@@ -476,13 +1146,11 @@ const grandTotal = subtotal;
         }
 
         const awbEl = document.getElementById('inv-awb-val');
-        if (awbEl) awbEl.textContent = order.awb || '#AWB-9871029412';
+        if (awbEl) awbEl.textContent = order.awb || '#AWB-987270066';
 
         // Itemized Table with Base Price and GST Rate Breakdown
         const tbody = document.getElementById('inv-tbody-list');
         const hsnMap: Record<string, { hsn: string; taxable: number; gstRate: number; taxAmt: number }> = {};
-
-        const isInterState = order.customer.state && !order.customer.state.toLowerCase().includes('maharashtra');
 
         if (tbody && order.items && order.items.length > 0) {
           tbody.innerHTML = order.items.map((item: any, idx: number) => {
@@ -500,17 +1168,17 @@ const grandTotal = subtotal;
 
             return `
               <tr>
-                <td>${idx + 1}</td>
+                <td style="text-align: center;">${idx + 1}</td>
                 <td>
                   <strong>${item.product.name}</strong>
-                  <small style="display: block; color: #666; font-size: 0.72rem;">Category: ${item.product.categoryLabel || 'SKYNODES UAV'}</small>
+                  <small class="item-cat-sub">Category: ${item.product.categoryLabel || 'SKYNODES UAV'}</small>
                 </td>
-                <td>${hsnCode}</td>
-                <td>${item.quantity}</td>
-                <td>₹${lineBase.toLocaleString('en-IN')}.00</td>
-                <td><span style="font-weight: 700; color: #059669;">${gstRate}%</span></td>
-                <td>₹${lineTax.toLocaleString('en-IN')}.00</td>
-                <td>₹${lineTotal.toLocaleString('en-IN')}.00</td>
+                <td style="text-align: center; font-family: monospace; font-weight: 600;">${hsnCode}</td>
+                <td style="text-align: center; font-weight: 700;">${item.quantity}</td>
+                <td style="text-align: right;">${formatINR(lineBase)}</td>
+                <td style="text-align: center; font-weight: 700; color: #059669;">${gstRate}%</td>
+                <td style="text-align: right;">${formatINR(lineTax)}</td>
+                <td style="text-align: right; font-weight: 700;">${formatINR(lineTotal)}</td>
               </tr>
             `;
           }).join('');
@@ -524,49 +1192,70 @@ const grandTotal = subtotal;
         if (isInterState) {
           if (thCgst) thCgst.textContent = 'IGST Rate';
           if (thSgst) thSgst.textContent = 'IGST Amount (₹)';
+        } else {
+          if (thCgst) thCgst.textContent = 'CGST (Rate / Amt)';
+          if (thSgst) thSgst.textContent = 'SGST (Rate / Amt)';
         }
 
         if (hsnTbody) {
           hsnTbody.innerHTML = Object.values(hsnMap).map(h => {
             if (isInterState) {
               return `
-                <tr style="border-bottom: 1px solid #e2d9cc;">
-                  <td style="padding: 6px 8px; font-weight: 700;">${h.hsn}</td>
-                  <td style="padding: 6px 8px;">₹${h.taxable.toLocaleString('en-IN')}.00</td>
-                  <td style="padding: 6px 8px;">${h.gstRate}% IGST</td>
-                  <td style="padding: 6px 8px; font-weight: 700;">₹${h.taxAmt.toLocaleString('en-IN')}.00</td>
-                  <td style="padding: 6px 8px; font-weight: 800; color: #3b0811;">₹${h.taxAmt.toLocaleString('en-IN')}.00</td>
+                <tr>
+                  <td style="font-weight: 700; font-family: monospace;">${h.hsn}</td>
+                  <td style="text-align: right;">${formatINR(h.taxable)}</td>
+                  <td style="text-align: center;">${h.gstRate}% IGST</td>
+                  <td style="text-align: right; font-weight: 700;">${formatINR(h.taxAmt)}</td>
+                  <td style="text-align: right; font-weight: 800; color: #3b0811;">${formatINR(h.taxAmt)}</td>
                 </tr>
               `;
             } else {
               const halfRate = h.gstRate / 2;
               const halfTax = Math.round((h.taxAmt / 2) * 100) / 100;
               return `
-                <tr style="border-bottom: 1px solid #e2d9cc;">
-                  <td style="padding: 6px 8px; font-weight: 700;">${h.hsn}</td>
-                  <td style="padding: 6px 8px;">₹${h.taxable.toLocaleString('en-IN')}.00</td>
-                  <td style="padding: 6px 8px;">${halfRate}% (₹${halfTax.toLocaleString('en-IN')}.00)</td>
-                  <td style="padding: 6px 8px;">${halfRate}% (₹${halfTax.toLocaleString('en-IN')}.00)</td>
-                  <td style="padding: 6px 8px; font-weight: 800; color: #3b0811;">₹${h.taxAmt.toLocaleString('en-IN')}.00</td>
+                <tr>
+                  <td style="font-weight: 700; font-family: monospace;">${h.hsn}</td>
+                  <td style="text-align: right;">${formatINR(h.taxable)}</td>
+                  <td style="text-align: center;">${halfRate}% (${formatINR(halfTax)})</td>
+                  <td style="text-align: center;">${halfRate}% (${formatINR(halfTax)})</td>
+                  <td style="text-align: right; font-weight: 800; color: #3b0811;">${formatINR(h.taxAmt)}</td>
                 </tr>
               `;
             }
           }).join('');
         }
 
+        // Totals Calculation & Display
+        const finalTotal = order.total || grandTotal;
+        const finalTax = order.gst || gstTax;
+        const taxableSubtotal = Math.max(0, finalTotal - finalTax);
+
         const subtotalEl = document.getElementById('inv-subtotal-val');
         const gstEl = document.getElementById('inv-gst-val');
         const totalEl = document.getElementById('inv-total-val');
+        const wordsEl = document.getElementById('inv-words-val');
 
-        if (subtotalEl) subtotalEl.textContent = `₹${order.subtotal.toLocaleString('en-IN')}.00`;
-        if (gstEl) gstEl.textContent = `₹${order.gst.toLocaleString('en-IN')}.00`;
-        if (totalEl) totalEl.textContent = `₹${order.total.toLocaleString('en-IN')}.00`;
+        if (subtotalEl) subtotalEl.textContent = formatINR(taxableSubtotal);
+        if (gstEl) gstEl.textContent = formatINR(finalTax);
+        if (totalEl) totalEl.textContent = formatINR(finalTotal);
+        if (wordsEl) wordsEl.textContent = numberToWordsINR(finalTotal);
 
+        // Coupon Discount Row (if applicable)
+        const couponRow = document.getElementById('inv-coupon-discount-row');
+        const couponLabel = document.getElementById('inv-coupon-label');
+        const discountValEl = document.getElementById('inv-discount-val');
+        if (order.appliedDiscountAmount && order.appliedDiscountAmount > 0) {
+          if (couponRow) couponRow.style.display = 'flex';
+          if (couponLabel) couponLabel.textContent = `Coupon Discount (${order.appliedCouponCode || 'PROMO'}):`;
+          if (discountValEl) discountValEl.textContent = `-${formatINR(order.appliedDiscountAmount)}`;
+        }
+
+        // WhatsApp Share Link
         const waBtn = document.getElementById('inv-wa-share-btn') as HTMLAnchorElement;
         if (waBtn) {
           const b2bText = isB2B ? ` [B2B Tax Invoice - GSTIN: ${order.customer.gstin}]` : '';
           const txnText = order.paymentId ? ` [Txn ID: ${order.paymentId}]` : '';
-          const msg = encodeURIComponent(`Hi SKYNODES UAV Support, I have placed Order ${order.orderId}${b2bText}${txnText} for ₹${order.total.toLocaleString('en-IN')} via ${order.paymentMethod}. Customer: ${order.customer.name}, Phone: ${order.customer.phone}. Please confirm dispatch.`);
+          const msg = encodeURIComponent(`Hi SKYNODES UAV Support, I have placed Order ${order.orderId}${b2bText}${txnText} for ₹${Number(order.total).toLocaleString('en-IN')} via ${order.paymentMethod}. Customer: ${order.customer.name}, Phone: ${order.customer.phone}. Please confirm dispatch.`);
           waBtn.href = `https://wa.me/917722009120?text=${msg}`;
         }
       } catch (e) {
