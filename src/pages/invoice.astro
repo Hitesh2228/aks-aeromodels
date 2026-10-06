@@ -4,9 +4,10 @@ import { PRODUCTS } from '../data/products';
 
 // Fallback sample product for static preview if no order in localStorage
 const sampleProducts = [PRODUCTS[0]];
-const subtotal = sampleProducts[0].price;
-const gstTax = Math.round(subtotal - (subtotal / 1.18));
-const grandTotal = subtotal;
+const grandTotal = sampleProducts[0].price;
+const baseVal = Math.round((grandTotal / 1.18) * 100) / 100;
+const gstTax = Math.round((grandTotal - baseVal) * 100) / 100;
+const halfTax = Math.round((gstTax / 2) * 100) / 100;
 ---
 
 <BaseLayout
@@ -40,13 +41,13 @@ const grandTotal = subtotal;
         </div>
       </div>
 
-      <!-- Printable Tax Invoice Document (A4 Ratio Optimized) -->
+      <!-- Printable Tax Invoice Document (A4 Ratio Optimized - Single Page Standard) -->
       <div class="invoice-paper" id="printable-invoice">
         
         <!-- Official Watermark Security Background -->
         <div class="inv-watermark-overlay" aria-hidden="true">
           <div class="inv-watermark-inner">
-            <svg class="inv-watermark-emblem" width="140" height="140" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <svg class="inv-watermark-emblem" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
               <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
             </svg>
             <span class="inv-watermark-brand">SKYNODESUAV</span>
@@ -138,8 +139,8 @@ const grandTotal = subtotal;
             </thead>
             <tbody id="inv-tbody-list">
               {sampleProducts.map((p, idx) => {
-                const baseVal = Math.round((p.price / 1.18) * 100) / 100;
-                const taxVal = Math.round((p.price - baseVal) * 100) / 100;
+                const bVal = Math.round((p.price / 1.18) * 100) / 100;
+                const tVal = Math.round((p.price - bVal) * 100) / 100;
                 return (
                   <tr>
                     <td>{idx + 1}</td>
@@ -149,9 +150,9 @@ const grandTotal = subtotal;
                     </td>
                     <td style="text-align: center; font-family: monospace;">{p.hsnCode || '9503'}</td>
                     <td style="text-align: center; font-weight: 700;">1</td>
-                    <td style="text-align: right;">₹{baseVal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td style="text-align: right;">₹{bVal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                     <td style="text-align: center; color: #059669; font-weight: 700;">{p.gstRate || 18}%</td>
-                    <td style="text-align: right;">₹{taxVal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td style="text-align: right;">₹{tVal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                     <td style="text-align: right; font-weight: 700;">₹{p.price.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                   </tr>
                 );
@@ -176,7 +177,13 @@ const grandTotal = subtotal;
               </tr>
             </thead>
             <tbody id="hsn-summary-tbody">
-              <!-- Dynamically hydrated with exact fractional formatting -->
+              <tr>
+                <td style="font-weight: 700; font-family: monospace;">{sampleProducts[0].hsnCode || '9503'}</td>
+                <td style="text-align: right;">₹{baseVal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                <td style="text-align: center;">9% (₹{halfTax.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })})</td>
+                <td style="text-align: center;">9% (₹{halfTax.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })})</td>
+                <td style="text-align: right; font-weight: 800; color: #3b0811;">₹{gstTax.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -236,7 +243,7 @@ const grandTotal = subtotal;
             <div class="inv-totals-box">
               <div class="t-row">
                 <span>Taxable Value (Base):</span>
-                <strong id="inv-subtotal-val">₹0.00</strong>
+                <strong id="inv-subtotal-val">₹{baseVal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong>
               </div>
               <div class="t-row" id="inv-coupon-discount-row" style="display: none; color: #059669;">
                 <span id="inv-coupon-label">Coupon Discount:</span>
@@ -244,7 +251,7 @@ const grandTotal = subtotal;
               </div>
               <div class="t-row">
                 <span>Total Output GST Tax:</span>
-                <strong id="inv-gst-val">₹0.00</strong>
+                <strong id="inv-gst-val">₹{gstTax.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong>
               </div>
               <div class="t-row">
                 <span>Insured Freight Courier:</span>
@@ -253,7 +260,7 @@ const grandTotal = subtotal;
               <hr class="totals-divider" />
               <div class="t-row grand-total">
                 <span>FINAL BILL TOTAL:</span>
-                <strong id="inv-total-val" class="grand-total-val">₹0.00</strong>
+                <strong id="inv-total-val" class="grand-total-val">₹{grandTotal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong>
               </div>
             </div>
 
@@ -379,7 +386,7 @@ const grandTotal = subtotal;
       background: #ffffff;
       border: 1px solid #d8cfc0;
       border-radius: 8px;
-      padding: 2.25rem 2.25rem 2rem;
+      padding: 1.75rem 2rem 1.5rem;
       box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
       color: #1a1a1a;
       overflow: hidden;
@@ -388,15 +395,16 @@ const grandTotal = subtotal;
     /* Luxury Security Watermark */
     .inv-watermark-overlay {
       position: absolute;
-      top: 50%;
+      top: 52%;
       left: 50%;
-      transform: translate(-50%, -50%) rotate(-28deg);
+      transform: translate(-50%, -50%) rotate(-25deg);
       pointer-events: none;
       user-select: none;
       z-index: 0;
-      opacity: 0.045;
+      opacity: 0.038;
       text-align: center;
-      width: 650px;
+      width: 520px;
+      max-width: 90%;
     }
     .inv-watermark-inner {
       display: flex;
@@ -406,23 +414,25 @@ const grandTotal = subtotal;
     }
     .inv-watermark-emblem {
       color: #3b0811;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
+      width: 90px;
+      height: 90px;
     }
     .inv-watermark-brand {
       font-family: var(--font-display, Georgia, serif);
-      font-size: 4.8rem;
+      font-size: 3.6rem;
       font-weight: 900;
-      letter-spacing: 0.22em;
+      letter-spacing: 0.18em;
       color: #3b0811;
       line-height: 1;
       text-transform: uppercase;
     }
     .inv-watermark-tag {
-      font-size: 0.82rem;
+      font-size: 0.72rem;
       font-weight: 800;
-      letter-spacing: 0.35em;
+      letter-spacing: 0.3em;
       color: #1a1a1a;
-      margin-top: 0.75rem;
+      margin-top: 0.6rem;
       text-transform: uppercase;
     }
 
@@ -433,7 +443,7 @@ const grandTotal = subtotal;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 2rem;
+      gap: 1.5rem;
     }
     .inv-brand-col {
       flex: 1;
@@ -442,15 +452,15 @@ const grandTotal = subtotal;
       display: flex;
       align-items: center;
       gap: 0.6rem;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.2rem;
     }
     .inv-company-name {
       font-family: var(--font-display, Georgia, serif);
-      font-size: 1.85rem;
+      font-size: 1.6rem;
       font-weight: 900;
       color: #3b0811;
       margin: 0;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.03em;
     }
     .inv-legal-tag {
       background: #ecfdf5;
@@ -458,30 +468,30 @@ const grandTotal = subtotal;
       border: 1px solid #a7f3d0;
       font-size: 0.65rem;
       font-weight: 800;
-      padding: 0.15rem 0.45rem;
+      padding: 0.12rem 0.4rem;
       border-radius: 4px;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
     }
     .inv-legal-entity {
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 800;
       color: #1a1a1a;
-      margin: 0 0 0.2rem;
-      letter-spacing: 0.05em;
+      margin: 0 0 0.15rem;
+      letter-spacing: 0.04em;
     }
     .inv-subtitle {
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       font-weight: 600;
       color: #4b5563;
-      margin: 0 0 0.4rem;
+      margin: 0 0 0.35rem;
     }
     .inv-address-block {
-      font-size: 0.74rem;
+      font-size: 0.72rem;
       color: #4b5563;
-      line-height: 1.45;
+      line-height: 1.4;
       display: flex;
       flex-direction: column;
-      gap: 0.15rem;
+      gap: 0.1rem;
     }
 
     /* Invoice Meta Box (Right Side) */
@@ -490,46 +500,46 @@ const grandTotal = subtotal;
       min-width: 250px;
     }
     .inv-title-badge-wrap {
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.35rem;
     }
     .inv-title {
       font-family: var(--font-display, Georgia, serif);
-      font-size: 1.6rem;
+      font-size: 1.45rem;
       font-weight: 900;
       color: #1a1a1a;
-      margin: 0 0 0.15rem;
-      letter-spacing: 0.08em;
+      margin: 0 0 0.1rem;
+      letter-spacing: 0.06em;
     }
     .inv-copy-badge {
       display: inline-block;
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       font-weight: 700;
       color: #6b7280;
       background: #f3f4f6;
       border: 1px solid #e5e7eb;
-      padding: 0.1rem 0.4rem;
+      padding: 0.08rem 0.35rem;
       border-radius: 3px;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
     }
     .b2b-itc-badge-pill {
       background: #ecfdf5;
       color: #065f46;
       border: 1px solid #a7f3d0;
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       font-weight: 800;
-      padding: 0.25rem 0.5rem;
+      padding: 0.2rem 0.45rem;
       border-radius: 4px;
-      margin: 0.4rem 0;
+      margin: 0.35rem 0;
       text-align: center;
     }
     .inv-meta-table {
       display: flex;
       flex-direction: column;
-      gap: 0.2rem;
-      margin-top: 0.35rem;
+      gap: 0.18rem;
+      margin-top: 0.3rem;
     }
     .inv-meta-row {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       color: #4b5563;
     }
     .inv-meta-row span {
@@ -549,7 +559,7 @@ const grandTotal = subtotal;
     .inv-divider {
       border: none;
       border-top: 1px solid #e5dfd4;
-      margin: 1.25rem 0;
+      margin: 0.85rem 0;
       position: relative;
       z-index: 1;
     }
@@ -560,55 +570,55 @@ const grandTotal = subtotal;
       z-index: 1;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
+      gap: 1rem;
     }
     .party-box {
       background: #fdfbf7;
       border: 1px solid #ebdccb;
       border-radius: 6px;
-      padding: 0.85rem 1rem;
+      padding: 0.75rem 0.9rem;
     }
     .party-header-title {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 800;
       color: #6b7280;
       letter-spacing: 0.06em;
-      margin-bottom: 0.45rem;
+      margin-bottom: 0.35rem;
       text-transform: uppercase;
       border-bottom: 1px dashed #e2d7c7;
-      padding-bottom: 0.3rem;
+      padding-bottom: 0.25rem;
     }
     .party-body p {
-      margin: 0.2rem 0;
+      margin: 0.15rem 0;
       line-height: 1.35;
     }
     .party-name {
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       font-weight: 800;
       color: #111827;
     }
     .b2b-company-line {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 700;
       color: #3b0811;
-      margin: 0.15rem 0;
+      margin: 0.12rem 0;
     }
     .b2b-gstin-pill {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       color: #111827;
       background: #eef2f6;
       border: 1px solid #cbd5e1;
-      padding: 0.15rem 0.45rem;
+      padding: 0.12rem 0.4rem;
       border-radius: 4px;
       display: inline-block;
-      margin: 0.2rem 0 0.35rem;
+      margin: 0.15rem 0 0.25rem;
     }
     .party-address {
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       color: #4b5563;
     }
     .party-contact, .party-courier {
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       color: #4b5563;
     }
     .awb-badge {
@@ -621,22 +631,22 @@ const grandTotal = subtotal;
     .table-responsive-wrapper {
       position: relative;
       z-index: 1;
-      margin-top: 1.25rem;
+      margin-top: 0.85rem;
       overflow-x: auto;
     }
     .inv-items-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       border: 1px solid #ebdccb;
     }
     .inv-items-table th {
       background: #fbf8f3;
       color: #1a1a1a;
-      padding: 0.65rem 0.6rem;
+      padding: 0.5rem 0.5rem;
       font-weight: 800;
-      font-size: 0.74rem;
-      letter-spacing: 0.04em;
+      font-size: 0.72rem;
+      letter-spacing: 0.03em;
       border-bottom: 2px solid #d6cfc2;
       border-right: 1px solid #ebdccb;
     }
@@ -644,7 +654,7 @@ const grandTotal = subtotal;
       border-right: none;
     }
     .inv-items-table td {
-      padding: 0.65rem 0.6rem;
+      padding: 0.5rem 0.5rem;
       border-bottom: 1px solid #f0e9df;
       border-right: 1px solid #f0e9df;
       vertical-align: middle;
@@ -658,41 +668,41 @@ const grandTotal = subtotal;
     .item-cat-sub {
       display: block;
       color: #6b7280;
-      font-size: 0.7rem;
-      margin-top: 0.15rem;
+      font-size: 0.68rem;
+      margin-top: 0.1rem;
     }
 
     /* HSN / SAC Summary Block */
     .hsn-summary-card {
       position: relative;
       z-index: 1;
-      margin-top: 1.15rem;
+      margin-top: 0.75rem;
       background: #faf7f2;
       border: 1px solid #e5dcce;
       border-radius: 6px;
-      padding: 0.75rem 0.85rem;
+      padding: 0.55rem 0.75rem;
     }
     .hsn-card-header {
-      font-size: 0.74rem;
+      font-size: 0.7rem;
       font-weight: 800;
       color: #1a1a1a;
-      letter-spacing: 0.04em;
-      margin-bottom: 0.5rem;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.35rem;
     }
     .hsn-summary-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.74rem;
+      font-size: 0.72rem;
     }
     .hsn-summary-table th {
       background: #ede6dc;
       color: #1f2937;
-      padding: 0.4rem 0.6rem;
+      padding: 0.35rem 0.5rem;
       font-weight: 700;
       border: 1px solid #dfd6c8;
     }
     .hsn-summary-table td {
-      padding: 0.45rem 0.6rem;
+      padding: 0.35rem 0.5rem;
       border: 1px solid #dfd6c8;
       background: #ffffff;
     }
@@ -702,9 +712,9 @@ const grandTotal = subtotal;
       position: relative;
       z-index: 1;
       display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 1.5rem;
-      margin-top: 1.25rem;
+      grid-template-columns: 1fr 280px;
+      gap: 1rem;
+      margin-top: 0.85rem;
       align-items: flex-start;
     }
 
@@ -712,58 +722,58 @@ const grandTotal = subtotal;
     .inv-left-terms-box {
       display: flex;
       flex-direction: column;
-      gap: 0.85rem;
+      gap: 0.6rem;
     }
     .inv-amount-words-card {
       background: #fbf9f5;
       border: 1px solid #e7ded2;
       border-left: 3px solid #3b0811;
-      padding: 0.55rem 0.75rem;
+      padding: 0.45rem 0.65rem;
       border-radius: 4px;
-      font-size: 0.76rem;
+      font-size: 0.74rem;
     }
     .words-label {
       color: #6b7280;
       font-weight: 800;
-      margin-right: 0.4rem;
-      font-size: 0.7rem;
+      margin-right: 0.35rem;
+      font-size: 0.68rem;
     }
     .words-val {
       color: #111827;
       font-weight: 800;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.01em;
     }
     .inv-terms-notes {
-      font-size: 0.74rem;
+      font-size: 0.72rem;
       color: #4b5563;
       background: #faf8f5;
       border: 1px solid #e6e0d5;
       border-radius: 4px;
-      padding: 0.75rem 0.85rem;
+      padding: 0.55rem 0.7rem;
     }
     .inv-terms-notes strong {
       color: #111827;
       display: block;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.2rem;
     }
     .inv-terms-notes ul {
       margin: 0;
       padding-left: 1.1rem;
     }
     .inv-terms-notes li {
-      margin-bottom: 0.2rem;
-      line-height: 1.35;
+      margin-bottom: 0.15rem;
+      line-height: 1.3;
     }
 
     /* QR Code Card */
     .inv-qr-card {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.65rem;
       background: #ffffff;
       border: 1px solid #e5dcce;
       border-radius: 6px;
-      padding: 0.6rem 0.75rem;
+      padding: 0.5rem 0.65rem;
     }
     .qr-svg-wrap {
       flex-shrink: 0;
@@ -776,56 +786,56 @@ const grandTotal = subtotal;
       flex: 1;
     }
     .qr-status-pill {
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       font-weight: 800;
       color: #065f46;
       background: #ecfdf5;
       border: 1px solid #a7f3d0;
-      padding: 0.15rem 0.45rem;
+      padding: 0.12rem 0.4rem;
       border-radius: 3px;
       display: inline-block;
-      margin-bottom: 0.2rem;
+      margin-bottom: 0.15rem;
     }
     .qr-desc {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       color: #6b7280;
       margin: 0;
-      line-height: 1.3;
+      line-height: 1.25;
     }
 
     /* Right Side: Totals & Stamp */
     .inv-right-totals-box {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.65rem;
     }
     .inv-totals-box {
       background: #fdfaf6;
       border: 1px solid #e5dcce;
       border-radius: 6px;
-      padding: 0.85rem 1rem;
-      font-size: 0.8rem;
+      padding: 0.65rem 0.85rem;
+      font-size: 0.78rem;
     }
     .t-row {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.25rem;
       color: #4b5563;
     }
     .totals-divider {
       border: none;
       border-top: 1px solid #dfd5c7;
-      margin: 0.55rem 0;
+      margin: 0.4rem 0;
     }
     .grand-total {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: #111827;
       font-weight: 800;
       margin-bottom: 0;
     }
     .grand-total-val {
       color: #3b0811;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-family: var(--font-display, Georgia, serif);
       font-weight: 900;
     }
@@ -835,15 +845,15 @@ const grandTotal = subtotal;
       background: #ffffff;
       border: 1px solid #e5dcce;
       border-radius: 6px;
-      padding: 0.75rem;
+      padding: 0.55rem 0.65rem;
       display: flex;
       align-items: center;
       gap: 0.75rem;
     }
     .stamp-circular-crest {
       flex-shrink: 0;
-      width: 66px;
-      height: 66px;
+      width: 74px;
+      height: 74px;
       border: 2px dashed #3b0811;
       border-radius: 50%;
       display: flex;
@@ -851,39 +861,44 @@ const grandTotal = subtotal;
       justify-content: center;
       padding: 2px;
       background: #fbf7f4;
+      transform: rotate(-4deg);
+      box-shadow: 0 0 0 1px rgba(59, 8, 17, 0.08);
     }
     .stamp-inner-circle {
       width: 100%;
       height: 100%;
-      border: 1px solid #3b0811;
+      border: 1.5px solid #3b0811;
       border-radius: 50%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      line-height: 1;
+      line-height: 1.1;
+      padding: 2px;
     }
     .stamp-star-top {
-      font-size: 0.5rem;
-      color: #d97706;
-      margin-bottom: 2px;
+      font-size: 0.55rem;
+      color: #b45309;
+      margin-bottom: 1px;
+      letter-spacing: 0.08em;
     }
     .stamp-core-title {
-      font-size: 0.48rem;
+      font-size: 0.52rem;
       font-weight: 900;
       color: #3b0811;
       letter-spacing: 0.05em;
     }
     .stamp-core-sub {
-      font-size: 0.4rem;
+      font-size: 0.42rem;
       font-weight: 800;
       color: #059669;
       letter-spacing: 0.03em;
-      margin-top: 2px;
+      margin-top: 1px;
     }
     .stamp-core-state {
-      font-size: 0.4rem;
+      font-size: 0.42rem;
+      font-weight: 700;
       color: #6b7280;
       margin-top: 1px;
     }
@@ -891,7 +906,7 @@ const grandTotal = subtotal;
       flex: 1;
     }
     .stamp-signature-line {
-      font-size: 0.75rem;
+      font-size: 0.76rem;
       font-weight: 800;
       color: #111827;
     }
@@ -902,23 +917,23 @@ const grandTotal = subtotal;
     }
     .stamp-rule-text {
       display: block;
-      font-size: 0.62rem;
+      font-size: 0.6rem;
       color: #6b7280;
-      line-height: 1.25;
-      margin-top: 0.2rem;
+      line-height: 1.2;
+      margin-top: 0.15rem;
     }
 
     /* Bottom Footer Note */
     .inv-bottom-footer-note {
       position: relative;
       z-index: 1;
-      margin-top: 1.5rem;
+      margin-top: 0.85rem;
       text-align: center;
-      padding-top: 0.75rem;
+      padding-top: 0.45rem;
       border-top: 1px dashed #d6cfc2;
     }
     .inv-bottom-footer-note p {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: #6b7280;
       margin: 0;
     }
@@ -947,7 +962,7 @@ const grandTotal = subtotal;
 
       @page {
         size: A4 portrait;
-        margin: 6mm 8mm 6mm 8mm;
+        margin: 5mm 6mm 5mm 6mm;
       }
 
       html, body, :global(body.invoice-body-clean) {
@@ -974,9 +989,37 @@ const grandTotal = subtotal;
         border: 1px solid #d4cbbd !important;
         box-shadow: none !important;
         border-radius: 0 !important;
-        padding: 6mm 8mm !important;
+        padding: 5mm 7mm !important;
         margin: 0 !important;
         page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      /* Force Strict 2-Column Side-by-Side in Print Regardless of Screen Viewport */
+      .inv-header {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: flex-start !important;
+        gap: 1.5rem !important;
+      }
+
+      .inv-meta-box {
+        text-align: right !important;
+        min-width: 250px !important;
+      }
+
+      .inv-parties-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+      }
+
+      .inv-summary-flex {
+        display: grid !important;
+        grid-template-columns: 1fr 275px !important;
+        gap: 12px !important;
+        align-items: flex-start !important;
       }
 
       .inv-items-table th {
@@ -990,13 +1033,13 @@ const grandTotal = subtotal;
       }
 
       .inv-watermark-overlay {
-        opacity: 0.05 !important;
+        opacity: 0.038 !important;
         -webkit-print-color-adjust: exact !important;
       }
     }
 
-    /* Mobile Responsive Screen View */
-    @media (max-width: 768px) {
+    /* Mobile Responsive Screen View (Screen-Only: Never triggers during Print) */
+    @media screen and (max-width: 768px) {
       .inv-header {
         flex-direction: column;
         gap: 1rem;
@@ -1030,7 +1073,7 @@ const grandTotal = subtotal;
         padding: 1.25rem 1rem;
       }
       .inv-watermark-brand {
-        font-size: 3.2rem;
+        font-size: 2.8rem;
       }
     }
   </style>
@@ -1225,10 +1268,21 @@ const grandTotal = subtotal;
           }).join('');
         }
 
-        // Totals Calculation & Display
-        const finalTotal = order.total || grandTotal;
-        const finalTax = order.gst || gstTax;
-        const taxableSubtotal = Math.max(0, finalTotal - finalTax);
+        // Totals Calculation & Display (Exact Fractional Alignment with Itemized & HSN Tables)
+        const sumTaxable = Object.values(hsnMap).reduce((acc, h) => acc + h.taxable, 0);
+        const sumTax = Object.values(hsnMap).reduce((acc, h) => acc + h.taxAmt, 0);
+
+        const taxableSubtotal = sumTaxable > 0 
+          ? Math.round(sumTaxable * 100) / 100 
+          : (order.total ? Math.round((order.total / 1.18) * 100) / 100 : baseVal);
+
+        const finalTax = sumTax > 0 
+          ? Math.round(sumTax * 100) / 100 
+          : (order.total ? Math.round((order.total - taxableSubtotal) * 100) / 100 : gstTax);
+
+        const finalTotal = order.total 
+          ? order.total 
+          : Math.round((taxableSubtotal + finalTax) * 100) / 100;
 
         const subtotalEl = document.getElementById('inv-subtotal-val');
         const gstEl = document.getElementById('inv-gst-val');
