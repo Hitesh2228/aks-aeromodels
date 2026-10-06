@@ -277,7 +277,7 @@ const halfTax = Math.round((gstTax / 2) * 100) / 100;
                 <strong id="inv-discount-val">-₹0.00</strong>
               </div>
               <div class="t-row">
-                <span>Total Output GST Tax:</span>
+                <span id="inv-gst-label">Total Output GST (CGST + SGST):</span>
                 <strong id="inv-gst-val">₹{gstTax.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong>
               </div>
               <div class="t-row">
@@ -1201,6 +1201,38 @@ const halfTax = Math.round((gstTax / 2) * 100) / 100;
       return inWords(rounded).trim().replace(/\s+/g, ' ') + ' Rupees Only';
     }
 
+    // Statutory Indian Postal Circle to State & GST Jurisdiction Resolver
+    function getStateFromPincode(pincode: string): { state: string; isMaharashtra: boolean } {
+      const clean = (pincode || '').replace(/\D/g, '');
+      if (clean.length < 2) return { state: 'Maharashtra', isMaharashtra: true };
+      const p2 = parseInt(clean.substring(0, 2), 10);
+      const p3 = clean.substring(0, 3);
+
+      if (p3 === '403') return { state: 'Goa', isMaharashtra: false };
+      if (p2 >= 40 && p2 <= 44) return { state: 'Maharashtra', isMaharashtra: true };
+      
+      if (p2 === 11) return { state: 'Delhi', isMaharashtra: false };
+      if (p2 === 12 || p2 === 13) return { state: 'Haryana', isMaharashtra: false };
+      if (p2 >= 14 && p2 <= 16) return { state: 'Punjab', isMaharashtra: false };
+      if (p2 === 17) return { state: 'Himachal Pradesh', isMaharashtra: false };
+      if (p2 === 18 || p2 === 19) return { state: 'Jammu & Kashmir', isMaharashtra: false };
+      if (p2 >= 20 && p2 <= 28) return { state: 'Uttar Pradesh', isMaharashtra: false };
+      if (p2 >= 30 && p2 <= 34) return { state: 'Rajasthan', isMaharashtra: false };
+      if (p2 >= 36 && p2 <= 39) return { state: 'Gujarat', isMaharashtra: false };
+      if (p2 >= 45 && p2 <= 48) return { state: 'Madhya Pradesh', isMaharashtra: false };
+      if (p2 === 49) return { state: 'Chhattisgarh', isMaharashtra: false };
+      if (p2 >= 50 && p2 <= 53) return { state: 'Telangana', isMaharashtra: false };
+      if (p2 >= 56 && p2 <= 59) return { state: 'Karnataka', isMaharashtra: false };
+      if (p2 >= 60 && p2 <= 64) return { state: 'Tamil Nadu', isMaharashtra: false };
+      if (p2 >= 67 && p2 <= 69) return { state: 'Kerala', isMaharashtra: false };
+      if (p2 >= 70 && p2 <= 74) return { state: 'West Bengal', isMaharashtra: false };
+      if (p2 >= 75 && p2 <= 77) return { state: 'Odisha', isMaharashtra: false };
+      if (p2 >= 78 && p2 <= 79) return { state: 'Assam', isMaharashtra: false };
+      if (p2 >= 80 && p2 <= 85) return { state: 'Bihar', isMaharashtra: false };
+      
+      return { state: 'Other', isMaharashtra: false };
+    }
+
     function hydrateInvoiceData() {
       const rawOrder = localStorage.getItem('skynodes_last_order');
       if (!rawOrder) return;
@@ -1220,16 +1252,49 @@ const halfTax = Math.round((gstTax / 2) * 100) / 100;
           invStatusEl.className = order.paymentMethod?.includes('COD') ? 'val status-pending' : 'val status-paid';
         }
 
-        const buyerState = order.customer?.state || 'Maharashtra';
-        const isInterState = !buyerState.toLowerCase().includes('maharashtra');
+        const buyerPin = order.customer?.pincode || '';
+        const buyerStateRaw = order.customer?.state || '';
+        const buyerGstin = order.customer?.gstin || '';
+        
+        // Accurate Statutory GST Law Rule:
+        // Intra-State (CGST + SGST): PIN Code in Maharashtra (40-44 except 403), or State Maharashtra, or GSTIN starts with 27
+        // Inter-State (IGST Only): PIN Code out of Maharashtra, or State != Maharashtra, or GSTIN starts with != 27
+        const pinRes = getStateFromPincode(buyerPin);
+        let isMH = pinRes.isMaharashtra;
+
+        if (buyerGstin && buyerGstin.length >= 2) {
+          isMH = buyerGstin.startsWith('27');
+        } else if (order.isInterState !== undefined) {
+          isMH = !order.isInterState;
+        } else if (buyerPin && buyerPin.replace(/\D/g, '').length === 6) {
+          isMH = pinRes.isMaharashtra;
+        } else if (buyerStateRaw) {
+          isMH = buyerStateRaw.toLowerCase().includes('maharashtra');
+        }
+
+        const isInterState = !isMH;
+        const buyerState = isInterState 
+          ? (buyerStateRaw && !buyerStateRaw.toLowerCase().includes('maharashtra') ? buyerStateRaw : (pinRes.state !== 'Other' ? pinRes.state : 'Outside Maharashtra'))
+          : 'Maharashtra';
         
         if (invPosEl) {
-          invPosEl.textContent = `${buyerState} ${isInterState ? '' : '(27)'}`;
+          invPosEl.textContent = isInterState 
+            ? `${buyerState} (Inter-State)` 
+            : `Maharashtra (27)`;
         }
 
         const invSupplyType = document.getElementById('inv-supply-type');
         if (invSupplyType) {
-          invSupplyType.textContent = isInterState ? 'Inter-State (IGST 18%)' : 'Intra-State (CGST 9% + SGST 9%)';
+          invSupplyType.textContent = isInterState 
+            ? 'Inter-State (IGST 18% Only)' 
+            : 'Intra-State (CGST 9% + SGST 9%)';
+        }
+
+        const invGstLabel = document.getElementById('inv-gst-label');
+        if (invGstLabel) {
+          invGstLabel.textContent = isInterState 
+            ? 'Total Output GST (IGST Only):' 
+            : 'Total Output GST (CGST + SGST):';
         }
 
         const invTxnRow = document.getElementById('inv-txn-row');
