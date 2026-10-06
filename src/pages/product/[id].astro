@@ -82,9 +82,6 @@ const productKeywords = [
 
 Astro.response.headers.set('X-Robots-Tag', 'all');
 
-const prepaidDiscountPct = product.prepaidDiscountPct ?? 5;
-const prepaidPrice = Math.round(product.price * (1 - prepaidDiscountPct / 100));
-
 const stockBadgeText = product.stock 
   ? (product.stock <= 4 ? `(Only ${product.stock} left!)` : `(${product.stock} units)`)
   : '';
@@ -410,12 +407,6 @@ const faqSchema = (product.faqList && product.faqList.length > 0) ? {
         </div>
         <div class="tax-note-text" id="pdp-tax-note">
           Inclusive of all taxes <span id="pdp-tax-subtitle">{taxNoteSubtitle}</span>
-        </div>
-
-        <!-- Prepaid Discount Callout Banner (Exact PDF Style) -->
-        <div class="prepaid-banner-pill" id="pdp-prepaid-banner">
-          <span class="tag-icon">🏷️</span>
-          <span>Pay only <strong id="pdp-prepaid-price">₹{prepaidPrice.toLocaleString('en-IN')}.00</strong> with Prepaid Discounts (<span id="pdp-prepaid-pct">{prepaidDiscountPct}% OFF</span>) ⓘ</span>
         </div>
 
         <!-- ADD TO CART Button Row with Wishlist Heart -->
@@ -1207,20 +1198,6 @@ const faqSchema = (product.faqList && product.faqList.length > 0) ? {
       font-size: 0.78rem;
       color: #777777;
       margin-bottom: 1.25rem;
-    }
-
-    /* Prepaid Discount Banner */
-    .prepaid-banner-pill {
-      background: #fef9c3;
-      border: 1px solid #fde047;
-      color: #713f12;
-      padding: 0.75rem 1rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.85rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 1.75rem;
     }
 
     /* Variant Selector */
@@ -2273,12 +2250,6 @@ const faqSchema = (product.faqList && product.faqList.length > 0) ? {
       .qty-stepper-box {
         align-self: flex-start;
       }
-      .prepaid-banner-pill {
-        width: 100%;
-        box-sizing: border-box;
-        font-size: 0.75rem;
-        padding: 0.6rem 0.75rem;
-      }
       .variant-buttons-row {
         flex-direction: column;
         width: 100%;
@@ -3205,22 +3176,6 @@ const faqSchema = (product.faqList && product.faqList.length > 0) ? {
             if (stickyPriceEl && match.price) stickyPriceEl.textContent = `₹${match.price.toLocaleString('en-IN')}.00`;
             const badgeEl = document.querySelector('.price-discount-tag');
             if (badgeEl && match.discountBadge) badgeEl.textContent = `(Save ${match.discountBadge})`;
-
-            // 5. Update Prepaid Discount Price Banner
-            const prepaidEl = document.querySelector('.prepaid-banner-pill strong');
-            const prepaidPctEl = document.getElementById('pdp-prepaid-pct');
-            const pct = match.prepaidDiscountPct ?? 5;
-            if (prepaidPctEl) prepaidPctEl.textContent = `${pct}% OFF`;
-            if (prepaidEl && match.price) {
-              const prep = Math.round(match.price * (1 - pct / 100));
-              prepaidEl.textContent = `₹${prep.toLocaleString('en-IN')}.00`;
-            }
-            const prepaidBanner = document.getElementById('pdp-prepaid-banner');
-            if (pct === 0 && prepaidBanner) {
-              prepaidBanner.style.display = 'none';
-            } else if (prepaidBanner) {
-              prepaidBanner.style.display = 'flex';
-            }
 
             // Sync currentProd object and cache with latest Shopify data
             if (currentProd) {

@@ -122,8 +122,8 @@ import { PRODUCTS } from '../data/products';
             <label class="pay-option-card active">
               <input type="radio" name="pay-method" value="upi" checked />
               <div class="pay-content">
-                <strong>⚡ Instant UPI / QR Code (Flat 5% OFF)</strong>
-                <small>Google Pay, PhonePe, Paytm, BHIM — Instant 5% Discount</small>
+                <strong>⚡ Instant UPI / QR Code</strong>
+                <small>Google Pay, PhonePe, Paytm, BHIM — Direct Fast Verification</small>
               </div>
             </label>
 
@@ -200,11 +200,6 @@ import { PRODUCTS } from '../data/products';
             <div class="total-row">
               <span>Items Total (Incl. GST):</span>
               <strong id="chk-subtotal">₹0.00</strong>
-            </div>
-
-            <div class="total-row" id="prepaid-discount-row" style="display: none; color: #059669;">
-              <span>⚡ Instant UPI / Prepaid (5% OFF):</span>
-              <strong id="chk-prepaid-discount">-₹0.00</strong>
             </div>
 
             <div class="total-row" id="coupon-discount-row" style="display: none; color: #059669;">
@@ -634,8 +629,6 @@ import { PRODUCTS } from '../data/products';
       const couponNotice = document.getElementById('coupon-discount-notice');
       const couponDiscountRow = document.getElementById('coupon-discount-row');
       const couponDiscountEl = document.getElementById('chk-coupon-discount');
-      const prepaidDiscountRow = document.getElementById('prepaid-discount-row');
-      const prepaidDiscountEl = document.getElementById('chk-prepaid-discount');
       const chipBtns = document.querySelectorAll('.coupon-chip-btn');
 
       function getSelectedPaymentMethod(): string {
@@ -645,17 +638,7 @@ import { PRODUCTS } from '../data/products';
 
       function updateTotalsWithDiscount() {
         const payMethod = getSelectedPaymentMethod();
-        const isPrepaid = payMethod === 'upi';
-        const prepaidDiscount = (isPrepaid && rawSubtotal > 0) ? Math.round(rawSubtotal * 0.05) : 0;
-
-        if (prepaidDiscount > 0 && prepaidDiscountRow && prepaidDiscountEl) {
-          prepaidDiscountRow.style.display = 'flex';
-          prepaidDiscountEl.textContent = `-₹${prepaidDiscount.toLocaleString('en-IN')}.00`;
-        } else if (prepaidDiscountRow) {
-          prepaidDiscountRow.style.display = 'none';
-        }
-
-        const totalDiscounts = appliedDiscountAmount + prepaidDiscount;
+        const totalDiscounts = appliedDiscountAmount;
         const finalSubtotal = rawSubtotal > 0 ? Math.max(1, rawSubtotal - totalDiscounts) : 0;
         
         let estGst = 0;
@@ -681,7 +664,7 @@ import { PRODUCTS } from '../data/products';
           if (payMethod === 'cod') {
             placeOrderBtn.innerHTML = `CONFIRM COD ORDER (₹${total.toLocaleString('en-IN')}) ➔`;
           } else if (payMethod === 'upi') {
-            placeOrderBtn.innerHTML = `⚡ PAY ₹${total.toLocaleString('en-IN')}.00 VIA UPI (5% OFF) ➔`;
+            placeOrderBtn.innerHTML = `⚡ PAY ₹${total.toLocaleString('en-IN')}.00 VIA UPI ➔`;
           } else if (payMethod === 'card') {
             placeOrderBtn.innerHTML = `💳 PAY ₹${total.toLocaleString('en-IN')}.00 VIA CARD (WAY POINT) ➔`;
           } else if (payMethod === 'netbanking') {
@@ -866,8 +849,7 @@ import { PRODUCTS } from '../data/products';
         const selectedPayRadio = document.querySelector('input[name="pay-method"]:checked') as HTMLInputElement;
         const payMethodVal = selectedPayRadio?.value || 'upi';
 
-        const prepaidDiscount = (payMethodVal === 'upi' && rawSubtotal > 0) ? Math.round(rawSubtotal * 0.05) : 0;
-        const totalDiscounts = appliedDiscountAmount + prepaidDiscount;
+        const totalDiscounts = appliedDiscountAmount;
         const subtotal = Math.max(0, rawSubtotal - totalDiscounts);
         
         let gst = 0;
@@ -986,7 +968,7 @@ import { PRODUCTS } from '../data/products';
               display: {
                 blocks: {
                   upi_block: {
-                    name: "⚡ Pay via UPI / QR Code (5% OFF)",
+                    name: "⚡ Pay via UPI / QR Code",
                     instruments: [
                       { method: "upi" }
                     ]

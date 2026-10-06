@@ -32,7 +32,7 @@ const defaultBanners = [
     imgMobile: eng1?.image || "https://cdn.shopify.com/s/files/1/1026/5726/1844/files/eng-1-1.jpg?v=1791020055",
     brandSub: "SKYNODESUAV • NITRO & GAS POWER",
     collName: eng1?.name || "CONTEST GRADE POWERPLANTS",
-    collSub: "GET EXTRA 5% PREPAID DISCOUNT ON CHECKOUT",
+    collSub: "100% FACTORY FRESH • EXPRESS PAN-INDIA SHIPPING",
     wreathNum: "01",
     wreathText: "FEATURED DEAL",
     pill1Title: "BUY OS MAX",
@@ -109,7 +109,6 @@ const defaultBanners = [
 // If client has tagged specific products with 'hero' or 'hero:1' in Shopify, dynamically convert them!
 const BANNERS = heroTaggedProducts.length > 0
   ? heroTaggedProducts.map((p, idx) => {
-      const prepaidPrice = Math.round(p.price * 0.95);
       return {
         id: idx + 1,
         badgeTitle: p.heroBadge || p.discountBadge || "EXCLUSIVE DEAL",
@@ -124,9 +123,9 @@ const BANNERS = heroTaggedProducts.length > 0
         pill1Title: "BUY ONLINE",
         pill1Was: `₹${p.originalPrice.toLocaleString('en-IN')}`,
         pill1Now: `₹${p.price.toLocaleString('en-IN')}`,
-        pill2Title: "PREPAID 5% OFF",
-        pill2Was: `₹${p.price.toLocaleString('en-IN')}`,
-        pill2Now: `₹${prepaidPrice.toLocaleString('en-IN')}`,
+        pill2Title: "GST INVOICE",
+        pill2Was: "INCLUDED",
+        pill2Now: "18% ITC",
         ctaLink: `/product/${p.id}`,
         ctaText: "CLAIM OFFER NOW ➔"
       };
