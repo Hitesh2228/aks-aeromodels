@@ -1,34 +1,62 @@
 ---
+import { getCombinedProducts } from '../lib/shopify';
+
+const allProducts = await getCombinedProducts();
+
+// Helper to find a product by preferred IDs, handles, or category
+function findCategoryProduct(catId: string, preferredHandles: string[] = []) {
+  for (const h of preferredHandles) {
+    const p = allProducts.find(x => (x.id === h || x.handle === h) && x.image && !x.image.includes('unsplash.com'));
+    if (p) return p;
+  }
+  return allProducts.find(x => x.category === catId && x.image && !x.image.includes('unsplash.com'))
+    || allProducts.find(x => x.category === catId);
+}
+
+// Dynamically resolve real products with their live Shopify images
+const gasEngine = findCategoryProduct('engine', ['eng-4', 'eng-1', 'eng-2']);
+const radioSys = findCategoryProduct('radio-receiver', ['rad-1', 'rad-2', 'rad-3']);
+const aeromodel = findCategoryProduct('aeromodels', ['sea-1', 'sea-4', 'sea-2']);
+const balsaWood = findCategoryProduct('balsa-wood', ['bal-1', 'bal-2']);
+const flightAcc = findCategoryProduct('accessories', ['acc-1', 'acc-3', 'acc-10']);
+const toolStarter = findCategoryProduct('accessories', ['acc-4', 'acc-14', 'acc-15', 'acc-8']);
+
 const CATEGORY_ITEMS = [
   { 
     id: 'engine', 
     label: 'GAS ENGINES', 
-    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=400&auto=format&fit=crop'
+    image: gasEngine?.image || 'https://cdn.shopify.com/s/files/1/1026/5726/1844/files/DLE_CC.jpg?v=1791347204',
+    alt: gasEngine?.name || 'Gas Engines'
   },
   { 
     id: 'radio-receiver', 
     label: 'RADIOS & RECEIVERS', 
-    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=400&auto=format&fit=crop'
+    image: radioSys?.image || 'https://cdn.shopify.com/s/files/1/1026/5726/1844/files/rad-1-1.jpg?v=1791020058',
+    alt: radioSys?.name || 'Radios & Receivers'
   },
   { 
     id: 'aeromodels', 
     label: 'SEAGULL AEROMODELS', 
-    image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=400&auto=format&fit=crop'
+    image: aeromodel?.image || 'https://cdn.shopify.com/s/files/1/1026/5726/1844/files/sea-1-4.jpg?v=1791020060',
+    alt: aeromodel?.name || 'Seagull Aeromodels'
   },
   { 
     id: 'balsa-wood', 
     label: 'BALSA WOOD', 
-    image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=400&auto=format&fit=crop'
+    image: balsaWood?.image || 'https://cdn.shopify.com/s/files/1/1026/5726/1844/files/balsa-sheet-1.jpg?v=1791020064',
+    alt: balsaWood?.name || 'Balsa Wood'
   },
   { 
     id: 'accessories', 
     label: 'FLIGHT ACCESSORIES', 
-    image: 'https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?q=80&w=400&auto=format&fit=crop'
+    image: flightAcc?.image || 'https://cdn.shopify.com/s/files/1/1026/5726/1844/files/WhatsApp_Image_2026-10-06_at_7.58.46_PM_1_-Photoroom.png?v=1791370306',
+    alt: flightAcc?.name || 'Flight Accessories'
   },
   { 
     id: 'accessories', 
     label: 'PROPELLER TOOLS', 
-    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=400&auto=format&fit=crop'
+    image: toolStarter?.image || 'https://cdn.shopify.com/s/files/1/1026/5726/1844/files/images_36.jpg?v=1791369950',
+    alt: toolStarter?.name || 'Propeller Tools & Starters'
   },
 ];
 ---
@@ -41,7 +69,14 @@ const CATEGORY_ITEMS = [
       {CATEGORY_ITEMS.map(cat => (
         <a href={`/shop?category=${cat.id}`} class="category-card-item">
           <div class="cat-img-box">
-            <img src={cat.image} alt={cat.label} loading="lazy" decoding="async" width="80" height="80" />
+            <img 
+              src={cat.image} 
+              alt={cat.alt || cat.label} 
+              loading="lazy" 
+              decoding="async" 
+              width="160" 
+              height="160" 
+            />
           </div>
           <span class="cat-label">{cat.label}</span>
         </a>
@@ -84,26 +119,31 @@ const CATEGORY_ITEMS = [
   .cat-img-box {
     width: 100%;
     aspect-ratio: 1 / 1;
-    background: #f5f4f0;
-    border-radius: 12px;
+    background: #ffffff;
+    border-radius: 14px;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.75rem;
+    padding: 0.65rem;
     border: 1px solid #e6e0d5;
     transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
   }
   .category-card-item:hover .cat-img-box {
     border-color: #3b0811;
     background: #ffffff;
-    box-shadow: 0 8px 25px rgba(59, 8, 17, 0.1);
+    box-shadow: 0 8px 25px rgba(59, 8, 17, 0.12);
   }
   .cat-img-box img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
+    object-fit: contain;
+    border-radius: 6px;
+    transition: transform 0.35s ease;
+  }
+  .category-card-item:hover .cat-img-box img {
+    transform: scale(1.08);
   }
   .cat-label {
     font-family: var(--font-main);
