@@ -464,21 +464,40 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
     ? nonPlaceholderShopifyImgs
     : (staticProd?.images && staticProd.images.length > 0 ? staticProd.images : [resolvedMainImage]);
 
+  // Parse any dynamic specs from Shopify tags (format: "spec:Key=Value" or "spec:Key:Value")
+  const dynamicSpecs: Record<string, string> = {};
+  for (const raw of (sp.tags || [])) {
+    const t = raw.trim();
+    if (t.toLowerCase().startsWith('spec:')) {
+      const rest = t.substring(5).trim();
+      const eqIdx = rest.indexOf('=') !== -1 ? rest.indexOf('=') : rest.indexOf(':');
+      if (eqIdx !== -1) {
+        const k = rest.substring(0, eqIdx).trim();
+        const v = rest.substring(eqIdx + 1).trim();
+        if (k && v) dynamicSpecs[k] = v;
+      }
+    }
+  }
+
+  const mergedSpecs = Object.keys(dynamicSpecs).length > 0
+    ? { ...(staticProd?.specs || {}), ...dynamicSpecs }
+    : (staticProd?.specs || { Vendor: sp.vendor, Type: sp.productType, Status: sp.availableForSale ? 'In Stock' : 'Out of Stock' });
+
   return {
     id: prodId,
     handle: sp.handle,
-    name: staticProd?.name || formatCleanProductTitle(sp.title),
+    name: (sp.title && sp.title.trim().length > 0) ? formatCleanProductTitle(sp.title) : (staticProd?.name || ''),
     category: assignedCat.id,
     categoryLabel: assignedCat.label,
     price: price,
     originalPrice: origPrice,
-    discountBadge: customBadge,
+    discountBadge: customBadge || staticProd?.discountBadge,
     prepaidDiscountPct,
     gstRate: gstVal ? gstRate : (staticProd?.gstRate || 18),
-    hsnCode: hsnCode || staticProd?.hsnCode,
+    hsnCode: hsnCode || staticProd?.hsnCode || '95030020',
     basePrice: basePrice || staticProd?.basePrice,
     stock: sp.stock !== undefined ? sp.stock : (staticProd?.stock ?? (sp.availableForSale ? 10 : 0)),
-    warrantyPeriod,
+    warrantyPeriod: warrantyPeriod || staticProd?.warrantyPeriod || '1-Year Official Warranty',
     youtubeVideoId: youtubeVideoId || staticProd?.youtubeVideoId,
     rating: staticProd?.rating || 4.9,
     reviewsCount: 6, // Matches exact actual reviews on PDP
@@ -492,8 +511,8 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
     isFromShopify: true,
     image: resolvedMainImage,
     images: resolvedGallery,
-    description: (sp.description && sp.description.length > 20) ? sp.description : (staticProd?.description || 'Official SKYNODES UAV product synced live from Shopify Storefront.'),
-    specs: staticProd?.specs || { Vendor: sp.vendor, Type: sp.productType, Status: sp.availableForSale ? 'In Stock' : 'Out of Stock' },
+    description: (sp.description && sp.description.trim().length > 0) ? sp.description : (staticProd?.description || 'Official SKYNODES UAV product synced live from Shopify Storefront.'),
+    specs: mergedSpecs,
     inStock: sp.availableForSale,
     variantId: sp.variantId,
     comboId: comboId || staticProd?.comboId,

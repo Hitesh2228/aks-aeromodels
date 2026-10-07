@@ -24,8 +24,8 @@ const orgSchema = {
   }
 };
 
-// Edge CDN Cache Control (TTFB < 50ms with stale-while-revalidate background refresh)
-Astro.response.headers.set('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+// Edge CDN Cache Control (Instant Shopify live sync with short 30s edge revalidation)
+Astro.response.headers.set('Cache-Control', 'public, max-age=0, s-maxage=30, stale-while-revalidate=60');
 Astro.response.headers.set('X-Robots-Tag', 'all');
 
 // LCP Hero Banner 0 Preload
