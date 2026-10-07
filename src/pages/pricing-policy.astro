@@ -13,18 +13,42 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
   <GoogleTagManagerHead />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pricing, Refund, Shipping & GST Policy | SKYNODESUAV</title>
+  <title>Pricing, Refund, Shipping & GST Policy | SKYNODES UAV</title>
 </head>
 <body class="bellavita-page-body">
   <GoogleTagManagerBody />
   <Header />
 
+  <main class="container page-padding reveal-on-scroll">
+    <div class="policy-box">
+      <div class="policy-header-wrap">
+        <span class="policy-tag">STATUTORY & BILLING POLICY</span>
+        <h1 class="policy-title">PRICING, REFUND & GST POLICY</h1>
+        <p class="updated">Effective Date: October 2026 • WAY POINT (Sky Nodes UAV)</p>
+      </div>
+
       <section class="policy-section">
-        <h2 class="policy-heading">3. Refund & Replacement Policy</h2>
-        <p>Unopened items in original factory packaging can be returned within 7 days of delivery for a full refund or exchange. Defective engines or radio receivers are inspected by our technical team for immediate replacement.</p>
+        <h2 class="policy-heading">1. Transparent Pricing & GST Invoicing</h2>
+        <p>All prices displayed across SKYNODES UAV catalog and checkouts are denominated in Indian Rupees (INR) and inclusive of statutory Goods & Services Tax (GST: 5%, 12%, or 18%). B2B buyers providing an active GSTIN receive formal tax invoices eligible for Input Tax Credit (ITC) reporting under GSTR-2B.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2 class="policy-heading">2. Dispatch & Cancellation Policy</h2>
+        <p>All goods once dispatched shall be treated as non-cancelable, non-refundable, and non-returnable. No amendments to GST or billing details shall be permitted after invoice generation.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2 class="policy-heading">3. Transit Damage & Manufacturing Claims</h2>
+        <p>The seller's responsibility ceases upon handing over the goods to the transporter or logistics provider. Any claims regarding manufacturing defects, transit damage, or shortages must be reported in writing within 5 days from the date of delivery, accompanied by unboxing video and supporting evidence.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2 class="policy-heading">4. Payment Terms & Commercial Settlement</h2>
+        <p>Interest at the rate of 12% (twelve percent) per annum shall be charged on all overdue amounts beyond the agreed payment terms. All disputes, if any, shall be subject to the exclusive jurisdiction in Nashik, Maharashtra.</p>
       </section>
     </div>
   </main>
+
   <CartDrawer />
   <Footer />
 
@@ -37,32 +61,63 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
     .policy-box {
       background: #ffffff;
       border: 1px solid #e6e0d5;
-      padding: 3rem;
-      border-radius: var(--radius-md);
+      padding: 3rem 2.5rem;
+      border-radius: var(--radius-md, 8px);
       max-width: 900px;
       margin: 0 auto;
       line-height: 1.8;
       color: #333333;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+    .policy-header-wrap {
+      border-bottom: 2px solid #3b0811;
+      padding-bottom: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .policy-tag {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: #3b0811;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-bottom: 0.4rem;
     }
     .policy-title {
-      font-family: var(--font-display);
+      font-family: var(--font-display, serif);
       color: #3b0811;
-      font-size: 2rem;
+      font-size: 2.25rem;
       font-weight: 800;
-      margin-bottom: 0.3rem;
+      margin: 0 0 0.4rem;
+      letter-spacing: -0.01em;
     }
-    .updated { font-size: 0.85rem; color: #888888; margin-bottom: 2rem; font-weight: 600; }
-    .policy-section { margin-bottom: 1.75rem; }
+    .updated {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin: 0;
+      font-weight: 600;
+    }
+    .policy-section {
+      margin-bottom: 2rem;
+    }
     .policy-heading {
-      font-family: var(--font-display);
+      font-family: var(--font-display, serif);
       color: #1a1a1a;
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 700;
       margin-bottom: 0.6rem;
-      border-bottom: 1px solid #e6e0d5;
+      border-bottom: 1px solid #ede5da;
       padding-bottom: 0.4rem;
     }
-    .policy-section p { font-size: 0.95rem; color: #555555; }
+    .policy-section p {
+      font-size: 0.95rem;
+      color: #4b5563;
+      line-height: 1.7;
+      margin: 0;
+    }
+    @media (max-width: 640px) {
+      .policy-box { padding: 1.75rem 1.25rem; }
+    }
   </style>
 </body>
 </html>
