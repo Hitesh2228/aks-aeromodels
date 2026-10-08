@@ -33,6 +33,9 @@
 
     <!-- Drawer Footer -->
     <div class="drawer-footer">
+      <!-- Balsa Wood MOQ Alert Banner -->
+      <div id="drawer-balsa-moq-alert" class="drawer-balsa-moq-box" style="display: none;"></div>
+
       <div class="subtotal-row">
         <span>Subtotal Amount:</span>
         <span class="subtotal-amount" id="drawer-subtotal">₹0</span>
@@ -324,10 +327,82 @@
   .checkout-btn {
     width: 100%;
   }
+
+  /* Balsa Wood MOQ Alert Styling */
+  .drawer-balsa-moq-box {
+    margin-bottom: 0.85rem;
+    padding: 0.85rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+  .drawer-balsa-moq-box.warning {
+    background: #fffbeb;
+    border: 1.5px solid #f59e0b;
+    color: #92400e;
+  }
+  .drawer-balsa-moq-box.success {
+    background: #ecfdf5;
+    border: 1.5px solid #10b981;
+    color: #065f46;
+    padding: 0.5rem 0.75rem;
+  }
+  .balsa-alert-head {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 800;
+    margin-bottom: 0.35rem;
+  }
+  .balsa-alert-desc {
+    margin: 0 0 0.5rem 0;
+    color: #78350f;
+    font-size: 0.76rem;
+    line-height: 1.35;
+  }
+  .balsa-moq-progress {
+    height: 6px;
+    background: #fde68a;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+  .balsa-moq-progress-bar {
+    height: 100%;
+    background: #d97706;
+    border-radius: 999px;
+    transition: width 0.3s ease;
+  }
+  .balsa-browse-link {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 0.75rem;
+    color: #b45309;
+    text-decoration: underline;
+  }
+  .balsa-browse-link:hover {
+    color: #78350f;
+  }
+  .checkout-btn.moq-blocked {
+    background: #b45309 !important;
+    border-color: #d97706 !important;
+    color: #ffffff !important;
+    cursor: not-allowed;
+  }
+  :global(.cart-balsa-item-tag) {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    background: #fef3c7;
+    color: #92400e;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-top: 2px;
+  }
 </style>
 
 <script>
-  import { getCartHydrated, updateCartQuantity } from '../lib/cartStore';
+  import { getCartHydrated, updateCartQuantity, validateBalsaMinQuantity, isBalsaProduct } from '../lib/cartStore';
 
   function renderDrawer() {
     const itemsList = document.getElementById('drawer-items-list');
@@ -336,12 +411,14 @@
     const checkoutLink = document.getElementById('shopify-checkout-btn') as HTMLAnchorElement;
     const progressFill = document.getElementById('shipping-progress-fill');
     const shippingText = document.getElementById('shipping-status-text');
+    const balsaAlertEl = document.getElementById('drawer-balsa-moq-alert');
 
     if (!itemsList) return;
 
     const hydrated = getCartHydrated();
     const totalCount = hydrated.reduce((acc, cur) => acc + cur.quantity, 0);
     const subtotal = hydrated.reduce((acc, cur) => acc + (cur.product.price * cur.quantity), 0);
+    const balsaValidation = validateBalsaMinQuantity(hydrated);
 
     if (countEl) countEl.textContent = `(${totalCount} items)`;
     if (subtotalEl) subtotalEl.textContent = `₹${subtotal.toLocaleString('en-IN')}`;
@@ -357,8 +434,60 @@
       if (shippingText) shippingText.textContent = `Add ₹${remaining.toLocaleString('en-IN')} more for FREE Express Freight!`;
     }
 
+    // Balsa MOQ Alert Render
+    if (balsaAlertEl) {
+      if (balsaValidation.hasBalsa && !balsaValidation.isValid) {
+        balsaAlertEl.style.display = 'block';
+        balsaAlertEl.className = 'drawer-balsa-moq-box warning';
+        balsaAlertEl.innerHTML = `
+          <div class="balsa-alert-head">
+            <span class="balsa-alert-icon">⚠️</span>
+            <span class="balsa-alert-title">Minimum 5 Balsa Sheets Required</span>
+          </div>
+          <p class="balsa-alert-desc">
+            You have <strong>${balsaValidation.totalBalsa} of 5</strong> balsa sheets in cart. Add <strong>${balsaValidation.remainingNeeded} more sheet${balsaValidation.remainingNeeded > 1 ? 's' : ''}</strong> (mix & match any thickness) to proceed.
+          </p>
+          <div class="balsa-moq-progress">
+            <div class="balsa-moq-progress-bar" style="width: ${Math.min(100, (balsaValidation.totalBalsa / 5) * 100)}%;"></div>
+          </div>
+          <a href="/shop?category=balsa-wood" class="balsa-browse-link">+ Add More Balsa Sheets (Browse All Sizes)</a>
+        `;
+      } else if (balsaValidation.hasBalsa && balsaValidation.isValid) {
+        balsaAlertEl.style.display = 'block';
+        balsaAlertEl.className = 'drawer-balsa-moq-box success';
+        balsaAlertEl.innerHTML = `
+          <div class="balsa-alert-head">
+            <span class="balsa-alert-icon">✓</span>
+            <span class="balsa-alert-title" style="color: #059669; font-size: 0.78rem;">Balsa MOQ Satisfied (${balsaValidation.totalBalsa} Sheets in Cart)</span>
+          </div>
+        `;
+      } else {
+        balsaAlertEl.style.display = 'none';
+        balsaAlertEl.innerHTML = '';
+      }
+    }
+
     if (checkoutLink) {
-      checkoutLink.href = '/checkout';
+      if (balsaValidation.hasBalsa && !balsaValidation.isValid) {
+        checkoutLink.classList.add('moq-blocked');
+        checkoutLink.innerHTML = `MINIMUM 5 BALSA SHEETS NEEDED (${balsaValidation.totalBalsa}/5) <span>⚠️</span>`;
+        checkoutLink.href = 'javascript:void(0)';
+      } else {
+        checkoutLink.classList.remove('moq-blocked');
+        checkoutLink.innerHTML = `PROCEED TO SECURE CHECKOUT <span>🔒</span>`;
+        checkoutLink.href = '/checkout';
+      }
+
+      checkoutLink.onclick = (e) => {
+        const freshHydrated = getCartHydrated();
+        const freshBalsa = validateBalsaMinQuantity(freshHydrated);
+        if (freshBalsa.hasBalsa && !freshBalsa.isValid) {
+          e.preventDefault();
+          e.stopPropagation();
+          alert(`⚠️ Minimum Order Quantity: 5 Balsa Wood Sheets Required!\n\nYour cart currently has ${freshBalsa.totalBalsa} balsa sheet(s).\n\nCustomer Requirement:\nA minimum of 5 balsa sheets (of any thickness or mix) is required to proceed.\n(You can choose 5 of the same size, or mix & match different sizes).\n\nPlease add ${freshBalsa.remainingNeeded} more balsa sheet(s) to continue.`);
+          return false;
+        }
+      };
     }
 
     if (hydrated.length === 0) {
@@ -373,6 +502,7 @@
     }
 
     itemsList.innerHTML = hydrated.map(item => {
+      const isBalsa = isBalsaProduct(item.product);
       const prodUrl = `/product/${item.product.id || item.product.handle}`;
       return `
         <div class="cart-item-card">
@@ -383,6 +513,7 @@
             <a href="${prodUrl}" class="item-title-link" title="View ${item.product.name}">
               <div class="item-title">${item.product.name}</div>
             </a>
+            ${isBalsa ? `<div class="cart-balsa-item-tag">🪵 Balsa Sheet (Mix & Match MOQ)</div>` : ''}
             <div class="item-price">₹${(item.product.price * item.quantity).toLocaleString('en-IN')}</div>
             <div class="qty-controls">
               <button class="qty-btn dec-btn" data-id="${item.product.id}" data-qty="${item.quantity - 1}">-</button>

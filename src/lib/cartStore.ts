@@ -221,3 +221,54 @@ export function clearCart() {
   }
 }
 
+export interface BalsaValidationResult {
+  hasBalsa: boolean;
+  totalBalsa: number;
+  minRequired: number;
+  isValid: boolean;
+  remainingNeeded: number;
+}
+
+export function isBalsaProduct(product: Product | any): boolean {
+  if (!product) return false;
+  const cat = (product.category || '').toLowerCase();
+  const catLabel = (product.categoryLabel || '').toLowerCase();
+  const id = (product.id || product.safeId || product.handle || '').toLowerCase();
+  const name = (product.name || product.title || '').toLowerCase();
+
+  return (
+    cat === 'balsa-wood' || 
+    catLabel.includes('balsa') || 
+    id.startsWith('bal-') || 
+    name.includes('balsa sheet') || 
+    name.includes('balsa wood')
+  );
+}
+
+export function validateBalsaMinQuantity(items: { product?: Product | any; productData?: Product | any; productId?: string; quantity: number }[]): BalsaValidationResult {
+  const minRequired = 5;
+  let totalBalsa = 0;
+  let hasBalsa = false;
+
+  if (Array.isArray(items)) {
+    for (const item of items) {
+      const prod = item.product || item.productData || getCachedProduct(item.productId || '');
+      if (prod && isBalsaProduct(prod)) {
+        hasBalsa = true;
+        totalBalsa += Number(item.quantity) || 0;
+      }
+    }
+  }
+
+  const isValid = !hasBalsa || totalBalsa >= minRequired;
+  const remainingNeeded = hasBalsa && totalBalsa < minRequired ? minRequired - totalBalsa : 0;
+
+  return {
+    hasBalsa,
+    totalBalsa,
+    minRequired,
+    isValid,
+    remainingNeeded
+  };
+}
+

@@ -157,7 +157,12 @@ Astro.response.headers.set('X-Robots-Tag', 'all');
               <span class="rating-count-lbl">({product.reviewsCount})</span>
             </div>
 
-            <div class="card-cat-label">{product.categoryLabel.toUpperCase()}</div>
+            <div class="card-cat-label-wrap">
+              <span class="card-cat-label">{product.categoryLabel.toUpperCase()}</span>
+              {(product.category === 'balsa-wood' || product.id.startsWith('bal-') || product.name.toLowerCase().includes('balsa')) && (
+                <span class="shop-balsa-moq-pill">Min 5 Sheets</span>
+              )}
+            </div>
             <h2 class="card-title-heading">
               <a href={`/product/${product.id}`}>{product.name}</a>
             </h2>
@@ -450,9 +455,23 @@ Astro.response.headers.set('X-Robots-Tag', 'all');
       font-size: 0.76rem;
       font-weight: 700;
     }
-    .rating-count-lbl { font-size: 0.74rem; color: #777777; }
-
-    .card-cat-label { font-size: 0.65rem; color: #888888; font-weight: 600; margin-bottom: 0.25rem; letter-spacing: 0.06em; text-transform: uppercase; }
+    .card-cat-label-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.25rem;
+    }
+    .card-cat-label { font-size: 0.65rem; color: #888888; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    .shop-balsa-moq-pill {
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: #92400e;
+      background: #fef3c7;
+      border: 1px solid #fde68a;
+      padding: 1px 6px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
     .card-title-heading {
       font-size: 0.86rem;
       font-weight: 600;

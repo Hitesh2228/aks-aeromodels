@@ -92,6 +92,13 @@ const basePriceText = product.basePrice
   ? `(Base Price: ₹${product.basePrice.toLocaleString('en-IN')})` 
   : '';
 
+const isBalsaWoodProduct = (
+  product.category === 'balsa-wood' || 
+  product.id.startsWith('bal-') || 
+  product.name.toLowerCase().includes('balsa') ||
+  (product.categoryLabel && product.categoryLabel.toLowerCase().includes('balsa'))
+);
+
 // Sample Pilot Reviews
 const pilotReviews = [
   { id: 'seed_rev_1', name: "Manav R.", date: "5 days ago", rating: 5, title: "Outstanding Engine Performance", text: "Beautifully engineered component. Smooth idle and outstanding flight response during aerobatics!" },
@@ -401,13 +408,25 @@ const faqSchema = (product.faqList && product.faqList.length > 0) ? {
 
           <div class="qty-stepper-box">
             <button type="button" class="stepper-btn" id="pdp-qty-dec">-</button>
-            <span class="stepper-count" id="pdp-qty-count">1</span>
+            <span class="stepper-count" id="pdp-qty-count">{isBalsaWoodProduct ? 5 : 1}</span>
             <button type="button" class="stepper-btn" id="pdp-qty-inc">+</button>
           </div>
         </div>
         <div class="tax-note-text" id="pdp-tax-note">
           Inclusive of all taxes <span id="pdp-tax-subtitle">{taxNoteSubtitle}</span>
         </div>
+
+        {isBalsaWoodProduct && (
+          <div class="balsa-moq-pdp-pill">
+            <div class="balsa-pill-header">
+              <span class="balsa-pill-icon">🪵</span>
+              <strong>MINIMUM ORDER: 5 BALSA SHEETS</strong>
+            </div>
+            <p class="balsa-pill-text">
+              Mix & match any thickness allowed! (e.g. 5 of this thickness, or combine different sizes like 2mm, 3mm, 5mm). Total 5+ sheets required at checkout.
+            </p>
+          </div>
+        )}
 
         <!-- ADD TO CART Button Row with Wishlist Heart -->
         <div class="pdp-cart-actions-row">
@@ -1198,6 +1217,31 @@ const faqSchema = (product.faqList && product.faqList.length > 0) ? {
       font-size: 0.78rem;
       color: #777777;
       margin-bottom: 1.25rem;
+    }
+
+    /* Balsa MOQ Notice Pill */
+    .balsa-moq-pdp-pill {
+      background: #fffbeb;
+      border: 1.5px solid #f59e0b;
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .balsa-pill-header {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #92400e;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.25rem;
+    }
+    .balsa-pill-text {
+      font-size: 0.76rem;
+      color: #78350f;
+      margin: 0;
+      line-height: 1.4;
     }
 
     /* Variant Selector */
@@ -2440,8 +2484,18 @@ const faqSchema = (product.faqList && product.faqList.length > 0) ? {
       }
 
       renderRecentlyViewed();
-      let qty = 1;
+      
+      const isBalsaProd = Boolean(
+        (currentProd?.category || '').toLowerCase() === 'balsa-wood' || 
+        (currentProd?.categoryLabel || '').toLowerCase().includes('balsa') ||
+        (currentProd?.id || '').startsWith('bal-') ||
+        (currentProd?.name || '').toLowerCase().includes('balsa')
+      );
+
+      let qty = isBalsaProd ? 5 : 1;
       const qtyCount = document.getElementById('pdp-qty-count');
+      if (qtyCount) qtyCount.textContent = qty.toString();
+
       const decBtn = document.getElementById('pdp-qty-dec');
       const incBtn = document.getElementById('pdp-qty-inc');
       const mainAddBtn = document.getElementById('pdp-main-add-btn');
@@ -2516,7 +2570,7 @@ const faqSchema = (product.faqList && product.faqList.length > 0) ? {
       const stickyAddBtn = document.getElementById('pdp-sticky-add-btn');
       stickyAddBtn?.addEventListener('click', () => {
         const target = currentProd || stickyAddBtn.getAttribute('data-id');
-        if (target) addToCart(target, 1);
+        if (target) addToCart(target, qty);
       });
 
       // PDF Line Accordions Toggle
