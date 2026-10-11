@@ -14,7 +14,8 @@ import '../../styles/global.css';
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <style>
+  
+  <style is:global>
     :root {
       --admin-bg: #f8fafc;
       --admin-surface: #ffffff;
@@ -34,7 +35,6 @@ import '../../styles/global.css';
       --font-display: 'Space Grotesk', system-ui, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
       --card-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05), 0 1px 2px -1px rgb(0 0 0 / 0.05);
-      --card-shadow-hover: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
       --elevated-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
     }
 
@@ -46,6 +46,10 @@ import '../../styles/global.css';
       min-height: 100vh;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
     }
 
     /* Auth Gate Modal */
@@ -160,7 +164,7 @@ import '../../styles/global.css';
     .admin-brand {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.85rem;
     }
     .admin-brand-icon {
       width: 34px;
@@ -262,7 +266,7 @@ import '../../styles/global.css';
     .mode-tab-btn {
       background: transparent;
       border: none;
-      padding: 0.45rem 1rem;
+      padding: 0.45rem 1.1rem;
       border-radius: 8px;
       font-size: 0.82rem;
       font-weight: 700;
@@ -293,9 +297,9 @@ import '../../styles/global.css';
       border-radius: 20px;
     }
 
-    /* Main Content Wrapper */
+    /* Main Container */
     .admin-container {
-      max-width: 1400px;
+      max-width: 1380px;
       margin: 1.25rem auto 3rem;
       padding: 0 1.5rem;
     }
@@ -306,19 +310,19 @@ import '../../styles/global.css';
     }
     .stats-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 0.85rem;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 0.75rem;
       margin-bottom: 1.25rem;
     }
     .stat-card-compact {
       background: var(--admin-surface);
       border: 1px solid var(--admin-border);
       border-radius: 12px;
-      padding: 0.85rem 1.15rem;
+      padding: 0.75rem 1rem;
       box-shadow: var(--card-shadow);
       display: flex;
       flex-direction: column;
-      gap: 0.2rem;
+      gap: 0.15rem;
       position: relative;
       overflow: hidden;
     }
@@ -335,7 +339,7 @@ import '../../styles/global.css';
     .stat-card-compact.balsa::before { background: #d97706; }
     .stat-card-compact.radios::before { background: #7c3aed; }
     .stat-card-compact .stat-label {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 700;
       color: var(--admin-text-muted);
       text-transform: uppercase;
@@ -343,12 +347,48 @@ import '../../styles/global.css';
     }
     .stat-card-compact .stat-num {
       font-family: var(--font-display);
-      font-size: 1.45rem;
+      font-size: 1.35rem;
       font-weight: 800;
       color: var(--admin-text-main);
     }
 
-    /* Search & Filter Toolbar */
+    /* Category Filter Pills Bar */
+    .catalog-filter-pills-bar {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.85rem;
+      flex-wrap: wrap;
+    }
+    .cat-pill-btn {
+      background: var(--admin-surface);
+      border: 1px solid var(--admin-border);
+      color: var(--admin-text-muted);
+      padding: 0.35rem 0.85rem;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.15s;
+    }
+    .cat-pill-btn:hover {
+      background: #f1f5f9;
+      color: var(--admin-text-main);
+    }
+    .cat-pill-btn.active {
+      background: #0f172a;
+      color: #ffffff;
+      border-color: #0f172a;
+    }
+    .cat-pill-btn.alert.active {
+      background: #b45309;
+      border-color: #b45309;
+      color: #ffffff;
+    }
+
+    /* Search Toolbar */
     .catalog-toolbar {
       background: var(--admin-surface);
       border: 1px solid var(--admin-border);
@@ -372,7 +412,7 @@ import '../../styles/global.css';
     .search-input-wrap {
       position: relative;
       flex: 1;
-      max-width: 420px;
+      max-width: 460px;
     }
     .search-icon-svg {
       position: absolute;
@@ -395,17 +435,6 @@ import '../../styles/global.css';
     .search-input-field:focus {
       border-color: var(--admin-primary);
       box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
-    }
-    .filter-select-field {
-      padding: 0.55rem 0.85rem;
-      border: 1.5px solid var(--admin-border);
-      border-radius: 8px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--admin-text-main);
-      background: #ffffff;
-      outline: none;
-      cursor: pointer;
     }
     .btn-create-prod-primary {
       background: var(--admin-primary);
@@ -445,7 +474,7 @@ import '../../styles/global.css';
     }
     .compact-admin-table th {
       background: #f8fafc;
-      padding: 0.75rem 1.15rem;
+      padding: 0.75rem 1rem;
       font-size: 0.72rem;
       font-weight: 800;
       text-transform: uppercase;
@@ -454,26 +483,32 @@ import '../../styles/global.css';
       border-bottom: 1px solid var(--admin-border);
     }
     .compact-admin-table td {
-      padding: 0.85rem 1.15rem;
-      border-bottom: 1px solid var(--admin-border-subtle);
-      font-size: 0.84rem;
-      vertical-align: middle;
+      padding: 0.75rem 1rem !important;
+      border-bottom: 1px solid var(--admin-border-subtle) !important;
+      font-size: 0.84rem !important;
+      vertical-align: middle !important;
     }
-    .compact-admin-table tr:last-child td { border-bottom: none; }
+    .compact-admin-table tr:last-child td { border-bottom: none !important; }
     .compact-admin-table tr:hover { background: #fdfdfd; }
+    
     .prod-meta-cell {
       display: flex;
       align-items: center;
-      gap: 0.85rem;
+      gap: 0.75rem;
     }
     .prod-thumb-square {
-      width: 44px;
-      height: 44px;
-      border-radius: 8px;
-      object-fit: cover;
-      background: #f1f5f9;
-      border: 1px solid var(--admin-border);
-      flex-shrink: 0;
+      width: 48px !important;
+      height: 48px !important;
+      min-width: 48px !important;
+      min-height: 48px !important;
+      max-width: 48px !important;
+      max-height: 48px !important;
+      border-radius: 8px !important;
+      object-fit: cover !important;
+      background: #f1f5f9 !important;
+      border: 1px solid var(--admin-border) !important;
+      flex-shrink: 0 !important;
+      display: block !important;
     }
     .prod-title-line {
       font-weight: 700;
@@ -523,7 +558,7 @@ import '../../styles/global.css';
     }
     .action-buttons-inline {
       display: flex;
-      gap: 0.4rem;
+      gap: 0.35rem;
       align-items: center;
       justify-content: flex-end;
     }
@@ -531,7 +566,7 @@ import '../../styles/global.css';
       background: #f1f5f9;
       color: #0f172a;
       border: 1px solid #cbd5e1;
-      padding: 0.35rem 0.7rem;
+      padding: 0.35rem 0.65rem;
       border-radius: 6px;
       font-size: 0.75rem;
       font-weight: 700;
@@ -547,7 +582,7 @@ import '../../styles/global.css';
       background: transparent;
       color: #2563eb;
       border: 1px solid #bfdbfe;
-      padding: 0.35rem 0.7rem;
+      padding: 0.35rem 0.65rem;
       border-radius: 6px;
       font-size: 0.75rem;
       font-weight: 700;
@@ -562,7 +597,7 @@ import '../../styles/global.css';
       background: transparent;
       color: #dc2626;
       border: 1px solid #fecaca;
-      padding: 0.35rem 0.6rem;
+      padding: 0.35rem 0.55rem;
       border-radius: 6px;
       font-size: 0.75rem;
       font-weight: 700;
@@ -570,6 +605,52 @@ import '../../styles/global.css';
       transition: all 0.15s;
     }
     .btn-table-del:hover { background: #fee2e2; }
+
+    /* Catalog Pagination Bar */
+    .catalog-pagination-bar {
+      padding: 0.85rem 1.25rem;
+      background: #ffffff;
+      border-top: 1px solid var(--admin-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .pagination-info {
+      font-size: 0.78rem;
+      color: var(--admin-text-muted);
+      font-weight: 600;
+    }
+    .pagination-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .btn-page-nav {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #0f172a;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-page-nav:hover:not(:disabled) {
+      background: #e2e8f0;
+    }
+    .btn-page-nav:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .page-current-pill {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #475569;
+      padding: 0.35rem 0.65rem;
+    }
 
     /* ---------------- ADVANCED MODULAR STUDIO EDITOR STYLES ---------------- */
     .editor-wrapper {
@@ -615,13 +696,13 @@ import '../../styles/global.css';
     }
     .studio-back-btn:hover { background: #e2e8f0; }
     .studio-breadcrumbs {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--admin-text-muted);
       font-weight: 600;
     }
     .studio-title-main {
       font-family: var(--font-display);
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 800;
       letter-spacing: -0.01em;
       color: var(--admin-text-main);
@@ -815,7 +896,7 @@ import '../../styles/global.css';
       min-height: 80px;
     }
 
-    /* COMPACT MEDIA MANAGER (Solves the "image mule khup long page zal ahe" issue!) */
+    /* COMPACT MEDIA MANAGER */
     .media-compact-grid {
       display: grid;
       grid-template-columns: 240px 1fr;
@@ -833,22 +914,25 @@ import '../../styles/global.css';
       text-align: center;
     }
     .primary-preview-frame {
-      width: 100%;
-      height: 180px;
-      border-radius: 8px;
-      background: #ffffff;
-      border: 1px solid var(--admin-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      margin-bottom: 0.75rem;
-      position: relative;
+      width: 100% !important;
+      height: 160px !important;
+      max-height: 160px !important;
+      border-radius: 8px !important;
+      background: #ffffff !important;
+      border: 1px solid var(--admin-border) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      overflow: hidden !important;
+      margin-bottom: 0.75rem !important;
+      position: relative !important;
     }
     .primary-preview-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      height: 100% !important;
+      object-fit: contain !important;
+      display: block !important;
     }
     .primary-preview-placeholder {
       color: var(--admin-text-subtle);
@@ -876,19 +960,22 @@ import '../../styles/global.css';
       align-items: center;
     }
     .gallery-thumb-item {
-      width: 68px;
-      height: 68px;
-      border-radius: 8px;
-      border: 1px solid var(--admin-border);
-      position: relative;
-      overflow: hidden;
-      background: #ffffff;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      width: 64px !important;
+      height: 64px !important;
+      max-width: 64px !important;
+      max-height: 64px !important;
+      border-radius: 8px !important;
+      border: 1px solid var(--admin-border) !important;
+      position: relative !important;
+      overflow: hidden !important;
+      background: #ffffff !important;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
     }
     .gallery-thumb-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      display: block !important;
     }
     .gallery-thumb-del-btn {
       position: absolute;
@@ -924,7 +1011,7 @@ import '../../styles/global.css';
     }
     .btn-add-gallery-photo:hover { background: #1e293b; }
 
-    /* Compact 4-Card Grids (Notes in Set, Trust Badges, Where to Fly) */
+    /* Compact 4-Card Grids */
     .mini-sub-card {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
@@ -1090,7 +1177,7 @@ import '../../styles/global.css';
       <!-- Metrics Overview -->
       <div class="stats-row">
         <div class="stat-card-compact highlight">
-          <span class="stat-label">Total Products</span>
+          <span class="stat-label">Total Active Products</span>
           <span class="stat-num" id="stat-total-prods">0</span>
         </div>
         <div class="stat-card-compact engines">
@@ -1111,6 +1198,16 @@ import '../../styles/global.css';
         </div>
       </div>
 
+      <!-- Quick Interactive Category Filter Pills -->
+      <div class="catalog-filter-pills-bar" id="catalog-pills-bar">
+        <button type="button" class="cat-pill-btn active" data-cat="all">All Products (<span id="pill-cnt-all">0</span>)</button>
+        <button type="button" class="cat-pill-btn" data-cat="engine">✈️ Engines (<span id="pill-cnt-engine">0</span>)</button>
+        <button type="button" class="cat-pill-btn" data-cat="aeromodels">🛩️ Airframes (<span id="pill-cnt-aeromodels">0</span>)</button>
+        <button type="button" class="cat-pill-btn" data-cat="balsa-wood">🪵 Balsa Wood (<span id="pill-cnt-balsa">0</span>)</button>
+        <button type="button" class="cat-pill-btn" data-cat="radio-receiver">📻 Radios & Acc (<span id="pill-cnt-radios">0</span>)</button>
+        <button type="button" class="cat-pill-btn alert" data-cat="low-stock">⚠️ Low Stock (<span id="pill-cnt-low">0</span>)</button>
+      </div>
+
       <!-- Search & Filters Toolbar -->
       <div class="catalog-toolbar">
         <div class="toolbar-left">
@@ -1118,14 +1215,6 @@ import '../../styles/global.css';
             <span class="search-icon-svg">🔍</span>
             <input type="text" id="catalog-search-input" class="search-input-field" placeholder="Search product by title, vendor, or SKU..." />
           </div>
-          <select id="catalog-cat-filter" class="filter-select-field">
-            <option value="all">All Categories (सर्व)</option>
-            <option value="engine">Engines</option>
-            <option value="aeromodels">Seagull Aeromodels</option>
-            <option value="radio-receiver">Radio & Receiver</option>
-            <option value="balsa-wood">Balsa Wood</option>
-            <option value="accessories">Accessories</option>
-          </select>
         </div>
         <button class="btn-create-prod-primary" id="btn-trigger-new-prod">
           <span>➕</span> Add New Product
@@ -1138,11 +1227,11 @@ import '../../styles/global.css';
           <table class="compact-admin-table">
             <thead>
               <tr>
-                <th style="width: 42%;">Product & Specifications</th>
-                <th style="width: 16%;">Category</th>
+                <th style="width: 44%;">Product & Specifications</th>
+                <th style="width: 15%;">Category</th>
                 <th style="width: 14%;">Price</th>
                 <th style="width: 12%;">Inventory</th>
-                <th style="width: 16%; text-align: right;">Actions</th>
+                <th style="width: 15%; text-align: right;">Actions</th>
               </tr>
             </thead>
             <tbody id="catalog-tbody">
@@ -1153,6 +1242,16 @@ import '../../styles/global.css';
               </tr>
             </tbody>
           </table>
+        </div>
+
+        <!-- Pagination Controls Bar -->
+        <div class="catalog-pagination-bar" id="catalog-pagination-bar">
+          <span class="pagination-info" id="pagination-info-text">Showing 1–10 of 44 products</span>
+          <div class="pagination-controls">
+            <button type="button" class="btn-page-nav" id="btn-page-prev">← Previous</button>
+            <span class="page-current-pill" id="page-current-display">Page 1 of 5</span>
+            <button type="button" class="btn-page-nav" id="btn-page-next">Next →</button>
+          </div>
         </div>
       </div>
     </div>
@@ -1177,7 +1276,7 @@ import '../../styles/global.css';
         </div>
       </div>
 
-      <!-- 5-Section Segmented Tabs (Clean & Intuitive) -->
+      <!-- 5-Section Segmented Tabs -->
       <div class="studio-section-tabs-bar">
         <button type="button" class="sub-section-tab-btn active" data-target="tab-panel-basics">
           <span>🏷️</span> 1. Basics & Pricing (किंमत व माहिती)
@@ -1206,14 +1305,14 @@ import '../../styles/global.css';
             <!-- Left Card: Identification & Naming -->
             <div class="studio-card">
               <div class="studio-card-header">
-                <span class="studio-card-title">🏷️ Basic Information</span>
+                <span class="studio-card-title">🏷️ Basic Information (मूलभूत माहिती)</span>
                 <span class="pdp-location-pill">PDP Header</span>
               </div>
               
               <div class="form-item">
                 <label for="f-title">Product Title / Name *</label>
                 <input type="text" id="f-title" class="input-box" placeholder="e.g. O.S. Max 0.46 AX II Nitro Engine" required />
-                <span class="field-note">मुख्य प्रॉडक्टचे ठळक नाव जे सर्वत्र दिसते.</span>
+                <span class="field-note">मुख्य प्रॉडक्टचे ठळक नाव जे PDP आणि कॅटलॉगवर दिसते.</span>
               </div>
 
               <div class="field-row-2">
@@ -1244,7 +1343,7 @@ import '../../styles/global.css';
                 </div>
               </div>
 
-              <!-- Badges & Promotional Placement -->
+              <!-- Badges & Placement -->
               <div style="margin-top: 0.5rem; padding-top: 0.85rem; border-top: 1px dashed var(--admin-border);">
                 <div class="form-item">
                   <label for="f-badge">Discount Badge Text (Optional)</label>
@@ -1267,10 +1366,10 @@ import '../../styles/global.css';
               </div>
             </div>
 
-            <!-- Right Card: Pricing, GST & Statutory -->
+            <!-- Right Card: Pricing, Tax & Statutory -->
             <div class="studio-card">
               <div class="studio-card-header">
-                <span class="studio-card-title">💰 Pricing, Tax & Warranty</span>
+                <span class="studio-card-title">💰 Pricing, Tax & Warranty (किंमत व टॅक्स)</span>
                 <span class="pdp-location-pill">Checkout & Invoice</span>
               </div>
 
@@ -1323,7 +1422,7 @@ import '../../styles/global.css';
         <div id="tab-panel-media" class="studio-tab-panel">
           <div class="studio-card">
             <div class="studio-card-header">
-              <span class="studio-card-title">🖼️ Product Photography & Visuals</span>
+              <span class="studio-card-title">🖼️ Product Photography & Visuals (फोटो व्यवस्थापन)</span>
               <span class="pdp-location-pill">PDP Gallery Block</span>
             </div>
 
@@ -1616,6 +1715,11 @@ import '../../styles/global.css';
     const ALT_PASSCODE = 'admin@skynodes';
 
     let allCatalogProducts: any[] = [];
+    let currentFilteredProducts: any[] = [];
+    let currentSelectedCategory: string = 'all';
+    let currentPage: number = 1;
+    const PAGE_SIZE: number = 10;
+
     let currentEditingProductId: string | null = null;
     let galleryUrlsList: string[] = [];
 
@@ -1644,11 +1748,15 @@ import '../../styles/global.css';
     const subSectionTabBtns = document.querySelectorAll('.sub-section-tab-btn');
     const studioTabPanels = document.querySelectorAll('.studio-tab-panel');
 
-    // Catalog Table & Filters
+    // Catalog Table, Pills & Pagination
     const catalogTbody = document.getElementById('catalog-tbody');
     const searchInput = document.getElementById('catalog-search-input') as HTMLInputElement;
-    const catFilter = document.getElementById('catalog-cat-filter') as HTMLSelectElement;
     const btnTriggerNewProd = document.getElementById('btn-trigger-new-prod');
+    const catPillBtns = document.querySelectorAll('.cat-pill-btn');
+    const btnPagePrev = document.getElementById('btn-page-prev') as HTMLButtonElement;
+    const btnPageNext = document.getElementById('btn-page-next') as HTMLButtonElement;
+    const paginationInfoText = document.getElementById('pagination-info-text');
+    const pageCurrentDisplay = document.getElementById('page-current-display');
 
     // Editor Form & Containers
     const editorForm = document.getElementById('product-editor-form') as HTMLFormElement;
@@ -1796,9 +1904,9 @@ import '../../styles/global.css';
 
         if (data.success && Array.isArray(data.products)) {
           allCatalogProducts = data.products;
-          renderStats(allCatalogProducts);
+          renderStatsAndPillCounts(allCatalogProducts);
           populateComboDropdown(allCatalogProducts);
-          renderCatalogTable(allCatalogProducts);
+          applyFilters();
         } else {
           catalogTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2rem; color: #dc2626;">❌ Failed to load products from Shopify: ${data.error || 'Server error'}</td></tr>`;
         }
@@ -1807,8 +1915,8 @@ import '../../styles/global.css';
       }
     }
 
-    // Stats Rendering
-    function renderStats(list: any[]) {
+    // Stats & Filter Pill Badges
+    function renderStatsAndPillCounts(list: any[]) {
       const elTotal = document.getElementById('stat-total-prods');
       const elEng = document.getElementById('stat-engines');
       const elAir = document.getElementById('stat-airframes');
@@ -1816,12 +1924,33 @@ import '../../styles/global.css';
       const elRad = document.getElementById('stat-radios-acc');
       const elBadge = document.getElementById('catalog-count-badge');
 
+      const countEng = list.filter(p => p.category === 'engine').length;
+      const countAir = list.filter(p => p.category === 'aeromodels').length;
+      const countBalsa = list.filter(p => p.category === 'balsa-wood').length;
+      const countRad = list.filter(p => p.category === 'radio-receiver' || p.category === 'accessories').length;
+      const countLow = list.filter(p => p.stock <= 4).length;
+
       if (elTotal) elTotal.textContent = list.length.toString();
-      if (elEng) elEng.textContent = list.filter(p => p.category === 'engine').length.toString();
-      if (elAir) elAir.textContent = list.filter(p => p.category === 'aeromodels').length.toString();
-      if (elBalsa) elBalsa.textContent = list.filter(p => p.category === 'balsa-wood').length.toString();
-      if (elRad) elRad.textContent = list.filter(p => p.category === 'radio-receiver' || p.category === 'accessories').length.toString();
+      if (elEng) elEng.textContent = countEng.toString();
+      if (elAir) elAir.textContent = countAir.toString();
+      if (elBalsa) elBalsa.textContent = countBalsa.toString();
+      if (elRad) elRad.textContent = countRad.toString();
       if (elBadge) elBadge.textContent = `${list.length} Products Active in Store`;
+
+      // Update pill counters
+      const pAll = document.getElementById('pill-cnt-all');
+      const pEng = document.getElementById('pill-cnt-engine');
+      const pAir = document.getElementById('pill-cnt-aeromodels');
+      const pBal = document.getElementById('pill-cnt-balsa');
+      const pRad = document.getElementById('pill-cnt-radios');
+      const pLow = document.getElementById('pill-cnt-low');
+
+      if (pAll) pAll.textContent = list.length.toString();
+      if (pEng) pEng.textContent = countEng.toString();
+      if (pAir) pAir.textContent = countAir.toString();
+      if (pBal) pBal.textContent = countBalsa.toString();
+      if (pRad) pRad.textContent = countRad.toString();
+      if (pLow) pLow.textContent = countLow.toString();
     }
 
     // Populate Combo Dropdown
@@ -1834,54 +1963,88 @@ import '../../styles/global.css';
       if (current) comboSelect.value = current;
     }
 
-    // Render Catalog Table
-    function renderCatalogTable(productsToRender: any[]) {
+    // Filter Logic
+    function applyFilters() {
+      const query = (searchInput.value || '').toLowerCase().trim();
+      const cat = currentSelectedCategory;
+
+      currentFilteredProducts = allCatalogProducts.filter(p => {
+        const matchesQuery = !query || p.title.toLowerCase().includes(query) || (p.sku && p.sku.toLowerCase().includes(query)) || (p.vendor && p.vendor.toLowerCase().includes(query));
+        if (cat === 'all') return matchesQuery;
+        if (cat === 'low-stock') return matchesQuery && p.stock <= 4;
+        return matchesQuery && (p.category === cat || (cat === 'radio-receiver' && p.category === 'accessories'));
+      });
+
+      currentPage = 1;
+      renderPaginatedTable();
+    }
+
+    // Render 10 Items Per Page
+    function renderPaginatedTable() {
       if (!catalogTbody) return;
-      if (productsToRender.length === 0) {
+
+      const total = currentFilteredProducts.length;
+      const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      const startIdx = (currentPage - 1) * PAGE_SIZE;
+      const endIdx = Math.min(startIdx + PAGE_SIZE, total);
+      const pageItems = currentFilteredProducts.slice(startIdx, endIdx);
+
+      if (total === 0) {
         catalogTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2.5rem; color: #64748b;">No products match your search or filter.</td></tr>`;
-        return;
+      } else {
+        catalogTbody.innerHTML = pageItems.map(p => {
+          const img = p.images?.[0] || 'https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800';
+          const isLowStock = p.stock <= 4;
+          const compareText = p.compareAtPrice > p.price ? `<span style="text-decoration: line-through; color: #94a3b8; font-size: 0.76rem; margin-left: 0.35rem;">₹${p.compareAtPrice.toLocaleString('en-IN')}</span>` : '';
+
+          return `
+            <tr>
+              <td>
+                <div class="prod-meta-cell">
+                  <img src="${img}" class="prod-thumb-square" alt="${p.title}" />
+                  <div>
+                    <span class="prod-title-line">${p.title}</span>
+                    <span class="prod-sub-line">SKU: ${p.sku || 'N/A'} • HSN: ${p.parsedDetails?.hsnCode || '95030020'}</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="category-tag-pill">${(p.category || 'GENERAL').toUpperCase()}</span>
+              </td>
+              <td>
+                <strong style="color: #0f172a;">₹${p.price.toLocaleString('en-IN')}.00</strong>
+                ${compareText}
+              </td>
+              <td>
+                <span class="stock-indicator-pill ${isLowStock ? 'low' : 'good'}">
+                  ${p.stock} Units
+                </span>
+              </td>
+              <td style="text-align: right;">
+                <div class="action-buttons-inline">
+                  <button class="btn-table-edit" data-id="${p.id}">✏️ Edit</button>
+                  <a href="/product/${p.handle || p.id}" target="_blank" class="btn-table-view">👁️ View</a>
+                  <button class="btn-table-del" data-id="${p.id}" data-name="${p.title}">🗑️</button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
       }
 
-      catalogTbody.innerHTML = productsToRender.map(p => {
-        const img = p.images?.[0] || 'https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800';
-        const isLowStock = p.stock <= 4;
-        const compareText = p.compareAtPrice > p.price ? `<span style="text-decoration: line-through; color: #94a3b8; font-size: 0.76rem; margin-left: 0.35rem;">₹${p.compareAtPrice.toLocaleString('en-IN')}</span>` : '';
+      // Update Pagination UI
+      if (paginationInfoText) {
+        paginationInfoText.textContent = total > 0 ? `Showing ${startIdx + 1}–${endIdx} of ${total} products` : 'No products found';
+      }
+      if (pageCurrentDisplay) {
+        pageCurrentDisplay.textContent = `Page ${currentPage} of ${totalPages}`;
+      }
+      if (btnPagePrev) btnPagePrev.disabled = currentPage <= 1;
+      if (btnPageNext) btnPageNext.disabled = currentPage >= totalPages;
 
-        return `
-          <tr>
-            <td>
-              <div class="prod-meta-cell">
-                <img src="${img}" class="prod-thumb-square" alt="${p.title}" />
-                <div>
-                  <span class="prod-title-line">${p.title}</span>
-                  <span class="prod-sub-line">SKU: ${p.sku || 'N/A'} • HSN: ${p.parsedDetails?.hsnCode || '95030020'}</span>
-                </div>
-              </div>
-            </td>
-            <td>
-              <span class="category-tag-pill">${(p.category || 'GENERAL').toUpperCase()}</span>
-            </td>
-            <td>
-              <strong style="color: #0f172a;">₹${p.price.toLocaleString('en-IN')}.00</strong>
-              ${compareText}
-            </td>
-            <td>
-              <span class="stock-indicator-pill ${isLowStock ? 'low' : 'good'}">
-                ${p.stock} Units
-              </span>
-            </td>
-            <td style="text-align: right;">
-              <div class="action-buttons-inline">
-                <button class="btn-table-edit" data-id="${p.id}">✏️ Edit</button>
-                <a href="/product/${p.handle || p.id}" target="_blank" class="btn-table-view">👁️ View</a>
-                <button class="btn-table-del" data-id="${p.id}" data-name="${p.title}">🗑️</button>
-              </div>
-            </td>
-          </tr>
-        `;
-      }).join('');
-
-      // Attach Listeners
+      // Re-attach Edit & Delete Action Listeners
       catalogTbody.querySelectorAll('.btn-table-edit').forEach(btn => {
         btn.addEventListener('click', (e) => {
           const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
@@ -1911,22 +2074,36 @@ import '../../styles/global.css';
       });
     }
 
-    // Filter & Search
-    function applyFilters() {
-      const query = (searchInput.value || '').toLowerCase().trim();
-      const cat = catFilter.value;
+    // Pagination Click Listeners
+    btnPagePrev?.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderPaginatedTable();
+        window.scrollTo({ top: 180, behavior: 'smooth' });
+      }
+    });
 
-      const filtered = allCatalogProducts.filter(p => {
-        const matchesQuery = !query || p.title.toLowerCase().includes(query) || (p.sku && p.sku.toLowerCase().includes(query)) || (p.vendor && p.vendor.toLowerCase().includes(query));
-        const matchesCat = cat === 'all' || p.category === cat;
-        return matchesQuery && matchesCat;
+    btnPageNext?.addEventListener('click', () => {
+      const totalPages = Math.ceil(currentFilteredProducts.length / PAGE_SIZE);
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderPaginatedTable();
+        window.scrollTo({ top: 180, behavior: 'smooth' });
+      }
+    });
+
+    // Pill Filter Listeners
+    catPillBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        catPillBtns.forEach(b => b.classList.remove('active'));
+        const el = e.currentTarget as HTMLElement;
+        el.classList.add('active');
+        currentSelectedCategory = el.getAttribute('data-cat') || 'all';
+        applyFilters();
       });
-
-      renderCatalogTable(filtered);
-    }
+    });
 
     searchInput?.addEventListener('input', applyFilters);
-    catFilter?.addEventListener('change', applyFilters);
 
     // 5. Dynamic Rows (Specs & FAQs)
     function addSpecRow(key = '', val = '') {
