@@ -1,5 +1,5 @@
 ---
-// SKYNODES UAV — Dedicated Product Management Studio (Executive Enterprise UI/UX)
+// SKYNODES UAV — Dedicated Product & Store Commander Studio (Enterprise Admin)
 import '../../styles/global.css';
 ---
 
@@ -8,7 +8,7 @@ import '../../styles/global.css';
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SKYNODES UAV — Product Commander Studio | Enterprise Admin</title>
+  <title>SKYNODES UAV — Commander Studio | Enterprise Admin</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -148,11 +148,11 @@ import '../../styles/global.css';
       font-weight: 600;
     }
 
-    /* Top Executive Navigation Bar */
+    /* Top Executive Header */
     .admin-header {
       background: #0f172a;
       color: #ffffff;
-      padding: 0.75rem 2rem;
+      padding: 0.85rem 2.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -160,6 +160,7 @@ import '../../styles/global.css';
       position: sticky;
       top: 0;
       z-index: 50;
+      width: 100%;
     }
     .admin-brand {
       display: flex;
@@ -167,29 +168,37 @@ import '../../styles/global.css';
       gap: 0.85rem;
     }
     .admin-brand-icon {
-      width: 34px;
-      height: 34px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(255, 255, 255, 0.05));
+      border: 1px solid rgba(56, 189, 248, 0.3);
       border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
+      color: #38bdf8;
     }
     .admin-brand h1 {
       font-family: var(--font-display);
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       font-weight: 800;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.04em;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.6rem;
+      color: #ffffff !important;
+      margin: 0;
     }
     .admin-brand h1 span {
-      color: #94a3b8;
-      font-weight: 500;
-      font-size: 0.85rem;
+      color: #93c5fd;
+      font-weight: 600;
+      font-size: 0.78rem;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      padding: 0.15rem 0.55rem;
+      border-radius: 6px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
     }
     .shopify-status-pill {
       background: rgba(16, 185, 129, 0.15);
@@ -224,7 +233,7 @@ import '../../styles/global.css';
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
-      padding: 0.4rem 0.85rem;
+      padding: 0.45rem 0.95rem;
       border-radius: 8px;
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.12);
@@ -235,7 +244,7 @@ import '../../styles/global.css';
       background: transparent;
       border: 1px solid #334155;
       color: #cbd5e1;
-      padding: 0.4rem 0.85rem;
+      padding: 0.45rem 0.95rem;
       border-radius: 8px;
       font-size: 0.8rem;
       font-weight: 600;
@@ -248,13 +257,14 @@ import '../../styles/global.css';
     .admin-subbar {
       background: var(--admin-surface);
       border-bottom: 1px solid var(--admin-border);
-      padding: 0.65rem 2rem;
+      padding: 0.65rem 2.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: sticky;
-      top: 51px;
+      top: 53px;
       z-index: 45;
+      width: 100%;
     }
     .mode-tabs-segmented {
       display: inline-flex;
@@ -266,7 +276,7 @@ import '../../styles/global.css';
     .mode-tab-btn {
       background: transparent;
       border: none;
-      padding: 0.45rem 1.1rem;
+      padding: 0.45rem 1.15rem;
       border-radius: 8px;
       font-size: 0.82rem;
       font-weight: 700;
@@ -297,28 +307,31 @@ import '../../styles/global.css';
       border-radius: 20px;
     }
 
-    /* Main Container */
+    /* Full-Screen Workspace Container (Zero wasted margin!) */
     .admin-container {
-      max-width: 1380px;
-      margin: 1.25rem auto 3rem;
-      padding: 0 1.5rem;
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 1.25rem 0 3rem 0 !important;
+      padding: 0 2.5rem !important;
     }
 
     /* ---------------- CATALOG VIEW STYLES ---------------- */
     .catalog-wrapper {
       display: block;
+      width: 100%;
     }
     .stats-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 0.75rem;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 0.85rem;
       margin-bottom: 1.25rem;
+      width: 100%;
     }
     .stat-card-compact {
       background: var(--admin-surface);
       border: 1px solid var(--admin-border);
       border-radius: 12px;
-      padding: 0.75rem 1rem;
+      padding: 0.85rem 1.15rem;
       box-shadow: var(--card-shadow);
       display: flex;
       flex-direction: column;
@@ -347,7 +360,7 @@ import '../../styles/global.css';
     }
     .stat-card-compact .stat-num {
       font-family: var(--font-display);
-      font-size: 1.35rem;
+      font-size: 1.45rem;
       font-weight: 800;
       color: var(--admin-text-main);
     }
@@ -363,7 +376,7 @@ import '../../styles/global.css';
       background: var(--admin-surface);
       border: 1px solid var(--admin-border);
       color: var(--admin-text-muted);
-      padding: 0.35rem 0.85rem;
+      padding: 0.4rem 0.95rem;
       border-radius: 20px;
       font-size: 0.78rem;
       font-weight: 700;
@@ -412,7 +425,7 @@ import '../../styles/global.css';
     .search-input-wrap {
       position: relative;
       flex: 1;
-      max-width: 460px;
+      max-width: 480px;
     }
     .search-icon-svg {
       position: absolute;
@@ -440,7 +453,7 @@ import '../../styles/global.css';
       background: var(--admin-primary);
       color: #ffffff;
       border: none;
-      padding: 0.55rem 1.15rem;
+      padding: 0.55rem 1.25rem;
       border-radius: 8px;
       font-size: 0.84rem;
       font-weight: 700;
@@ -456,37 +469,44 @@ import '../../styles/global.css';
       transform: translateY(-1px);
     }
 
-    /* Table Component */
+    /* Fixed Table Layout (Zero Column Shifts or Jumps!) */
     .table-container-card {
       background: var(--admin-surface);
       border: 1px solid var(--admin-border);
       border-radius: 14px;
       overflow: hidden;
       box-shadow: var(--card-shadow);
+      width: 100%;
     }
     .table-scroll {
       overflow-x: auto;
+      width: 100%;
     }
     table.compact-admin-table {
-      width: 100%;
+      width: 100% !important;
+      table-layout: fixed !important;
       border-collapse: collapse;
       text-align: left;
     }
     .compact-admin-table th {
       background: #f8fafc;
-      padding: 0.75rem 1rem;
+      padding: 0.85rem 1.15rem;
       font-size: 0.72rem;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--admin-text-muted);
       border-bottom: 1px solid var(--admin-border);
+      overflow: hidden;
+      white-space: nowrap;
     }
     .compact-admin-table td {
-      padding: 0.75rem 1rem !important;
+      padding: 0.85rem 1.15rem !important;
       border-bottom: 1px solid var(--admin-border-subtle) !important;
       font-size: 0.84rem !important;
       vertical-align: middle !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
     }
     .compact-admin-table tr:last-child td { border-bottom: none !important; }
     .compact-admin-table tr:hover { background: #fdfdfd; }
@@ -494,7 +514,9 @@ import '../../styles/global.css';
     .prod-meta-cell {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.85rem;
+      min-width: 0;
+      overflow: hidden;
     }
     .prod-thumb-square {
       width: 48px !important;
@@ -510,17 +532,29 @@ import '../../styles/global.css';
       flex-shrink: 0 !important;
       display: block !important;
     }
+    .prod-meta-texts {
+      min-width: 0;
+      overflow: hidden;
+      flex: 1;
+    }
     .prod-title-line {
       font-weight: 700;
       color: var(--admin-text-main);
       display: block;
       line-height: 1.3;
       margin-bottom: 0.15rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .prod-sub-line {
       font-size: 0.72rem;
       color: var(--admin-text-muted);
       font-family: var(--font-mono);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: block;
     }
     .category-tag-pill {
       font-size: 0.68rem;
@@ -566,11 +600,14 @@ import '../../styles/global.css';
       background: #f1f5f9;
       color: #0f172a;
       border: 1px solid #cbd5e1;
-      padding: 0.35rem 0.65rem;
+      padding: 0.35rem 0.75rem;
       border-radius: 6px;
       font-size: 0.75rem;
       font-weight: 700;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
       transition: all 0.15s;
     }
     .btn-table-edit:hover {
@@ -582,7 +619,7 @@ import '../../styles/global.css';
       background: transparent;
       color: #2563eb;
       border: 1px solid #bfdbfe;
-      padding: 0.35rem 0.65rem;
+      padding: 0.35rem 0.75rem;
       border-radius: 6px;
       font-size: 0.75rem;
       font-weight: 700;
@@ -597,14 +634,26 @@ import '../../styles/global.css';
       background: transparent;
       color: #dc2626;
       border: 1px solid #fecaca;
-      padding: 0.35rem 0.55rem;
+      padding: 0.35rem 0.65rem;
       border-radius: 6px;
       font-size: 0.75rem;
       font-weight: 700;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       transition: all 0.15s;
     }
     .btn-table-del:hover { background: #fee2e2; }
+
+    @keyframes spinIcon {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .spin-icon {
+      animation: spinIcon 1s linear infinite;
+      display: inline-block;
+    }
 
     /* Catalog Pagination Bar */
     .catalog-pagination-bar {
@@ -630,7 +679,7 @@ import '../../styles/global.css';
     .btn-page-nav {
       background: #f1f5f9;
       border: 1px solid #cbd5e1;
-      padding: 0.35rem 0.75rem;
+      padding: 0.35rem 0.85rem;
       border-radius: 6px;
       font-size: 0.78rem;
       font-weight: 700;
@@ -655,6 +704,7 @@ import '../../styles/global.css';
     /* ---------------- ADVANCED MODULAR STUDIO EDITOR STYLES ---------------- */
     .editor-wrapper {
       display: none;
+      width: 100%;
     }
     .editor-wrapper.active {
       display: block;
@@ -683,8 +733,8 @@ import '../../styles/global.css';
     .studio-back-btn {
       background: #f1f5f9;
       border: 1px solid #cbd5e1;
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-radius: 8px;
       display: flex;
       align-items: center;
@@ -702,7 +752,7 @@ import '../../styles/global.css';
     }
     .studio-title-main {
       font-family: var(--font-display);
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       font-weight: 800;
       letter-spacing: -0.01em;
       color: var(--admin-text-main);
@@ -715,7 +765,7 @@ import '../../styles/global.css';
     .btn-editor-cancel {
       background: #f1f5f9;
       border: 1px solid #cbd5e1;
-      padding: 0.55rem 1rem;
+      padding: 0.55rem 1.1rem;
       border-radius: 8px;
       font-size: 0.82rem;
       font-weight: 700;
@@ -728,7 +778,7 @@ import '../../styles/global.css';
       background: var(--admin-crimson);
       color: #ffffff;
       border: none;
-      padding: 0.55rem 1.35rem;
+      padding: 0.55rem 1.45rem;
       border-radius: 8px;
       font-size: 0.84rem;
       font-weight: 800;
@@ -745,7 +795,7 @@ import '../../styles/global.css';
       box-shadow: 0 6px 16px rgba(136, 19, 55, 0.35);
     }
 
-    /* Sub-Tab Navigation Bar (5 Laser-Focused Panels) */
+    /* Sub-Tab Navigation Bar */
     .studio-section-tabs-bar {
       display: flex;
       gap: 0.4rem;
@@ -760,7 +810,7 @@ import '../../styles/global.css';
     .sub-section-tab-btn {
       background: transparent;
       border: none;
-      padding: 0.6rem 1.1rem;
+      padding: 0.6rem 1.15rem;
       border-radius: 8px;
       font-size: 0.82rem;
       font-weight: 700;
@@ -807,7 +857,7 @@ import '../../styles/global.css';
       background: var(--admin-surface);
       border: 1px solid var(--admin-border);
       border-radius: 14px;
-      padding: 1.25rem 1.5rem;
+      padding: 1.35rem 1.65rem;
       box-shadow: var(--card-shadow);
       margin-bottom: 1.25rem;
     }
@@ -896,7 +946,7 @@ import '../../styles/global.css';
       min-height: 80px;
     }
 
-    /* COMPACT MEDIA MANAGER */
+    /* Compact Media Manager */
     .media-compact-grid {
       display: grid;
       grid-template-columns: 240px 1fr;
@@ -1002,7 +1052,7 @@ import '../../styles/global.css';
       background: #0f172a;
       color: #ffffff;
       border: none;
-      padding: 0 1rem;
+      padding: 0 1.1rem;
       border-radius: 8px;
       font-size: 0.8rem;
       font-weight: 700;
@@ -1011,7 +1061,7 @@ import '../../styles/global.css';
     }
     .btn-add-gallery-photo:hover { background: #1e293b; }
 
-    /* Compact 4-Card Grids */
+    /* Compact Sub Cards */
     .mini-sub-card {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
@@ -1030,7 +1080,7 @@ import '../../styles/global.css';
       justify-content: space-between;
     }
 
-    /* Dynamic Rows (Specs & FAQs) */
+    /* Dynamic Rows */
     .dynamic-row-item {
       display: flex;
       gap: 0.5rem;
@@ -1064,7 +1114,7 @@ import '../../styles/global.css';
     }
     .btn-add-dynamic-row:hover { background: #e2e8f0; }
 
-    /* Step Navigation Buttons at bottom of tabs */
+    /* Step Navigation */
     .tab-footer-nav {
       display: flex;
       justify-content: space-between;
@@ -1092,6 +1142,79 @@ import '../../styles/global.css';
       font-size: 0.82rem;
       font-weight: 700;
       cursor: pointer;
+    }
+
+    /* ---------------- STORE NAVIGATION MANAGER STYLES ---------------- */
+    .nav-manager-wrapper {
+      display: none;
+      width: 100%;
+    }
+    .nav-manager-wrapper.active {
+      display: block;
+    }
+    .nav-items-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .nav-item-edit-card {
+      background: var(--admin-surface);
+      border: 1.5px solid var(--admin-border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-shadow: var(--card-shadow);
+      transition: border-color 0.15s;
+    }
+    .nav-item-edit-card:hover {
+      border-color: #cbd5e1;
+    }
+    .nav-card-top-row {
+      display: grid;
+      grid-template-columns: 40px 1.2fr 1.5fr 140px 60px;
+      gap: 0.85rem;
+      align-items: center;
+    }
+    @media (max-width: 900px) {
+      .nav-card-top-row { grid-template-columns: 1fr; }
+    }
+    .nav-index-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: #f1f5f9;
+      color: #475569;
+      font-weight: 800;
+      font-size: 0.82rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sub-items-box {
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      background: #f8fafc;
+      border-radius: 8px;
+      border: 1px dashed var(--admin-border);
+    }
+    .sub-item-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 40px;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .btn-del-nav-item {
+      background: #fee2e2;
+      border: 1px solid #fca5a5;
+      color: #dc2626;
+      border-radius: 8px;
+      height: 38px;
+      cursor: pointer;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     /* Live Toast Notification */
@@ -1126,17 +1249,24 @@ import '../../styles/global.css';
   <!-- 1. Secure Authentication Modal Gate -->
   <div id="auth-gate-modal">
     <div class="auth-card">
-      <div class="auth-logo-badge">✈️</div>
+      <div class="auth-logo-badge">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+      </div>
       <h2>SKYNODES Commander</h2>
-      <p>Secure Enterprise Catalog Management Portal (Way Point & SKYNODES UAV)</p>
+      <p>Secure Enterprise Catalog & Navigation Portal (SKYNODES UAV)</p>
 
       <form id="admin-auth-form">
         <div class="auth-input-group">
           <label for="admin-passcode-input">Master Passcode</label>
           <input type="password" id="admin-passcode-input" class="auth-input" placeholder="Enter master passcode..." required autofocus />
         </div>
-        <button type="submit" class="auth-btn">🔐 Unlock Studio Portal</button>
-        <div id="auth-error-msg" class="auth-error">❌ Incorrect Passcode. Please try again.</div>
+        <button type="submit" class="auth-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>Unlock Studio Portal</span>
+        </button>
+        <div id="auth-error-msg" class="auth-error">Incorrect Passcode. Please try again.</div>
       </form>
     </div>
   </div>
@@ -1144,24 +1274,40 @@ import '../../styles/global.css';
   <!-- 2. Top Executive Header -->
   <header class="admin-header">
     <div class="admin-brand">
-      <div class="admin-brand-icon">✈️</div>
+      <div class="admin-brand-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+      </div>
       <h1>SKYNODES UAV <span>Commander Studio</span></h1>
       <span class="shopify-status-pill">Shopify Live Connected</span>
     </div>
     <div class="admin-top-actions">
-      <a href="/" target="_blank" class="btn-top-view-site">🌐 View Live Store ↗</a>
-      <button id="admin-logout-btn" class="btn-logout">🚪 Sign Out</button>
+      <a href="/" target="_blank" class="btn-top-view-site">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        <span>View Live Store</span>
+      </a>
+      <button id="admin-logout-btn" class="btn-logout" style="display: inline-flex; align-items: center; gap: 0.4rem;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <span>Sign Out</span>
+      </button>
     </div>
   </header>
 
-  <!-- 3. Primary Mode Switcher Subbar -->
+  <!-- 3. Primary Mode Switcher Subbar (3 Tabs: Catalog, Editor, Navigation) -->
   <div class="admin-subbar">
     <div class="mode-tabs-segmented">
       <button class="mode-tab-btn active" id="tab-catalog-btn">
-        <span>📦</span> Product Catalog (सर्व प्रॉडक्ट्स)
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        <span>Products Catalog</span>
       </button>
       <button class="mode-tab-btn" id="tab-create-btn">
-        <span>➕</span> Studio Editor (नवीन प्रॉडक्ट / एडिट)
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        <span>Product Studio</span>
+      </button>
+      <button class="mode-tab-btn" id="tab-nav-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+        <span>Store Navigation</span>
       </button>
     </div>
     <div class="subbar-meta">
@@ -1198,46 +1344,59 @@ import '../../styles/global.css';
         </div>
       </div>
 
-      <!-- Quick Interactive Category Filter Pills -->
+      <!-- Quick Category Filter Pills -->
       <div class="catalog-filter-pills-bar" id="catalog-pills-bar">
         <button type="button" class="cat-pill-btn active" data-cat="all">All Products (<span id="pill-cnt-all">0</span>)</button>
-        <button type="button" class="cat-pill-btn" data-cat="engine">✈️ Engines (<span id="pill-cnt-engine">0</span>)</button>
-        <button type="button" class="cat-pill-btn" data-cat="aeromodels">🛩️ Airframes (<span id="pill-cnt-aeromodels">0</span>)</button>
-        <button type="button" class="cat-pill-btn" data-cat="balsa-wood">🪵 Balsa Wood (<span id="pill-cnt-balsa">0</span>)</button>
-        <button type="button" class="cat-pill-btn" data-cat="radio-receiver">📻 Radios & Acc (<span id="pill-cnt-radios">0</span>)</button>
-        <button type="button" class="cat-pill-btn alert" data-cat="low-stock">⚠️ Low Stock (<span id="pill-cnt-low">0</span>)</button>
-      </div>
-
-      <!-- Search & Filters Toolbar -->
-      <div class="catalog-toolbar">
-        <div class="toolbar-left">
-          <div class="search-input-wrap">
-            <span class="search-icon-svg">🔍</span>
-            <input type="text" id="catalog-search-input" class="search-input-field" placeholder="Search product by title, vendor, or SKU..." />
-          </div>
-        </div>
-        <button class="btn-create-prod-primary" id="btn-trigger-new-prod">
-          <span>➕</span> Add New Product
+        <button type="button" class="cat-pill-btn" data-cat="engine">Engines (<span id="pill-cnt-engine">0</span>)</button>
+        <button type="button" class="cat-pill-btn" data-cat="aeromodels">Airframes (<span id="pill-cnt-aeromodels">0</span>)</button>
+        <button type="button" class="cat-pill-btn" data-cat="balsa-wood">Balsa Wood (<span id="pill-cnt-balsa">0</span>)</button>
+        <button type="button" class="cat-pill-btn" data-cat="radio-receiver">Radios & Acc (<span id="pill-cnt-radios">0</span>)</button>
+        <button type="button" class="cat-pill-btn alert" data-cat="low-stock" style="display: inline-flex; align-items: center; gap: 0.35rem;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span>Low Stock (<span id="pill-cnt-low">0</span>)</span>
         </button>
       </div>
 
-      <!-- Compact Products Table -->
+      <!-- Search & Action Toolbar -->
+      <div class="catalog-toolbar">
+        <div class="toolbar-left">
+          <div class="search-input-wrap">
+            <span class="search-icon-svg" style="display: flex; align-items: center;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            </span>
+            <input type="text" id="catalog-search-input" class="search-input-field" placeholder="Search products by title, vendor, or SKU..." />
+          </div>
+        </div>
+        <button class="btn-create-prod-primary" id="btn-trigger-new-prod">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+          <span>Add New Product</span>
+        </button>
+      </div>
+
+      <!-- Fixed Width Table Container -->
       <div class="table-container-card">
         <div class="table-scroll">
           <table class="compact-admin-table">
+            <colgroup>
+              <col style="width: 44%;" />
+              <col style="width: 14%;" />
+              <col style="width: 14%;" />
+              <col style="width: 12%;" />
+              <col style="width: 16%;" />
+            </colgroup>
             <thead>
               <tr>
-                <th style="width: 44%;">Product & Specifications</th>
-                <th style="width: 15%;">Category</th>
-                <th style="width: 14%;">Price</th>
-                <th style="width: 12%;">Inventory</th>
-                <th style="width: 15%; text-align: right;">Actions</th>
+                <th>Product & Specifications</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Inventory</th>
+                <th style="text-align: right;">Actions</th>
               </tr>
             </thead>
             <tbody id="catalog-tbody">
               <tr>
                 <td colspan="5" style="text-align: center; padding: 2.5rem; color: #64748b;">
-                  ⏳ Fetching real-time catalog from Shopify Admin...
+                  Loading real-time catalog from Shopify Admin...
                 </td>
               </tr>
             </tbody>
@@ -1256,22 +1415,25 @@ import '../../styles/global.css';
       </div>
     </div>
 
-    <!-- ==================== VIEW 2: PRODUCT STUDIO EDITOR (5 MODULAR TABS) ==================== -->
+    <!-- ==================== VIEW 2: PRODUCT STUDIO EDITOR ==================== -->
     <div id="view-editor" class="editor-wrapper">
       
       <!-- Sticky Action Bar -->
       <div class="studio-sticky-bar">
         <div class="studio-title-block">
-          <button type="button" class="studio-back-btn" id="btn-back-to-catalog" title="Return to Catalog">←</button>
+          <button type="button" class="studio-back-btn" id="btn-back-to-catalog" title="Return to Catalog">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
           <div>
             <div class="studio-breadcrumbs">Products Studio / <span id="editor-action-subcrumb">New Product</span></div>
-            <div class="studio-title-main" id="editor-action-title">➕ Add New Product</div>
+            <div class="studio-title-main" id="editor-action-title">Add New Product</div>
           </div>
         </div>
         <div class="studio-actions-block">
           <button type="button" class="btn-editor-cancel" id="btn-cancel-edit">Cancel</button>
           <button type="button" class="btn-editor-save-publish" id="btn-save-product-submit">
-            <span>🚀</span> Save & Publish to Store
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            <span>Save & Publish to Store</span>
           </button>
         </div>
       </div>
@@ -1279,19 +1441,24 @@ import '../../styles/global.css';
       <!-- 5-Section Segmented Tabs -->
       <div class="studio-section-tabs-bar">
         <button type="button" class="sub-section-tab-btn active" data-target="tab-panel-basics">
-          <span>🏷️</span> 1. Basics & Pricing (किंमत व माहिती)
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
+          <span>1. Basics & Pricing</span>
         </button>
         <button type="button" class="sub-section-tab-btn" data-target="tab-panel-media">
-          <span>🖼️</span> 2. Media & Video (फोटो व व्हिडिओ)
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+          <span>2. Media & Video</span>
         </button>
         <button type="button" class="sub-section-tab-btn" data-target="tab-panel-highlights">
-          <span>⭐</span> 3. Highlights & Badges (PDP हायलाइट्स)
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span>3. Highlights & Badges</span>
         </button>
         <button type="button" class="sub-section-tab-btn" data-target="tab-panel-specs">
-          <span>📊</span> 4. Specs & Materials (तांत्रिक तक्ता)
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="21" y2="21"/><line x1="4" x2="20" y1="14" y2="14"/><line x1="4" x2="20" y1="7" y2="7"/></svg>
+          <span>4. Specs & Materials</span>
         </button>
         <button type="button" class="sub-section-tab-btn" data-target="tab-panel-faqs">
-          <span>💬</span> 5. FAQs & Combo (प्रश्न व कॉम्बो)
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span>5. FAQs & Combo</span>
         </button>
       </div>
 
@@ -1302,41 +1469,59 @@ import '../../styles/global.css';
         <div id="tab-panel-basics" class="studio-tab-panel active">
           <div class="panel-grid-2-col">
             
-            <!-- Left Card: Identification & Naming -->
+            <!-- Left Card: Identification -->
             <div class="studio-card">
               <div class="studio-card-header">
-                <span class="studio-card-title">🏷️ Basic Information (मूलभूत माहिती)</span>
+                <span class="studio-card-title">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:5px;"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
+                  Basic Information
+                </span>
                 <span class="pdp-location-pill">PDP Header</span>
               </div>
               
               <div class="form-item">
                 <label for="f-title">Product Title / Name *</label>
                 <input type="text" id="f-title" class="input-box" placeholder="e.g. O.S. Max 0.46 AX II Nitro Engine" required />
-                <span class="field-note">मुख्य प्रॉडक्टचे ठळक नाव जे PDP आणि कॅटलॉगवर दिसते.</span>
+                <span class="field-note">Primary headline title displayed across the store and PDP.</span>
               </div>
 
               <div class="field-row-2">
                 <div class="form-item">
-                  <label for="f-category">Category *</label>
+                  <label for="f-category">Menu / Category *</label>
                   <select id="f-category" class="input-box" required>
-                    <option value="engine">Engine (इंजिन)</option>
-                    <option value="aeromodels">Seagull Aeromodels (विमान/एअरफ्रेम)</option>
-                    <option value="radio-receiver">Radio & Receiver (रिमोट व रिसीव्हर)</option>
-                    <option value="balsa-wood">Balsa Wood (बाल्सा लाकूड)</option>
-                    <option value="accessories">Aeromodel Accessories (इतर साहित्य)</option>
+                    <option value="engine">Engines & Powerplants</option>
+                    <option value="aeromodels">Seagull Aeromodels</option>
+                    <option value="radio-receiver">Radio & Receiver</option>
+                    <option value="balsa-wood">Balsa Wood Sheets</option>
+                    <option value="accessories">Flight Accessories</option>
                   </select>
+                  <input type="text" id="f-custom-category-input" class="input-box" placeholder="Type new custom category name..." style="display: none; margin-top: 0.35rem;" />
+                  <span class="field-note">Assigns this product to a main header menu / shop category.</span>
                 </div>
+                <div class="form-item">
+                  <label for="f-subcategory">Sub-Category / Sub-Item Tag (Optional)</label>
+                  <div style="display: flex; gap: 0.35rem; align-items: center;">
+                    <select id="f-subcategory-select" class="input-box" style="display: none; flex: 1.2;">
+                      <option value="">-- Choose Sub-Item from Menu --</option>
+                    </select>
+                    <input type="text" id="f-subcategory" class="input-box" placeholder="e.g. RC AIRPLANE or RC CAR" style="flex: 1;" />
+                  </div>
+                  <span class="field-note">Directly assigns this product to the dropdown sub-menu in the navigation bar.</span>
+                </div>
+              </div>
+
+              <div class="field-row-2">
                 <div class="form-item">
                   <label for="f-vendor">Brand / Vendor</label>
                   <input type="text" id="f-vendor" class="input-box" placeholder="e.g. O.S. Engines Japan / Seagull" value="SKYNODES UAV" />
                 </div>
-              </div>
-
-              <div class="field-row-2">
                 <div class="form-item">
                   <label for="f-sku">SKU Code</label>
                   <input type="text" id="f-sku" class="input-box" placeholder="e.g. ENG-1 / SEA-122" />
                 </div>
+              </div>
+
+              <div class="field-row-2">
                 <div class="form-item">
                   <label for="f-stock">Stock Units Available</label>
                   <input type="number" id="f-stock" class="input-box" placeholder="10" value="10" />
@@ -1352,24 +1537,27 @@ import '../../styles/global.css';
                 <div class="field-row-3" style="margin-top: 0.5rem;">
                   <label style="display:flex; align-items:center; gap:0.4rem; font-size:0.75rem; cursor:pointer;">
                     <input type="checkbox" id="f-is-bestseller" style="width:16px; height:16px; accent-color:#0f172a;" />
-                    <span>⭐ Bestseller</span>
+                    <span>Bestseller</span>
                   </label>
                   <label style="display:flex; align-items:center; gap:0.4rem; font-size:0.75rem; cursor:pointer;">
                     <input type="checkbox" id="f-is-crazy" style="width:16px; height:16px; accent-color:#881337;" />
-                    <span>🔥 Crazy Deal</span>
+                    <span>Crazy Deal</span>
                   </label>
                   <label style="display:flex; align-items:center; gap:0.4rem; font-size:0.75rem; cursor:pointer;">
                     <input type="checkbox" id="f-is-hero" style="width:16px; height:16px; accent-color:#2563eb;" />
-                    <span>🎯 Hero Slider</span>
+                    <span>Hero Slider</span>
                   </label>
                 </div>
               </div>
             </div>
 
-            <!-- Right Card: Pricing, Tax & Statutory -->
+            <!-- Right Card: Pricing, Tax & Warranty -->
             <div class="studio-card">
               <div class="studio-card-header">
-                <span class="studio-card-title">💰 Pricing, Tax & Warranty (किंमत व टॅक्स)</span>
+                <span class="studio-card-title">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:5px;"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" x2="10"/></svg>
+                  Pricing, Tax & Warranty
+                </span>
                 <span class="pdp-location-pill">Checkout & Invoice</span>
               </div>
 
@@ -1377,12 +1565,12 @@ import '../../styles/global.css';
                 <div class="form-item">
                   <label for="f-price">Selling Price (₹) *</label>
                   <input type="number" id="f-price" class="input-box" placeholder="15899" required />
-                  <span class="field-note">ग्राहक भरत असलेली खरी किंमत.</span>
+                  <span class="field-note">Actual customer checkout price.</span>
                 </div>
                 <div class="form-item">
                   <label for="f-compare-price">MRP / Compare Price (₹)</label>
                   <input type="number" id="f-compare-price" class="input-box" placeholder="18999" />
-                  <span class="field-note">काट मारून सवलत दाखवण्यासाठी मूळ किंमत.</span>
+                  <span class="field-note">Strikethrough original retail price.</span>
                 </div>
               </div>
 
@@ -1390,7 +1578,7 @@ import '../../styles/global.css';
                 <div class="form-item">
                   <label for="f-hsn">HSN Code</label>
                   <input type="text" id="f-hsn" class="input-box" placeholder="95030020" value="95030020" />
-                  <span class="field-note">टॅक्स इनव्हॉईसवरील वैधानिक HSN कोड.</span>
+                  <span class="field-note">Statutory HSN code for tax invoices.</span>
                 </div>
                 <div class="form-item">
                   <label for="f-gst">GST Slab Rate (%)</label>
@@ -1406,7 +1594,7 @@ import '../../styles/global.css';
               <div class="form-item">
                 <label for="f-warranty">Warranty Coverage Text</label>
                 <input type="text" id="f-warranty" class="input-box" placeholder="1-Year Official Manufacturer Warranty" value="1-Year Official Manufacturer Warranty" />
-                <span class="field-note">PDP वर वॉरंटी बॅजमध्ये दाखवला जाणारा मजकूर.</span>
+                <span class="field-note">Warranty badge text displayed on PDP.</span>
               </div>
             </div>
 
@@ -1418,11 +1606,14 @@ import '../../styles/global.css';
           </div>
         </div>
 
-        <!-- ================= PANEL 2: MEDIA & VIDEO (COMPACT & CLEAN) ================= -->
+        <!-- ================= PANEL 2: MEDIA & VIDEO ================= -->
         <div id="tab-panel-media" class="studio-tab-panel">
           <div class="studio-card">
             <div class="studio-card-header">
-              <span class="studio-card-title">🖼️ Product Photography & Visuals (फोटो व्यवस्थापन)</span>
+              <span class="studio-card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:5px;"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                Product Photography & Visuals
+              </span>
               <span class="pdp-location-pill">PDP Gallery Block</span>
             </div>
 
@@ -1433,24 +1624,24 @@ import '../../styles/global.css';
               <div class="primary-photo-card">
                 <div class="primary-preview-frame" id="main-preview-frame">
                   <div class="primary-preview-placeholder" id="main-preview-placeholder">
-                    <span>🖼️</span>
-                    <span>No Main Image</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                    <span>No Main Image Selected</span>
                   </div>
                 </div>
                 <div class="form-item" style="text-align: left; margin-bottom: 0;">
                   <label for="f-main-image" style="font-size: 0.72rem;">Primary Main Photo URL *</label>
                   <input type="url" id="f-main-image" class="input-box" placeholder="https://..." required />
-                  <span class="field-note">PDP च्या मुख्य चौकटीत दिसणारा फोटो.</span>
+                  <span class="field-note">Main high-resolution photo displayed on PDP.</span>
                 </div>
               </div>
 
               <!-- Right: Additional Gallery Images Strip -->
               <div class="gallery-strip-container">
                 <label style="font-size: 0.76rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem; display: block;">
-                  Additional Gallery Thumbnails (इतर फोटो गॅलरी)
+                  Additional Gallery Thumbnails
                 </label>
                 <span class="field-note" style="display: block; margin-bottom: 0.65rem;">
-                  गॅलरीमध्ये दिसणारे लहान फोटो. नवीन फोटोची लिंक टाकून '+ Add' वर क्लिक करा.
+                  Paste an image link and click '+ Add Photo' to add to carousel gallery.
                 </span>
 
                 <!-- Thumbnails Strip -->
@@ -1461,7 +1652,10 @@ import '../../styles/global.css';
                 <!-- Fast URL Adder -->
                 <div class="gallery-add-input-bar">
                   <input type="url" id="gallery-new-url-input" class="input-box" placeholder="Paste image URL (e.g. https://...)" />
-                  <button type="button" id="btn-add-gallery-item" class="btn-add-gallery-photo">➕ Add Photo</button>
+                  <button type="button" id="btn-add-gallery-item" class="btn-add-gallery-photo" style="display: inline-flex; align-items: center; gap: 0.35rem;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                    <span>Add Photo</span>
+                  </button>
                 </div>
 
                 <!-- Hidden Raw Storage for Sync -->
@@ -1470,15 +1664,18 @@ import '../../styles/global.css';
 
             </div>
 
-            <!-- YouTube Demonstration Video (Compact) -->
+            <!-- YouTube Demonstration Video -->
             <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px dashed var(--admin-border);">
               <div class="form-item">
                 <label for="f-video">
-                  <span>🎥 Official YouTube Demonstration Video (URL / ID)</span>
+                  <span style="display: inline-flex; align-items: center; gap: 0.35rem;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg>
+                    <span>Official YouTube Demonstration Video (URL or ID)</span>
+                  </span>
                   <span class="pdp-location-pill">PDP Video Player</span>
                 </label>
                 <input type="text" id="f-video" class="input-box" placeholder="e.g. https://youtu.be/l4J81G3H5e0 or l4J81G3H5e0" />
-                <span class="field-note">फक्त YouTube व्हिडिओची लिंक किंवा Video ID पेस्ट करा. PDP वर थेट प्लेअर दिसेल.</span>
+                <span class="field-note">Paste YouTube link or video ID to display interactive flight demo player on PDP.</span>
               </div>
             </div>
 
@@ -1493,14 +1690,17 @@ import '../../styles/global.css';
         <!-- ================= PANEL 3: HIGHLIGHTS & BADGES ================= -->
         <div id="tab-panel-highlights" class="studio-tab-panel">
           
-          <!-- Trust Badges (4 Points Under Add to Cart) -->
+          <!-- Trust Badges -->
           <div class="studio-card">
             <div class="studio-card-header">
-              <span class="studio-card-title">🛡️ 4 Key Trust Badges</span>
+              <span class="studio-card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:5px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                4 Key Trust Badges
+              </span>
               <span class="pdp-location-pill">Right Under 'Add to Cart'</span>
             </div>
             <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.75rem;">
-              हे PDP वर 'Add to Cart' बटणाच्या खाली ४ विश्वासार्ह बॅजेस म्हणून दिसतात.
+              4 prominent trust marks rendered right under the Add to Cart button on PDP.
             </p>
             <div class="field-row-4">
               <div class="form-item">
@@ -1522,14 +1722,17 @@ import '../../styles/global.css';
             </div>
           </div>
 
-          <!-- Notes in This Set (4 Key Features) -->
+          <!-- Notes in This Set -->
           <div class="studio-card">
             <div class="studio-card-header">
-              <span class="studio-card-title">⚙️ Notes in This Set (४ मुख्य तांत्रिक वैशिष्ट्ये)</span>
+              <span class="studio-card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:5px;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                Notes in This Set (Engineering Highlights)
+              </span>
               <span class="pdp-location-pill">PDP 'Notes in This Set' Box</span>
             </div>
             <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.75rem;">
-              हे PDP वरील 'Notes in This Set' या कार्डमधील ४ बॉक्सेस आहेत (उदा. ABL Liner, Carburetor, Silencer इ.).
+              4 feature highlight boxes shown in the 'Notes in This Set' PDP card.
             </p>
             <div class="field-row-2">
               <div class="mini-sub-card">
@@ -1566,7 +1769,10 @@ import '../../styles/global.css';
           <!-- Where To Fly It & Flight Vibes -->
           <div class="studio-card">
             <div class="studio-card-header">
-              <span class="studio-card-title">📍 Where To Fly It (४ उड्डाण ॲप्लिकेशन्स)</span>
+              <span class="studio-card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:5px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                Where To Fly It (Flight Applications)
+              </span>
               <span class="pdp-location-pill">PDP 'Where To Fly It' Box</span>
             </div>
             <div class="field-row-4">
@@ -1605,7 +1811,10 @@ import '../../styles/global.css';
           <!-- Long Description -->
           <div class="studio-card">
             <div class="studio-card-header">
-              <span class="studio-card-title">📝 Product Highlights (सविस्तर माहिती)</span>
+              <span class="studio-card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:5px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                Product Highlights & Description
+              </span>
               <span class="pdp-location-pill">PDP 'Product Highlights'</span>
             </div>
             <div class="form-item">
@@ -1616,17 +1825,21 @@ import '../../styles/global.css';
           <!-- Dynamic Specs Table -->
           <div class="studio-card">
             <div class="studio-card-header">
-              <span class="studio-card-title">📊 Technical Specifications Table (तांत्रिक तक्ता)</span>
+              <span class="studio-card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:5px;"><line x1="4" x2="20" y1="21" y2="21"/><line x1="4" x2="20" y1="14" y2="14"/><line x1="4" x2="20" y1="7" y2="7"/></svg>
+                Technical Specifications Table
+              </span>
               <span class="pdp-location-pill">PDP 'Technical Specs'</span>
             </div>
             <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.65rem;">
-              PDP वरील 'Technical Specifications' तक्त्यासाठी Key-Value जोड्या.
+              Key-value pairs rendered in the technical specifications table accordion on PDP.
             </p>
             <div id="specs-rows-container">
               <!-- Dynamically populated rows -->
             </div>
             <button type="button" id="btn-add-spec-row" class="btn-add-dynamic-row">
-              ➕ Add Specification Row
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+              <span>Add Specification Row</span>
             </button>
           </div>
 
@@ -1634,7 +1847,10 @@ import '../../styles/global.css';
           <div class="panel-grid-2-col">
             <div class="studio-card">
               <div class="studio-card-header">
-                <span class="studio-card-title">🧱 Materials & Build</span>
+                <span class="studio-card-title">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:5px;"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+                  Materials & Build Quality
+                </span>
                 <span class="pdp-location-pill">PDP Ingredients</span>
               </div>
               <div class="form-item">
@@ -1643,11 +1859,14 @@ import '../../styles/global.css';
             </div>
             <div class="studio-card">
               <div class="studio-card-header">
-                <span class="studio-card-title">🛠️ How To Use / Break-In</span>
+                <span class="studio-card-title">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:5px;"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                  How To Use & Break-In Steps
+                </span>
                 <span class="pdp-location-pill">PDP Break-In Steps</span>
               </div>
               <div class="form-item">
-                <textarea id="f-howtouse" class="input-box" placeholder="e.g. Run 4-5 bench heat-cycles on rich setting before full throttle flying. Use 10-15% nitro fuel..."></textarea>
+                <textarea id="f-howtouse" class="input-box" placeholder="e.g. Run 4-5 bench heat-cycles on rich needle setting before full throttle flying. Use 10-15% nitro fuel..."></textarea>
               </div>
             </div>
           </div>
@@ -1664,24 +1883,31 @@ import '../../styles/global.css';
           <!-- FAQs Dynamic Builder -->
           <div class="studio-card">
             <div class="studio-card-header">
-              <span class="studio-card-title">❓ Frequently Asked Questions (FAQ Builder)</span>
+              <span class="studio-card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:5px;"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                Frequently Asked Questions (FAQ Builder)
+              </span>
               <span class="pdp-location-pill">PDP 'FAQ' Accordion</span>
             </div>
             <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.75rem;">
-              PDP वरील 'Frequently Asked Questions' सेक्शन्समध्ये हे प्रश्न-उत्तरे दिसतात.
+              Interactive questions and answers displayed in the PDP FAQ accordion.
             </p>
             <div id="faq-rows-container">
               <!-- Dynamically populated FAQ rows -->
             </div>
             <button type="button" id="btn-add-faq-row" class="btn-add-dynamic-row">
-              ➕ Add Question & Answer
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+              <span>Add Question & Answer</span>
             </button>
           </div>
 
           <!-- Combo Paired Product -->
           <div class="studio-card">
             <div class="studio-card-header">
-              <span class="studio-card-title">🧩 Best Selling Combo (जोडीचे प्रॉडक्ट)</span>
+              <span class="studio-card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:5px;"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                Best Selling Combo Pairing
+              </span>
               <span class="pdp-location-pill">PDP 'BEST SELLING COMBOS'</span>
             </div>
             <div class="form-item">
@@ -1689,19 +1915,77 @@ import '../../styles/global.css';
               <select id="f-combo" class="input-box">
                 <option value="">None (No paired combo)</option>
               </select>
-              <span class="field-note">मुख्य प्रॉडक्टसोबत कॉम्बो ऑफर देण्यासाठी स्टोअरमधील दुसरे प्रॉडक्ट निवडा.</span>
+              <span class="field-note">Select a paired item to promote as a bundled discount combo on this product's page.</span>
             </div>
           </div>
 
           <div class="tab-footer-nav">
             <button type="button" class="btn-tab-nav-prev" data-prev="tab-panel-specs">← Back: Specs & Materials</button>
             <button type="button" class="btn-editor-save-publish" id="btn-save-product-submit-bottom">
-              <span>🚀</span> Save & Publish to Store
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              <span>Save & Publish to Store</span>
             </button>
           </div>
         </div>
 
       </form>
+    </div>
+
+    <!-- ==================== VIEW 3: STORE NAVIGATION MANAGER ==================== -->
+    <div id="view-navigation" class="nav-manager-wrapper">
+      
+      <!-- Top Action Bar -->
+      <div class="studio-sticky-bar">
+        <div class="studio-title-block">
+          <div>
+            <div class="studio-breadcrumbs">Storefront Configuration / Navigation Links</div>
+            <div class="studio-title-main" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+              <span>Navigation Menu Manager</span>
+            </div>
+          </div>
+        </div>
+        <div class="studio-actions-block">
+          <button type="button" class="btn-create-prod-primary" id="btn-add-nav-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            <span>Add Menu Item</span>
+          </button>
+          <button type="button" class="btn-editor-save-publish" id="btn-save-nav-submit">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            <span>Save Navigation to Store</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="studio-card" style="margin-bottom: 1.5rem;">
+        <div class="studio-card-header">
+          <span class="studio-card-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:5px;"><line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/></svg>
+            Active Main Navigation Items
+          </span>
+          <span class="pdp-location-pill">Desktop Header Strip & Mobile Drawer</span>
+        </div>
+        <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 1.25rem;">
+          Edit labels, URLs, highlight badges, and add dropdown sub-menu items. Changes are saved directly to Shopify and reflect on the live website immediately.
+        </p>
+
+        <!-- Container for Dynamic Navigation Cards -->
+        <div class="nav-items-grid" id="nav-items-cards-container">
+          <!-- Dynamically populated -->
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+          <button type="button" class="btn-create-prod-primary" id="btn-add-nav-item-bottom">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            <span>Add Menu Item</span>
+          </button>
+          <button type="button" class="btn-editor-save-publish" id="btn-save-nav-submit-bottom">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            <span>Save Navigation to Store</span>
+          </button>
+        </div>
+      </div>
+
     </div>
 
   </main>
@@ -1718,10 +2002,13 @@ import '../../styles/global.css';
     let currentFilteredProducts: any[] = [];
     let currentSelectedCategory: string = 'all';
     let currentPage: number = 1;
-    const PAGE_SIZE: number = 10;
+    const PAGE_SIZE: number = 500;
 
     let currentEditingProductId: string | null = null;
     let galleryUrlsList: string[] = [];
+
+    // Navigation Menu State
+    let storeNavItems: any[] = [];
 
     // DOM Elements
     const authModal = document.getElementById('auth-gate-modal');
@@ -1733,8 +2020,12 @@ import '../../styles/global.css';
     // Navigation Tabs
     const tabCatalogBtn = document.getElementById('tab-catalog-btn');
     const tabCreateBtn = document.getElementById('tab-create-btn');
+    const tabNavBtn = document.getElementById('tab-nav-btn');
+
     const viewCatalog = document.getElementById('view-catalog');
     const viewEditor = document.getElementById('view-editor');
+    const viewNavigation = document.getElementById('view-navigation');
+
     const btnBackToCatalog = document.getElementById('btn-back-to-catalog');
     const btnCancelEdit = document.getElementById('btn-cancel-edit');
 
@@ -1774,11 +2065,21 @@ import '../../styles/global.css';
     const btnAddGalleryItem = document.getElementById('btn-add-gallery-item');
     const galleryRawInput = document.getElementById('f-gallery-images') as HTMLTextAreaElement;
 
+    // Navigation Menu DOM Elements
+    const navItemsCardsContainer = document.getElementById('nav-items-cards-container');
+    const btnAddNavItem = document.getElementById('btn-add-nav-item');
+    const btnAddNavItemBottom = document.getElementById('btn-add-nav-item-bottom');
+    const btnSaveNavSubmit = document.getElementById('btn-save-nav-submit') as HTMLButtonElement;
+    const btnSaveNavSubmitBottom = document.getElementById('btn-save-nav-submit-bottom') as HTMLButtonElement;
+
     // Toast Notification
     function showToast(msg: string, isError = false) {
       const toast = document.getElementById('admin-toast');
       if (!toast) return;
-      toast.textContent = msg;
+      const icon = isError 
+        ? `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`
+        : `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+      toast.innerHTML = `<span style="display:inline-flex; align-items:center;">${icon}</span><span>${msg}</span>`;
       toast.className = isError ? 'error' : 'success';
       toast.style.display = 'flex';
       setTimeout(() => {
@@ -1792,6 +2093,7 @@ import '../../styles/global.css';
       if (token === 'pilot_authorized') {
         if (authModal) authModal.style.display = 'none';
         loadProductsFromShopify();
+        loadNavigationFromShopify();
       } else {
         if (authModal) authModal.style.display = 'flex';
       }
@@ -1804,8 +2106,9 @@ import '../../styles/global.css';
         sessionStorage.setItem('skynodes_admin_token', 'pilot_authorized');
         authModal!.style.display = 'none';
         if (authError) authError.style.display = 'none';
-        showToast('🔓 Welcome to Commander Product Studio!');
+        showToast('Welcome to Commander Studio');
         loadProductsFromShopify();
+        loadNavigationFromShopify();
       } else {
         if (authError) authError.style.display = 'block';
         authInput.value = '';
@@ -1818,21 +2121,28 @@ import '../../styles/global.css';
       window.location.reload();
     });
 
-    // 2. Main Mode Switching (Catalog vs Editor)
-    function switchMode(mode: 'catalog' | 'editor') {
+    // 2. Main Mode Switching (Catalog vs Editor vs Navigation)
+    function switchMode(mode: 'catalog' | 'editor' | 'navigation') {
+      viewCatalog!.style.display = 'none';
+      viewEditor?.classList.remove('active');
+      viewNavigation?.classList.remove('active');
+
+      tabCatalogBtn?.classList.remove('active');
+      tabCreateBtn?.classList.remove('active');
+      tabNavBtn?.classList.remove('active');
+
       if (mode === 'catalog') {
         viewCatalog!.style.display = 'block';
-        viewEditor?.classList.remove('active');
         tabCatalogBtn?.classList.add('active');
-        tabCreateBtn?.classList.remove('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        viewCatalog!.style.display = 'none';
+      } else if (mode === 'editor') {
         viewEditor?.classList.add('active');
-        tabCatalogBtn?.classList.remove('active');
         tabCreateBtn?.classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (mode === 'navigation') {
+        viewNavigation?.classList.add('active');
+        tabNavBtn?.classList.add('active');
+        renderNavigationEditor();
       }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     tabCatalogBtn?.addEventListener('click', () => switchMode('catalog'));
@@ -1846,6 +2156,7 @@ import '../../styles/global.css';
       resetEditorForm();
       switchMode('editor');
     });
+    tabNavBtn?.addEventListener('click', () => switchMode('navigation'));
 
     // 3. Sub-Tab Switching inside Editor
     function switchSubTab(targetId: string) {
@@ -1873,7 +2184,7 @@ import '../../styles/global.css';
       });
     });
 
-    // Next / Prev step navigation buttons
+    // Step Nav
     document.querySelectorAll('.btn-tab-nav-next').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const nextTarget = (e.currentTarget as HTMLElement).getAttribute('data-next');
@@ -1898,7 +2209,7 @@ import '../../styles/global.css';
     async function loadProductsFromShopify() {
       if (!catalogTbody) return;
       try {
-        catalogTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 3rem; color: #64748b;">⏳ Fetching real-time catalog from Shopify Admin...</td></tr>`;
+        catalogTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 3rem; color: #64748b;">Loading real-time catalog from Shopify Admin...</td></tr>`;
         const res = await fetch('/api/admin/products');
         const data = await res.json();
 
@@ -1908,10 +2219,10 @@ import '../../styles/global.css';
           populateComboDropdown(allCatalogProducts);
           applyFilters();
         } else {
-          catalogTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2rem; color: #dc2626;">❌ Failed to load products from Shopify: ${data.error || 'Server error'}</td></tr>`;
+          catalogTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2rem; color: #dc2626;">Failed to load products from Shopify: ${data.error || 'Server error'}</td></tr>`;
         }
       } catch (err: any) {
-        catalogTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2rem; color: #dc2626;">❌ Error connecting to server: ${err.message}</td></tr>`;
+        catalogTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2rem; color: #dc2626;">Error connecting to server: ${err.message}</td></tr>`;
       }
     }
 
@@ -1937,7 +2248,6 @@ import '../../styles/global.css';
       if (elRad) elRad.textContent = countRad.toString();
       if (elBadge) elBadge.textContent = `${list.length} Products Active in Store`;
 
-      // Update pill counters
       const pAll = document.getElementById('pill-cnt-all');
       const pEng = document.getElementById('pill-cnt-engine');
       const pAir = document.getElementById('pill-cnt-aeromodels');
@@ -1979,7 +2289,7 @@ import '../../styles/global.css';
       renderPaginatedTable();
     }
 
-    // Render 10 Items Per Page
+    // Render 10 Items Per Page with FIXED Table Layout
     function renderPaginatedTable() {
       if (!catalogTbody) return;
 
@@ -2004,8 +2314,8 @@ import '../../styles/global.css';
               <td>
                 <div class="prod-meta-cell">
                   <img src="${img}" class="prod-thumb-square" alt="${p.title}" />
-                  <div>
-                    <span class="prod-title-line">${p.title}</span>
+                  <div class="prod-meta-texts">
+                    <span class="prod-title-line" title="${p.title}">${p.title}</span>
                     <span class="prod-sub-line">SKU: ${p.sku || 'N/A'} • HSN: ${p.parsedDetails?.hsnCode || '95030020'}</span>
                   </div>
                 </div>
@@ -2024,9 +2334,17 @@ import '../../styles/global.css';
               </td>
               <td style="text-align: right;">
                 <div class="action-buttons-inline">
-                  <button class="btn-table-edit" data-id="${p.id}">✏️ Edit</button>
-                  <a href="/product/${p.handle || p.id}" target="_blank" class="btn-table-view">👁️ View</a>
-                  <button class="btn-table-del" data-id="${p.id}" data-name="${p.title}">🗑️</button>
+                  <button class="btn-table-edit" data-id="${p.id}">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                    <span>Edit</span>
+                  </button>
+                  <a href="/product/${p.handle || p.id}" target="_blank" class="btn-table-view">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <span>View</span>
+                  </a>
+                  <button class="btn-table-del" data-id="${p.id}" data-name="${p.title}" title="Delete Product">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                  </button>
                 </div>
               </td>
             </tr>
@@ -2036,13 +2354,20 @@ import '../../styles/global.css';
 
       // Update Pagination UI
       if (paginationInfoText) {
-        paginationInfoText.textContent = total > 0 ? `Showing ${startIdx + 1}–${endIdx} of ${total} products` : 'No products found';
+        paginationInfoText.textContent = total > 0 ? `Showing all ${total} products in store catalog` : 'No products found';
       }
       if (pageCurrentDisplay) {
+        pageCurrentDisplay.style.display = totalPages <= 1 ? 'none' : 'inline-block';
         pageCurrentDisplay.textContent = `Page ${currentPage} of ${totalPages}`;
       }
-      if (btnPagePrev) btnPagePrev.disabled = currentPage <= 1;
-      if (btnPageNext) btnPageNext.disabled = currentPage >= totalPages;
+      if (btnPagePrev) {
+        btnPagePrev.style.display = totalPages <= 1 ? 'none' : 'inline-block';
+        btnPagePrev.disabled = currentPage <= 1;
+      }
+      if (btnPageNext) {
+        btnPageNext.style.display = totalPages <= 1 ? 'none' : 'inline-block';
+        btnPageNext.disabled = currentPage >= totalPages;
+      }
 
       // Re-attach Edit & Delete Action Listeners
       catalogTbody.querySelectorAll('.btn-table-edit').forEach(btn => {
@@ -2061,7 +2386,7 @@ import '../../styles/global.css';
               const res = await fetch(`/api/admin/products?id=${id}`, { method: 'DELETE' });
               const resData = await res.json();
               if (resData.success) {
-                showToast(`🗑️ "${name}" deleted successfully.`);
+                showToast(`"${name}" removed from catalog.`);
                 loadProductsFromShopify();
               } else {
                 alert('Error deleting: ' + (resData.error || 'Server error'));
@@ -2074,7 +2399,7 @@ import '../../styles/global.css';
       });
     }
 
-    // Pagination Click Listeners
+    // Pagination Listeners
     btnPagePrev?.addEventListener('click', () => {
       if (currentPage > 1) {
         currentPage--;
@@ -2113,7 +2438,9 @@ import '../../styles/global.css';
       row.innerHTML = `
         <input type="text" class="input-box spec-key-input" placeholder="Spec Name (e.g. Displacement / Power)" value="${key}" style="flex: 1;" />
         <input type="text" class="input-box spec-val-input" placeholder="Value (e.g. 7.45 cc / 1.65 hp)" value="${val}" style="flex: 1;" />
-        <button type="button" class="btn-del-dynamic-row" title="Delete Spec Row">✕</button>
+        <button type="button" class="btn-del-dynamic-row" title="Delete Spec Row" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:38px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
       `;
       row.querySelector('.btn-del-dynamic-row')?.addEventListener('click', () => row.remove());
       specsContainer.appendChild(row);
@@ -2127,7 +2454,10 @@ import '../../styles/global.css';
       row.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
           <span style="font-size:0.72rem; font-weight:800; color:#0f172a; text-transform:uppercase;">FAQ Question & Answer</span>
-          <button type="button" class="btn-del-dynamic-row" style="padding:0.2rem 0.5rem;" title="Delete FAQ">✕ Delete</button>
+          <button type="button" class="btn-del-dynamic-row" style="padding:0.25rem 0.6rem; display:inline-flex; align-items:center; gap:0.25rem;" title="Delete FAQ">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            <span>Delete</span>
+          </button>
         </div>
         <input type="text" class="input-box faq-q-input" placeholder="Question (e.g. What fuel is recommended?)" value="${q}" style="margin-bottom:0.4rem;" />
         <textarea class="input-box faq-a-input" placeholder="Answer..." style="min-height:60px;">${a}</textarea>
@@ -2143,9 +2473,9 @@ import '../../styles/global.css';
     function updatePrimaryPreview(url: string) {
       if (!mainPreviewFrame) return;
       if (url) {
-        mainPreviewFrame.innerHTML = `<img src="${url}" alt="Primary Image" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'primary-preview-placeholder\\'><span>⚠️</span><span>Invalid Image Link</span></div>';" />`;
+        mainPreviewFrame.innerHTML = `<img src="${url}" alt="Primary Image" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'primary-preview-placeholder\\'><svg width=\\'22\\' height=\\'22\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'2\\' stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\'><circle cx=\\'12\\' cy=\\'12\\' r=\\'10\\'/><line x1=\\'12\\' y1=\\'8\\' x2=\\'12\\' y2=\\'12\\'/><line x1=\\'12\\' y1=\\'16\\' x2=\\'12.01\\' y2=\\'16\\'/></svg><span>Invalid Image Link</span></div>';" />`;
       } else {
-        mainPreviewFrame.innerHTML = `<div class="primary-preview-placeholder"><span>🖼️</span><span>No Main Image</span></div>`;
+        mainPreviewFrame.innerHTML = `<div class="primary-preview-placeholder"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><span>No Main Image Selected</span></div>`;
       }
     }
 
@@ -2164,7 +2494,9 @@ import '../../styles/global.css';
       galleryThumbnailsStrip.innerHTML = galleryUrlsList.map((url, idx) => `
         <div class="gallery-thumb-item">
           <img src="${url}" alt="Gallery ${idx + 1}" onerror="this.style.opacity='0.3';" />
-          <button type="button" class="gallery-thumb-del-btn" data-index="${idx}" title="Remove photo">✕</button>
+          <button type="button" class="gallery-thumb-del-btn" data-index="${idx}" title="Remove photo">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
         </div>
       `).join('');
 
@@ -2200,7 +2532,7 @@ import '../../styles/global.css';
     function resetEditorForm() {
       currentEditingProductId = null;
       (document.getElementById('edit-product-id') as HTMLInputElement).value = '';
-      if (editorActionTitle) editorActionTitle.textContent = '➕ Add New Product';
+      if (editorActionTitle) editorActionTitle.textContent = 'Add New Product';
       if (editorActionSubcrumb) editorActionSubcrumb.textContent = 'New Product';
       editorForm?.reset();
 
@@ -2211,14 +2543,18 @@ import '../../styles/global.css';
       if (specsContainer) specsContainer.innerHTML = '';
       if (faqContainer) faqContainer.innerHTML = '';
 
-      // Defaults
-      addSpecRow('Displacement', '7.45 cc (0.455 cu in)');
-      addSpecRow('Power', '1.65 hp @ 16,000 RPM');
-      addSpecRow('Weight', '378g (13.3 oz)');
-      addSpecRow('Fuel', 'Nitro Glow (10-20% Nitro)');
-      addSpecRow('Recommended Props', '10.5x6, 11x6, 12x4');
+      // Clean empty starter rows for the pilot to fill
+      addSpecRow('', '');
+      addFaqRow('', '');
 
-      addFaqRow('What fuel is recommended?', 'We recommend high-quality hobby glow fuel containing 10% to 15% nitromethane with 18% to 20% synthetic or castor oil lubricant.');
+      const subInput = document.getElementById('f-subcategory') as HTMLInputElement;
+      if (subInput) subInput.value = '';
+      const customCat = document.getElementById('f-custom-category-input') as HTMLInputElement;
+      if (customCat) {
+        customCat.value = '';
+        customCat.style.display = 'none';
+      }
+      syncCategorySelectOptions('engine');
 
       switchSubTab('tab-panel-basics');
     }
@@ -2230,20 +2566,27 @@ import '../../styles/global.css';
 
       currentEditingProductId = p.id;
       (document.getElementById('edit-product-id') as HTMLInputElement).value = p.id;
-      if (editorActionTitle) editorActionTitle.textContent = `✏️ Edit: ${p.title}`;
+      if (editorActionTitle) editorActionTitle.textContent = `Edit Product: ${p.title}`;
       if (editorActionSubcrumb) editorActionSubcrumb.textContent = p.title;
 
       // Basics
       (document.getElementById('f-title') as HTMLInputElement).value = p.title || '';
-      (document.getElementById('f-category') as HTMLSelectElement).value = p.category || 'engine';
+      syncCategorySelectOptions(p.category || 'engine');
+      const d = p.parsedDetails || {};
+      const subCatVal = d.subCategory || (p as any).subCategory || '';
+      (document.getElementById('f-subcategory') as HTMLInputElement).value = subCatVal;
+      handleCategoryChanged();
+      const subSelect = document.getElementById('f-subcategory-select') as HTMLSelectElement;
+      if (subSelect && subCatVal) {
+        subSelect.value = subCatVal;
+      }
       (document.getElementById('f-vendor') as HTMLInputElement).value = p.vendor || 'SKYNODES UAV';
       (document.getElementById('f-sku') as HTMLInputElement).value = p.sku || '';
       (document.getElementById('f-price') as HTMLInputElement).value = p.price || 0;
       (document.getElementById('f-compare-price') as HTMLInputElement).value = p.compareAtPrice || '';
-      (document.getElementById('f-stock') as HTMLInputElement).value = p.stock || 10;
+      (document.getElementById('f-stock') as HTMLInputElement).value = (p.stock !== undefined ? p.stock : 10).toString();
       (document.getElementById('f-desc') as HTMLTextAreaElement).value = p.description ? p.description.replace(/<[^>]*>/g, '') : '';
 
-      const d = p.parsedDetails || {};
       (document.getElementById('f-gst') as HTMLSelectElement).value = (d.gstRate || 18).toString();
       (document.getElementById('f-hsn') as HTMLInputElement).value = d.hsnCode || '95030020';
       (document.getElementById('f-warranty') as HTMLInputElement).value = d.warrantyPeriod || '1-Year Official Warranty';
@@ -2262,14 +2605,14 @@ import '../../styles/global.css';
       galleryUrlsList = (p.images || []).slice(1);
       renderGalleryStrip();
 
-      // Trust Badges
+      // Trust Badges (Exact values, no forced overwrites)
       const trust = d.trustBadges || [];
-      (document.getElementById('f-trust-1') as HTMLInputElement).value = trust[0] || 'Imported Quality';
-      (document.getElementById('f-trust-2') as HTMLInputElement).value = trust[1] || '100% Genuine';
-      (document.getElementById('f-trust-3') as HTMLInputElement).value = trust[2] || 'AMA Certified';
-      (document.getElementById('f-trust-4') as HTMLInputElement).value = trust[3] || 'Assured Delivery';
+      (document.getElementById('f-trust-1') as HTMLInputElement).value = trust[0] || '';
+      (document.getElementById('f-trust-2') as HTMLInputElement).value = trust[1] || '';
+      (document.getElementById('f-trust-3') as HTMLInputElement).value = trust[2] || '';
+      (document.getElementById('f-trust-4') as HTMLInputElement).value = trust[3] || '';
 
-      // Notes in set
+      // Notes in set (Exact values, no forced overwrites)
       const notes = d.notesInSet || [];
       (document.getElementById('f-note-1-name') as HTMLInputElement).value = notes[0]?.name || '';
       (document.getElementById('f-note-1-desc') as HTMLInputElement).value = notes[0]?.desc || '';
@@ -2280,24 +2623,24 @@ import '../../styles/global.css';
       (document.getElementById('f-note-4-name') as HTMLInputElement).value = notes[3]?.name || '';
       (document.getElementById('f-note-4-desc') as HTMLInputElement).value = notes[3]?.desc || '';
 
-      // Where to fly
+      // Where to fly (Exact values, no forced overwrites)
       const fly = d.whereToFly || [];
-      (document.getElementById('f-fly-1') as HTMLInputElement).value = fly[0] || 'Aerobatic Competitions';
-      (document.getElementById('f-fly-2') as HTMLInputElement).value = fly[1] || 'Flight Training Clubs';
-      (document.getElementById('f-fly-3') as HTMLInputElement).value = fly[2] || 'Scale Kit Building';
-      (document.getElementById('f-fly-4') as HTMLInputElement).value = fly[3] || 'Pylon Racing';
-      (document.getElementById('f-vibes') as HTMLInputElement).value = d.vibesText || 'Versatile, confident, bold, high-performance flight.';
+      (document.getElementById('f-fly-1') as HTMLInputElement).value = fly[0] || '';
+      (document.getElementById('f-fly-2') as HTMLInputElement).value = fly[1] || '';
+      (document.getElementById('f-fly-3') as HTMLInputElement).value = fly[2] || '';
+      (document.getElementById('f-fly-4') as HTMLInputElement).value = fly[3] || '';
+      (document.getElementById('f-vibes') as HTMLInputElement).value = d.vibesText || '';
 
-      // Specs
+      // Specs (Exact keys and values)
       if (specsContainer) specsContainer.innerHTML = '';
       const specsObj = d.specs || {};
-      if (Object.keys(specsObj).length > 0) {
-        for (const [k, v] of Object.entries(specsObj)) {
+      const specEntries = Object.entries(specsObj);
+      if (specEntries.length > 0) {
+        for (const [k, v] of specEntries) {
           addSpecRow(k, String(v));
         }
       } else {
-        addSpecRow('Displacement', '7.45 cc');
-        addSpecRow('Power', '1.65 hp');
+        addSpecRow('', '');
       }
 
       // Video & Details
@@ -2306,13 +2649,13 @@ import '../../styles/global.css';
       (document.getElementById('f-howtouse') as HTMLTextAreaElement).value = d.howToUseText || '';
       if (comboSelect) comboSelect.value = d.comboId || '';
 
-      // FAQs
+      // FAQs (Exact questions and answers)
       if (faqContainer) faqContainer.innerHTML = '';
       const faqs = d.faqList || [];
       if (faqs.length > 0) {
         faqs.forEach((f: any) => addFaqRow(f.q, f.a));
       } else {
-        addFaqRow('What fuel is recommended?', 'We recommend high-quality hobby glow fuel.');
+        addFaqRow('', '');
       }
 
       switchSubTab('tab-panel-basics');
@@ -2340,7 +2683,7 @@ import '../../styles/global.css';
       const saveBtns = [btnSaveProductSubmit, btnSaveProductSubmitBottom].filter(Boolean);
       saveBtns.forEach(b => {
         b.disabled = true;
-        b.innerHTML = `<span>⏳</span> Syncing with Shopify...`;
+        b.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="spin-icon"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> <span>Syncing with Shopify...</span>`;
       });
 
       try {
@@ -2393,10 +2736,18 @@ import '../../styles/global.css';
         if (ytVal.includes('v=')) ytVal = ytVal.split('v=')[1]?.split('&')[0];
         else if (ytVal.includes('youtu.be/')) ytVal = ytVal.split('youtu.be/')[1]?.split('?')[0];
 
+        const catSelect = document.getElementById('f-category') as HTMLSelectElement;
+        const customCatInput = document.getElementById('f-custom-category-input') as HTMLInputElement;
+        const categoryVal = (catSelect?.value === '__custom__' && customCatInput?.value.trim())
+          ? slugify(customCatInput.value)
+          : (catSelect?.value || 'engine');
+        const subCategoryVal = (document.getElementById('f-subcategory') as HTMLInputElement)?.value.trim() || undefined;
+
         const payload: any = {
           id: currentEditingProductId || undefined,
           title,
-          category: (document.getElementById('f-category') as HTMLSelectElement)?.value,
+          category: categoryVal,
+          subCategory: subCategoryVal,
           vendor: (document.getElementById('f-vendor') as HTMLInputElement)?.value.trim(),
           price: parseFloat(priceStr),
           compareAtPrice: parseFloat((document.getElementById('f-compare-price') as HTMLInputElement)?.value) || undefined,
@@ -2431,24 +2782,543 @@ import '../../styles/global.css';
 
         const resData = await res.json();
         if (resData.success) {
-          showToast(currentEditingProductId ? '✅ Product updated & synced with Shopify!' : '🎉 New Product created & published live!');
+          showToast(currentEditingProductId ? 'Product updated and synced with Shopify' : 'New Product created and published live');
           await loadProductsFromShopify();
           switchMode('catalog');
         } else {
-          alert('❌ Shopify Error: ' + (JSON.stringify(resData.error) || 'Failed to save product'));
+          alert('Shopify Error: ' + (JSON.stringify(resData.error) || 'Failed to save product'));
         }
       } catch (err: any) {
-        alert('❌ Network/System Error: ' + err.message);
+        alert('Network/System Error: ' + err.message);
       } finally {
         saveBtns.forEach(b => {
           b.disabled = false;
-          b.innerHTML = `<span>🚀</span> Save & Publish to Store`;
+          b.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> <span>Save & Publish to Store</span>`;
         });
       }
     }
 
     btnSaveProductSubmit?.addEventListener('click', handleSaveProduct);
     btnSaveProductSubmitBottom?.addEventListener('click', handleSaveProduct);
+
+    // ----------------------------------------------------
+    // 10. STORE NAVIGATION MANAGER & CATEGORY SYNC
+    // ----------------------------------------------------
+    function slugify(text: string): string {
+      return (text || '')
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+    }
+
+    function syncCategorySelectOptions(selectedVal = '') {
+      const catSelect = document.getElementById('f-category') as HTMLSelectElement;
+      if (!catSelect) return;
+
+      const currentVal = selectedVal || catSelect.value || 'engine';
+      const defaultCategories = [
+        { id: 'engine', label: 'Engines & Powerplants' },
+        { id: 'aeromodels', label: 'Seagull Aeromodels' },
+        { id: 'radio-receiver', label: 'Radio & Receiver' },
+        { id: 'balsa-wood', label: 'Balsa Wood Sheets' },
+        { id: 'accessories', label: 'Flight Accessories' }
+      ];
+
+      let navGroupHtml = '';
+      storeNavItems.forEach(item => {
+        const lbl = (item.label || '').trim();
+        const slug = slugify(lbl);
+        if (slug && !['shop-all', 'crazy-deals', 'bestsellers'].includes(slug)) {
+          navGroupHtml += `<option value="${slug}">Menu: ${lbl.toUpperCase()}</option>`;
+        }
+      });
+
+      let html = '';
+      if (navGroupHtml) {
+        html += `<optgroup label="Storefront Navigation Menus (Live)">${navGroupHtml}</optgroup>`;
+      }
+
+      html += `<optgroup label="Standard Categories">`;
+      defaultCategories.forEach(d => {
+        html += `<option value="${d.id}">${d.label}</option>`;
+      });
+      html += `</optgroup>`;
+      html += `<option value="__custom__">+ Add Custom Category...</option>`;
+
+      catSelect.innerHTML = html;
+
+      // Select existing value or insert as custom option if not present
+      if (currentVal) {
+        if (!catSelect.querySelector(`option[value="${currentVal}"]`)) {
+          const opt = document.createElement('option');
+          opt.value = currentVal;
+          opt.textContent = `Category: ${currentVal.toUpperCase()}`;
+          catSelect.appendChild(opt);
+        }
+        catSelect.value = currentVal;
+      }
+
+      handleCategoryChanged();
+    }
+
+    function handleCategoryChanged() {
+      const catSelect = document.getElementById('f-category') as HTMLSelectElement;
+      const customInput = document.getElementById('f-custom-category-input') as HTMLInputElement;
+      const subSelect = document.getElementById('f-subcategory-select') as HTMLSelectElement;
+
+      if (!catSelect) return;
+      const val = catSelect.value;
+
+      if (val === '__custom__') {
+        if (customInput) {
+          customInput.style.display = 'block';
+          customInput.focus();
+        }
+      } else {
+        if (customInput) customInput.style.display = 'none';
+      }
+
+      // Check if this category has subItems in storeNavItems
+      const matchedNavItem = storeNavItems.find(item => {
+        const slug = slugify(item.label);
+        return slug === val || item.label.toLowerCase() === val.toLowerCase();
+      });
+
+      if (matchedNavItem && Array.isArray(matchedNavItem.subItems) && matchedNavItem.subItems.length > 0) {
+        if (subSelect) {
+          subSelect.style.display = 'block';
+          subSelect.innerHTML = `<option value="">-- Quick Pick: Sub-Item from ${matchedNavItem.label} --</option>` +
+            matchedNavItem.subItems.map((s: any) => `<option value="${s.label}">${s.label}</option>`).join('');
+        }
+      } else {
+        if (subSelect) {
+          subSelect.style.display = 'none';
+        }
+      }
+    }
+
+    document.getElementById('f-category')?.addEventListener('change', handleCategoryChanged);
+    document.getElementById('f-subcategory-select')?.addEventListener('change', (e) => {
+      const val = (e.currentTarget as HTMLSelectElement).value;
+      const subInput = document.getElementById('f-subcategory') as HTMLInputElement;
+      if (val && subInput) {
+        subInput.value = val;
+      }
+    });
+
+    async function loadNavigationFromShopify() {
+      try {
+        const res = await fetch('/api/admin/navigation');
+        const data = await res.json();
+        if (data.success && Array.isArray(data.navigation)) {
+          // Normalize items and auto-resolve any bare /shop URLs on category menus
+          storeNavItems = data.navigation.map((item: any) => {
+            const lbl = (item.label || '').trim();
+            const slug = slugify(lbl);
+            let href = item.href || '/shop';
+            if (href === '/shop' && slug && !['shop-all', 'crazy-deals', 'bestsellers'].includes(slug) && item.subItems && item.subItems.length > 0) {
+              href = `/shop?category=${slug}`;
+            }
+
+            const subItems = Array.isArray(item.subItems) ? item.subItems.map((sub: any) => {
+              let sHref = sub.href || '';
+              if ((!sHref || sHref === '/shop') && sub.label) {
+                sHref = `/shop?category=${slug}&search=${encodeURIComponent(sub.label)}`;
+              }
+              return { ...sub, href: sHref };
+            }) : [];
+
+            return {
+              ...item,
+              href,
+              subItems
+            };
+          });
+
+          if (viewNavigation?.classList.contains('active')) {
+            renderNavigationEditor();
+          }
+          syncCategorySelectOptions();
+        }
+      } catch (err) {
+        console.error('Failed to load navigation from Shopify:', err);
+      }
+    }
+
+    function renderNavigationEditor() {
+      if (!navItemsCardsContainer) return;
+      if (storeNavItems.length === 0) {
+        navItemsCardsContainer.innerHTML = `<div style="text-align: center; padding: 2rem; color: #64748b;">No navigation items configured yet. Click "+ Add Menu Item" to start.</div>`;
+        return;
+      }
+
+      navItemsCardsContainer.innerHTML = storeNavItems.map((item, itemIdx) => {
+        const subItemsList = Array.isArray(item.subItems) ? item.subItems : [];
+        const isHighlight = !!item.highlight;
+        const parentSlug = slugify(item.label) || 'all';
+
+        // Detect current preset
+        let preset = 'custom';
+        const rawHref = (item.href || '').trim();
+        if (rawHref === `/shop?category=${parentSlug}` || (rawHref.startsWith('/shop?category=') && !rawHref.includes('&'))) {
+          preset = 'auto_cat';
+        } else if (rawHref === '/shop' || rawHref === '/shop?category=all') {
+          preset = '/shop';
+        } else if (rawHref === '/shop?filter=crazy-deals') {
+          preset = '/shop?filter=crazy-deals';
+        } else if (rawHref === '/shop?filter=bestsellers') {
+          preset = '/shop?filter=bestsellers';
+        } else if (rawHref === '/blog') {
+          preset = '/blog';
+        } else if (rawHref === '/about') {
+          preset = '/about';
+        } else if (rawHref === '/contact') {
+          preset = '/contact';
+        }
+
+        const subItemsHtml = subItemsList.map((sub: any, subIdx: number) => {
+          let sHref = (sub.href || '').trim();
+          if ((!sHref || sHref === '/shop') && sub.label) {
+            sHref = `/shop?category=${parentSlug}&search=${encodeURIComponent(sub.label)}`;
+          }
+
+          return `
+          <div class="sub-item-row" data-item-idx="${itemIdx}" data-sub-idx="${subIdx}">
+            <div>
+              <label style="font-size: 0.68rem; font-weight: 700; color: #64748b; display: block; margin-bottom: 0.2rem;">Sub-Item Label *</label>
+              <input type="text" class="input-box nav-sub-label-input" placeholder="e.g. RC AIRPLANE" value="${sub.label || ''}" />
+            </div>
+            <div>
+              <label style="font-size: 0.68rem; font-weight: 700; color: #64748b; display: block; margin-bottom: 0.2rem;">Target Link (Auto-Generated)</label>
+              <div style="display: flex; gap: 0.35rem; align-items: center;">
+                <input type="text" class="input-box nav-sub-href-input" placeholder="e.g. /shop?category=toy&search=RC+AIRPLANE" value="${sHref}" />
+                <button type="button" class="btn-sub-auto-slug" data-item-idx="${itemIdx}" data-sub-idx="${subIdx}" title="Auto-Generate Link" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.45rem 0.65rem; font-size: 0.72rem; font-weight: 700; border: 1px solid #cbd5e1; border-radius: 6px; background: #ffffff; cursor: pointer; white-space: nowrap;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                  <span>Auto Link</span>
+                </button>
+              </div>
+            </div>
+            <div style="text-align: right; padding-top: 1rem;">
+              <button type="button" class="btn-del-dynamic-row btn-del-sub-nav" data-item-idx="${itemIdx}" data-sub-idx="${subIdx}" title="Delete Sub-Item" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 38px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+              </button>
+            </div>
+          </div>
+          `;
+        }).join('');
+
+        return `
+          <div class="nav-item-edit-card" data-item-idx="${itemIdx}">
+            <div class="nav-card-top-row">
+              <div class="nav-index-badge">#${itemIdx + 1}</div>
+              <div>
+                <label style="font-size: 0.72rem; font-weight: 700; color: #64748b; display: block; margin-bottom: 0.2rem;">Menu Label *</label>
+                <input type="text" class="input-box nav-label-input" placeholder="e.g. ENGINES or TOY" value="${item.label || ''}" />
+              </div>
+              <div>
+                <label style="font-size: 0.72rem; font-weight: 700; color: #64748b; display: block; margin-bottom: 0.2rem;">Page / Destination *</label>
+                <select class="input-box nav-preset-select" data-item-idx="${itemIdx}">
+                  <option value="auto_cat" ${preset === 'auto_cat' ? 'selected' : ''}>Shop Category (Auto: /shop?category=...)</option>
+                  <option value="/shop" ${preset === '/shop' ? 'selected' : ''}>All Products Catalog (/shop)</option>
+                  <option value="/shop?filter=crazy-deals" ${preset === '/shop?filter=crazy-deals' ? 'selected' : ''}>Crazy Deals Promotion (/shop?filter=crazy-deals)</option>
+                  <option value="/shop?filter=bestsellers" ${preset === '/shop?filter=bestsellers' ? 'selected' : ''}>Best Sellers (/shop?filter=bestsellers)</option>
+                  <option value="/blog" ${preset === '/blog' ? 'selected' : ''}>Flight Blog Articles (/blog)</option>
+                  <option value="/about" ${preset === '/about' ? 'selected' : ''}>About Us (/about)</option>
+                  <option value="/contact" ${preset === '/contact' ? 'selected' : ''}>Contact Us (/contact)</option>
+                  <option value="custom" ${preset === 'custom' ? 'selected' : ''}>Custom URL / External Link</option>
+                </select>
+                <input type="text" class="input-box nav-href-input" placeholder="e.g. /shop?category=toy" value="${item.href || ''}" style="${preset === 'custom' ? 'margin-top: 0.35rem;' : 'display: none;'}" />
+                <div class="nav-preview-wrap" style="font-size: 0.7rem; color: #64748b; margin-top: 0.25rem;">
+                  <span>Link: </span><span class="nav-preview-text" style="color: #0f172a; font-weight: 700; font-family: monospace;">${item.href || '/shop'}</span>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; justify-content: center; padding-top: 1rem;">
+                <label style="display: flex; align-items: center; gap: 0.45rem; font-size: 0.75rem; font-weight: 700; cursor: pointer;">
+                  <input type="checkbox" class="nav-highlight-checkbox" ${isHighlight ? 'checked' : ''} style="width: 16px; height: 16px; accent-color: #881337;" />
+                  <span>Highlight (Red)</span>
+                </label>
+              </div>
+              <div style="padding-top: 1rem; text-align: right;">
+                <button type="button" class="btn-del-nav-item btn-del-top-nav" data-item-idx="${itemIdx}" title="Delete Menu Item">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Sub Items Accordion / Box -->
+            <div class="sub-items-box">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem;">
+                <div>
+                  <span style="font-size: 0.75rem; font-weight: 800; color: #334155; text-transform: uppercase; letter-spacing: 0.04em;">
+                    Dropdown Sub-Menu Links (${subItemsList.length} Items)
+                  </span>
+                  <span style="display: block; font-size: 0.68rem; color: #64748b; margin-top: 2px;">
+                    Shown in header dropdown on hover. Products tagged with matching sub-category name appear here automatically.
+                  </span>
+                </div>
+                <button type="button" class="btn-add-dynamic-row btn-add-sub-nav" data-item-idx="${itemIdx}" style="margin: 0; padding: 0.35rem 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                  <span>Add Sub-Item</span>
+                </button>
+              </div>
+
+              <div class="sub-items-list-container" data-item-idx="${itemIdx}">
+                ${subItemsHtml.length > 0 ? subItemsHtml : '<span style="font-size: 0.74rem; color: #94a3b8; font-style: italic;">No dropdown sub-items configured. Click "+ Add Sub-Item" to create dropdown menu.</span>'}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      attachNavigationListeners();
+    }
+
+    function attachNavigationListeners() {
+      if (!navItemsCardsContainer) return;
+
+      // 1. Top Level Label Input -> Auto-Update URL if preset is auto_cat
+      navItemsCardsContainer.querySelectorAll('.nav-label-input').forEach(input => {
+        input.addEventListener('input', (e) => {
+          const card = (e.currentTarget as HTMLElement).closest('.nav-item-edit-card');
+          if (!card) return;
+          const labelVal = (card.querySelector('.nav-label-input') as HTMLInputElement)?.value.trim() || '';
+          const presetSelect = card.querySelector('.nav-preset-select') as HTMLSelectElement;
+          const hrefInput = card.querySelector('.nav-href-input') as HTMLInputElement;
+          const previewText = card.querySelector('.nav-preview-text');
+
+          if (presetSelect && presetSelect.value === 'auto_cat') {
+            const slug = slugify(labelVal) || 'all';
+            const autoUrl = `/shop?category=${slug}`;
+            if (hrefInput) hrefInput.value = autoUrl;
+            if (previewText) previewText.textContent = autoUrl;
+
+            // Also update any sub-items that follow auto pattern
+            card.querySelectorAll('.sub-item-row').forEach(row => {
+              const subLabel = (row.querySelector('.nav-sub-label-input') as HTMLInputElement)?.value.trim();
+              const subHrefInput = row.querySelector('.nav-sub-href-input') as HTMLInputElement;
+              if (subLabel && subHrefInput) {
+                subHrefInput.value = `/shop?category=${slug}&search=${encodeURIComponent(subLabel)}`;
+              }
+            });
+          }
+        });
+      });
+
+      // 2. Preset Select Change
+      navItemsCardsContainer.querySelectorAll('.nav-preset-select').forEach(select => {
+        select.addEventListener('change', (e) => {
+          const card = (e.currentTarget as HTMLElement).closest('.nav-item-edit-card');
+          if (!card) return;
+          const sel = e.currentTarget as HTMLSelectElement;
+          const hrefInput = card.querySelector('.nav-href-input') as HTMLInputElement;
+          const previewText = card.querySelector('.nav-preview-text');
+          const labelVal = (card.querySelector('.nav-label-input') as HTMLInputElement)?.value.trim() || '';
+
+          if (sel.value === 'auto_cat') {
+            const slug = slugify(labelVal) || 'all';
+            const autoUrl = `/shop?category=${slug}`;
+            if (hrefInput) {
+              hrefInput.value = autoUrl;
+              hrefInput.style.display = 'none';
+            }
+            if (previewText) previewText.textContent = autoUrl;
+          } else if (sel.value === 'custom') {
+            if (hrefInput) {
+              hrefInput.style.display = 'block';
+              hrefInput.focus();
+            }
+          } else {
+            if (hrefInput) {
+              hrefInput.value = sel.value;
+              hrefInput.style.display = 'none';
+            }
+            if (previewText) previewText.textContent = sel.value;
+          }
+        });
+      });
+
+      // 3. Custom Href Input Change
+      navItemsCardsContainer.querySelectorAll('.nav-href-input').forEach(input => {
+        input.addEventListener('input', (e) => {
+          const card = (e.currentTarget as HTMLElement).closest('.nav-item-edit-card');
+          if (!card) return;
+          const previewText = card.querySelector('.nav-preview-text');
+          if (previewText) previewText.textContent = (e.currentTarget as HTMLInputElement).value.trim();
+        });
+      });
+
+      // 4. Sub-Item Label Input -> Auto-generate URL
+      navItemsCardsContainer.querySelectorAll('.nav-sub-label-input').forEach(input => {
+        input.addEventListener('input', (e) => {
+          const row = (e.currentTarget as HTMLElement).closest('.sub-item-row');
+          const card = (e.currentTarget as HTMLElement).closest('.nav-item-edit-card');
+          if (!row || !card) return;
+
+          const parentLabel = (card.querySelector('.nav-label-input') as HTMLInputElement)?.value.trim() || '';
+          const parentSlug = slugify(parentLabel) || 'all';
+          const subLabel = (e.currentTarget as HTMLInputElement).value.trim();
+          const subHrefInput = row.querySelector('.nav-sub-href-input') as HTMLInputElement;
+
+          if (subHrefInput && subLabel) {
+            subHrefInput.value = `/shop?category=${parentSlug}&search=${encodeURIComponent(subLabel)}`;
+          }
+        });
+      });
+
+      // 5. Sub-Item Auto-Slug Button
+      navItemsCardsContainer.querySelectorAll('.btn-sub-auto-slug').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const row = (e.currentTarget as HTMLElement).closest('.sub-item-row');
+          const card = (e.currentTarget as HTMLElement).closest('.nav-item-edit-card');
+          if (!row || !card) return;
+
+          const parentLabel = (card.querySelector('.nav-label-input') as HTMLInputElement)?.value.trim() || '';
+          const parentSlug = slugify(parentLabel) || 'all';
+          const subLabel = (row.querySelector('.nav-sub-label-input') as HTMLInputElement)?.value.trim() || '';
+          const subHrefInput = row.querySelector('.nav-sub-href-input') as HTMLInputElement;
+
+          if (subHrefInput && subLabel) {
+            subHrefInput.value = `/shop?category=${parentSlug}&search=${encodeURIComponent(subLabel)}`;
+            showToast(`Generated link: ${subHrefInput.value}`);
+          }
+        });
+      });
+
+      // 6. Sub-Item Add
+      navItemsCardsContainer.querySelectorAll('.btn-add-sub-nav').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          collectNavigationFromDOM();
+          const itemIdx = parseInt((e.currentTarget as HTMLElement).getAttribute('data-item-idx') || '-1', 10);
+          if (itemIdx >= 0 && storeNavItems[itemIdx]) {
+            if (!Array.isArray(storeNavItems[itemIdx].subItems)) storeNavItems[itemIdx].subItems = [];
+            const parentSlug = slugify(storeNavItems[itemIdx].label) || 'all';
+            storeNavItems[itemIdx].subItems.push({
+              label: 'New Sub-Link',
+              href: `/shop?category=${parentSlug}&search=New+Sub-Link`
+            });
+            renderNavigationEditor();
+          }
+        });
+      });
+
+      // 7. Sub-Item Delete
+      navItemsCardsContainer.querySelectorAll('.btn-del-sub-nav').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          collectNavigationFromDOM();
+          const itemIdx = parseInt((e.currentTarget as HTMLElement).getAttribute('data-item-idx') || '-1', 10);
+          const subIdx = parseInt((e.currentTarget as HTMLElement).getAttribute('data-sub-idx') || '-1', 10);
+          if (itemIdx >= 0 && subIdx >= 0 && storeNavItems[itemIdx]?.subItems) {
+            storeNavItems[itemIdx].subItems.splice(subIdx, 1);
+            renderNavigationEditor();
+          }
+        });
+      });
+
+      // 8. Top Item Delete
+      navItemsCardsContainer.querySelectorAll('.btn-del-top-nav').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          collectNavigationFromDOM();
+          const itemIdx = parseInt((e.currentTarget as HTMLElement).getAttribute('data-item-idx') || '-1', 10);
+          if (itemIdx >= 0 && confirm('Are you sure you want to remove this navigation menu item?')) {
+            storeNavItems.splice(itemIdx, 1);
+            renderNavigationEditor();
+          }
+        });
+      });
+    }
+
+    function collectNavigationFromDOM() {
+      if (!navItemsCardsContainer) return;
+      const cards = navItemsCardsContainer.querySelectorAll('.nav-item-edit-card');
+      const updatedList: any[] = [];
+
+      cards.forEach((card, idx) => {
+        const label = (card.querySelector('.nav-label-input') as HTMLInputElement)?.value.trim() || 'Menu';
+        const presetSelect = card.querySelector('.nav-preset-select') as HTMLSelectElement;
+        const hrefInput = card.querySelector('.nav-href-input') as HTMLInputElement;
+
+        let href = hrefInput?.value.trim() || '/shop';
+        if (presetSelect && presetSelect.value === 'auto_cat') {
+          href = `/shop?category=${slugify(label) || 'all'}`;
+        } else if (presetSelect && presetSelect.value !== 'custom') {
+          href = presetSelect.value;
+        }
+
+        const highlight = (card.querySelector('.nav-highlight-checkbox') as HTMLInputElement)?.checked || false;
+
+        const subRows = card.querySelectorAll('.sub-item-row');
+        const subItems: any[] = [];
+        subRows.forEach(row => {
+          const sLabel = (row.querySelector('.nav-sub-label-input') as HTMLInputElement)?.value.trim();
+          let sHref = (row.querySelector('.nav-sub-href-input') as HTMLInputElement)?.value.trim();
+          if (sLabel) {
+            if (!sHref || sHref === '/shop') {
+              sHref = `/shop?category=${slugify(label) || 'all'}&search=${encodeURIComponent(sLabel)}`;
+            }
+            subItems.push({ label: sLabel, href: sHref });
+          }
+        });
+
+        updatedList.push({
+          label,
+          href,
+          highlight,
+          ...(subItems.length > 0 ? { subItems } : {})
+        });
+      });
+
+      storeNavItems = updatedList;
+      syncCategorySelectOptions();
+    }
+
+    function addNewTopMenuItem() {
+      collectNavigationFromDOM();
+      storeNavItems.push({
+        label: 'NEW MENU',
+        href: '/shop?category=new-menu',
+        highlight: false,
+        subItems: []
+      });
+      renderNavigationEditor();
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    btnAddNavItem?.addEventListener('click', addNewTopMenuItem);
+    btnAddNavItemBottom?.addEventListener('click', addNewTopMenuItem);
+
+    async function handleSaveNavigation() {
+      collectNavigationFromDOM();
+      const saveNavBtns = [btnSaveNavSubmit, btnSaveNavSubmitBottom].filter(Boolean);
+      saveNavBtns.forEach(b => {
+        b.disabled = true;
+        b.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="spin-icon"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> <span>Saving to Shopify...</span>`;
+      });
+
+      try {
+        const res = await fetch('/api/admin/navigation', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items: storeNavItems })
+        });
+        const resData = await res.json();
+        if (resData.success) {
+          showToast('Navigation Menu saved and synced with live storefront');
+        } else {
+          alert('Error saving navigation: ' + (resData.error || 'Server error'));
+        }
+      } catch (err: any) {
+        alert('Network Error: ' + err.message);
+      } finally {
+        saveNavBtns.forEach(b => {
+          b.disabled = false;
+          b.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> <span>Save Navigation to Store</span>`;
+        });
+      }
+    }
+
+    btnSaveNavSubmit?.addEventListener('click', handleSaveNavigation);
+    btnSaveNavSubmitBottom?.addEventListener('click', handleSaveNavigation);
 
     // Initial Auth Check
     checkAuth();

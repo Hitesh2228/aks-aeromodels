@@ -12,6 +12,22 @@ import '../styles/global.css';
 
 const PRODUCTS = await getCombinedProducts();
 
+// Merge static CATEGORIES with any dynamic categories present on live products (e.g. 'toy')
+const categoryMap = new Map<string, { id: string; label: string }>();
+CATEGORIES.forEach(c => categoryMap.set(c.id.toLowerCase(), { id: c.id, label: c.label }));
+PRODUCTS.forEach(p => {
+  if (p.category) {
+    const catLower = p.category.toLowerCase();
+    if (!categoryMap.has(catLower)) {
+      categoryMap.set(catLower, {
+        id: catLower,
+        label: p.categoryLabel || p.category.toUpperCase()
+      });
+    }
+  }
+});
+const DYNAMIC_CATEGORIES = Array.from(categoryMap.values());
+
 // Google E-Commerce Category & Collection Schema (ItemList)
 const itemListSchema = {
   "@context": "https://schema.org",
@@ -108,7 +124,7 @@ Astro.response.headers.set('X-Robots-Tag', 'all');
     <!-- Category Filter Pills Strip (Exact PDF Page 1 Row) -->
     <div class="category-pills-strip">
       <button class="cat-pill-btn active" data-cat="all">All</button>
-      {CATEGORIES.map(cat => (
+      {DYNAMIC_CATEGORIES.map(cat => (
         <button class="cat-pill-btn" data-cat={cat.id}>{cat.label}</button>
       ))}
     </div>
@@ -121,6 +137,8 @@ Astro.response.headers.set('X-Robots-Tag', 'all');
           data-id={product.id}
           data-handle={product.handle || product.id}
           data-category={product.category} 
+          data-subcategory={(product as any).subCategory || ''}
+          data-tags={Array.isArray((product as any).tags) ? (product as any).tags.join(' ') : ((product as any).tags || '')}
           data-price={product.price} 
           data-rating={product.rating}
           data-bestseller={product.isBestseller ? 'true' : 'false'}
@@ -636,78 +654,57 @@ Astro.response.headers.set('X-Robots-Tag', 'all');
 
     function applyFiltering() {
       const params = new URLSearchParams(window.location.search);
-      const urlCat = params.get('category');
-      const urlFilter = params.get('filter');
-      const urlSearch = params.get('search')?.toLowerCase().trim();
+      const urlCat = (params.get('category') || '').toLowerCase().trim();
+      const urlFilter = (params.get('filter') || '').toLowerCase().trim();
+      const rawSearch = (params.get('search') || params.get('q') || '').toLowerCase().trim();
       const pageTitleEl = document.querySelector('.shop-pdf-title');
       const countEl = document.querySelector('.shop-pdf-count');
 
       let visibleCount = 0;
 
-      if (urlSearch) {
-        pills.forEach(p => p.classList.remove('active'));
-        products.forEach(prod => {
-          const title = (prod.querySelector('.card-title-heading')?.textContent || '').toLowerCase();
-          const catLabel = (prod.querySelector('.card-cat-label')?.textContent || '').toLowerCase();
-          const category = (prod.getAttribute('data-category') || '').toLowerCase();
-          
-          if (title.includes(urlSearch) || catLabel.includes(urlSearch) || category.includes(urlSearch)) {
-            (prod as HTMLElement).style.display = 'flex';
-            visibleCount++;
-          } else {
-            (prod as HTMLElement).style.display = 'none';
-          }
-        });
-
-        if (pageTitleEl) pageTitleEl.textContent = `Search Results for "${params.get('search')}"`;
-        if (countEl) countEl.textContent = `${visibleCount} items found`;
-      } else if (urlFilter === 'crazy-deals') {
-        pills.forEach(p => p.classList.remove('active'));
-        products.forEach(prod => {
-          const isCrazy = prod.getAttribute('data-crazydeal') === 'true';
-          if (isCrazy) {
-            (prod as HTMLElement).style.display = 'flex';
-            visibleCount++;
-          } else {
-            (prod as HTMLElement).style.display = 'none';
-          }
-        });
-        if (pageTitleEl) pageTitleEl.textContent = `🔥 Exclusive Crazy Deals`;
-        if (countEl) countEl.textContent = `${visibleCount} deals available`;
-      } else if (urlFilter === 'bestsellers') {
-        pills.forEach(p => p.classList.remove('active'));
-        products.forEach(prod => {
-          const isBestseller = prod.getAttribute('data-bestseller') === 'true';
-          if (isBestseller) {
-            (prod as HTMLElement).style.display = 'flex';
-            visibleCount++;
-          } else {
-            (prod as HTMLElement).style.display = 'none';
-          }
-        });
-        if (pageTitleEl) pageTitleEl.textContent = `⭐ Best Selling Products`;
-        if (countEl) countEl.textContent = `${visibleCount} bestsellers available`;
-      } else if (urlCat && urlCat !== 'all') {
-        filterCategory(urlCat);
-      } else {
-        products.forEach(prod => {
-          (prod as HTMLElement).style.display = 'flex';
-          visibleCount++;
-        });
-        if (countEl) countEl.textContent = `${visibleCount} items available in stock`;
-      }
-    }
-
-    function filterCategory(cat: string) {
-      let visibleCount = 0;
+      // Update pills active state
       pills.forEach(p => {
-        if (p.getAttribute('data-cat') === cat) p.classList.add('active');
-        else p.classList.remove('active');
+        const cat = (p.getAttribute('data-cat') || '').toLowerCase();
+        if (urlCat && urlCat !== 'all') {
+          if (cat === urlCat) p.classList.add('active');
+          else p.classList.remove('active');
+        } else {
+          if (cat === 'all') p.classList.add('active');
+          else p.classList.remove('active');
+        }
       });
 
       products.forEach(prod => {
-        const itemCat = prod.getAttribute('data-category');
-        if (cat === 'all' || itemCat === cat) {
+        const title = (prod.querySelector('.card-title-heading')?.textContent || '').toLowerCase();
+        const catLabel = (prod.querySelector('.card-cat-label')?.textContent || '').toLowerCase();
+        const category = (prod.getAttribute('data-category') || '').toLowerCase();
+        const subcategory = (prod.getAttribute('data-subcategory') || '').toLowerCase();
+        const tags = (prod.getAttribute('data-tags') || '').toLowerCase();
+        const isBestseller = prod.getAttribute('data-bestseller') === 'true';
+        const isCrazy = prod.getAttribute('data-crazydeal') === 'true';
+
+        let matchesCategory = true;
+        if (urlCat && urlCat !== 'all') {
+          matchesCategory = (category === urlCat);
+        }
+
+        let matchesFilter = true;
+        if (urlFilter === 'crazy-deals' || urlFilter === 'crazy_deals') {
+          matchesFilter = isCrazy;
+        } else if (urlFilter === 'bestsellers') {
+          matchesFilter = isBestseller;
+        }
+
+        let matchesSearch = true;
+        if (rawSearch) {
+          matchesSearch = title.includes(rawSearch) || 
+                          catLabel.includes(rawSearch) || 
+                          category.includes(rawSearch) || 
+                          subcategory.includes(rawSearch) || 
+                          tags.includes(rawSearch);
+        }
+
+        if (matchesCategory && matchesFilter && matchesSearch) {
           (prod as HTMLElement).style.display = 'flex';
           visibleCount++;
         } else {
@@ -715,14 +712,51 @@ Astro.response.headers.set('X-Robots-Tag', 'all');
         }
       });
 
-      const countEl = document.querySelector('.shop-pdf-count');
-      if (countEl) countEl.textContent = `${visibleCount} items available in stock`;
+      // Update Page Title and Count according to active filters
+      const displayQuery = params.get('search') || params.get('q');
+      if (displayQuery && urlCat && urlCat !== 'all') {
+        const activePill = document.querySelector(`.cat-pill-btn[data-cat="${urlCat}"]`);
+        const catName = activePill?.textContent?.trim() || urlCat.toUpperCase();
+        if (pageTitleEl) pageTitleEl.textContent = `${catName} — "${displayQuery}"`;
+        if (countEl) countEl.textContent = `${visibleCount} products found`;
+      } else if (displayQuery) {
+        if (pageTitleEl) pageTitleEl.textContent = `Search Results for "${displayQuery}"`;
+        if (countEl) countEl.textContent = `${visibleCount} products found`;
+      } else if (urlFilter === 'crazy-deals' || urlFilter === 'crazy_deals') {
+        if (pageTitleEl) pageTitleEl.textContent = `🔥 Exclusive Crazy Deals`;
+        if (countEl) countEl.textContent = `${visibleCount} deals available`;
+      } else if (urlFilter === 'bestsellers') {
+        if (pageTitleEl) pageTitleEl.textContent = `⭐ Best Selling Products`;
+        if (countEl) countEl.textContent = `${visibleCount} bestsellers available`;
+      } else if (urlCat && urlCat !== 'all') {
+        const activePill = document.querySelector(`.cat-pill-btn[data-cat="${urlCat}"]`);
+        const catName = activePill?.textContent?.trim() || urlCat.toUpperCase();
+        if (pageTitleEl) pageTitleEl.textContent = `${catName} Equipment & Airframes`;
+        if (countEl) countEl.textContent = `${visibleCount} items available in stock`;
+      } else {
+        if (pageTitleEl) pageTitleEl.textContent = `All Aeromodelling & Scale UAV Products`;
+        if (countEl) countEl.textContent = `${visibleCount} items available in stock`;
+      }
+    }
+
+    function filterCategory(cat: string) {
+      const url = new URL(window.location.href);
+      if (cat === 'all') {
+        url.searchParams.delete('category');
+      } else {
+        url.searchParams.set('category', cat);
+      }
+      url.searchParams.delete('search');
+      url.searchParams.delete('q');
+      url.searchParams.delete('filter');
+      window.history.pushState({}, '', url.toString());
+      applyFiltering();
     }
 
     pills.forEach(p => {
       p.addEventListener('click', () => {
-        const cat = p.getAttribute('data-cat');
-        if (cat) filterCategory(cat);
+        const cat = p.getAttribute('data-cat') || 'all';
+        filterCategory(cat);
       });
     });
 

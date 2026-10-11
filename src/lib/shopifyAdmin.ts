@@ -534,6 +534,7 @@ export interface AdminProductPayload {
   id?: string | number;
   title: string;
   category: string;
+  subCategory?: string;
   vendor?: string;
   price: number;
   compareAtPrice?: number;
@@ -565,7 +566,17 @@ export interface AdminProductPayload {
 export function buildProductTags(data: AdminProductPayload): string {
   const tags: string[] = [];
 
-  if (data.category) tags.push(data.category);
+  // Helper to ensure tag values do NOT contain commas (which Shopify breaks into separate tags)
+  const sanitizeTag = (val: string) => val.replace(/,/g, ';').trim();
+
+  if (data.category) {
+    tags.push(sanitizeTag(data.category));
+    tags.push(`cat:${sanitizeTag(data.category)}`);
+  }
+  if (data.subCategory) {
+    tags.push(sanitizeTag(data.subCategory));
+    tags.push(`sub:${sanitizeTag(data.subCategory)}`);
+  }
   if (data.isBestseller) tags.push('bestseller');
   if (data.isCrazyDeal) tags.push('crazy-deal');
   if (data.isNewArrival) tags.push('new-arrival');
@@ -573,42 +584,43 @@ export function buildProductTags(data: AdminProductPayload): string {
     tags.push(data.heroOrder ? `hero:${data.heroOrder}` : 'hero');
   }
 
-  if (data.discountBadge) tags.push(`badge:${data.discountBadge}`);
-  if (data.hsnCode) tags.push(`HSN:${data.hsnCode}`);
+  if (data.stock !== undefined) tags.push(`stock:${data.stock}`);
+  if (data.discountBadge) tags.push(`badge:${sanitizeTag(data.discountBadge)}`);
+  if (data.hsnCode) tags.push(`HSN:${sanitizeTag(data.hsnCode)}`);
   if (data.gstRate !== undefined) tags.push(`GST:${data.gstRate}%`);
-  if (data.warrantyPeriod) tags.push(`warranty:${data.warrantyPeriod}`);
+  if (data.warrantyPeriod) tags.push(`warranty:${sanitizeTag(data.warrantyPeriod)}`);
 
   if (data.trustBadges && data.trustBadges.length > 0) {
-    const valid = data.trustBadges.map(b => b.trim()).filter(Boolean);
+    const valid = data.trustBadges.map(b => sanitizeTag(b)).filter(Boolean);
     if (valid.length > 0) tags.push(`trust:${valid.join(' | ')}`);
   }
 
   if (data.notesInSet && data.notesInSet.length > 0) {
-    const valid = data.notesInSet.filter(n => n.name && n.name.trim()).map(n => `${n.name.trim()} - ${(n.desc || '').trim()}`);
+    const valid = data.notesInSet.filter(n => n.name && n.name.trim()).map(n => `${sanitizeTag(n.name)} - ${sanitizeTag(n.desc || '')}`);
     if (valid.length > 0) tags.push(`notes:${valid.join(' | ')}`);
   }
 
   if (data.whereToFly && data.whereToFly.length > 0) {
-    const valid = data.whereToFly.map(f => f.trim()).filter(Boolean);
+    const valid = data.whereToFly.map(f => sanitizeTag(f)).filter(Boolean);
     if (valid.length > 0) tags.push(`fly:${valid.join(' | ')}`);
   }
 
-  if (data.vibesText) tags.push(`vibes:${data.vibesText.trim()}`);
-  if (data.youtubeVideoId) tags.push(`yt:${data.youtubeVideoId.trim()}`);
+  if (data.vibesText) tags.push(`vibes:${sanitizeTag(data.vibesText)}`);
+  if (data.youtubeVideoId) tags.push(`yt:${sanitizeTag(data.youtubeVideoId)}`);
 
   if (data.faqList && data.faqList.length > 0) {
-    const valid = data.faqList.filter(f => f.q && f.a).map(f => `Q: ${f.q.trim()} A: ${f.a.trim()}`);
+    const valid = data.faqList.filter(f => f.q && f.a).map(f => `Q: ${sanitizeTag(f.q)} A: ${sanitizeTag(f.a)}`);
     if (valid.length > 0) tags.push(`faq:${valid.join(' | ')}`);
   }
 
-  if (data.materialText) tags.push(`material:${data.materialText.trim()}`);
-  if (data.howToUseText) tags.push(`howtouse:${data.howToUseText.trim()}`);
-  if (data.comboId) tags.push(`combo:${data.comboId.trim()}`);
+  if (data.materialText) tags.push(`material:${sanitizeTag(data.materialText)}`);
+  if (data.howToUseText) tags.push(`howtouse:${sanitizeTag(data.howToUseText)}`);
+  if (data.comboId) tags.push(`combo:${sanitizeTag(data.comboId)}`);
 
   if (data.specs) {
     for (const [k, v] of Object.entries(data.specs)) {
       if (k && v) {
-        tags.push(`spec:${k.trim()}=${String(v).trim()}`);
+        tags.push(`spec:${sanitizeTag(k)}=${sanitizeTag(String(v))}`);
       }
     }
   }
@@ -626,6 +638,7 @@ export function parseProductTags(rawTags: string | string[]): {
   discountBadge: string;
   hsnCode: string;
   gstRate: number;
+  stock?: number;
   warrantyPeriod: string;
   trustBadges: string[];
   notesInSet: Array<{ name: string; desc: string }>;
@@ -636,6 +649,7 @@ export function parseProductTags(rawTags: string | string[]): {
   materialText: string;
   howToUseText: string;
   comboId: string;
+  subCategory?: string;
   specs: Record<string, string>;
 } {
   const tagsList = Array.isArray(rawTags) 
@@ -651,6 +665,7 @@ export function parseProductTags(rawTags: string | string[]): {
   let discountBadge = '';
   let hsnCode = '95030020';
   let gstRate = 18;
+  let parsedStock: number | undefined = undefined;
   let warrantyPeriod = '1-Year Official Warranty';
   let trustBadges: string[] = [];
   let notesInSet: Array<{ name: string; desc: string }> = [];
@@ -661,12 +676,17 @@ export function parseProductTags(rawTags: string | string[]): {
   let materialText = '';
   let howToUseText = '';
   let comboId = '';
+  let subCategory = '';
   const specs: Record<string, string> = {};
 
   for (const t of tagsList) {
     const lower = t.toLowerCase().trim();
     if (lower === 'engine' || lower === 'aeromodels' || lower === 'radio-receiver' || lower === 'balsa-wood' || lower === 'accessories') {
       category = lower;
+    } else if (lower.startsWith('cat:') || lower.startsWith('category:')) {
+      category = lower.split(':')[1].trim();
+    } else if (lower.startsWith('sub:') || lower.startsWith('subcategory:')) {
+      subCategory = t.substring(t.indexOf(':') + 1).trim();
     } else if (lower === 'bestseller') {
       isBestseller = true;
     } else if (lower === 'crazy-deal') {
@@ -676,6 +696,9 @@ export function parseProductTags(rawTags: string | string[]): {
     } else if (lower === 'hero' || lower.startsWith('hero:')) {
       isHero = true;
       if (lower.startsWith('hero:')) heroOrder = parseInt(lower.split(':')[1] || '1', 10) || 1;
+    } else if (lower.startsWith('stock:')) {
+      const sVal = parseInt(lower.split(':')[1] || '0', 10);
+      if (!isNaN(sVal)) parsedStock = sVal;
     } else if (lower.startsWith('badge:')) {
       discountBadge = t.substring(6).trim();
     } else if (lower.startsWith('hsn:')) {
@@ -740,6 +763,7 @@ export function parseProductTags(rawTags: string | string[]): {
     discountBadge,
     hsnCode,
     gstRate,
+    stock: parsedStock,
     warrantyPeriod,
     trustBadges: trustBadges.length > 0 ? trustBadges : ['Imported Quality', '100% Genuine', 'AMA Certified', 'Assured Delivery'],
     notesInSet,
@@ -750,7 +774,75 @@ export function parseProductTags(rawTags: string | string[]): {
     materialText,
     howToUseText,
     comboId,
+    subCategory,
     specs
+  };
+}
+
+export function parseProductDetails(bodyHtml: string = '', rawTags: string | string[] = ''): {
+  category: string;
+  subCategory?: string;
+  isBestseller: boolean;
+  isCrazyDeal: boolean;
+  isNewArrival: boolean;
+  isHero: boolean;
+  heroOrder: number;
+  discountBadge: string;
+  hsnCode: string;
+  gstRate: number;
+  stock: number;
+  warrantyPeriod: string;
+  trustBadges: string[];
+  notesInSet: Array<{ name: string; desc: string }>;
+  whereToFly: string[];
+  vibesText: string;
+  youtubeVideoId: string;
+  faqList: Array<{ q: string; a: string }>;
+  materialText: string;
+  howToUseText: string;
+  comboId: string;
+  specs: Record<string, string>;
+} {
+  const fallback = parseProductTags(rawTags);
+
+  if (bodyHtml) {
+    const match = bodyHtml.match(/<!-- SKYNODES_METADATA: ([\s\S]*?) -->/);
+    if (match && match[1]) {
+      try {
+        const m = JSON.parse(match[1]);
+        return {
+          category: m.category || fallback.category,
+          subCategory: m.subCategory || fallback.subCategory || '',
+          isBestseller: m.isBestseller !== undefined ? !!m.isBestseller : fallback.isBestseller,
+          isCrazyDeal: m.isCrazyDeal !== undefined ? !!m.isCrazyDeal : fallback.isCrazyDeal,
+          isNewArrival: m.isNewArrival !== undefined ? !!m.isNewArrival : fallback.isNewArrival,
+          isHero: m.isHero !== undefined ? !!m.isHero : fallback.isHero,
+          heroOrder: m.heroOrder || fallback.heroOrder,
+          discountBadge: m.discountBadge !== undefined ? m.discountBadge : fallback.discountBadge,
+          hsnCode: m.hsnCode || fallback.hsnCode,
+          gstRate: m.gstRate !== undefined ? m.gstRate : fallback.gstRate,
+          stock: m.stock !== undefined ? m.stock : (fallback.stock !== undefined ? fallback.stock : 10),
+          warrantyPeriod: m.warrantyPeriod || fallback.warrantyPeriod,
+          trustBadges: Array.isArray(m.trustBadges) && m.trustBadges.length > 0 ? m.trustBadges : fallback.trustBadges,
+          notesInSet: Array.isArray(m.notesInSet) && m.notesInSet.length > 0 ? m.notesInSet : fallback.notesInSet,
+          whereToFly: Array.isArray(m.whereToFly) && m.whereToFly.length > 0 ? m.whereToFly : fallback.whereToFly,
+          vibesText: m.vibesText !== undefined ? m.vibesText : fallback.vibesText,
+          youtubeVideoId: m.youtubeVideoId !== undefined ? m.youtubeVideoId : fallback.youtubeVideoId,
+          faqList: Array.isArray(m.faqList) && m.faqList.length > 0 ? m.faqList : fallback.faqList,
+          materialText: m.materialText !== undefined ? m.materialText : fallback.materialText,
+          howToUseText: m.howToUseText !== undefined ? m.howToUseText : fallback.howToUseText,
+          comboId: m.comboId !== undefined ? m.comboId : fallback.comboId,
+          specs: m.specs && Object.keys(m.specs).length > 0 ? m.specs : fallback.specs
+        };
+      } catch (err) {
+        console.warn('[Failed to parse SKYNODES_METADATA JSON comment]', err);
+      }
+    }
+  }
+
+  return {
+    ...fallback,
+    stock: fallback.stock !== undefined ? fallback.stock : 10
   };
 }
 
@@ -771,24 +863,26 @@ export async function getAllAdminProducts() {
 
     const products = resData.products.map((p: any) => {
       const variant = p.variants?.[0] || {};
-      const parsedTags = parseProductTags(p.tags);
+      const parsedDetails = parseProductDetails(p.body_html || '', p.tags);
       const images = (p.images || []).map((img: any) => img.src).filter(Boolean);
 
       return {
         id: p.id,
         handle: p.handle,
         title: p.title,
-        description: p.body_html || '',
+        description: (p.body_html || '').replace(/<!-- SKYNODES_METADATA: [\s\S]*? -->/g, '').trim(),
+        rawBodyHtml: p.body_html || '',
         vendor: p.vendor || 'SKYNODES UAV',
-        productType: p.product_type || parsedTags.category,
-        category: parsedTags.category,
+        productType: p.product_type || parsedDetails.category,
+        category: parsedDetails.category,
+        subCategory: parsedDetails.subCategory || '',
         price: parseFloat(variant.price || '0'),
         compareAtPrice: variant.compare_at_price ? parseFloat(variant.compare_at_price) : 0,
         sku: variant.sku || '',
-        stock: variant.inventory_quantity !== undefined ? variant.inventory_quantity : 10,
+        stock: parsedDetails.stock !== undefined ? parsedDetails.stock : (variant.inventory_quantity !== undefined ? variant.inventory_quantity : 10),
         images: images.length > 0 ? images : ['https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800'],
         tags: p.tags,
-        parsedDetails: parsedTags
+        parsedDetails
       };
     });
 
@@ -809,23 +903,54 @@ export async function createOrUpdateAdminProduct(payload: AdminProductPayload) {
       imagesPayload.push({ src: primaryImg });
     }
 
+    const metadataObj = {
+      category: payload.category || 'engine',
+      subCategory: payload.subCategory || '',
+      stock: payload.stock !== undefined ? payload.stock : 10,
+      isBestseller: !!payload.isBestseller,
+      isCrazyDeal: !!payload.isCrazyDeal,
+      isNewArrival: !!payload.isNewArrival,
+      isHero: !!payload.isHero,
+      heroOrder: payload.heroOrder || 1,
+      discountBadge: payload.discountBadge || '',
+      hsnCode: payload.hsnCode || '95030020',
+      gstRate: payload.gstRate !== undefined ? payload.gstRate : 18,
+      warrantyPeriod: payload.warrantyPeriod || '1-Year Official Warranty',
+      trustBadges: payload.trustBadges || [],
+      notesInSet: payload.notesInSet || [],
+      whereToFly: payload.whereToFly || [],
+      vibesText: payload.vibesText || '',
+      youtubeVideoId: payload.youtubeVideoId || '',
+      faqList: payload.faqList || [],
+      materialText: payload.materialText || '',
+      howToUseText: payload.howToUseText || '',
+      comboId: payload.comboId || '',
+      specs: payload.specs || {}
+    };
+
+    const rawUserDesc = (payload.description || `<p>${payload.title} - Official SKYNODES UAV Equipment.</p>`)
+      .replace(/<!-- SKYNODES_METADATA: [\s\S]*? -->/g, '')
+      .trim();
+    const finalBodyHtml = `${rawUserDesc}\n<!-- SKYNODES_METADATA: ${JSON.stringify(metadataObj)} -->`;
+
     const productPayload: any = {
       product: {
         title: payload.title,
-        body_html: payload.description || `<p>${payload.title} - Official SKYNODES UAV Equipment.</p>`,
+        body_html: finalBodyHtml,
         vendor: payload.vendor || 'SKYNODES UAV',
         product_type: payload.category || 'Aeromodel',
         tags: cleanTags,
-        status: 'active'
+        status: 'active',
+        published: true,
+        published_scope: 'global'
       }
     };
 
-    if (payload.id) {
-      // Update Existing Product
-      const prodId = String(payload.id).replace(/[^0-9]/g, '');
+    let targetProductId = payload.id ? String(payload.id).replace(/[^0-9]/g, '') : null;
 
-      // First fetch current variant ID
-      const currentRes = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/products/${prodId}.json`, {
+    if (targetProductId) {
+      // Update Existing Product
+      const currentRes = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/products/${targetProductId}.json`, {
         headers: { 'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN }
       });
       const currentData = await currentRes.json().catch(() => ({}));
@@ -838,7 +963,8 @@ export async function createOrUpdateAdminProduct(payload: AdminProductPayload) {
             price: (payload.price || 0).toString(),
             compare_at_price: payload.compareAtPrice ? payload.compareAtPrice.toString() : undefined,
             sku: payload.sku || existingVariant.sku || '',
-            inventory_management: 'shopify'
+            inventory_policy: 'continue',
+            inventory_management: null
           }
         ];
       }
@@ -847,7 +973,7 @@ export async function createOrUpdateAdminProduct(payload: AdminProductPayload) {
         productPayload.product.images = imagesPayload;
       }
 
-      const updateRes = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/products/${prodId}.json`, {
+      const updateRes = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/products/${targetProductId}.json`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -860,6 +986,27 @@ export async function createOrUpdateAdminProduct(payload: AdminProductPayload) {
       if (!updateRes.ok) {
         console.error('[Shopify Product Update Error]', updateData);
         return { success: false, error: updateData?.errors || 'Failed to update product in Shopify' };
+      }
+
+      // Also persist Metafield
+      try {
+        await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/products/${targetProductId}/metafields.json`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN
+          },
+          body: JSON.stringify({
+            metafield: {
+              namespace: 'skynodes',
+              key: 'pdp_data',
+              type: 'json',
+              value: JSON.stringify(metadataObj)
+            }
+          })
+        });
+      } catch (e) {
+        // Non-blocking
       }
 
       return {
@@ -875,7 +1022,8 @@ export async function createOrUpdateAdminProduct(payload: AdminProductPayload) {
           price: (payload.price || 0).toString(),
           compare_at_price: payload.compareAtPrice ? payload.compareAtPrice.toString() : undefined,
           sku: payload.sku || `SKY-${Date.now().toString().slice(-4)}`,
-          inventory_management: 'shopify'
+          inventory_policy: 'continue',
+          inventory_management: null
         }
       ];
       productPayload.product.images = imagesPayload;
@@ -893,6 +1041,29 @@ export async function createOrUpdateAdminProduct(payload: AdminProductPayload) {
       if (!createRes.ok) {
         console.error('[Shopify Product Create Error]', createData);
         return { success: false, error: createData?.errors || 'Failed to create product in Shopify' };
+      }
+
+      const newId = createData.product?.id;
+      if (newId) {
+        try {
+          await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/products/${newId}/metafields.json`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN
+            },
+            body: JSON.stringify({
+              metafield: {
+                namespace: 'skynodes',
+                key: 'pdp_data',
+                type: 'json',
+                value: JSON.stringify(metadataObj)
+              }
+            })
+          });
+        } catch (e) {
+          // Non-blocking
+        }
       }
 
       return {
@@ -928,5 +1099,121 @@ export async function deleteAdminProduct(id: string | number) {
     return { success: false, error: err.message };
   }
 }
+
+// ----------------------------------------------------
+// DYNAMIC NAVIGATION MENU MANAGEMENT (SHOPIFY METAFIELDS)
+// ----------------------------------------------------
+export interface NavSubItem {
+  label: string;
+  href: string;
+}
+
+export interface StoreNavItem {
+  id?: string;
+  label: string;
+  href: string;
+  highlight?: boolean;
+  subItems?: NavSubItem[];
+}
+
+export const DEFAULT_STORE_NAVIGATION: StoreNavItem[] = [
+  { label: 'SHOP ALL', href: '/shop?category=all' },
+  { label: 'CRAZY DEALS', href: '/shop?filter=crazy-deals', highlight: true },
+  { label: 'BESTSELLERS', href: '/shop?filter=bestsellers' },
+  { 
+    label: 'ENGINES', 
+    href: '/shop?category=engine',
+    subItems: [
+      { label: 'Nitro Glow Engines', href: '/shop?category=engine&q=nitro' },
+      { label: 'Gasoline Engines', href: '/shop?category=engine&q=gas' },
+      { label: 'Engine Mufflers & Mounts', href: '/shop?category=accessories' }
+    ]
+  },
+  { 
+    label: 'AEROMODELS', 
+    href: '/shop?category=aeromodels',
+    subItems: [
+      { label: 'Trainer Airframes', href: '/shop?category=aeromodels&q=trainer' },
+      { label: 'Scale Warbirds', href: '/shop?category=aeromodels&q=warbird' },
+      { label: 'Aerobatic Planes', href: '/shop?category=aeromodels&q=aerobatic' }
+    ]
+  },
+  { label: 'RADIOS & RECEIVERS', href: '/shop?category=radio-receiver' },
+  { label: 'BALSA WOOD', href: '/shop?category=balsa-wood' },
+  { label: 'ACCESSORIES', href: '/shop?category=accessories' }
+];
+
+export async function getStoreNavigation(): Promise<StoreNavItem[]> {
+  try {
+    const res = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/metafields.json?namespace=skynodes_system`, {
+      headers: {
+        'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN,
+        'Content-Type': 'application/json'
+      }
+    });
+    if (!res.ok) throw new Error(`Shopify API error: ${res.status}`);
+    const data = await res.json();
+    const found = data.metafields?.find((m: any) => m.key === 'main_navigation');
+    if (found && found.value) {
+      const parsed = JSON.parse(found.value);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
+    }
+  } catch (err) {
+    console.warn('[Shopify Admin] Failed to fetch navigation metafield, using default:', err);
+  }
+  return DEFAULT_STORE_NAVIGATION;
+}
+
+export async function saveStoreNavigation(items: StoreNavItem[]): Promise<{ success: boolean; error?: string }> {
+  try {
+    const listRes = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/metafields.json?namespace=skynodes_system`, {
+      headers: { 'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN }
+    });
+    const listData = await listRes.json();
+    const existing = listData.metafields?.find((m: any) => m.key === 'main_navigation');
+
+    if (existing && existing.id) {
+      const putRes = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/metafields/${existing.id}.json`, {
+        method: 'PUT',
+        headers: {
+          'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          metafield: {
+            id: existing.id,
+            value: JSON.stringify(items)
+          }
+        })
+      });
+      if (!putRes.ok) throw new Error(`Shopify PUT error: ${putRes.status}`);
+      return { success: true };
+    } else {
+      const postRes = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/metafields.json`, {
+        method: 'POST',
+        headers: {
+          'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          metafield: {
+            namespace: 'skynodes_system',
+            key: 'main_navigation',
+            value: JSON.stringify(items),
+            type: 'json'
+          }
+        })
+      });
+      if (!postRes.ok) throw new Error(`Shopify POST error: ${postRes.status}`);
+      return { success: true };
+    }
+  } catch (err: any) {
+    console.error('[saveStoreNavigation Exception]', err);
+    return { success: false, error: err.message };
+  }
+}
+
 
 

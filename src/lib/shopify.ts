@@ -1,5 +1,6 @@
 import { PRODUCTS as staticProducts, type Product } from '../data/products';
 import { formatCleanProductTitle } from './productTitleHelper';
+import { getAllAdminProducts } from './shopifyAdmin';
 
 export interface ShopifyProduct {
   id: string;
@@ -106,47 +107,103 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
     }
   `;
 
-  const data = await fetchShopifyStorefront(query);
-  if (!data?.products?.edges) return [];
+  let items: ShopifyProduct[] = [];
+  try {
+    const data = await fetchShopifyStorefront(query);
+    if (data?.products?.edges) {
+      items = data.products.edges.map((edge: any) => {
+        const node = edge.node;
+        const variantNode = node.variants?.edges?.[0]?.node;
+        const imageEdges = node.images?.edges || [];
+        const imageList = imageEdges.map((e: any) => e.node?.url).filter(Boolean);
+        const mainImg = imageList[0] || "https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800";
+        const rawId = node.id;
+        const numericId = rawId.includes('/') ? rawId.split('/').pop() : rawId;
+        const safeId = `shopify-${numericId}`;
+        const priceVal = parseFloat(node.priceRange?.minVariantPrice?.amount || variantNode?.price?.amount || "0");
+        const compareAtVal = parseFloat(variantNode?.compareAtPrice?.amount || "0");
 
-  const items = data.products.edges.map((edge: any) => {
-    const node = edge.node;
-    const variantNode = node.variants?.edges?.[0]?.node;
-    const imageEdges = node.images?.edges || [];
-    const imageList = imageEdges.map((e: any) => e.node?.url).filter(Boolean);
-    const mainImg = imageList[0] || "https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800";
-    const rawId = node.id;
-    const numericId = rawId.includes('/') ? rawId.split('/').pop() : rawId;
-    const safeId = `shopify-${numericId}`;
-    const priceVal = parseFloat(node.priceRange?.minVariantPrice?.amount || variantNode?.price?.amount || "0");
-    const compareAtVal = parseFloat(variantNode?.compareAtPrice?.amount || "0");
+        const rawTotalInv = typeof node.totalInventory === 'number' ? node.totalInventory : null;
+        const rawQtyAvail = typeof variantNode?.quantityAvailable === 'number' ? variantNode.quantityAvailable : null;
+        let isAvail = variantNode?.availableForSale ?? true;
+        if (rawTotalInv !== null && rawTotalInv <= 0) isAvail = false;
+        else if (rawQtyAvail !== null && rawQtyAvail <= 0) isAvail = false;
 
-    const rawTotalInv = typeof node.totalInventory === 'number' ? node.totalInventory : null;
-    const rawQtyAvail = typeof variantNode?.quantityAvailable === 'number' ? variantNode.quantityAvailable : null;
-    let isAvail = variantNode?.availableForSale ?? true;
-    if (rawTotalInv !== null && rawTotalInv <= 0) isAvail = false;
-    else if (rawQtyAvail !== null && rawQtyAvail <= 0) isAvail = false;
+        return {
+          id: node.id,
+          safeId,
+          title: node.title,
+          handle: node.handle || safeId,
+          description: node.description || "",
+          vendor: node.vendor || "SKYNODES UAV",
+          productType: node.productType || "Aeromodel",
+          tags: Array.isArray(node.tags) ? node.tags : [],
+          price: priceVal,
+          compareAtPrice: compareAtVal,
+          currencyCode: node.priceRange?.minVariantPrice?.currencyCode || "INR",
+          imageUrl: mainImg,
+          images: imageList.length > 0 ? imageList : [mainImg],
+          imageAlt: imageEdges[0]?.node?.altText || node.title,
+          variantId: variantNode?.id || "",
+          availableForSale: isAvail,
+          stock: rawTotalInv ?? rawQtyAvail ?? (isAvail ? 10 : 0)
+        };
+      });
+    }
+  } catch (err) {
+    console.error("[Storefront query error]", err);
+  }
 
-    return {
-      id: node.id,
-      safeId,
-      title: node.title,
-      handle: node.handle || safeId,
-      description: node.description || "",
-      vendor: node.vendor || "SKYNODES UAV",
-      productType: node.productType || "Aeromodel",
-      tags: Array.isArray(node.tags) ? node.tags : [],
-      price: priceVal,
-      compareAtPrice: compareAtVal,
-      currencyCode: node.priceRange?.minVariantPrice?.currencyCode || "INR",
-      imageUrl: mainImg,
-      images: imageList.length > 0 ? imageList : [mainImg],
-      imageAlt: imageEdges[0]?.node?.altText || node.title,
-      variantId: variantNode?.id || "",
-      availableForSale: isAvail,
-      stock: rawTotalInv ?? rawQtyAvail ?? (isAvail ? 10 : 0)
-    };
-  });
+  // Merge with Admin REST API so ANY newly created or edited product appears immediately!
+  try {
+    const adminRes = await getAllAdminProducts();
+    if (adminRes.success && Array.isArray(adminRes.products)) {
+      const existingHandles = new Set(items.map(i => i.handle?.toLowerCase()));
+      const existingIds = new Set(items.map(i => i.id));
+      const existingNumericIds = new Set(items.map(i => i.id.replace(/[^0-9]/g, '')));
+
+      for (const ap of adminRes.products) {
+        const apHandle = (ap.handle || '').toLowerCase();
+        const apId = String(ap.id);
+
+        if (!existingHandles.has(apHandle) && !existingIds.has(apId) && !existingNumericIds.has(apId)) {
+          // New product created via Admin API that is not yet in Storefront GraphQL!
+          items.unshift({
+            id: apId,
+            safeId: `shopify-${apId}`,
+            title: ap.title,
+            handle: ap.handle || `shopify-${apId}`,
+            description: ap.rawBodyHtml || ap.description || '',
+            vendor: ap.vendor || 'SKYNODES UAV',
+            productType: ap.productType || ap.category || 'Aeromodel',
+            tags: Array.isArray(ap.tags) ? ap.tags : (typeof ap.tags === 'string' ? ap.tags.split(',').map((t: string) => t.trim()) : []),
+            price: ap.price,
+            compareAtPrice: ap.compareAtPrice,
+            currencyCode: 'INR',
+            imageUrl: ap.images?.[0] || 'https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800',
+            images: ap.images || [],
+            imageAlt: ap.title,
+            variantId: apId,
+            availableForSale: true,
+            stock: ap.stock !== undefined ? ap.stock : 10
+          });
+        } else {
+          // If already in items, enrich description if admin has embedded metadata comment!
+          const match = items.find(i => i.handle?.toLowerCase() === apHandle || i.id === apId || i.id.replace(/[^0-9]/g, '') === apId);
+          if (match) {
+            if (ap.rawBodyHtml && ap.rawBodyHtml.includes('<!-- SKYNODES_METADATA:')) {
+              match.description = ap.rawBodyHtml;
+            }
+            if (ap.stock !== undefined) {
+              match.stock = ap.stock;
+            }
+          }
+        }
+      }
+    }
+  } catch (adminErr) {
+    console.warn('[Admin fallback in getAllShopifyProducts failed]', adminErr);
+  }
 
   // Filter out mock demo items so official aeromodelling client products display 100%
   return items.filter((p: any) => 
@@ -158,6 +215,18 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
 
 // Helper: Convert Shopify product to standard site Product format
 export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
+  let embeddedMetadata: any = null;
+  if (sp.description) {
+    const match = sp.description.match(/<!-- SKYNODES_METADATA: ([\s\S]*?) -->/);
+    if (match && match[1]) {
+      try {
+        embeddedMetadata = JSON.parse(match[1]);
+      } catch (e) {
+        // Non-blocking
+      }
+    }
+  }
+
   const price = Math.round(sp.price);
   const compareAtPrice = Math.round(sp.compareAtPrice);
   const origPrice = compareAtPrice > price ? compareAtPrice : Math.round(price * 1.2);
@@ -483,46 +552,60 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
     ? { ...(staticProd?.specs || {}), ...dynamicSpecs }
     : (staticProd?.specs || { Vendor: sp.vendor, Type: sp.productType, Status: sp.availableForSale ? 'In Stock' : 'Out of Stock' });
 
+  const cleanDescription = (sp.description || '')
+    .replace(/<!-- SKYNODES_METADATA: [\s\S]*? -->/g, '')
+    .trim();
+
+  const finalSpecs = embeddedMetadata?.specs && Object.keys(embeddedMetadata.specs).length > 0
+    ? embeddedMetadata.specs
+    : mergedSpecs;
+
+  const finalStock = embeddedMetadata?.stock !== undefined
+    ? embeddedMetadata.stock
+    : (sp.stock !== undefined ? sp.stock : (staticProd?.stock ?? (sp.availableForSale ? 10 : 0)));
+
   return {
     id: prodId,
     handle: sp.handle,
     name: (sp.title && sp.title.trim().length > 0) ? formatCleanProductTitle(sp.title) : (staticProd?.name || ''),
-    category: assignedCat.id,
-    categoryLabel: assignedCat.label,
+    category: embeddedMetadata?.category || assignedCat.id,
+    categoryLabel: embeddedMetadata?.category ? embeddedMetadata.category.toUpperCase() : assignedCat.label,
+    subCategory: embeddedMetadata?.subCategory || '',
+    tags: Array.isArray(sp.tags) ? sp.tags : (typeof sp.tags === 'string' ? sp.tags.split(',').map((t: string) => t.trim()) : []),
     price: price,
     originalPrice: origPrice,
-    discountBadge: customBadge || staticProd?.discountBadge,
+    discountBadge: embeddedMetadata?.discountBadge || customBadge || staticProd?.discountBadge,
     prepaidDiscountPct,
-    gstRate: gstVal ? gstRate : (staticProd?.gstRate || 18),
-    hsnCode: hsnCode || staticProd?.hsnCode || '95030020',
+    gstRate: embeddedMetadata?.gstRate ?? (gstVal ? gstRate : (staticProd?.gstRate || 18)),
+    hsnCode: embeddedMetadata?.hsnCode || hsnCode || staticProd?.hsnCode || '95030020',
     basePrice: basePrice || staticProd?.basePrice,
-    stock: sp.stock !== undefined ? sp.stock : (staticProd?.stock ?? (sp.availableForSale ? 10 : 0)),
-    warrantyPeriod: warrantyPeriod || staticProd?.warrantyPeriod || '1-Year Official Warranty',
-    youtubeVideoId: youtubeVideoId || staticProd?.youtubeVideoId,
+    stock: finalStock,
+    warrantyPeriod: embeddedMetadata?.warrantyPeriod || warrantyPeriod || staticProd?.warrantyPeriod || '1-Year Official Warranty',
+    youtubeVideoId: embeddedMetadata?.youtubeVideoId || youtubeVideoId || staticProd?.youtubeVideoId,
     rating: staticProd?.rating || 4.9,
     reviewsCount: 6, // Matches exact actual reviews on PDP
-    isBestseller: isBestsellerTag,
-    isNewArrival: isNewArrivalTag,
-    isCrazyDeal: isCrazyDealTag,
-    isHero: isHeroTag,
-    heroOrder: heroOrder,
+    isBestseller: embeddedMetadata?.isBestseller ?? isBestsellerTag,
+    isNewArrival: embeddedMetadata?.isNewArrival ?? isNewArrivalTag,
+    isCrazyDeal: embeddedMetadata?.isCrazyDeal ?? isCrazyDealTag,
+    isHero: embeddedMetadata?.isHero ?? isHeroTag,
+    heroOrder: embeddedMetadata?.heroOrder ?? heroOrder,
     heroBadge: heroBadge,
     heroSub: heroSub,
     isFromShopify: true,
     image: resolvedMainImage,
     images: resolvedGallery,
-    description: (sp.description && sp.description.trim().length > 0) ? sp.description : (staticProd?.description || 'Official SKYNODES UAV product synced live from Shopify Storefront.'),
-    specs: mergedSpecs,
-    inStock: sp.availableForSale,
+    description: (cleanDescription && cleanDescription.length > 0) ? cleanDescription : (staticProd?.description || 'Official SKYNODES UAV product synced live from Shopify Storefront.'),
+    specs: finalSpecs,
+    inStock: finalStock > 0,
     variantId: sp.variantId,
-    comboId: comboId || staticProd?.comboId,
-    materialText: materialText || staticProd?.materialText,
-    howToUseText: howToUseText || staticProd?.howToUseText,
-    faqList: faqList || staticProd?.faqList,
-    trustBadges: trustBadges || staticProd?.trustBadges,
-    notesInSet: notesInSet || staticProd?.notesInSet,
-    whereToFly: whereToFly || staticProd?.whereToFly,
-    vibesText: vibesText || staticProd?.vibesText
+    comboId: embeddedMetadata?.comboId || comboId || staticProd?.comboId,
+    materialText: embeddedMetadata?.materialText || materialText || staticProd?.materialText,
+    howToUseText: embeddedMetadata?.howToUseText || howToUseText || staticProd?.howToUseText,
+    faqList: (embeddedMetadata?.faqList && embeddedMetadata.faqList.length > 0) ? embeddedMetadata.faqList : (faqList || staticProd?.faqList),
+    trustBadges: (embeddedMetadata?.trustBadges && embeddedMetadata.trustBadges.length > 0) ? embeddedMetadata.trustBadges : (trustBadges || staticProd?.trustBadges),
+    notesInSet: (embeddedMetadata?.notesInSet && embeddedMetadata.notesInSet.length > 0) ? embeddedMetadata.notesInSet : (notesInSet || staticProd?.notesInSet),
+    whereToFly: (embeddedMetadata?.whereToFly && embeddedMetadata.whereToFly.length > 0) ? embeddedMetadata.whereToFly : (whereToFly || staticProd?.whereToFly),
+    vibesText: embeddedMetadata?.vibesText || vibesText || staticProd?.vibesText
   };
 }
 

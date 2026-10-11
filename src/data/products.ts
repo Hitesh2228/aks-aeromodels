@@ -3,8 +3,10 @@ export interface Product {
   handle?: string;
   variantId?: string;
   name: string;
-  category: 'engine' | 'radio-receiver' | 'aeromodels' | 'balsa-wood' | 'accessories';
+  category: 'engine' | 'radio-receiver' | 'aeromodels' | 'balsa-wood' | 'accessories' | string;
   categoryLabel: string;
+  subCategory?: string;
+  tags?: string[];
   price: number;
   originalPrice: number;
   discountBadge?: string;
