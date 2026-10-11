@@ -709,6 +709,161 @@ import '../../styles/global.css';
       padding: 0.35rem 0.65rem;
     }
 
+    /* Orders & Blogs Status Badges */
+    .order-status-pill {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      text-transform: capitalize;
+    }
+    .order-status-pill.paid { background: #ecfdf5; color: #059669; }
+    .order-status-pill.paid::before { content: ''; width: 6px; height: 6px; background: #059669; border-radius: 50%; }
+    .order-status-pill.pending { background: #fffbeb; color: #d97706; }
+    .order-status-pill.pending::before { content: ''; width: 6px; height: 6px; background: #d97706; border-radius: 50%; }
+    .order-status-pill.fulfilled { background: #eff6ff; color: #2563eb; }
+    .order-status-pill.fulfilled::before { content: ''; width: 6px; height: 6px; background: #2563eb; border-radius: 50%; }
+    .order-status-pill.unfulfilled { background: #fef2f2; color: #dc2626; }
+    .order-status-pill.unfulfilled::before { content: ''; width: 6px; height: 6px; background: #dc2626; border-radius: 50%; }
+
+    .blog-status-pill {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.18rem 0.55rem;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .blog-status-pill.published { background: #ecfdf5; color: #059669; }
+    .blog-status-pill.draft { background: #f1f5f9; color: #64748b; }
+
+    /* Enterprise Admin Modal Overlays */
+    .admin-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.72);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      padding: 1.5rem;
+    }
+    .admin-modal-box {
+      background: #ffffff;
+      border: 1px solid var(--admin-border);
+      border-radius: 16px;
+      max-width: 820px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+    }
+    .admin-modal-header {
+      padding: 1.25rem 1.75rem;
+      border-bottom: 1px solid var(--admin-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8fafc;
+      border-radius: 16px 16px 0 0;
+    }
+    .admin-modal-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0;
+    }
+    .admin-modal-close {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: #64748b;
+      padding: 0.35rem;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .admin-modal-close:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+    .admin-modal-body {
+      padding: 1.5rem 1.75rem;
+      overflow-y: auto;
+    }
+    .admin-modal-footer {
+      padding: 1rem 1.75rem;
+      border-top: 1px solid var(--admin-border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      background: #f8fafc;
+      border-radius: 0 0 16px 16px;
+    }
+
+    /* Order Dossier Styles */
+    .order-dossier-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      background: #f8fafc;
+      border: 1px solid var(--admin-border);
+      border-radius: 10px;
+      padding: 1.25rem;
+    }
+    .dossier-col h4 {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      color: #64748b;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.35rem;
+      font-weight: 700;
+    }
+    .dossier-col p {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin: 0;
+      line-height: 1.4;
+    }
+    .order-items-mini-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      border: 1px solid var(--admin-border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .order-items-mini-table th {
+      background: #f1f5f9;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      padding: 0.65rem 0.85rem;
+      text-align: left;
+      color: #475569;
+    }
+    .order-items-mini-table td {
+      padding: 0.65rem 0.85rem;
+      border-top: 1px solid var(--admin-border);
+      font-size: 0.82rem;
+      color: #0f172a;
+    }
+
     /* ---------------- ADVANCED MODULAR STUDIO EDITOR STYLES ---------------- */
     .editor-wrapper {
       display: none;
@@ -1302,7 +1457,7 @@ import '../../styles/global.css';
     </div>
   </header>
 
-  <!-- 3. Primary Mode Switcher Subbar (3 Tabs: Catalog, Editor, Navigation) -->
+  <!-- 3. Primary Mode Switcher Subbar (5 Tabs: Products, Studio, Orders, Blogs, Navigation) -->
   <div class="admin-subbar">
     <div class="mode-tabs-segmented">
       <button class="mode-tab-btn active" id="tab-catalog-btn">
@@ -1312,6 +1467,14 @@ import '../../styles/global.css';
       <button class="mode-tab-btn" id="tab-create-btn">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
         <span>Product Studio</span>
+      </button>
+      <button class="mode-tab-btn" id="tab-orders-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span>Store Orders</span>
+      </button>
+      <button class="mode-tab-btn" id="tab-blogs-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10M6 14h6"/></svg>
+        <span>Flight Blogs</span>
       </button>
       <button class="mode-tab-btn" id="tab-nav-btn">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
@@ -1996,7 +2159,248 @@ import '../../styles/global.css';
 
     </div>
 
+    <!-- ==================== VIEW 4: STORE ORDERS CENTER ==================== -->
+    <div id="view-orders" class="catalog-wrapper" style="display: none;">
+      
+      <!-- Metrics Overview -->
+      <div class="stats-row">
+        <div class="stat-card-compact highlight">
+          <span class="stat-label">Total Store Orders</span>
+          <span class="stat-num" id="stat-total-orders">0</span>
+        </div>
+        <div class="stat-card-compact engines">
+          <span class="stat-label">Total Revenue</span>
+          <span class="stat-num" id="stat-revenue-orders">₹0</span>
+        </div>
+        <div class="stat-card-compact airframes">
+          <span class="stat-label">Paid Orders</span>
+          <span class="stat-num" id="stat-paid-orders">0</span>
+        </div>
+        <div class="stat-card-compact balsa">
+          <span class="stat-label">Pending / COD</span>
+          <span class="stat-num" id="stat-pending-orders">0</span>
+        </div>
+        <div class="stat-card-compact radios">
+          <span class="stat-label">Unfulfilled</span>
+          <span class="stat-num" id="stat-unfulfilled-orders">0</span>
+        </div>
+      </div>
+
+      <!-- Action & Filter Bar -->
+      <div class="catalog-toolbar">
+        <div class="search-box-wrapper">
+          <svg class="search-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="orders-search-input" class="search-input" placeholder="Search orders by #INV, pilot name, phone, item..." />
+        </div>
+        <div class="catalog-actions-right">
+          <button type="button" class="btn-create-prod-primary" id="btn-refresh-orders" style="display: inline-flex; align-items: center; gap: 0.45rem;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+            <span>Refresh Orders</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Order Category Filter Pills -->
+      <div class="catalog-pills-bar">
+        <button type="button" class="cat-pill-btn active" data-order-cat="all">All Orders (<span id="pill-cnt-orders-all">0</span>)</button>
+        <button type="button" class="cat-pill-btn" data-order-cat="paid">Paid (<span id="pill-cnt-orders-paid">0</span>)</button>
+        <button type="button" class="cat-pill-btn" data-order-cat="pending">Pending / COD (<span id="pill-cnt-orders-pending">0</span>)</button>
+        <button type="button" class="cat-pill-btn" data-order-cat="unfulfilled">Unfulfilled (<span id="pill-cnt-orders-unfulfilled">0</span>)</button>
+        <button type="button" class="cat-pill-btn" data-order-cat="fulfilled">Fulfilled (<span id="pill-cnt-orders-fulfilled">0</span>)</button>
+      </div>
+
+      <!-- Orders Table -->
+      <div class="catalog-table-card">
+        <div class="table-responsive">
+          <table class="catalog-data-table">
+            <thead>
+              <tr>
+                <th style="min-width: 170px;">Order # & Date</th>
+                <th>Pilot / Customer</th>
+                <th>Items Ordered</th>
+                <th>Payment & Status</th>
+                <th>Fulfillment</th>
+                <th>Total Amount</th>
+                <th style="text-align: right;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="orders-tbody">
+              <tr>
+                <td colspan="7" style="text-align: center; padding: 3rem; color: #64748b;">
+                  Loading real-time orders from Shopify Admin...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW 5: FLIGHT BLOGS & ARTICLES ==================== -->
+    <div id="view-blogs" class="catalog-wrapper" style="display: none;">
+      
+      <!-- Top Action Bar -->
+      <div class="studio-sticky-bar">
+        <div class="studio-title-block">
+          <div>
+            <div class="studio-breadcrumbs">Storefront Content / Flight Journal & Guides</div>
+            <div class="studio-title-main" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10M6 14h6"/></svg>
+              <span>Flight Blogs & Technical Articles</span>
+            </div>
+          </div>
+        </div>
+        <div class="studio-actions-block">
+          <button type="button" class="btn-create-prod-primary" id="btn-trigger-new-blog">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            <span>Create New Article</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Metrics Overview -->
+      <div class="stats-row">
+        <div class="stat-card-compact highlight">
+          <span class="stat-label">Total Articles</span>
+          <span class="stat-num" id="stat-total-articles">0</span>
+        </div>
+        <div class="stat-card-compact engines">
+          <span class="stat-label">Published Articles</span>
+          <span class="stat-num" id="stat-published-articles">0</span>
+        </div>
+        <div class="stat-card-compact airframes">
+          <span class="stat-label">Drafts</span>
+          <span class="stat-num" id="stat-draft-articles">0</span>
+        </div>
+      </div>
+
+      <!-- Action & Filter Bar -->
+      <div class="catalog-toolbar">
+        <div class="search-box-wrapper">
+          <svg class="search-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="blogs-search-input" class="search-input" placeholder="Search articles by headline, tag or author..." />
+        </div>
+        <div class="catalog-actions-right">
+          <button type="button" class="btn-create-prod-primary" id="btn-refresh-blogs" style="display: inline-flex; align-items: center; gap: 0.45rem;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+            <span>Refresh Articles</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Blogs Table Card -->
+      <div class="catalog-table-card">
+        <div class="table-responsive">
+          <table class="catalog-data-table">
+            <thead>
+              <tr>
+                <th style="min-width: 300px;">Article Headline</th>
+                <th>Author</th>
+                <th>Tags & Category</th>
+                <th>Published Date</th>
+                <th>Status</th>
+                <th style="text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="blogs-tbody">
+              <tr>
+                <td colspan="6" style="text-align: center; padding: 3rem; color: #64748b;">
+                  Loading flight articles from Shopify...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
   </main>
+
+  <!-- ==================== ORDER DETAILS MODAL ==================== -->
+  <div id="order-detail-modal" class="admin-modal-overlay">
+    <div class="admin-modal-box">
+      <div class="admin-modal-header">
+        <div class="admin-modal-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span id="modal-order-number">Order Details</span>
+        </div>
+        <button type="button" class="admin-modal-close" id="btn-close-order-modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="admin-modal-body" id="order-modal-content">
+        <!-- Dynamically loaded order details -->
+      </div>
+      <div class="admin-modal-footer">
+        <button type="button" class="btn-editor-tab-next" id="btn-dismiss-order-modal">Close Dossier</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== BLOG ARTICLE EDITOR MODAL ==================== -->
+  <div id="blog-editor-modal" class="admin-modal-overlay">
+    <div class="admin-modal-box">
+      <div class="admin-modal-header">
+        <div class="admin-modal-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          <span id="modal-blog-action-title">Create New Article</span>
+        </div>
+        <button type="button" class="admin-modal-close" id="btn-close-blog-modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="admin-modal-body">
+        <input type="hidden" id="blog-edit-id" value="" />
+        <input type="hidden" id="blog-edit-blog-id" value="" />
+
+        <div class="form-item" style="margin-bottom: 1rem;">
+          <label for="blog-f-title">Article Headline / Title *</label>
+          <input type="text" id="blog-f-title" class="input-box" placeholder="e.g. Complete Guide: Break-in O.S. Max Nitro Engines" required />
+        </div>
+
+        <div class="field-row-2" style="margin-bottom: 1rem;">
+          <div class="form-item">
+            <label for="blog-f-author">Author / Pilot Officer</label>
+            <input type="text" id="blog-f-author" class="input-box" placeholder="e.g. Captain R. Verma / SKYNODES Flight Team" />
+          </div>
+          <div class="form-item">
+            <label for="blog-f-tags">Category & Tags (Comma separated)</label>
+            <input type="text" id="blog-f-tags" class="input-box" placeholder="e.g. Engine Tuning, Maintenance, Nitro, Beginner" />
+          </div>
+        </div>
+
+        <div class="form-item" style="margin-bottom: 1rem;">
+          <label for="blog-f-image">Featured Cover Image URL</label>
+          <input type="url" id="blog-f-image" class="input-box" placeholder="https://cdn.shopify.com/... or Unsplash image URL" />
+          <div id="blog-image-preview" style="margin-top: 0.5rem; display: none;">
+            <img id="blog-image-preview-img" src="" alt="Cover Preview" style="max-height: 120px; border-radius: 8px; border: 1px solid var(--admin-border); object-fit: cover;" />
+          </div>
+        </div>
+
+        <div class="form-item" style="margin-bottom: 1rem;">
+          <label for="blog-f-summary">Brief Excerpt / Summary</label>
+          <textarea id="blog-f-summary" class="input-box" rows="2" placeholder="Short description shown on the blog index cards..."></textarea>
+        </div>
+
+        <div class="form-item" style="margin-bottom: 1rem;">
+          <label for="blog-f-body">Full Article Content (HTML / Rich Format) *</label>
+          <textarea id="blog-f-body" class="input-box" rows="10" placeholder="<p>Full article text here with <h2>, <p>, <ul>, <strong> tags...</p>" style="font-family: var(--font-mono); font-size: 0.82rem;"></textarea>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <input type="checkbox" id="blog-f-published" style="width: 16px; height: 16px; accent-color: #0f172a;" checked />
+          <label for="blog-f-published" style="font-size: 0.82rem; font-weight: 700; cursor: pointer;">Publish Article Immediately to Live Storefront</label>
+        </div>
+      </div>
+      <div class="admin-modal-footer">
+        <button type="button" class="btn-editor-tab-prev" id="btn-cancel-blog-modal">Cancel</button>
+        <button type="button" class="btn-editor-save-publish" id="btn-save-blog-submit">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          <span>Save Article to Shopify</span>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Live Notification Toast -->
   <div id="admin-toast"></div>
@@ -2018,6 +2422,17 @@ import '../../styles/global.css';
     // Navigation Menu State
     let storeNavItems: any[] = [];
 
+    // Orders State
+    let allOrders: any[] = [];
+    let currentFilteredOrders: any[] = [];
+    let currentSelectedOrderFilter: string = 'all';
+
+    // Blogs State
+    let allBlogs: any[] = [];
+    let currentFilteredBlogs: any[] = [];
+    let activeShopifyBlogId: string = '125699424532';
+    let currentEditingBlogId: string | null = null;
+
     // DOM Elements
     const authModal = document.getElementById('auth-gate-modal');
     const authForm = document.getElementById('admin-auth-form');
@@ -2029,10 +2444,39 @@ import '../../styles/global.css';
     const tabCatalogBtn = document.getElementById('tab-catalog-btn');
     const tabCreateBtn = document.getElementById('tab-create-btn');
     const tabNavBtn = document.getElementById('tab-nav-btn');
+    const tabOrdersBtn = document.getElementById('tab-orders-btn');
+    const tabBlogsBtn = document.getElementById('tab-blogs-btn');
 
     const viewCatalog = document.getElementById('view-catalog');
     const viewEditor = document.getElementById('view-editor');
     const viewNavigation = document.getElementById('view-navigation');
+    const viewOrders = document.getElementById('view-orders');
+    const viewBlogs = document.getElementById('view-blogs');
+
+    // Orders DOM Elements
+    const ordersTbody = document.getElementById('orders-tbody');
+    const ordersSearchInput = document.getElementById('orders-search-input') as HTMLInputElement;
+    const btnRefreshOrders = document.getElementById('btn-refresh-orders');
+    const orderCatPills = document.querySelectorAll('[data-order-cat]');
+    const orderDetailModal = document.getElementById('order-detail-modal');
+    const orderModalContent = document.getElementById('order-modal-content');
+    const modalOrderNumber = document.getElementById('modal-order-number');
+    const btnCloseOrderModal = document.getElementById('btn-close-order-modal');
+    const btnDismissOrderModal = document.getElementById('btn-dismiss-order-modal');
+
+    // Blogs DOM Elements
+    const blogsTbody = document.getElementById('blogs-tbody');
+    const blogsSearchInput = document.getElementById('blogs-search-input') as HTMLInputElement;
+    const btnRefreshBlogs = document.getElementById('btn-refresh-blogs');
+    const btnTriggerNewBlog = document.getElementById('btn-trigger-new-blog');
+    const blogEditorModal = document.getElementById('blog-editor-modal');
+    const modalBlogActionTitle = document.getElementById('modal-blog-action-title');
+    const btnCloseBlogModal = document.getElementById('btn-close-blog-modal');
+    const btnCancelBlogModal = document.getElementById('btn-cancel-blog-modal');
+    const btnSaveBlogSubmit = document.getElementById('btn-save-blog-submit') as HTMLButtonElement;
+    const blogImageInput = document.getElementById('blog-f-image') as HTMLInputElement;
+    const blogImagePreview = document.getElementById('blog-image-preview');
+    const blogImagePreviewImg = document.getElementById('blog-image-preview-img') as HTMLImageElement;
 
     const btnBackToCatalog = document.getElementById('btn-back-to-catalog');
     const btnCancelEdit = document.getElementById('btn-cancel-edit');
@@ -2102,6 +2546,8 @@ import '../../styles/global.css';
         if (authModal) authModal.style.display = 'none';
         loadProductsFromShopify();
         loadNavigationFromShopify();
+        loadOrdersFromShopify();
+        loadBlogsFromShopify();
       } else {
         if (authModal) authModal.style.display = 'flex';
       }
@@ -2117,6 +2563,8 @@ import '../../styles/global.css';
         showToast('Welcome to Commander Studio');
         loadProductsFromShopify();
         loadNavigationFromShopify();
+        loadOrdersFromShopify();
+        loadBlogsFromShopify();
       } else {
         if (authError) authError.style.display = 'block';
         authInput.value = '';
@@ -2129,18 +2577,22 @@ import '../../styles/global.css';
       window.location.reload();
     });
 
-    // 2. Main Mode Switching (Catalog vs Editor vs Navigation)
-    function switchMode(mode: 'catalog' | 'editor' | 'navigation') {
-      viewCatalog!.style.display = 'none';
-      viewEditor?.classList.remove('active');
-      viewNavigation?.classList.remove('active');
+    // 2. Main Mode Switching (5 Modes: Catalog, Editor, Navigation, Orders, Blogs)
+    function switchMode(mode: 'catalog' | 'editor' | 'navigation' | 'orders' | 'blogs') {
+      if (viewCatalog) viewCatalog.style.display = 'none';
+      if (viewEditor) viewEditor.classList.remove('active');
+      if (viewNavigation) viewNavigation.classList.remove('active');
+      if (viewOrders) viewOrders.style.display = 'none';
+      if (viewBlogs) viewBlogs.style.display = 'none';
 
       tabCatalogBtn?.classList.remove('active');
       tabCreateBtn?.classList.remove('active');
       tabNavBtn?.classList.remove('active');
+      tabOrdersBtn?.classList.remove('active');
+      tabBlogsBtn?.classList.remove('active');
 
       if (mode === 'catalog') {
-        viewCatalog!.style.display = 'block';
+        if (viewCatalog) viewCatalog.style.display = 'block';
         tabCatalogBtn?.classList.add('active');
       } else if (mode === 'editor') {
         viewEditor?.classList.add('active');
@@ -2149,6 +2601,14 @@ import '../../styles/global.css';
         viewNavigation?.classList.add('active');
         tabNavBtn?.classList.add('active');
         renderNavigationEditor();
+      } else if (mode === 'orders') {
+        if (viewOrders) viewOrders.style.display = 'block';
+        tabOrdersBtn?.classList.add('active');
+        renderOrdersTable();
+      } else if (mode === 'blogs') {
+        if (viewBlogs) viewBlogs.style.display = 'block';
+        tabBlogsBtn?.classList.add('active');
+        renderBlogsTable();
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -2165,6 +2625,8 @@ import '../../styles/global.css';
       switchMode('editor');
     });
     tabNavBtn?.addEventListener('click', () => switchMode('navigation'));
+    tabOrdersBtn?.addEventListener('click', () => switchMode('orders'));
+    tabBlogsBtn?.addEventListener('click', () => switchMode('blogs'));
 
     // 3. Sub-Tab Switching inside Editor
     function switchSubTab(targetId: string) {
@@ -3340,6 +3802,524 @@ import '../../styles/global.css';
 
     btnSaveNavSubmit?.addEventListener('click', handleSaveNavigation);
     btnSaveNavSubmitBottom?.addEventListener('click', handleSaveNavigation);
+
+    // ==================== ORDERS MODULE LOGIC ====================
+    async function loadOrdersFromShopify() {
+      if (!ordersTbody) return;
+      ordersTbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:3rem; color:#64748b;">Loading real-time orders from Shopify Admin...</td></tr>`;
+      try {
+        const res = await fetch('/api/admin/orders');
+        const data = await res.json();
+        if (data.success && Array.isArray(data.orders)) {
+          allOrders = data.orders;
+          updateOrdersMetrics(allOrders);
+          applyOrdersFilters();
+        } else {
+          ordersTbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:2rem; color:#dc2626;">Failed to load orders: ${data.error || 'Unknown error'}</td></tr>`;
+        }
+      } catch (err: any) {
+        ordersTbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:2rem; color:#dc2626;">Network error loading orders.</td></tr>`;
+      }
+    }
+
+    function updateOrdersMetrics(orders: any[]) {
+      const elTotal = document.getElementById('stat-total-orders');
+      const elRev = document.getElementById('stat-revenue-orders');
+      const elPaid = document.getElementById('stat-paid-orders');
+      const elPending = document.getElementById('stat-pending-orders');
+      const elUnfulfilled = document.getElementById('stat-unfulfilled-orders');
+
+      const totalCount = orders.length;
+      const totalRev = orders.reduce((sum, o) => sum + (Number(o.totalPrice) || 0), 0);
+      const paidCount = orders.filter(o => (o.financialStatus || '').toLowerCase() === 'paid').length;
+      const pendingCount = orders.filter(o => (o.financialStatus || '').toLowerCase() === 'pending').length;
+      const unfulfilledCount = orders.filter(o => (o.fulfillmentStatus || '').toLowerCase() !== 'fulfilled').length;
+      const fulfilledCount = orders.filter(o => (o.fulfillmentStatus || '').toLowerCase() === 'fulfilled').length;
+
+      if (elTotal) elTotal.textContent = totalCount.toString();
+      if (elRev) elRev.textContent = `₹${totalRev.toLocaleString('en-IN')}`;
+      if (elPaid) elPaid.textContent = paidCount.toString();
+      if (elPending) elPending.textContent = pendingCount.toString();
+      if (elUnfulfilled) elUnfulfilled.textContent = unfulfilledCount.toString();
+
+      const pAll = document.getElementById('pill-cnt-orders-all');
+      const pPaid = document.getElementById('pill-cnt-orders-paid');
+      const pPending = document.getElementById('pill-cnt-orders-pending');
+      const pUnf = document.getElementById('pill-cnt-orders-unfulfilled');
+      const pFul = document.getElementById('pill-cnt-orders-fulfilled');
+
+      if (pAll) pAll.textContent = totalCount.toString();
+      if (pPaid) pPaid.textContent = paidCount.toString();
+      if (pPending) pPending.textContent = pendingCount.toString();
+      if (pUnf) pUnf.textContent = unfulfilledCount.toString();
+      if (pFul) pFul.textContent = fulfilledCount.toString();
+    }
+
+    function applyOrdersFilters() {
+      const query = (ordersSearchInput?.value || '').toLowerCase().trim();
+      const filter = currentSelectedOrderFilter;
+
+      currentFilteredOrders = allOrders.filter(o => {
+        const matchesQuery = !query || 
+          (o.name && o.name.toLowerCase().includes(query)) ||
+          (o.customer?.name && o.customer.name.toLowerCase().includes(query)) ||
+          (o.customer?.phone && o.customer.phone.toLowerCase().includes(query)) ||
+          (o.lineItems && o.lineItems.some((li: any) => li.title && li.title.toLowerCase().includes(query)));
+
+        if (!matchesQuery) return false;
+        if (filter === 'all') return true;
+        if (filter === 'paid') return (o.financialStatus || '').toLowerCase() === 'paid';
+        if (filter === 'pending') return (o.financialStatus || '').toLowerCase() === 'pending';
+        if (filter === 'unfulfilled') return (o.fulfillmentStatus || '').toLowerCase() !== 'fulfilled';
+        if (filter === 'fulfilled') return (o.fulfillmentStatus || '').toLowerCase() === 'fulfilled';
+        return true;
+      });
+
+      renderOrdersTable();
+    }
+
+    function renderOrdersTable() {
+      if (!ordersTbody) return;
+      if (currentFilteredOrders.length === 0) {
+        ordersTbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:3rem; color:#64748b;">No store orders match your search or filter.</td></tr>`;
+        return;
+      }
+
+      ordersTbody.innerHTML = currentFilteredOrders.map(o => {
+        const dateStr = o.createdAt ? new Date(o.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : 'N/A';
+        const finStatus = (o.financialStatus || 'pending').toLowerCase();
+        const fulStatus = (o.fulfillmentStatus || 'unfulfilled').toLowerCase();
+
+        const itemsSummary = (o.lineItems || []).map((li: any) => `<div style="font-size:0.78rem; line-height:1.3;">• ${li.title} <strong>(${li.quantity}x)</strong></div>`).join('');
+
+        return `
+          <tr>
+            <td>
+              <div style="font-weight: 800; font-size: 0.88rem; color: #0f172a;">${o.name}</div>
+              <div style="font-size: 0.72rem; color: #64748b;">${dateStr}</div>
+            </td>
+            <td>
+              <div style="font-weight: 700; font-size: 0.85rem; color: #0f172a;">${o.customer?.name || 'Pilot (Guest)'}</div>
+              <div style="font-size: 0.74rem; color: #64748b;">📞 ${o.customer?.phone || 'N/A'}</div>
+              ${o.b2bInfo ? `<span style="font-size:0.68rem; background:#f1f5f9; padding:0.1rem 0.35rem; border-radius:3px; color:#475569; font-weight:700;">B2B: ${o.b2bInfo}</span>` : ''}
+            </td>
+            <td>
+              <div style="max-width: 280px;">${itemsSummary || '<span style="color:#94a3b8;">No items</span>'}</div>
+            </td>
+            <td>
+              <span class="order-status-pill ${finStatus === 'paid' ? 'paid' : 'pending'}">${finStatus}</span>
+              <div style="font-size: 0.72rem; color: #64748b; margin-top: 0.2rem;">${o.paymentMethod || 'Online'}</div>
+            </td>
+            <td>
+              <span class="order-status-pill ${fulStatus === 'fulfilled' ? 'fulfilled' : 'unfulfilled'}">${fulStatus}</span>
+            </td>
+            <td>
+              <strong style="color: #0f172a; font-size: 0.95rem;">₹${Number(o.totalPrice).toLocaleString('en-IN')}.00</strong>
+            </td>
+            <td style="text-align: right;">
+              <button class="btn-table-edit btn-order-view-dossier" data-id="${o.id}">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                <span>View Details</span>
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      document.querySelectorAll('.btn-order-view-dossier').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
+          if (id) openOrderDetailsModal(id);
+        });
+      });
+    }
+
+    function openOrderDetailsModal(orderId: string) {
+      const o = allOrders.find(item => String(item.id) === String(orderId));
+      if (!o || !orderDetailModal || !orderModalContent) return;
+
+      if (modalOrderNumber) modalOrderNumber.textContent = `${o.name} — Order Dossier`;
+
+      const dateStr = o.createdAt ? new Date(o.createdAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : 'N/A';
+      const finStatus = (o.financialStatus || 'pending').toLowerCase();
+      const fulStatus = (o.fulfillmentStatus || 'unfulfilled').toLowerCase();
+
+      const itemsRows = (o.lineItems || []).map((li: any) => `
+        <tr>
+          <td><strong>${li.title}</strong><div style="font-size:0.72rem; color:#64748b;">SKU: ${li.sku}</div></td>
+          <td style="text-align:center;">${li.quantity}</td>
+          <td>₹${Number(li.price).toLocaleString('en-IN')}.00</td>
+          <td style="font-weight:700;">₹${(Number(li.price) * li.quantity).toLocaleString('en-IN')}.00</td>
+        </tr>
+      `).join('');
+
+      orderModalContent.innerHTML = `
+        <div class="order-dossier-grid">
+          <div class="dossier-col">
+            <h4>Customer / Pilot</h4>
+            <p>${o.customer?.name || 'Pilot (Guest)'}</p>
+            <p style="font-size:0.78rem; color:#475569;">${o.customer?.email || 'N/A'}</p>
+            <p style="font-size:0.78rem; color:#475569;">📞 ${o.customer?.phone || 'N/A'}</p>
+          </div>
+          <div class="dossier-col">
+            <h4>Shipping Destination</h4>
+            <p>${o.shippingAddress?.address1 || 'Address on file'}</p>
+            <p style="font-size:0.78rem; color:#475569;">${o.shippingAddress?.city || ''} ${o.shippingAddress?.province || ''} ${o.shippingAddress?.zip || ''}</p>
+            <p style="font-size:0.78rem; color:#475569;">${o.shippingAddress?.country || 'India'}</p>
+          </div>
+          <div class="dossier-col">
+            <h4>Payment & Billing</h4>
+            <p>${o.paymentMethod || 'Prepaid'}</p>
+            <div style="margin-top:0.35rem;">
+              <span class="order-status-pill ${finStatus === 'paid' ? 'paid' : 'pending'}">${finStatus}</span>
+              <span class="order-status-pill ${fulStatus === 'fulfilled' ? 'fulfilled' : 'unfulfilled'}">${fulStatus}</span>
+            </div>
+            <p style="font-size:0.72rem; color:#64748b; margin-top:0.25rem;">Placed: ${dateStr}</p>
+          </div>
+        </div>
+
+        ${o.b2bInfo ? `
+          <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:0.75rem 1rem; margin-bottom:1rem; font-size:0.8rem; color:#1e40af;">
+            <strong>Corporate B2B Order:</strong> ${o.b2bInfo}
+          </div>
+        ` : ''}
+
+        ${o.note ? `
+          <div style="background:#f8fafc; border:1px solid var(--admin-border); border-radius:8px; padding:0.65rem 0.85rem; margin-bottom:1rem; font-size:0.78rem; color:#475569;">
+            <strong>Order Notes / Gateway Ref:</strong> ${o.note}
+          </div>
+        ` : ''}
+
+        <h4 style="font-size:0.82rem; text-transform:uppercase; color:#64748b; letter-spacing:0.04em; margin-top:1rem; font-weight:700;">Itemized Manifest</h4>
+        <table class="order-items-mini-table">
+          <thead>
+            <tr>
+              <th>Product Details</th>
+              <th style="text-align:center;">Qty</th>
+              <th>Unit Price</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${itemsRows}
+          </tbody>
+        </table>
+
+        <div style="margin-top: 1.25rem; display: flex; justify-content: flex-end;">
+          <div style="width: 240px; background: #f8fafc; border: 1px solid var(--admin-border); border-radius: 8px; padding: 0.85rem 1rem;">
+            <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:#64748b; margin-bottom:0.35rem;">
+              <span>Subtotal:</span>
+              <span>₹${Number(o.subtotalPrice || o.totalPrice).toLocaleString('en-IN')}.00</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:#64748b; margin-bottom:0.5rem;">
+              <span>Taxes:</span>
+              <span>₹${Number(o.totalTax || 0).toLocaleString('en-IN')}.00</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:0.95rem; font-weight:800; color:#0f172a; border-top:1px solid var(--admin-border); padding-top:0.5rem;">
+              <span>Grand Total:</span>
+              <span>₹${Number(o.totalPrice).toLocaleString('en-IN')}.00</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      orderDetailModal.style.display = 'flex';
+    }
+
+    btnCloseOrderModal?.addEventListener('click', () => {
+      if (orderDetailModal) orderDetailModal.style.display = 'none';
+    });
+    btnDismissOrderModal?.addEventListener('click', () => {
+      if (orderDetailModal) orderDetailModal.style.display = 'none';
+    });
+
+    orderCatPills.forEach(pill => {
+      pill.addEventListener('click', (e) => {
+        orderCatPills.forEach(p => p.classList.remove('active'));
+        const target = e.currentTarget as HTMLElement;
+        target.classList.add('active');
+        currentSelectedOrderFilter = target.getAttribute('data-order-cat') || 'all';
+        applyOrdersFilters();
+      });
+    });
+
+    ordersSearchInput?.addEventListener('input', applyOrdersFilters);
+    btnRefreshOrders?.addEventListener('click', () => {
+      showToast('Refreshing live orders from Shopify...');
+      loadOrdersFromShopify();
+    });
+
+    // ==================== BLOGS MODULE LOGIC ====================
+    async function loadBlogsFromShopify() {
+      if (!blogsTbody) return;
+      blogsTbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:3rem; color:#64748b;">Loading flight articles from Shopify...</td></tr>`;
+      try {
+        const res = await fetch('/api/admin/blogs');
+        const data = await res.json();
+        if (data.success && Array.isArray(data.articles)) {
+          allBlogs = data.articles;
+          if (data.blogId) activeShopifyBlogId = String(data.blogId);
+          updateBlogsMetrics(allBlogs);
+          applyBlogsFilters();
+        } else {
+          blogsTbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:2rem; color:#dc2626;">Failed to load articles: ${data.error || 'Unknown error'}</td></tr>`;
+        }
+      } catch (err: any) {
+        blogsTbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:2rem; color:#dc2626;">Network error loading articles.</td></tr>`;
+      }
+    }
+
+    function updateBlogsMetrics(articles: any[]) {
+      const elTotal = document.getElementById('stat-total-articles');
+      const elPub = document.getElementById('stat-published-articles');
+      const elDraft = document.getElementById('stat-draft-articles');
+
+      const total = articles.length;
+      const published = articles.filter(a => a.isPublished).length;
+      const drafts = total - published;
+
+      if (elTotal) elTotal.textContent = total.toString();
+      if (elPub) elPub.textContent = published.toString();
+      if (elDraft) elDraft.textContent = drafts.toString();
+    }
+
+    function applyBlogsFilters() {
+      const query = (blogsSearchInput?.value || '').toLowerCase().trim();
+      currentFilteredBlogs = allBlogs.filter(a => {
+        if (!query) return true;
+        return (a.title && a.title.toLowerCase().includes(query)) ||
+               (a.author && a.author.toLowerCase().includes(query)) ||
+               (a.tags && a.tags.toLowerCase().includes(query));
+      });
+      renderBlogsTable();
+    }
+
+    function renderBlogsTable() {
+      if (!blogsTbody) return;
+      if (currentFilteredBlogs.length === 0) {
+        blogsTbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:3rem; color:#64748b;">No flight articles match your search.</td></tr>`;
+        return;
+      }
+
+      blogsTbody.innerHTML = currentFilteredBlogs.map(a => {
+        const img = a.image || 'https://cdn.shopify.com/s/files/1/1026/5726/1844/files/sea-1-1.jpg?v=1791020060';
+        const dateStr = a.publishedAt ? new Date(a.publishedAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Draft';
+        const tagsPills = (a.tags || 'Technical Guide').split(',').map((t: string) => `<span class="category-tag-pill" style="margin-right:0.25rem;">${t.trim()}</span>`).join('');
+
+        return `
+          <tr>
+            <td>
+              <div class="prod-meta-cell">
+                <img src="${img}" class="prod-thumb-square" alt="${a.title}" style="object-fit:cover;" />
+                <div class="prod-meta-texts">
+                  <span class="prod-title-line" title="${a.title}">${a.title}</span>
+                  <span class="prod-sub-line">/blog/${a.handle || a.id}</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span style="font-size:0.8rem; font-weight:600; color:#0f172a;">${a.author || 'Flight Team'}</span>
+            </td>
+            <td>
+              <div style="max-width: 220px;">${tagsPills}</div>
+            </td>
+            <td>
+              <span style="font-size:0.78rem; color:#64748b;">${dateStr}</span>
+            </td>
+            <td>
+              <span class="blog-status-pill ${a.isPublished ? 'published' : 'draft'}">${a.isPublished ? 'Published' : 'Draft'}</span>
+            </td>
+            <td style="text-align: right;">
+              <div class="action-buttons-inline">
+                <button class="btn-table-edit btn-blog-edit" data-id="${a.id}">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                  <span>Edit</span>
+                </button>
+                <a href="/blog/${a.handle || a.id}" target="_blank" class="btn-table-view">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                  <span>View</span>
+                </a>
+                <button class="btn-table-del btn-blog-del" data-id="${a.id}" data-title="${encodeURIComponent(a.title)}">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      document.querySelectorAll('.btn-blog-edit').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
+          if (id) openBlogEditor(id);
+        });
+      });
+
+      document.querySelectorAll('.btn-blog-del').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
+          const title = decodeURIComponent((e.currentTarget as HTMLElement).getAttribute('data-title') || 'Article');
+          if (!id) return;
+          if (confirm(`Are you sure you want to delete the article "${title}"? This cannot be undone.`)) {
+            await handleDeleteBlog(id, title);
+          }
+        });
+      });
+    }
+
+    function openBlogEditor(articleId?: string) {
+      if (!blogEditorModal) return;
+      currentEditingBlogId = articleId || null;
+
+      const titleInput = document.getElementById('blog-f-title') as HTMLInputElement;
+      const authorInput = document.getElementById('blog-f-author') as HTMLInputElement;
+      const tagsInput = document.getElementById('blog-f-tags') as HTMLInputElement;
+      const imgInput = document.getElementById('blog-f-image') as HTMLInputElement;
+      const summaryInput = document.getElementById('blog-f-summary') as HTMLTextAreaElement;
+      const bodyInput = document.getElementById('blog-f-body') as HTMLTextAreaElement;
+      const pubCheckbox = document.getElementById('blog-f-published') as HTMLInputElement;
+      const editIdInput = document.getElementById('blog-edit-id') as HTMLInputElement;
+      const editBlogIdInput = document.getElementById('blog-edit-blog-id') as HTMLInputElement;
+
+      if (articleId) {
+        const a = allBlogs.find(item => String(item.id) === String(articleId));
+        if (a) {
+          if (modalBlogActionTitle) modalBlogActionTitle.textContent = `Edit Article: ${a.title}`;
+          editIdInput.value = a.id;
+          editBlogIdInput.value = a.blogId || activeShopifyBlogId;
+          titleInput.value = a.title || '';
+          authorInput.value = a.author || '';
+          tagsInput.value = a.tags || '';
+          imgInput.value = a.image || '';
+          summaryInput.value = a.summary || '';
+          bodyInput.value = a.bodyHtml || '';
+          pubCheckbox.checked = !!a.isPublished;
+
+          if (a.image && blogImagePreview && blogImagePreviewImg) {
+            blogImagePreviewImg.src = a.image;
+            blogImagePreview.style.display = 'block';
+          } else if (blogImagePreview) {
+            blogImagePreview.style.display = 'none';
+          }
+        }
+      } else {
+        if (modalBlogActionTitle) modalBlogActionTitle.textContent = 'Create New Flight Article';
+        editIdInput.value = '';
+        editBlogIdInput.value = activeShopifyBlogId;
+        titleInput.value = '';
+        authorInput.value = 'SKYNODES UAV Technical Flight Team';
+        tagsInput.value = 'Flight Journal, Technical Guide, Aeromodels';
+        imgInput.value = '';
+        summaryInput.value = '';
+        bodyInput.value = '';
+        pubCheckbox.checked = true;
+        if (blogImagePreview) blogImagePreview.style.display = 'none';
+      }
+
+      blogEditorModal.style.display = 'flex';
+    }
+
+    blogImageInput?.addEventListener('input', () => {
+      const url = blogImageInput.value.trim();
+      if (url && blogImagePreview && blogImagePreviewImg) {
+        blogImagePreviewImg.src = url;
+        blogImagePreview.style.display = 'block';
+      } else if (blogImagePreview) {
+        blogImagePreview.style.display = 'none';
+      }
+    });
+
+    btnTriggerNewBlog?.addEventListener('click', () => openBlogEditor());
+    btnCloseBlogModal?.addEventListener('click', () => {
+      if (blogEditorModal) blogEditorModal.style.display = 'none';
+    });
+    btnCancelBlogModal?.addEventListener('click', () => {
+      if (blogEditorModal) blogEditorModal.style.display = 'none';
+    });
+    blogsSearchInput?.addEventListener('input', applyBlogsFilters);
+    btnRefreshBlogs?.addEventListener('click', () => {
+      showToast('Refreshing live flight articles from Shopify...');
+      loadBlogsFromShopify();
+    });
+
+    async function handleSaveBlog() {
+      const title = (document.getElementById('blog-f-title') as HTMLInputElement)?.value.trim();
+      const bodyHtml = (document.getElementById('blog-f-body') as HTMLTextAreaElement)?.value.trim();
+      const author = (document.getElementById('blog-f-author') as HTMLInputElement)?.value.trim();
+      const tags = (document.getElementById('blog-f-tags') as HTMLInputElement)?.value.trim();
+      const image = (document.getElementById('blog-f-image') as HTMLInputElement)?.value.trim();
+      const summary = (document.getElementById('blog-f-summary') as HTMLTextAreaElement)?.value.trim();
+      const published = (document.getElementById('blog-f-published') as HTMLInputElement)?.checked;
+      const id = (document.getElementById('blog-edit-id') as HTMLInputElement)?.value;
+      const blogId = (document.getElementById('blog-edit-blog-id') as HTMLInputElement)?.value || activeShopifyBlogId;
+
+      if (!title) {
+        alert('Please enter an Article Headline / Title.');
+        document.getElementById('blog-f-title')?.focus();
+        return;
+      }
+
+      if (!bodyHtml) {
+        alert('Please enter Article Content.');
+        document.getElementById('blog-f-body')?.focus();
+        return;
+      }
+
+      const origText = btnSaveBlogSubmit.innerHTML;
+      btnSaveBlogSubmit.disabled = true;
+      btnSaveBlogSubmit.innerHTML = `<span class="spin-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></span><span>Saving to Shopify...</span>`;
+
+      try {
+        const res = await fetch('/api/admin/blogs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: id || undefined,
+            blogId,
+            title,
+            author,
+            tags,
+            image,
+            summary,
+            bodyHtml,
+            published
+          })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          showToast(data.message || 'Article saved successfully in Shopify!');
+          if (blogEditorModal) blogEditorModal.style.display = 'none';
+          await loadBlogsFromShopify();
+        } else {
+          showToast(data.error || 'Failed to save article in Shopify', true);
+        }
+      } catch (err: any) {
+        showToast('Network error saving article.', true);
+      } finally {
+        btnSaveBlogSubmit.disabled = false;
+        btnSaveBlogSubmit.innerHTML = origText;
+      }
+    }
+
+    btnSaveBlogSubmit?.addEventListener('click', handleSaveBlog);
+
+    async function handleDeleteBlog(articleId: string, title: string) {
+      try {
+        const res = await fetch(`/api/admin/blogs?id=${articleId}&blogId=${activeShopifyBlogId}`, {
+          method: 'DELETE'
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast(`Article "${title}" deleted from Shopify.`);
+          await loadBlogsFromShopify();
+        } else {
+          showToast(data.error || 'Failed to delete article', true);
+        }
+      } catch (err: any) {
+        showToast('Network error deleting article', true);
+      }
+    }
 
     // Initial Auth Check
     checkAuth();
