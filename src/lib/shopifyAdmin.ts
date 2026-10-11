@@ -821,7 +821,7 @@ export function parseProductDetails(bodyHtml: string = '', rawTags: string | str
           discountBadge: m.discountBadge !== undefined ? m.discountBadge : fallback.discountBadge,
           hsnCode: m.hsnCode || fallback.hsnCode,
           gstRate: m.gstRate !== undefined ? m.gstRate : fallback.gstRate,
-          stock: m.stock !== undefined ? m.stock : (fallback.stock !== undefined ? fallback.stock : 10),
+          stock: m.stock !== undefined ? m.stock : (fallback.stock !== undefined ? fallback.stock : 0),
           warrantyPeriod: m.warrantyPeriod || fallback.warrantyPeriod,
           trustBadges: Array.isArray(m.trustBadges) && m.trustBadges.length > 0 ? m.trustBadges : fallback.trustBadges,
           notesInSet: Array.isArray(m.notesInSet) && m.notesInSet.length > 0 ? m.notesInSet : fallback.notesInSet,
@@ -842,7 +842,7 @@ export function parseProductDetails(bodyHtml: string = '', rawTags: string | str
 
   return {
     ...fallback,
-    stock: fallback.stock !== undefined ? fallback.stock : 10
+    stock: fallback.stock !== undefined ? fallback.stock : 0
   };
 }
 
@@ -866,6 +866,11 @@ export async function getAllAdminProducts() {
       const parsedDetails = parseProductDetails(p.body_html || '', p.tags);
       const images = (p.images || []).map((img: any) => img.src).filter(Boolean);
 
+      // Real-time live inventory calculation from actual Shopify variants
+      const liveShopifyStock = Array.isArray(p.variants) && p.variants.length > 0
+        ? p.variants.reduce((sum: number, v: any) => sum + (typeof v.inventory_quantity === 'number' ? v.inventory_quantity : 0), 0)
+        : (typeof variant.inventory_quantity === 'number' ? variant.inventory_quantity : 0);
+
       return {
         id: p.id,
         handle: p.handle,
@@ -879,10 +884,13 @@ export async function getAllAdminProducts() {
         price: parseFloat(variant.price || '0'),
         compareAtPrice: variant.compare_at_price ? parseFloat(variant.compare_at_price) : 0,
         sku: variant.sku || '',
-        stock: parsedDetails.stock !== undefined ? parsedDetails.stock : (variant.inventory_quantity !== undefined ? variant.inventory_quantity : 10),
+        stock: liveShopifyStock,
         images: images.length > 0 ? images : ['https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800'],
         tags: p.tags,
-        parsedDetails
+        parsedDetails: {
+          ...parsedDetails,
+          stock: liveShopifyStock
+        }
       };
     });
 
@@ -906,7 +914,7 @@ export async function createOrUpdateAdminProduct(payload: AdminProductPayload) {
     const metadataObj = {
       category: payload.category || 'engine',
       subCategory: payload.subCategory || '',
-      stock: payload.stock !== undefined ? payload.stock : 10,
+      stock: payload.stock !== undefined ? payload.stock : 0,
       isBestseller: !!payload.isBestseller,
       isCrazyDeal: !!payload.isCrazyDeal,
       isNewArrival: !!payload.isNewArrival,

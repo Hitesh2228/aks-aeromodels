@@ -591,6 +591,13 @@ import '../../styles/global.css';
     .stock-indicator-pill.low::before {
       content: ''; width: 6px; height: 6px; background: #d97706; border-radius: 50%;
     }
+    .stock-indicator-pill.out {
+      background: #fef2f2;
+      color: #dc2626;
+    }
+    .stock-indicator-pill.out::before {
+      content: ''; width: 6px; height: 6px; background: #dc2626; border-radius: 50%;
+    }
     .action-buttons-inline {
       display: flex;
       gap: 0.35rem;
@@ -1525,7 +1532,7 @@ import '../../styles/global.css';
               <div class="field-row-2">
                 <div class="form-item">
                   <label for="f-stock">Stock Units Available</label>
-                  <input type="number" id="f-stock" class="input-box" placeholder="10" value="10" />
+                  <input type="number" id="f-stock" class="input-box" placeholder="0" value="0" />
                 </div>
               </div>
 
@@ -2240,7 +2247,10 @@ import '../../styles/global.css';
       const countAir = list.filter(p => p.category === 'aeromodels').length;
       const countBalsa = list.filter(p => p.category === 'balsa-wood').length;
       const countRad = list.filter(p => p.category === 'radio-receiver' || p.category === 'accessories').length;
-      const countLow = list.filter(p => p.stock <= 4).length;
+      const countLow = list.filter(p => {
+        const s = typeof p.stock === 'number' ? p.stock : parseInt(p.stock || '0', 10);
+        return !isNaN(s) && s <= 4;
+      }).length;
 
       if (elTotal) elTotal.textContent = list.length.toString();
       if (elEng) elEng.textContent = countEng.toString();
@@ -2281,8 +2291,10 @@ import '../../styles/global.css';
 
       currentFilteredProducts = allCatalogProducts.filter(p => {
         const matchesQuery = !query || p.title.toLowerCase().includes(query) || (p.sku && p.sku.toLowerCase().includes(query)) || (p.vendor && p.vendor.toLowerCase().includes(query));
+        const s = typeof p.stock === 'number' ? p.stock : parseInt(p.stock || '0', 10);
+        const actualStock = isNaN(s) ? 0 : s;
         if (cat === 'all') return matchesQuery;
-        if (cat === 'low-stock') return matchesQuery && p.stock <= 4;
+        if (cat === 'low-stock') return matchesQuery && actualStock <= 4;
         return matchesQuery && (p.category === cat || (cat === 'radio-receiver' && p.category === 'accessories'));
       });
 
@@ -2307,7 +2319,12 @@ import '../../styles/global.css';
       } else {
         catalogTbody.innerHTML = pageItems.map(p => {
           const img = p.images?.[0] || 'https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800';
-          const isLowStock = p.stock <= 4;
+          const rawStock = typeof p.stock === 'number' ? p.stock : parseInt(p.stock || '0', 10);
+          const currentStock = isNaN(rawStock) ? 0 : rawStock;
+          const isOutOfStock = currentStock <= 0;
+          const isLowStock = currentStock > 0 && currentStock <= 4;
+          const stockClass = isOutOfStock ? 'out' : (isLowStock ? 'low' : 'good');
+          const stockLabel = isOutOfStock ? '0 (Out of Stock)' : (isLowStock ? `${currentStock} Units (Low)` : `${currentStock} Units`);
           const compareText = p.compareAtPrice > p.price ? `<span style="text-decoration: line-through; color: #94a3b8; font-size: 0.76rem; margin-left: 0.35rem;">₹${p.compareAtPrice.toLocaleString('en-IN')}</span>` : '';
 
           return `
@@ -2329,8 +2346,8 @@ import '../../styles/global.css';
                 ${compareText}
               </td>
               <td>
-                <span class="stock-indicator-pill ${isLowStock ? 'low' : 'good'}">
-                  ${p.stock} Units
+                <span class="stock-indicator-pill ${stockClass}">
+                  ${stockLabel}
                 </span>
               </td>
               <td style="text-align: right;">
@@ -2536,6 +2553,8 @@ import '../../styles/global.css';
       if (editorActionTitle) editorActionTitle.textContent = 'Add New Product';
       if (editorActionSubcrumb) editorActionSubcrumb.textContent = 'New Product';
       editorForm?.reset();
+      const stockInputEl = document.getElementById('f-stock') as HTMLInputElement;
+      if (stockInputEl) stockInputEl.value = '0';
 
       galleryUrlsList = [];
       renderGalleryStrip();
@@ -2583,9 +2602,10 @@ import '../../styles/global.css';
       }
       (document.getElementById('f-vendor') as HTMLInputElement).value = p.vendor || 'SKYNODES UAV';
       (document.getElementById('f-sku') as HTMLInputElement).value = p.sku || '';
-      (document.getElementById('f-price') as HTMLInputElement).value = p.price || 0;
-      (document.getElementById('f-compare-price') as HTMLInputElement).value = p.compareAtPrice || '';
-      (document.getElementById('f-stock') as HTMLInputElement).value = (p.stock !== undefined ? p.stock : 10).toString();
+      (document.getElementById('f-price') as HTMLInputElement).value = (p.price !== undefined ? p.price : 0).toString();
+      (document.getElementById('f-compare-price') as HTMLInputElement).value = (p.compareAtPrice || '').toString();
+      const stockNum = typeof p.stock === 'number' ? p.stock : parseInt(p.stock || '0', 10);
+      (document.getElementById('f-stock') as HTMLInputElement).value = (!isNaN(stockNum) ? stockNum : 0).toString();
       (document.getElementById('f-desc') as HTMLTextAreaElement).value = p.description ? p.description.replace(/<[^>]*>/g, '') : '';
 
       (document.getElementById('f-gst') as HTMLSelectElement).value = (d.gstRate || 18).toString();
@@ -2753,7 +2773,7 @@ import '../../styles/global.css';
           price: parseFloat(priceStr),
           compareAtPrice: parseFloat((document.getElementById('f-compare-price') as HTMLInputElement)?.value) || undefined,
           sku: (document.getElementById('f-sku') as HTMLInputElement)?.value.trim(),
-          stock: parseInt((document.getElementById('f-stock') as HTMLInputElement)?.value, 10) || 10,
+          stock: !isNaN(parseInt((document.getElementById('f-stock') as HTMLInputElement)?.value, 10)) ? Math.max(0, parseInt((document.getElementById('f-stock') as HTMLInputElement)?.value, 10)) : 0,
           hsnCode: (document.getElementById('f-hsn') as HTMLInputElement)?.value.trim(),
           gstRate: parseInt((document.getElementById('f-gst') as HTMLSelectElement)?.value, 10) || 18,
           description: (document.getElementById('f-desc') as HTMLTextAreaElement)?.value.trim(),

@@ -185,7 +185,7 @@ export async function getAllShopifyProducts(): Promise<ShopifyProduct[]> {
             imageAlt: ap.title,
             variantId: apId,
             availableForSale: true,
-            stock: ap.stock !== undefined ? ap.stock : 10
+            stock: ap.stock !== undefined ? ap.stock : 0
           });
         } else {
           // If already in items, enrich description if admin has embedded metadata comment!
@@ -562,7 +562,7 @@ export function mapShopifyToProduct(sp: ShopifyProduct, idx = 0): Product {
 
   const finalStock = embeddedMetadata?.stock !== undefined
     ? embeddedMetadata.stock
-    : (sp.stock !== undefined ? sp.stock : (staticProd?.stock ?? (sp.availableForSale ? 10 : 0)));
+    : (sp.stock !== undefined ? sp.stock : (staticProd?.stock ?? (sp.availableForSale ? 1 : 0)));
 
   return {
     id: prodId,
