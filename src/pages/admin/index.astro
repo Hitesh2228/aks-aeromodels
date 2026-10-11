@@ -1,5 +1,5 @@
 ---
-// SKYNODES UAV — Dedicated Product Management Studio
+// SKYNODES UAV — Dedicated Product Management Studio (Executive Enterprise UI/UX)
 import '../../styles/global.css';
 ---
 
@@ -8,24 +8,34 @@ import '../../styles/global.css';
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SKYNODES UAV — Product Commander Studio | Admin</title>
+  <title>SKYNODES UAV — Product Commander Studio | Enterprise Admin</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     :root {
       --admin-bg: #f8fafc;
       --admin-surface: #ffffff;
       --admin-border: #e2e8f0;
+      --admin-border-subtle: #f1f5f9;
       --admin-text-main: #0f172a;
       --admin-text-muted: #64748b;
-      --admin-primary: #000000;
+      --admin-text-subtle: #94a3b8;
+      --admin-primary: #0f172a;
+      --admin-crimson: #881337;
+      --admin-crimson-hover: #9f1239;
       --admin-accent: #2563eb;
       --admin-success: #059669;
       --admin-warning: #d97706;
       --admin-danger: #dc2626;
       --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
       --font-display: 'Space Grotesk', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --card-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05), 0 1px 2px -1px rgb(0 0 0 / 0.05);
+      --card-shadow-hover: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+      --elevated-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,14 +45,15 @@ import '../../styles/global.css';
       font-family: var(--font-body);
       min-height: 100vh;
       line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
     }
 
     /* Auth Gate Modal */
     #auth-gate-modal {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(8px);
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(10px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -52,34 +63,38 @@ import '../../styles/global.css';
     .auth-card {
       background: var(--admin-surface);
       border: 1px solid var(--admin-border);
-      border-radius: 16px;
+      border-radius: 20px;
       padding: 2.5rem;
-      max-width: 440px;
+      max-width: 420px;
       width: 100%;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
       text-align: center;
     }
     .auth-logo-badge {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 64px;
-      height: 64px;
-      background: #000000;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
       color: #ffffff;
       border-radius: 16px;
-      font-size: 1.8rem;
+      font-size: 1.75rem;
       margin-bottom: 1.25rem;
+      box-shadow: 0 8px 16px -4px rgba(15, 23, 42, 0.3);
     }
     .auth-card h2 {
       font-family: var(--font-display);
-      font-size: 1.4rem;
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
       margin-bottom: 0.35rem;
     }
     .auth-card p {
       font-size: 0.85rem;
       color: var(--admin-text-muted);
       margin-bottom: 1.5rem;
+      line-height: 1.4;
     }
     .auth-input-group {
       margin-bottom: 1.25rem;
@@ -87,36 +102,40 @@ import '../../styles/global.css';
     }
     .auth-input-group label {
       display: block;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
+      color: var(--admin-text-muted);
       margin-bottom: 0.4rem;
     }
     .auth-input {
       width: 100%;
-      padding: 0.8rem 1rem;
+      padding: 0.75rem 1rem;
       border: 1.5px solid var(--admin-border);
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 0.95rem;
       font-family: inherit;
       outline: none;
-      transition: border-color 0.2s;
+      transition: all 0.2s;
     }
-    .auth-input:focus { border-color: var(--admin-primary); }
+    .auth-input:focus {
+      border-color: var(--admin-primary);
+      box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.1);
+    }
     .auth-btn {
       width: 100%;
       background: var(--admin-primary);
       color: #ffffff;
       border: none;
       padding: 0.85rem;
-      border-radius: 8px;
+      border-radius: 10px;
       font-weight: 700;
       font-size: 0.9rem;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: all 0.2s;
     }
-    .auth-btn:hover { background: #1e293b; }
+    .auth-btn:hover { background: #1e293b; transform: translateY(-1px); }
     .auth-error {
       color: var(--admin-danger);
       font-size: 0.8rem;
@@ -125,11 +144,11 @@ import '../../styles/global.css';
       font-weight: 600;
     }
 
-    /* Top Navigation Bar */
+    /* Top Executive Navigation Bar */
     .admin-header {
-      background: #000000;
+      background: #0f172a;
       color: #ffffff;
-      padding: 1rem 2rem;
+      padding: 0.75rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -143,22 +162,42 @@ import '../../styles/global.css';
       align-items: center;
       gap: 1rem;
     }
+    .admin-brand-icon {
+      width: 34px;
+      height: 34px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
     .admin-brand h1 {
       font-family: var(--font-display);
-      font-size: 1.15rem;
-      letter-spacing: 0.04em;
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .admin-brand h1 span {
+      color: #94a3b8;
+      font-weight: 500;
+      font-size: 0.85rem;
     }
     .shopify-status-pill {
-      background: rgba(16, 185, 129, 0.2);
-      color: #10b981;
-      border: 1px solid rgba(16, 185, 129, 0.4);
-      padding: 0.2rem 0.6rem;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 0.2rem 0.65rem;
       border-radius: 20px;
       font-size: 0.7rem;
       font-weight: 700;
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.4rem;
     }
     .shopify-status-pill::before {
       content: '';
@@ -166,197 +205,247 @@ import '../../styles/global.css';
       height: 6px;
       background: #10b981;
       border-radius: 50%;
+      box-shadow: 0 0 6px #10b981;
     }
     .admin-top-actions {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.75rem;
     }
     .btn-top-view-site {
       color: #cbd5e1;
       text-decoration: none;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 600;
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
-      padding: 0.45rem 0.85rem;
-      border-radius: 6px;
-      background: #1e293b;
+      padding: 0.4rem 0.85rem;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       transition: all 0.2s;
     }
-    .btn-top-view-site:hover { color: #ffffff; background: #334155; }
+    .btn-top-view-site:hover { color: #ffffff; background: rgba(255, 255, 255, 0.16); }
     .btn-logout {
       background: transparent;
-      border: 1px solid #475569;
+      border: 1px solid #334155;
       color: #cbd5e1;
-      padding: 0.45rem 0.85rem;
-      border-radius: 6px;
-      font-size: 0.82rem;
+      padding: 0.4rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
     }
     .btn-logout:hover { background: #dc2626; border-color: #dc2626; color: #ffffff; }
 
-    /* Admin Subheader & Tabs */
+    /* Primary Mode Switcher Subbar */
     .admin-subbar {
       background: var(--admin-surface);
       border-bottom: 1px solid var(--admin-border);
-      padding: 0.75rem 2rem;
+      padding: 0.65rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
+      position: sticky;
+      top: 51px;
+      z-index: 45;
     }
-    .nav-tabs {
-      display: flex;
-      gap: 0.5rem;
+    .mode-tabs-segmented {
+      display: inline-flex;
+      background: #f1f5f9;
+      padding: 0.25rem;
+      border-radius: 10px;
+      gap: 0.25rem;
     }
-    .nav-tab-btn {
-      background: none;
+    .mode-tab-btn {
+      background: transparent;
       border: none;
-      padding: 0.6rem 1.15rem;
+      padding: 0.45rem 1rem;
       border-radius: 8px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 700;
       cursor: pointer;
       color: var(--admin-text-muted);
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      transition: all 0.2s;
+      gap: 0.45rem;
+      transition: all 0.18s;
     }
-    .nav-tab-btn:hover { background: #f1f5f9; color: var(--admin-text-main); }
-    .nav-tab-btn.active {
-      background: #000000;
-      color: #ffffff;
+    .mode-tab-btn:hover { color: var(--admin-text-main); }
+    .mode-tab-btn.active {
+      background: #ffffff;
+      color: var(--admin-text-main);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+    .subbar-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .catalog-count-pill {
+      font-size: 0.76rem;
+      font-weight: 700;
+      background: #f1f5f9;
+      color: #475569;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
     }
 
-    /* Container */
+    /* Main Content Wrapper */
     .admin-container {
-      max-width: 1380px;
-      margin: 1.5rem auto 3rem;
+      max-width: 1400px;
+      margin: 1.25rem auto 3rem;
       padding: 0 1.5rem;
     }
 
-    /* Stats Overview Cards */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-bottom: 1.5rem;
+    /* ---------------- CATALOG VIEW STYLES ---------------- */
+    .catalog-wrapper {
+      display: block;
     }
-    .stat-card {
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+    .stat-card-compact {
       background: var(--admin-surface);
       border: 1px solid var(--admin-border);
       border-radius: 12px;
-      padding: 1.25rem;
+      padding: 0.85rem 1.15rem;
+      box-shadow: var(--card-shadow);
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
+      gap: 0.2rem;
+      position: relative;
+      overflow: hidden;
     }
-    .stat-title {
-      font-size: 0.75rem;
+    .stat-card-compact::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: #cbd5e1;
+    }
+    .stat-card-compact.highlight::before { background: var(--admin-crimson); }
+    .stat-card-compact.engines::before { background: #2563eb; }
+    .stat-card-compact.airframes::before { background: #059669; }
+    .stat-card-compact.balsa::before { background: #d97706; }
+    .stat-card-compact.radios::before { background: #7c3aed; }
+    .stat-card-compact .stat-label {
+      font-size: 0.72rem;
       font-weight: 700;
       color: var(--admin-text-muted);
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
-    .stat-value {
+    .stat-card-compact .stat-num {
       font-family: var(--font-display);
-      font-size: 1.6rem;
+      font-size: 1.45rem;
       font-weight: 800;
       color: var(--admin-text-main);
     }
 
-    /* Filter & Search Toolbar */
-    .table-toolbar {
+    /* Search & Filter Toolbar */
+    .catalog-toolbar {
       background: var(--admin-surface);
       border: 1px solid var(--admin-border);
       border-radius: 12px;
-      padding: 1rem 1.25rem;
+      padding: 0.75rem 1rem;
       margin-bottom: 1rem;
+      box-shadow: var(--card-shadow);
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 1rem;
+      gap: 0.85rem;
     }
-    .search-box {
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
       flex: 1;
-      min-width: 260px;
+      min-width: 280px;
+    }
+    .search-input-wrap {
       position: relative;
+      flex: 1;
+      max-width: 420px;
     }
-    .search-input {
-      width: 100%;
-      padding: 0.6rem 0.9rem 0.6rem 2.2rem;
-      border: 1.5px solid var(--admin-border);
-      border-radius: 8px;
-      font-size: 0.85rem;
-      outline: none;
-      font-family: inherit;
-    }
-    .search-icon {
+    .search-icon-svg {
       position: absolute;
-      left: 0.75rem;
+      left: 0.85rem;
       top: 50%;
       transform: translateY(-50%);
-      color: var(--admin-text-muted);
-      font-size: 0.9rem;
+      color: var(--admin-text-subtle);
+      pointer-events: none;
+      font-size: 0.85rem;
     }
-    .filter-group {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-    }
-    .filter-select {
-      padding: 0.6rem 0.9rem;
+    .search-input-field {
+      width: 100%;
+      padding: 0.55rem 0.85rem 0.55rem 2.2rem;
       border: 1.5px solid var(--admin-border);
       border-radius: 8px;
-      font-size: 0.85rem;
-      background: var(--admin-surface);
+      font-size: 0.84rem;
       outline: none;
-      font-family: inherit;
-      font-weight: 600;
+      transition: all 0.2s;
     }
-    .btn-create-new-prod {
-      background: #000000;
+    .search-input-field:focus {
+      border-color: var(--admin-primary);
+      box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
+    }
+    .filter-select-field {
+      padding: 0.55rem 0.85rem;
+      border: 1.5px solid var(--admin-border);
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--admin-text-main);
+      background: #ffffff;
+      outline: none;
+      cursor: pointer;
+    }
+    .btn-create-prod-primary {
+      background: var(--admin-primary);
       color: #ffffff;
       border: none;
-      padding: 0.65rem 1.25rem;
+      padding: 0.55rem 1.15rem;
       border-radius: 8px;
+      font-size: 0.84rem;
       font-weight: 700;
-      font-size: 0.85rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      transition: background 0.2s;
+      gap: 0.45rem;
+      transition: all 0.2s;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-    .btn-create-new-prod:hover { background: #334155; }
+    .btn-create-prod-primary:hover {
+      background: #1e293b;
+      transform: translateY(-1px);
+    }
 
-    /* Products Catalog Table */
-    .products-card-table {
+    /* Table Component */
+    .table-container-card {
       background: var(--admin-surface);
       border: 1px solid var(--admin-border);
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      box-shadow: var(--card-shadow);
     }
-    .table-responsive {
-      width: 100%;
+    .table-scroll {
       overflow-x: auto;
     }
-    table.admin-table {
+    table.compact-admin-table {
       width: 100%;
       border-collapse: collapse;
       text-align: left;
     }
-    .admin-table th {
+    .compact-admin-table th {
       background: #f8fafc;
-      padding: 0.85rem 1.25rem;
+      padding: 0.75rem 1.15rem;
       font-size: 0.72rem;
       font-weight: 800;
       text-transform: uppercase;
@@ -364,83 +453,101 @@ import '../../styles/global.css';
       color: var(--admin-text-muted);
       border-bottom: 1px solid var(--admin-border);
     }
-    .admin-table td {
-      padding: 1rem 1.25rem;
-      border-bottom: 1px solid var(--admin-border);
-      font-size: 0.85rem;
+    .compact-admin-table td {
+      padding: 0.85rem 1.15rem;
+      border-bottom: 1px solid var(--admin-border-subtle);
+      font-size: 0.84rem;
       vertical-align: middle;
     }
-    .admin-table tr:last-child td { border-bottom: none; }
-    .admin-table tr:hover { background: #fdfdfd; }
-
-    .prod-cell-main {
+    .compact-admin-table tr:last-child td { border-bottom: none; }
+    .compact-admin-table tr:hover { background: #fdfdfd; }
+    .prod-meta-cell {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.85rem;
     }
-    .prod-thumb-img {
-      width: 52px;
-      height: 52px;
+    .prod-thumb-square {
+      width: 44px;
+      height: 44px;
       border-radius: 8px;
       object-fit: cover;
       background: #f1f5f9;
       border: 1px solid var(--admin-border);
+      flex-shrink: 0;
     }
-    .prod-title-text {
+    .prod-title-line {
       font-weight: 700;
       color: var(--admin-text-main);
       display: block;
+      line-height: 1.3;
       margin-bottom: 0.15rem;
     }
-    .badge-cat-pill {
+    .prod-sub-line {
+      font-size: 0.72rem;
+      color: var(--admin-text-muted);
+      font-family: var(--font-mono);
+    }
+    .category-tag-pill {
       font-size: 0.68rem;
       font-weight: 700;
       background: #eff6ff;
-      color: #2563eb;
-      padding: 0.15rem 0.5rem;
+      color: #1d4ed8;
+      padding: 0.18rem 0.55rem;
       border-radius: 4px;
       display: inline-block;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
     }
-    .stock-badge-good {
+    .stock-indicator-pill {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .stock-indicator-pill.good {
       background: #ecfdf5;
       color: #059669;
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      display: inline-block;
     }
-    .stock-badge-low {
+    .stock-indicator-pill.good::before {
+      content: ''; width: 6px; height: 6px; background: #059669; border-radius: 50%;
+    }
+    .stock-indicator-pill.low {
       background: #fffbeb;
       color: #d97706;
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      display: inline-block;
     }
-    .action-btns-group {
+    .stock-indicator-pill.low::before {
+      content: ''; width: 6px; height: 6px; background: #d97706; border-radius: 50%;
+    }
+    .action-buttons-inline {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.4rem;
       align-items: center;
+      justify-content: flex-end;
     }
-    .btn-edit-prod {
+    .btn-table-edit {
       background: #f1f5f9;
       color: #0f172a;
       border: 1px solid #cbd5e1;
-      padding: 0.4rem 0.75rem;
+      padding: 0.35rem 0.7rem;
       border-radius: 6px;
       font-size: 0.75rem;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s;
     }
-    .btn-edit-prod:hover { background: #000000; color: #ffffff; border-color: #000000; }
-    .btn-view-pdp {
+    .btn-table-edit:hover {
+      background: #0f172a;
+      color: #ffffff;
+      border-color: #0f172a;
+    }
+    .btn-table-view {
       background: transparent;
       color: #2563eb;
       border: 1px solid #bfdbfe;
-      padding: 0.4rem 0.75rem;
+      padding: 0.35rem 0.7rem;
       border-radius: 6px;
       font-size: 0.75rem;
       font-weight: 700;
@@ -448,221 +555,483 @@ import '../../styles/global.css';
       display: inline-flex;
       align-items: center;
       gap: 0.25rem;
+      transition: all 0.15s;
     }
-    .btn-view-pdp:hover { background: #eff6ff; }
-    .btn-del-prod {
+    .btn-table-view:hover { background: #eff6ff; }
+    .btn-table-del {
       background: transparent;
       color: #dc2626;
       border: 1px solid #fecaca;
-      padding: 0.4rem 0.65rem;
+      padding: 0.35rem 0.6rem;
       border-radius: 6px;
       font-size: 0.75rem;
       font-weight: 700;
       cursor: pointer;
+      transition: all 0.15s;
     }
-    .btn-del-prod:hover { background: #fee2e2; }
+    .btn-table-del:hover { background: #fee2e2; }
 
-    /* EDITOR FORM STYLES */
+    /* ---------------- ADVANCED MODULAR STUDIO EDITOR STYLES ---------------- */
     .editor-wrapper {
       display: none;
     }
     .editor-wrapper.active {
       display: block;
     }
-    .editor-sticky-header {
+
+    /* Sticky Executive Studio Topbar */
+    .studio-sticky-bar {
       background: var(--admin-surface);
       border: 1px solid var(--admin-border);
-      border-radius: 12px;
-      padding: 1rem 1.5rem;
-      margin-bottom: 1.5rem;
+      border-radius: 14px;
+      padding: 0.75rem 1.25rem;
+      margin-bottom: 1.25rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      box-shadow: var(--elevated-shadow);
       position: sticky;
-      top: 4.8rem;
+      top: 104px;
       z-index: 40;
     }
-    .editor-title-crumb {
+    .studio-title-block {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .studio-back-btn {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.95rem;
+      color: var(--admin-text-main);
+      transition: all 0.15s;
+    }
+    .studio-back-btn:hover { background: #e2e8f0; }
+    .studio-breadcrumbs {
+      font-size: 0.75rem;
+      color: var(--admin-text-muted);
+      font-weight: 600;
+    }
+    .studio-title-main {
       font-family: var(--font-display);
       font-size: 1.15rem;
       font-weight: 800;
+      letter-spacing: -0.01em;
+      color: var(--admin-text-main);
     }
-    .editor-title-sub {
-      font-size: 0.78rem;
-      color: var(--admin-text-muted);
-      display: block;
-    }
-    .editor-actions {
+    .studio-actions-block {
       display: flex;
-      gap: 0.75rem;
+      align-items: center;
+      gap: 0.65rem;
     }
-    .btn-cancel-editor {
+    .btn-editor-cancel {
       background: #f1f5f9;
       border: 1px solid #cbd5e1;
-      padding: 0.65rem 1.25rem;
+      padding: 0.55rem 1rem;
       border-radius: 8px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 700;
       cursor: pointer;
+      color: var(--admin-text-main);
+      transition: all 0.15s;
     }
-    .btn-save-publish {
-      background: #000000;
+    .btn-editor-cancel:hover { background: #e2e8f0; }
+    .btn-editor-save-publish {
+      background: var(--admin-crimson);
       color: #ffffff;
       border: none;
-      padding: 0.65rem 1.5rem;
+      padding: 0.55rem 1.35rem;
       border-radius: 8px;
-      font-size: 0.88rem;
+      font-size: 0.84rem;
       font-weight: 800;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      gap: 0.45rem;
+      box-shadow: 0 4px 12px rgba(136, 19, 55, 0.25);
       transition: all 0.2s;
     }
-    .btn-save-publish:hover { background: #1e293b; transform: translateY(-1px); }
-
-    /* Form Section Cards */
-    .form-sections-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
+    .btn-editor-save-publish:hover {
+      background: var(--admin-crimson-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(136, 19, 55, 0.35);
     }
-    .editor-section-card {
-      background: var(--admin-surface);
+
+    /* Sub-Tab Navigation Bar (5 Laser-Focused Panels) */
+    .studio-section-tabs-bar {
+      display: flex;
+      gap: 0.4rem;
+      background: #ffffff;
       border: 1px solid var(--admin-border);
       border-radius: 12px;
-      padding: 1.5rem;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      padding: 0.4rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--card-shadow);
+      overflow-x: auto;
     }
-    .section-card-header {
+    .sub-section-tab-btn {
+      background: transparent;
+      border: none;
+      padding: 0.6rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--admin-text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      white-space: nowrap;
+      transition: all 0.18s;
+    }
+    .sub-section-tab-btn:hover {
+      background: #f8fafc;
+      color: var(--admin-text-main);
+    }
+    .sub-section-tab-btn.active {
+      background: #0f172a;
+      color: #ffffff;
+    }
+
+    /* Studio Tab Panels */
+    .studio-tab-panel {
+      display: none;
+    }
+    .studio-tab-panel.active {
+      display: block;
+      animation: fadeInTab 0.18s ease-out;
+    }
+    @keyframes fadeInTab {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Panel Card Layouts */
+    .panel-grid-2-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    @media (max-width: 960px) {
+      .panel-grid-2-col { grid-template-columns: 1fr; }
+    }
+    .studio-card {
+      background: var(--admin-surface);
+      border: 1px solid var(--admin-border);
+      border-radius: 14px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 1.25rem;
+    }
+    .studio-card-header {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 1.25rem;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding-bottom: 0.65rem;
       border-bottom: 1px solid #f1f5f9;
-      padding-bottom: 0.85rem;
     }
-    .section-card-title {
+    .studio-card-title {
       font-family: var(--font-display);
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 800;
       color: var(--admin-text-main);
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.45rem;
     }
-    .section-pdp-hint {
-      font-size: 0.75rem;
-      color: #2563eb;
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      padding: 0.2rem 0.6rem;
-      border-radius: 4px;
+    .pdp-location-pill {
+      font-size: 0.7rem;
       font-weight: 700;
-      display: inline-block;
+      background: #eff6ff;
+      color: #2563eb;
+      border: 1px solid #dbeafe;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
     }
-    .form-grid-2 {
+
+    /* Form Fields Standard */
+    .field-row-2 {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.25rem;
-    }
-    .form-grid-3 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.25rem;
-    }
-    .form-grid-4 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: 1fr 1fr;
       gap: 1rem;
     }
-    .form-group {
+    .field-row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+    }
+    .field-row-4 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 0.85rem;
+    }
+    @media (max-width: 768px) {
+      .field-row-2, .field-row-3, .field-row-4 { grid-template-columns: 1fr; }
+    }
+    .form-item {
       display: flex;
       flex-direction: column;
-      gap: 0.4rem;
+      gap: 0.35rem;
       margin-bottom: 0.85rem;
     }
-    .form-group label {
-      font-size: 0.78rem;
+    .form-item label {
+      font-size: 0.76rem;
       font-weight: 700;
       color: #334155;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    .form-group .field-help {
-      font-size: 0.72rem;
-      color: #64748b;
-      margin-top: -0.2rem;
+    .form-item .field-note {
+      font-size: 0.7rem;
+      color: var(--admin-text-muted);
+      margin-top: -0.15rem;
     }
-    .form-control {
+    .input-box {
       width: 100%;
-      padding: 0.7rem 0.85rem;
+      padding: 0.65rem 0.85rem;
       border: 1.5px solid var(--admin-border);
       border-radius: 8px;
       font-size: 0.85rem;
       font-family: inherit;
       outline: none;
-      transition: border-color 0.2s;
-    }
-    .form-control:focus { border-color: var(--admin-primary); }
-    textarea.form-control {
-      resize: vertical;
-      min-height: 90px;
-    }
-
-    /* Sub-cards in Editor */
-    .sub-card-box {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 1rem;
-      margin-bottom: 0.75rem;
-    }
-    .sub-card-title {
-      font-size: 0.78rem;
-      font-weight: 800;
-      color: #0f172a;
-      margin-bottom: 0.5rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    /* Image Preview Strip */
-    .img-preview-box {
-      display: flex;
-      gap: 0.75rem;
-      align-items: center;
-      margin-top: 0.5rem;
-      flex-wrap: wrap;
-    }
-    .img-preview-thumb {
-      width: 72px;
-      height: 72px;
-      border-radius: 8px;
-      object-fit: cover;
-      border: 1px solid var(--admin-border);
+      transition: all 0.15s;
       background: #ffffff;
     }
+    .input-box:focus {
+      border-color: var(--admin-primary);
+      box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
+    }
+    textarea.input-box {
+      resize: vertical;
+      min-height: 80px;
+    }
 
-    /* Live Notification Toast */
+    /* COMPACT MEDIA MANAGER (Solves the "image mule khup long page zal ahe" issue!) */
+    .media-compact-grid {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (max-width: 800px) {
+      .media-compact-grid { grid-template-columns: 1fr; }
+    }
+    .primary-photo-card {
+      border: 1.5px dashed var(--admin-border);
+      border-radius: 12px;
+      padding: 1rem;
+      background: #f8fafc;
+      text-align: center;
+    }
+    .primary-preview-frame {
+      width: 100%;
+      height: 180px;
+      border-radius: 8px;
+      background: #ffffff;
+      border: 1px solid var(--admin-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 0.75rem;
+      position: relative;
+    }
+    .primary-preview-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .primary-preview-placeholder {
+      color: var(--admin-text-subtle);
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    /* Gallery Strip */
+    .gallery-strip-container {
+      background: #f8fafc;
+      border: 1px solid var(--admin-border);
+      border-radius: 12px;
+      padding: 1rem;
+    }
+    .gallery-thumbnails-row {
+      display: flex;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.85rem;
+      min-height: 70px;
+      align-items: center;
+    }
+    .gallery-thumb-item {
+      width: 68px;
+      height: 68px;
+      border-radius: 8px;
+      border: 1px solid var(--admin-border);
+      position: relative;
+      overflow: hidden;
+      background: #ffffff;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    .gallery-thumb-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .gallery-thumb-del-btn {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: rgba(220, 38, 38, 0.9);
+      color: #ffffff;
+      border: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .gallery-add-input-bar {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .btn-add-gallery-photo {
+      background: #0f172a;
+      color: #ffffff;
+      border: none;
+      padding: 0 1rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-add-gallery-photo:hover { background: #1e293b; }
+
+    /* Compact 4-Card Grids (Notes in Set, Trust Badges, Where to Fly) */
+    .mini-sub-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 0.75rem 0.85rem;
+    }
+    .mini-sub-card-header {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #0f172a;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Dynamic Rows (Specs & FAQs) */
+    .dynamic-row-item {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      align-items: center;
+    }
+    .btn-del-dynamic-row {
+      background: #fee2e2;
+      border: 1px solid #fca5a5;
+      color: #dc2626;
+      border-radius: 6px;
+      padding: 0.55rem 0.65rem;
+      cursor: pointer;
+      font-size: 0.78rem;
+      line-height: 1;
+    }
+    .btn-add-dynamic-row {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #0f172a;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-top: 0.35rem;
+      transition: all 0.15s;
+    }
+    .btn-add-dynamic-row:hover { background: #e2e8f0; }
+
+    /* Step Navigation Buttons at bottom of tabs */
+    .tab-footer-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--admin-border);
+    }
+    .btn-tab-nav-prev {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: #334155;
+    }
+    .btn-tab-nav-next {
+      background: #0f172a;
+      color: #ffffff;
+      border: none;
+      padding: 0.55rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Live Toast Notification */
     #admin-toast {
       position: fixed;
       bottom: 2rem;
       right: 2rem;
-      background: #000000;
+      background: #0f172a;
       color: #ffffff;
-      padding: 1rem 1.5rem;
-      border-radius: 10px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      padding: 0.85rem 1.35rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
       font-weight: 700;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       z-index: 200000;
       display: none;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.65rem;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      animation: slideInToast 0.2s ease-out;
     }
-    #admin-toast.success { background: #059669; }
-    #admin-toast.error { background: #dc2626; }
+    @keyframes slideInToast {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    #admin-toast.success { background: #064e3b; border-color: #059669; }
+    #admin-toast.error { background: #7f1d1d; border-color: #dc2626; }
   </style>
 </head>
 <body>
@@ -671,24 +1040,25 @@ import '../../styles/global.css';
   <div id="auth-gate-modal">
     <div class="auth-card">
       <div class="auth-logo-badge">✈️</div>
-      <h2>Commander Product Studio</h2>
-      <p>Secure Enterprise Catalog Management Portal for SKYNODES UAV (Way Point)</p>
+      <h2>SKYNODES Commander</h2>
+      <p>Secure Enterprise Catalog Management Portal (Way Point & SKYNODES UAV)</p>
 
       <form id="admin-auth-form">
         <div class="auth-input-group">
-          <label for="admin-passcode-input">Master Studio Passcode</label>
-          <input type="password" id="admin-passcode-input" class="auth-input" placeholder="Enter studio passcode..." required autofocus />
+          <label for="admin-passcode-input">Master Passcode</label>
+          <input type="password" id="admin-passcode-input" class="auth-input" placeholder="Enter master passcode..." required autofocus />
         </div>
-        <button type="submit" class="auth-btn">🔐 Unlock Product Studio</button>
+        <button type="submit" class="auth-btn">🔐 Unlock Studio Portal</button>
         <div id="auth-error-msg" class="auth-error">❌ Incorrect Passcode. Please try again.</div>
       </form>
     </div>
   </div>
 
-  <!-- 2. Admin Header -->
+  <!-- 2. Top Executive Header -->
   <header class="admin-header">
     <div class="admin-brand">
-      <h1>SKYNODES UAV <span>• Commander Studio</span></h1>
+      <div class="admin-brand-icon">✈️</div>
+      <h1>SKYNODES UAV <span>Commander Studio</span></h1>
       <span class="shopify-status-pill">Shopify Live Connected</span>
     </div>
     <div class="admin-top-actions">
@@ -697,87 +1067,87 @@ import '../../styles/global.css';
     </div>
   </header>
 
-  <!-- 3. Sub-bar & Mode Tabs -->
+  <!-- 3. Primary Mode Switcher Subbar -->
   <div class="admin-subbar">
-    <div class="nav-tabs">
-      <button class="nav-tab-btn active" id="tab-catalog-btn">
+    <div class="mode-tabs-segmented">
+      <button class="mode-tab-btn active" id="tab-catalog-btn">
         <span>📦</span> Product Catalog (सर्व प्रॉडक्ट्स)
       </button>
-      <button class="nav-tab-btn" id="tab-create-btn">
-        <span>➕</span> Add New Product (नवीन प्रॉडक्ट)
+      <button class="mode-tab-btn" id="tab-create-btn">
+        <span>➕</span> Studio Editor (नवीन प्रॉडक्ट / एडिट)
       </button>
     </div>
-    <div>
-      <span id="catalog-count-badge" style="font-size: 0.8rem; font-weight: 700; color: #64748b;">Loading products...</span>
+    <div class="subbar-meta">
+      <span id="catalog-count-badge" class="catalog-count-pill">Loading catalog...</span>
     </div>
   </div>
 
   <main class="admin-container">
 
-    <!-- VIEW 1: CATALOG OVERVIEW TABLE -->
+    <!-- ==================== VIEW 1: CATALOG OVERVIEW TABLE ==================== -->
     <div id="view-catalog" class="catalog-wrapper">
       
-      <!-- Quick Stats -->
-      <div class="stats-grid">
-        <div class="stat-card">
-          <span class="stat-title">Total Active Products</span>
-          <span class="stat-value" id="stat-total-prods">0</span>
+      <!-- Metrics Overview -->
+      <div class="stats-row">
+        <div class="stat-card-compact highlight">
+          <span class="stat-label">Total Products</span>
+          <span class="stat-num" id="stat-total-prods">0</span>
         </div>
-        <div class="stat-card">
-          <span class="stat-title">Engines</span>
-          <span class="stat-value" id="stat-engines">0</span>
+        <div class="stat-card-compact engines">
+          <span class="stat-label">Nitro / Gas Engines</span>
+          <span class="stat-num" id="stat-engines">0</span>
         </div>
-        <div class="stat-card">
-          <span class="stat-title">Seagull Airframes</span>
-          <span class="stat-value" id="stat-airframes">0</span>
+        <div class="stat-card-compact airframes">
+          <span class="stat-label">Seagull Airframes</span>
+          <span class="stat-num" id="stat-airframes">0</span>
         </div>
-        <div class="stat-card">
-          <span class="stat-title">Balsa Wood Sheets</span>
-          <span class="stat-value" id="stat-balsa">0</span>
+        <div class="stat-card-compact balsa">
+          <span class="stat-label">Balsa Wood Sheets</span>
+          <span class="stat-num" id="stat-balsa">0</span>
         </div>
-        <div class="stat-card">
-          <span class="stat-title">Radios & Accessories</span>
-          <span class="stat-value" id="stat-radios-acc">0</span>
+        <div class="stat-card-compact radios">
+          <span class="stat-label">Radios & Accessories</span>
+          <span class="stat-num" id="stat-radios-acc">0</span>
         </div>
       </div>
 
-      <!-- Search & Filters -->
-      <div class="table-toolbar">
-        <div class="search-box">
-          <span class="search-icon">🔍</span>
-          <input type="text" id="catalog-search-input" class="search-input" placeholder="Search product by title, vendor, or SKU..." />
-        </div>
-        <div class="filter-group">
-          <select id="catalog-cat-filter" class="filter-select">
-            <option value="all">All Categories</option>
+      <!-- Search & Filters Toolbar -->
+      <div class="catalog-toolbar">
+        <div class="toolbar-left">
+          <div class="search-input-wrap">
+            <span class="search-icon-svg">🔍</span>
+            <input type="text" id="catalog-search-input" class="search-input-field" placeholder="Search product by title, vendor, or SKU..." />
+          </div>
+          <select id="catalog-cat-filter" class="filter-select-field">
+            <option value="all">All Categories (सर्व)</option>
             <option value="engine">Engines</option>
             <option value="aeromodels">Seagull Aeromodels</option>
             <option value="radio-receiver">Radio & Receiver</option>
             <option value="balsa-wood">Balsa Wood</option>
-            <option value="accessories">Aeromodel Accessories</option>
+            <option value="accessories">Accessories</option>
           </select>
-          <button class="btn-create-new-prod" id="btn-trigger-new-prod">
-            <span>➕</span> Add Product
-          </button>
         </div>
+        <button class="btn-create-prod-primary" id="btn-trigger-new-prod">
+          <span>➕</span> Add New Product
+        </button>
       </div>
 
-      <!-- Products Table -->
-      <div class="products-card-table">
-        <div class="table-responsive">
-          <table class="admin-table">
+      <!-- Compact Products Table -->
+      <div class="table-container-card">
+        <div class="table-scroll">
+          <table class="compact-admin-table">
             <thead>
               <tr>
-                <th style="width: 40%;">Product & Details</th>
-                <th style="width: 15%;">Category</th>
-                <th style="width: 15%;">Price (₹)</th>
-                <th style="width: 12%;">Stock</th>
-                <th style="width: 18%; text-align: right;">Actions</th>
+                <th style="width: 42%;">Product & Specifications</th>
+                <th style="width: 16%;">Category</th>
+                <th style="width: 14%;">Price</th>
+                <th style="width: 12%;">Inventory</th>
+                <th style="width: 16%; text-align: right;">Actions</th>
               </tr>
             </thead>
             <tbody id="catalog-tbody">
               <tr>
-                <td colspan="5" style="text-align: center; padding: 3rem; color: #64748b;">
+                <td colspan="5" style="text-align: center; padding: 2.5rem; color: #64748b;">
                   ⏳ Fetching real-time catalog from Shopify Admin...
                 </td>
               </tr>
@@ -787,365 +1157,451 @@ import '../../styles/global.css';
       </div>
     </div>
 
-    <!-- VIEW 2: PRODUCT STUDIO EDITOR (CREATE / EDIT) -->
+    <!-- ==================== VIEW 2: PRODUCT STUDIO EDITOR (5 MODULAR TABS) ==================== -->
     <div id="view-editor" class="editor-wrapper">
       
       <!-- Sticky Action Bar -->
-      <div class="editor-sticky-header">
-        <div>
-          <span class="editor-title-crumb" id="editor-action-title">➕ Add New Product</span>
-          <span class="editor-title-sub">Fill in the fields below. Every field maps directly to your PDP sections.</span>
+      <div class="studio-sticky-bar">
+        <div class="studio-title-block">
+          <button type="button" class="studio-back-btn" id="btn-back-to-catalog" title="Return to Catalog">←</button>
+          <div>
+            <div class="studio-breadcrumbs">Products Studio / <span id="editor-action-subcrumb">New Product</span></div>
+            <div class="studio-title-main" id="editor-action-title">➕ Add New Product</div>
+          </div>
         </div>
-        <div class="editor-actions">
-          <button type="button" class="btn-cancel-editor" id="btn-cancel-edit">Cancel & Return</button>
-          <button type="button" class="btn-save-publish" id="btn-save-product-submit">
+        <div class="studio-actions-block">
+          <button type="button" class="btn-editor-cancel" id="btn-cancel-edit">Cancel</button>
+          <button type="button" class="btn-editor-save-publish" id="btn-save-product-submit">
             <span>🚀</span> Save & Publish to Store
           </button>
         </div>
       </div>
 
+      <!-- 5-Section Segmented Tabs (Clean & Intuitive) -->
+      <div class="studio-section-tabs-bar">
+        <button type="button" class="sub-section-tab-btn active" data-target="tab-panel-basics">
+          <span>🏷️</span> 1. Basics & Pricing (किंमत व माहिती)
+        </button>
+        <button type="button" class="sub-section-tab-btn" data-target="tab-panel-media">
+          <span>🖼️</span> 2. Media & Video (फोटो व व्हिडिओ)
+        </button>
+        <button type="button" class="sub-section-tab-btn" data-target="tab-panel-highlights">
+          <span>⭐</span> 3. Highlights & Badges (PDP हायलाइट्स)
+        </button>
+        <button type="button" class="sub-section-tab-btn" data-target="tab-panel-specs">
+          <span>📊</span> 4. Specs & Materials (तांत्रिक तक्ता)
+        </button>
+        <button type="button" class="sub-section-tab-btn" data-target="tab-panel-faqs">
+          <span>💬</span> 5. FAQs & Combo (प्रश्न व कॉम्बो)
+        </button>
+      </div>
+
       <form id="product-editor-form">
         <input type="hidden" id="edit-product-id" value="" />
 
-        <div class="form-sections-grid">
-
-          <!-- 1. Basic Essentials -->
-          <div class="editor-section-card">
-            <div class="section-card-header">
-              <span class="section-card-title">🏷️ 1. Basic Information (मूलभूत माहिती)</span>
-              <span class="section-pdp-hint">PDP: Top Header & Pricing Block</span>
-            </div>
+        <!-- ================= PANEL 1: BASICS & PRICING ================= -->
+        <div id="tab-panel-basics" class="studio-tab-panel active">
+          <div class="panel-grid-2-col">
             
-            <div class="form-group">
-              <label for="f-title">Product Title / Name *</label>
-              <input type="text" id="f-title" class="form-control" placeholder="e.g. O.S. Max 0.46 AX II Nitro Engine" required />
-              <span class="field-help">हे PDP वरील मुख्य जाड अक्षरातील प्रॉडक्टचे नाव आहे.</span>
+            <!-- Left Card: Identification & Naming -->
+            <div class="studio-card">
+              <div class="studio-card-header">
+                <span class="studio-card-title">🏷️ Basic Information</span>
+                <span class="pdp-location-pill">PDP Header</span>
+              </div>
+              
+              <div class="form-item">
+                <label for="f-title">Product Title / Name *</label>
+                <input type="text" id="f-title" class="input-box" placeholder="e.g. O.S. Max 0.46 AX II Nitro Engine" required />
+                <span class="field-note">मुख्य प्रॉडक्टचे ठळक नाव जे सर्वत्र दिसते.</span>
+              </div>
+
+              <div class="field-row-2">
+                <div class="form-item">
+                  <label for="f-category">Category *</label>
+                  <select id="f-category" class="input-box" required>
+                    <option value="engine">Engine (इंजिन)</option>
+                    <option value="aeromodels">Seagull Aeromodels (विमान/एअरफ्रेम)</option>
+                    <option value="radio-receiver">Radio & Receiver (रिमोट व रिसीव्हर)</option>
+                    <option value="balsa-wood">Balsa Wood (बाल्सा लाकूड)</option>
+                    <option value="accessories">Aeromodel Accessories (इतर साहित्य)</option>
+                  </select>
+                </div>
+                <div class="form-item">
+                  <label for="f-vendor">Brand / Vendor</label>
+                  <input type="text" id="f-vendor" class="input-box" placeholder="e.g. O.S. Engines Japan / Seagull" value="SKYNODES UAV" />
+                </div>
+              </div>
+
+              <div class="field-row-2">
+                <div class="form-item">
+                  <label for="f-sku">SKU Code</label>
+                  <input type="text" id="f-sku" class="input-box" placeholder="e.g. ENG-1 / SEA-122" />
+                </div>
+                <div class="form-item">
+                  <label for="f-stock">Stock Units Available</label>
+                  <input type="number" id="f-stock" class="input-box" placeholder="10" value="10" />
+                </div>
+              </div>
+
+              <!-- Badges & Promotional Placement -->
+              <div style="margin-top: 0.5rem; padding-top: 0.85rem; border-top: 1px dashed var(--admin-border);">
+                <div class="form-item">
+                  <label for="f-badge">Discount Badge Text (Optional)</label>
+                  <input type="text" id="f-badge" class="input-box" placeholder="e.g. SAVE 20% / BESTSELLER" />
+                </div>
+                <div class="field-row-3" style="margin-top: 0.5rem;">
+                  <label style="display:flex; align-items:center; gap:0.4rem; font-size:0.75rem; cursor:pointer;">
+                    <input type="checkbox" id="f-is-bestseller" style="width:16px; height:16px; accent-color:#0f172a;" />
+                    <span>⭐ Bestseller</span>
+                  </label>
+                  <label style="display:flex; align-items:center; gap:0.4rem; font-size:0.75rem; cursor:pointer;">
+                    <input type="checkbox" id="f-is-crazy" style="width:16px; height:16px; accent-color:#881337;" />
+                    <span>🔥 Crazy Deal</span>
+                  </label>
+                  <label style="display:flex; align-items:center; gap:0.4rem; font-size:0.75rem; cursor:pointer;">
+                    <input type="checkbox" id="f-is-hero" style="width:16px; height:16px; accent-color:#2563eb;" />
+                    <span>🎯 Hero Slider</span>
+                  </label>
+                </div>
+              </div>
             </div>
 
-            <div class="form-grid-3">
-              <div class="form-group">
-                <label for="f-category">Category *</label>
-                <select id="f-category" class="form-control" required>
-                  <option value="engine">Engine (इंजिन)</option>
-                  <option value="aeromodels">Seagull Aeromodels (विमान/एअरफ्रेम)</option>
-                  <option value="radio-receiver">Radio & Receiver (रिमोट व रिसीव्हर)</option>
-                  <option value="balsa-wood">Balsa Wood (बाल्सा लाकूड)</option>
-                  <option value="accessories">Aeromodel Accessories (इतर साहित्य)</option>
-                </select>
+            <!-- Right Card: Pricing, GST & Statutory -->
+            <div class="studio-card">
+              <div class="studio-card-header">
+                <span class="studio-card-title">💰 Pricing, Tax & Warranty</span>
+                <span class="pdp-location-pill">Checkout & Invoice</span>
               </div>
-              <div class="form-group">
-                <label for="f-vendor">Brand / Vendor</label>
-                <input type="text" id="f-vendor" class="form-control" placeholder="e.g. O.S. Engines Japan / Seagull Models" value="SKYNODES UAV" />
+
+              <div class="field-row-2">
+                <div class="form-item">
+                  <label for="f-price">Selling Price (₹) *</label>
+                  <input type="number" id="f-price" class="input-box" placeholder="15899" required />
+                  <span class="field-note">ग्राहक भरत असलेली खरी किंमत.</span>
+                </div>
+                <div class="form-item">
+                  <label for="f-compare-price">MRP / Compare Price (₹)</label>
+                  <input type="number" id="f-compare-price" class="input-box" placeholder="18999" />
+                  <span class="field-note">काट मारून सवलत दाखवण्यासाठी मूळ किंमत.</span>
+                </div>
               </div>
-              <div class="form-group">
-                <label for="f-sku">SKU Code</label>
-                <input type="text" id="f-sku" class="form-control" placeholder="e.g. ENG-1 / SEA-122" />
+
+              <div class="field-row-2">
+                <div class="form-item">
+                  <label for="f-hsn">HSN Code</label>
+                  <input type="text" id="f-hsn" class="input-box" placeholder="95030020" value="95030020" />
+                  <span class="field-note">टॅक्स इनव्हॉईसवरील वैधानिक HSN कोड.</span>
+                </div>
+                <div class="form-item">
+                  <label for="f-gst">GST Slab Rate (%)</label>
+                  <select id="f-gst" class="input-box">
+                    <option value="18" selected>18% (Standard Rate)</option>
+                    <option value="12">12%</option>
+                    <option value="28">28%</option>
+                    <option value="5">5%</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-item">
+                <label for="f-warranty">Warranty Coverage Text</label>
+                <input type="text" id="f-warranty" class="input-box" placeholder="1-Year Official Manufacturer Warranty" value="1-Year Official Manufacturer Warranty" />
+                <span class="field-note">PDP वर वॉरंटी बॅजमध्ये दाखवला जाणारा मजकूर.</span>
               </div>
             </div>
 
-            <div class="form-grid-4">
-              <div class="form-group">
-                <label for="f-price">Selling Price (₹) *</label>
-                <input type="number" id="f-price" class="form-control" placeholder="15899" required />
-                <span class="field-help">ग्राहक प्रत्यक्षात भरत असलेली रक्कम.</span>
-              </div>
-              <div class="form-group">
-                <label for="f-compare-price">MRP / Original Price (₹)</label>
-                <input type="number" id="f-compare-price" class="form-control" placeholder="18999" />
-                <span class="field-help">काट मारून दाखवण्यासाठी मूळ किंमत.</span>
-              </div>
-              <div class="form-group">
-                <label for="f-stock">Available Units (Stock)</label>
-                <input type="number" id="f-stock" class="form-control" placeholder="12" value="10" />
-              </div>
-              <div class="form-group">
-                <label for="f-gst">GST Slab Rate (%)</label>
-                <select id="f-gst" class="form-control">
-                  <option value="18" selected>18% (Standard RC)</option>
-                  <option value="12">12%</option>
-                  <option value="28">28%</option>
-                  <option value="5">5%</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-grid-2">
-              <div class="form-group">
-                <label for="f-hsn">HSN Code</label>
-                <input type="text" id="f-hsn" class="form-control" placeholder="95030020" value="95030020" />
-                <span class="field-help">टॅक्स बिलावर छापला जाणारा HSN कोड (उदा. 95030020 किंवा 44123930).</span>
-              </div>
-              <div class="form-group">
-                <label for="f-warranty">Warranty Text</label>
-                <input type="text" id="f-warranty" class="form-control" placeholder="1-Year Official Manufacturer Warranty" value="1-Year Official Manufacturer Warranty" />
-              </div>
-            </div>
           </div>
 
-          <!-- 2. Badges & Promos -->
-          <div class="editor-section-card">
-            <div class="section-card-header">
-              <span class="section-card-title">🏷️ 2. Badges & Featured Placement (बॅजेस व स्थान)</span>
-              <span class="section-pdp-hint">PDP: Top Badges & Home Slider</span>
+          <div class="tab-footer-nav">
+            <div></div>
+            <button type="button" class="btn-tab-nav-next" data-next="tab-panel-media">Next: Media & Video →</button>
+          </div>
+        </div>
+
+        <!-- ================= PANEL 2: MEDIA & VIDEO (COMPACT & CLEAN) ================= -->
+        <div id="tab-panel-media" class="studio-tab-panel">
+          <div class="studio-card">
+            <div class="studio-card-header">
+              <span class="studio-card-title">🖼️ Product Photography & Visuals</span>
+              <span class="pdp-location-pill">PDP Gallery Block</span>
             </div>
-            <div class="form-grid-4">
-              <div class="form-group">
-                <label for="f-badge">Discount Badge Text</label>
-                <input type="text" id="f-badge" class="form-control" placeholder="e.g. 16% OFF / CRAZY DEAL" />
+
+            <!-- Compact Split Media Manager -->
+            <div class="media-compact-grid">
+              
+              <!-- Left: Primary Image Card -->
+              <div class="primary-photo-card">
+                <div class="primary-preview-frame" id="main-preview-frame">
+                  <div class="primary-preview-placeholder" id="main-preview-placeholder">
+                    <span>🖼️</span>
+                    <span>No Main Image</span>
+                  </div>
+                </div>
+                <div class="form-item" style="text-align: left; margin-bottom: 0;">
+                  <label for="f-main-image" style="font-size: 0.72rem;">Primary Main Photo URL *</label>
+                  <input type="url" id="f-main-image" class="input-box" placeholder="https://..." required />
+                  <span class="field-note">PDP च्या मुख्य चौकटीत दिसणारा फोटो.</span>
+                </div>
               </div>
-              <div class="form-group" style="justify-content: center;">
-                <label style="display:flex; align-items:center; gap: 0.5rem; cursor:pointer;">
-                  <input type="checkbox" id="f-is-bestseller" />
-                  <span>⭐ Mark as Bestseller</span>
+
+              <!-- Right: Additional Gallery Images Strip -->
+              <div class="gallery-strip-container">
+                <label style="font-size: 0.76rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem; display: block;">
+                  Additional Gallery Thumbnails (इतर फोटो गॅलरी)
                 </label>
+                <span class="field-note" style="display: block; margin-bottom: 0.65rem;">
+                  गॅलरीमध्ये दिसणारे लहान फोटो. नवीन फोटोची लिंक टाकून '+ Add' वर क्लिक करा.
+                </span>
+
+                <!-- Thumbnails Strip -->
+                <div class="gallery-thumbnails-row" id="gallery-thumbnails-strip">
+                  <span style="font-size: 0.75rem; color: #94a3b8; font-style: italic;">No additional photos added yet.</span>
+                </div>
+
+                <!-- Fast URL Adder -->
+                <div class="gallery-add-input-bar">
+                  <input type="url" id="gallery-new-url-input" class="input-box" placeholder="Paste image URL (e.g. https://...)" />
+                  <button type="button" id="btn-add-gallery-item" class="btn-add-gallery-photo">➕ Add Photo</button>
+                </div>
+
+                <!-- Hidden Raw Storage for Sync -->
+                <textarea id="f-gallery-images" style="display: none;"></textarea>
               </div>
-              <div class="form-group" style="justify-content: center;">
-                <label style="display:flex; align-items:center; gap: 0.5rem; cursor:pointer;">
-                  <input type="checkbox" id="f-is-crazy" />
-                  <span>🔥 Mark as Crazy Deal</span>
+
+            </div>
+
+            <!-- YouTube Demonstration Video (Compact) -->
+            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px dashed var(--admin-border);">
+              <div class="form-item">
+                <label for="f-video">
+                  <span>🎥 Official YouTube Demonstration Video (URL / ID)</span>
+                  <span class="pdp-location-pill">PDP Video Player</span>
                 </label>
-              </div>
-              <div class="form-group" style="justify-content: center;">
-                <label style="display:flex; align-items:center; gap: 0.5rem; cursor:pointer;">
-                  <input type="checkbox" id="f-is-hero" />
-                  <span>🎯 Show in Home Hero Slider</span>
-                </label>
+                <input type="text" id="f-video" class="input-box" placeholder="e.g. https://youtu.be/l4J81G3H5e0 or l4J81G3H5e0" />
+                <span class="field-note">फक्त YouTube व्हिडिओची लिंक किंवा Video ID पेस्ट करा. PDP वर थेट प्लेअर दिसेल.</span>
               </div>
             </div>
+
           </div>
 
-          <!-- 3. Images -->
-          <div class="editor-section-card">
-            <div class="section-card-header">
-              <span class="section-card-title">🖼️ 3. Product Media & Gallery (फोटो गॅलरी)</span>
-              <span class="section-pdp-hint">PDP: Left Big Photo & Thumbnails</span>
-            </div>
-            <div class="form-group">
-              <label for="f-main-image">Primary Main Image URL *</label>
-              <input type="url" id="f-main-image" class="form-control" placeholder="https://..." required />
-              <span class="field-help">प्रॉडक्टचा मुख्य फोटो (कॅटलॉग आणि PDP च्या डाव्या बाजूला मोठा दिसणारा).</span>
-              <div class="img-preview-box" id="main-img-preview-box"></div>
-            </div>
-            <div class="form-group">
-              <label for="f-gallery-images">Additional Gallery Image URLs (One URL per line)</label>
-              <textarea id="f-gallery-images" class="form-control" placeholder="https://image2.jpg&#10;https://image3.jpg&#10;https://image4.jpg"></textarea>
-              <span class="field-help">एका खाली एक गॅलरीचे इतर फोटो पेस्ट करा.</span>
-              <div class="img-preview-box" id="gallery-img-preview-box"></div>
-            </div>
+          <div class="tab-footer-nav">
+            <button type="button" class="btn-tab-nav-prev" data-prev="tab-panel-basics">← Back: Basics & Pricing</button>
+            <button type="button" class="btn-tab-nav-next" data-next="tab-panel-highlights">Next: Highlights & Badges →</button>
           </div>
+        </div>
 
-          <!-- 4. Trust Badges (4 Points) -->
-          <div class="editor-section-card">
-            <div class="section-card-header">
-              <span class="section-card-title">🛡️ 4. Trust Badges (PDP वरील ४ विश्वासार्ह बॅजेस)</span>
-              <span class="section-pdp-hint">PDP: Right under 'Add to Cart'</span>
+        <!-- ================= PANEL 3: HIGHLIGHTS & BADGES ================= -->
+        <div id="tab-panel-highlights" class="studio-tab-panel">
+          
+          <!-- Trust Badges (4 Points Under Add to Cart) -->
+          <div class="studio-card">
+            <div class="studio-card-header">
+              <span class="studio-card-title">🛡️ 4 Key Trust Badges</span>
+              <span class="pdp-location-pill">Right Under 'Add to Cart'</span>
             </div>
-            <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 1rem;">
-              हे PDP वर 'Add to Cart' च्या खाली ४ चिन्हांसह दिसतात.
+            <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.75rem;">
+              हे PDP वर 'Add to Cart' बटणाच्या खाली ४ विश्वासार्ह बॅजेस म्हणून दिसतात.
             </p>
-            <div class="form-grid-4">
-              <div class="form-group">
+            <div class="field-row-4">
+              <div class="form-item">
                 <label for="f-trust-1">Trust Point 1</label>
-                <input type="text" id="f-trust-1" class="form-control" value="Imported Quality" />
+                <input type="text" id="f-trust-1" class="input-box" value="Imported Quality" />
               </div>
-              <div class="form-group">
+              <div class="form-item">
                 <label for="f-trust-2">Trust Point 2</label>
-                <input type="text" id="f-trust-2" class="form-control" value="100% Genuine" />
+                <input type="text" id="f-trust-2" class="input-box" value="100% Genuine" />
               </div>
-              <div class="form-group">
+              <div class="form-item">
                 <label for="f-trust-3">Trust Point 3</label>
-                <input type="text" id="f-trust-3" class="form-control" value="AMA Certified" />
+                <input type="text" id="f-trust-3" class="input-box" value="AMA Certified" />
               </div>
-              <div class="form-group">
+              <div class="form-item">
                 <label for="f-trust-4">Trust Point 4</label>
-                <input type="text" id="f-trust-4" class="form-control" value="Assured Delivery" />
+                <input type="text" id="f-trust-4" class="input-box" value="Assured Delivery" />
               </div>
             </div>
           </div>
 
-          <!-- 5. Notes in This Set (4 Points) -->
-          <div class="editor-section-card">
-            <div class="section-card-header">
-              <span class="section-card-title">⚙️ 5. Notes in This Set (४ मुख्य तांत्रिक वैशिष्ट्ये)</span>
-              <span class="section-pdp-hint">PDP: 'Notes in This Set' Box</span>
+          <!-- Notes in This Set (4 Key Features) -->
+          <div class="studio-card">
+            <div class="studio-card-header">
+              <span class="studio-card-title">⚙️ Notes in This Set (४ मुख्य तांत्रिक वैशिष्ट्ये)</span>
+              <span class="pdp-location-pill">PDP 'Notes in This Set' Box</span>
             </div>
-            <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 1rem;">
-              हे PDP वर 'Notes in This Set' या कार्डमध्ये ४ बॉक्समध्ये दिसतात (उदा. ABL Liner, Carburetor, Muffler इ.).
+            <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.75rem;">
+              हे PDP वरील 'Notes in This Set' या कार्डमधील ४ बॉक्सेस आहेत (उदा. ABL Liner, Carburetor, Silencer इ.).
             </p>
-            <div class="form-grid-2">
-              <div class="sub-card-box">
-                <span class="sub-card-title">Feature Point 1</span>
-                <div class="form-group">
-                  <label>Title</label>
-                  <input type="text" id="f-note-1-name" class="form-control" placeholder="e.g. ABL Liner" />
-                </div>
-                <div class="form-group">
-                  <label>Description</label>
-                  <input type="text" id="f-note-1-desc" class="form-control" placeholder="e.g. Advanced Bimetallic Liner for high heat resistance" />
+            <div class="field-row-2">
+              <div class="mini-sub-card">
+                <span class="mini-sub-card-header">Feature Point 1</span>
+                <div class="form-item">
+                  <input type="text" id="f-note-1-name" class="input-box" placeholder="Title (e.g. ABL Liner)" style="margin-bottom: 0.35rem;" />
+                  <input type="text" id="f-note-1-desc" class="input-box" placeholder="Description (e.g. Advanced Bimetallic Liner)" />
                 </div>
               </div>
-              <div class="sub-card-box">
-                <span class="sub-card-title">Feature Point 2</span>
-                <div class="form-group">
-                  <label>Title</label>
-                  <input type="text" id="f-note-2-name" class="form-control" placeholder="e.g. Ball Bearings" />
-                </div>
-                <div class="form-group">
-                  <label>Description</label>
-                  <input type="text" id="f-note-2-desc" class="form-control" placeholder="e.g. Dual precision bearings for smooth high RPM" />
+              <div class="mini-sub-card">
+                <span class="mini-sub-card-header">Feature Point 2</span>
+                <div class="form-item">
+                  <input type="text" id="f-note-2-name" class="input-box" placeholder="Title (e.g. Ball Bearings)" style="margin-bottom: 0.35rem;" />
+                  <input type="text" id="f-note-2-desc" class="input-box" placeholder="Description (e.g. Dual precision bearings for high RPM)" />
                 </div>
               </div>
-              <div class="sub-card-box">
-                <span class="sub-card-title">Feature Point 3</span>
-                <div class="form-group">
-                  <label>Title</label>
-                  <input type="text" id="f-note-3-name" class="form-control" placeholder="e.g. Power Carb" />
-                </div>
-                <div class="form-group">
-                  <label>Description</label>
-                  <input type="text" id="f-note-3-desc" class="form-control" placeholder="e.g. 21J Dual-needle carburetor for crisp throttle response" />
+              <div class="mini-sub-card">
+                <span class="mini-sub-card-header">Feature Point 3</span>
+                <div class="form-item">
+                  <input type="text" id="f-note-3-name" class="input-box" placeholder="Title (e.g. Power Carb)" style="margin-bottom: 0.35rem;" />
+                  <input type="text" id="f-note-3-desc" class="input-box" placeholder="Description (e.g. Dual-needle carburetor for crisp throttle)" />
                 </div>
               </div>
-              <div class="sub-card-box">
-                <span class="sub-card-title">Feature Point 4</span>
-                <div class="form-group">
-                  <label>Title</label>
-                  <input type="text" id="f-note-4-name" class="form-control" placeholder="e.g. E-4050 Muffler" />
-                </div>
-                <div class="form-group">
-                  <label>Description</label>
-                  <input type="text" id="f-note-4-desc" class="form-control" placeholder="e.g. High flow quiet silencer included in box" />
+              <div class="mini-sub-card">
+                <span class="mini-sub-card-header">Feature Point 4</span>
+                <div class="form-item">
+                  <input type="text" id="f-note-4-name" class="input-box" placeholder="Title (e.g. E-4050 Muffler)" style="margin-bottom: 0.35rem;" />
+                  <input type="text" id="f-note-4-desc" class="input-box" placeholder="Description (e.g. High flow quiet silencer included)" />
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- 6. Where To Fly It (4 Points + Vibes) -->
-          <div class="editor-section-card">
-            <div class="section-card-header">
-              <span class="section-card-title">📍 6. Where To Fly It (४ उड्डाण ॲप्लिकेशन्स)</span>
-              <span class="section-pdp-hint">PDP: 'Where To Fly It' Box</span>
+          <!-- Where To Fly It & Flight Vibes -->
+          <div class="studio-card">
+            <div class="studio-card-header">
+              <span class="studio-card-title">📍 Where To Fly It (४ उड्डाण ॲप्लिकेशन्स)</span>
+              <span class="pdp-location-pill">PDP 'Where To Fly It' Box</span>
             </div>
-            <div class="form-grid-4">
-              <div class="form-group">
+            <div class="field-row-4">
+              <div class="form-item">
                 <label for="f-fly-1">Application 1</label>
-                <input type="text" id="f-fly-1" class="form-control" value="Aerobatic Competitions" />
+                <input type="text" id="f-fly-1" class="input-box" value="Aerobatic Competitions" />
               </div>
-              <div class="form-group">
+              <div class="form-item">
                 <label for="f-fly-2">Application 2</label>
-                <input type="text" id="f-fly-2" class="form-control" value="Flight Training Clubs" />
+                <input type="text" id="f-fly-2" class="input-box" value="Flight Training Clubs" />
               </div>
-              <div class="form-group">
+              <div class="form-item">
                 <label for="f-fly-3">Application 3</label>
-                <input type="text" id="f-fly-3" class="form-control" value="Scale Kit Building" />
+                <input type="text" id="f-fly-3" class="input-box" value="Scale Kit Building" />
               </div>
-              <div class="form-group">
+              <div class="form-item">
                 <label for="f-fly-4">Application 4</label>
-                <input type="text" id="f-fly-4" class="form-control" value="Pylon Racing" />
+                <input type="text" id="f-fly-4" class="input-box" value="Pylon Racing" />
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-item" style="margin-top: 0.35rem;">
               <label for="f-vibes">Flight Vibes Text</label>
-              <input type="text" id="f-vibes" class="form-control" value="Versatile, confident, bold, high-performance flight." />
+              <input type="text" id="f-vibes" class="input-box" value="Versatile, confident, bold, high-performance flight." />
             </div>
           </div>
 
-          <!-- 7. Highlights / Description -->
-          <div class="editor-section-card">
-            <div class="section-card-header">
-              <span class="section-card-title">📝 7. Product Highlights (सविस्तर माहिती)</span>
-              <span class="section-pdp-hint">PDP: 'Product Highlights' Accordion</span>
+          <div class="tab-footer-nav">
+            <button type="button" class="btn-tab-nav-prev" data-prev="tab-panel-media">← Back: Media & Video</button>
+            <button type="button" class="btn-tab-nav-next" data-next="tab-panel-specs">Next: Specs & Materials →</button>
+          </div>
+        </div>
+
+        <!-- ================= PANEL 4: SPECS & MATERIALS ================= -->
+        <div id="tab-panel-specs" class="studio-tab-panel">
+          
+          <!-- Long Description -->
+          <div class="studio-card">
+            <div class="studio-card-header">
+              <span class="studio-card-title">📝 Product Highlights (सविस्तर माहिती)</span>
+              <span class="pdp-location-pill">PDP 'Product Highlights'</span>
             </div>
-            <div class="form-group">
-              <label for="f-desc">Detailed Product Description *</label>
-              <textarea id="f-desc" class="form-control" style="min-height: 140px;" placeholder="Write or paste detailed highlights and performance features..." required></textarea>
+            <div class="form-item">
+              <textarea id="f-desc" class="input-box" style="min-height: 120px;" placeholder="Write detailed highlights, engineering pedigree, and performance notes..." required></textarea>
             </div>
           </div>
 
-          <!-- 8. Technical Specifications & Dimensions -->
-          <div class="editor-section-card">
-            <div class="section-card-header">
-              <span class="section-card-title">📊 8. Technical Specifications Table (तांत्रिक तक्ता)</span>
-              <span class="section-pdp-hint">PDP: 'Technical Specifications' Accordion</span>
+          <!-- Dynamic Specs Table -->
+          <div class="studio-card">
+            <div class="studio-card-header">
+              <span class="studio-card-title">📊 Technical Specifications Table (तांत्रिक तक्ता)</span>
+              <span class="pdp-location-pill">PDP 'Technical Specs'</span>
             </div>
-            <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 0.75rem;">
-              हे PDP वर 'Technical Specifications' या अकॉर्डियनमध्ये तक्त्याच्या स्वरूपात दिसते.
+            <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.65rem;">
+              PDP वरील 'Technical Specifications' तक्त्यासाठी Key-Value जोड्या.
             </p>
             <div id="specs-rows-container">
-              <!-- Dynamically populated or manual rows -->
+              <!-- Dynamically populated rows -->
             </div>
-            <button type="button" id="btn-add-spec-row" style="background:#f1f5f9; border:1px solid #cbd5e1; padding:0.4rem 0.8rem; border-radius:6px; font-size:0.78rem; font-weight:700; cursor:pointer;">
+            <button type="button" id="btn-add-spec-row" class="btn-add-dynamic-row">
               ➕ Add Specification Row
             </button>
           </div>
 
-          <!-- 9. Demonstration Video -->
-          <div class="editor-section-card">
-            <div class="section-card-header">
-              <span class="section-card-title">🎥 9. Demonstration Flight Video (YouTube)</span>
-              <span class="section-pdp-hint">PDP: 'Official Flight Test Video'</span>
+          <!-- Materials & Break-in Steps in 2 Columns -->
+          <div class="panel-grid-2-col">
+            <div class="studio-card">
+              <div class="studio-card-header">
+                <span class="studio-card-title">🧱 Materials & Build</span>
+                <span class="pdp-location-pill">PDP Ingredients</span>
+              </div>
+              <div class="form-item">
+                <textarea id="f-material" class="input-box" placeholder="e.g. Contest grade balsa wood, aircraft aluminium, hardened alloy steel crankshaft..."></textarea>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="f-video">YouTube Video URL or Video ID</label>
-              <input type="text" id="f-video" class="form-control" placeholder="e.g. https://youtu.be/l4J81G3H5e0 or l4J81G3H5e0" />
-              <span class="field-help">फक्त YouTube व्हिडिओची लिंक किंवा ID पेस्ट करा.</span>
+            <div class="studio-card">
+              <div class="studio-card-header">
+                <span class="studio-card-title">🛠️ How To Use / Break-In</span>
+                <span class="pdp-location-pill">PDP Break-In Steps</span>
+              </div>
+              <div class="form-item">
+                <textarea id="f-howtouse" class="input-box" placeholder="e.g. Run 4-5 bench heat-cycles on rich setting before full throttle flying. Use 10-15% nitro fuel..."></textarea>
+              </div>
             </div>
           </div>
 
-          <!-- 10. FAQs -->
-          <div class="editor-section-card">
-            <div class="section-card-header">
-              <span class="section-card-title">❓ 10. Frequently Asked Questions (FAQ Builder)</span>
-              <span class="section-pdp-hint">PDP: 'FAQ' Accordion</span>
+          <div class="tab-footer-nav">
+            <button type="button" class="btn-tab-nav-prev" data-prev="tab-panel-highlights">← Back: Highlights & Badges</button>
+            <button type="button" class="btn-tab-nav-next" data-next="tab-panel-faqs">Next: FAQs & Combo →</button>
+          </div>
+        </div>
+
+        <!-- ================= PANEL 5: FAQS & COMBO ================= -->
+        <div id="tab-panel-faqs" class="studio-tab-panel">
+          
+          <!-- FAQs Dynamic Builder -->
+          <div class="studio-card">
+            <div class="studio-card-header">
+              <span class="studio-card-title">❓ Frequently Asked Questions (FAQ Builder)</span>
+              <span class="pdp-location-pill">PDP 'FAQ' Accordion</span>
             </div>
+            <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.75rem;">
+              PDP वरील 'Frequently Asked Questions' सेक्शन्समध्ये हे प्रश्न-उत्तरे दिसतात.
+            </p>
             <div id="faq-rows-container">
               <!-- Dynamically populated FAQ rows -->
             </div>
-            <button type="button" id="btn-add-faq-row" style="background:#f1f5f9; border:1px solid #cbd5e1; padding:0.4rem 0.8rem; border-radius:6px; font-size:0.78rem; font-weight:700; cursor:pointer;">
+            <button type="button" id="btn-add-faq-row" class="btn-add-dynamic-row">
               ➕ Add Question & Answer
             </button>
           </div>
 
-          <!-- 11. Ingredients / Material Build -->
-          <div class="editor-section-card">
-            <div class="section-card-header">
-              <span class="section-card-title">🧱 11. All Ingredients & Material Build (साहित्य बनावट)</span>
-              <span class="section-pdp-hint">PDP: 'All Ingredients & Material Build'</span>
+          <!-- Combo Paired Product -->
+          <div class="studio-card">
+            <div class="studio-card-header">
+              <span class="studio-card-title">🧩 Best Selling Combo (जोडीचे प्रॉडक्ट)</span>
+              <span class="pdp-location-pill">PDP 'BEST SELLING COMBOS'</span>
             </div>
-            <div class="form-group">
-              <label for="f-material">Material Specifications</label>
-              <textarea id="f-material" class="form-control" placeholder="e.g. Contest grade balsa wood, aircraft grade aluminium, hardened alloy steel crankshaft..."></textarea>
-            </div>
-          </div>
-
-          <!-- 12. How to Use / Break-In Steps -->
-          <div class="editor-section-card">
-            <div class="section-card-header">
-              <span class="section-card-title">🛠️ 12. How To Use & Break-In Steps (वापरण्याच्या पायऱ्या)</span>
-              <span class="section-pdp-hint">PDP: 'How To Use & Break-In Steps'</span>
-            </div>
-            <div class="form-group">
-              <label for="f-howtouse">Step-by-Step Instructions</label>
-              <textarea id="f-howtouse" class="form-control" placeholder="e.g. Run 4-5 bench heat-cycles on rich needle setting before full throttle flying. Use 10-15% synthetic castor oil blend..."></textarea>
-            </div>
-          </div>
-
-          <!-- 13. Combo Paired Product -->
-          <div class="editor-section-card">
-            <div class="section-card-header">
-              <span class="section-card-title">🧩 13. Best Selling Combo (जोडीचे प्रॉडक्ट)</span>
-              <span class="section-pdp-hint">PDP: 'BEST SELLING COMBOS'</span>
-            </div>
-            <div class="form-group">
+            <div class="form-item">
               <label for="f-combo">Select Paired Product from Store</label>
-              <select id="f-combo" class="form-control">
+              <select id="f-combo" class="input-box">
                 <option value="">None (No paired combo)</option>
               </select>
-              <span class="field-help">मुख्य प्रॉडक्टसोबत 'BEST SELLING COMBOS' मध्ये ग्राहकाला जोडीने दाखवण्यासाठी हे प्रॉडक्ट निवडा.</span>
+              <span class="field-note">मुख्य प्रॉडक्टसोबत कॉम्बो ऑफर देण्यासाठी स्टोअरमधील दुसरे प्रॉडक्ट निवडा.</span>
             </div>
           </div>
 
+          <div class="tab-footer-nav">
+            <button type="button" class="btn-tab-nav-prev" data-prev="tab-panel-specs">← Back: Specs & Materials</button>
+            <button type="button" class="btn-editor-save-publish" id="btn-save-product-submit-bottom">
+              <span>🚀</span> Save & Publish to Store
+            </button>
+          </div>
         </div>
+
       </form>
     </div>
 
@@ -1155,12 +1611,13 @@ import '../../styles/global.css';
   <div id="admin-toast"></div>
 
   <script>
-    // Master Studio Passcode
+    // Master Studio Passcodes
     const VALID_PASSCODE = 'skynodes@pilot2026';
     const ALT_PASSCODE = 'admin@skynodes';
 
     let allCatalogProducts: any[] = [];
     let currentEditingProductId: string | null = null;
+    let galleryUrlsList: string[] = [];
 
     // DOM Elements
     const authModal = document.getElementById('auth-gate-modal');
@@ -1169,33 +1626,47 @@ import '../../styles/global.css';
     const authError = document.getElementById('auth-error-msg');
     const logoutBtn = document.getElementById('admin-logout-btn');
 
+    // Navigation Tabs
     const tabCatalogBtn = document.getElementById('tab-catalog-btn');
     const tabCreateBtn = document.getElementById('tab-create-btn');
     const viewCatalog = document.getElementById('view-catalog');
     const viewEditor = document.getElementById('view-editor');
+    const btnBackToCatalog = document.getElementById('btn-back-to-catalog');
+    const btnCancelEdit = document.getElementById('btn-cancel-edit');
 
+    // Editor Header Titles
+    const editorActionTitle = document.getElementById('editor-action-title');
+    const editorActionSubcrumb = document.getElementById('editor-action-subcrumb');
+    const btnSaveProductSubmit = document.getElementById('btn-save-product-submit') as HTMLButtonElement;
+    const btnSaveProductSubmitBottom = document.getElementById('btn-save-product-submit-bottom') as HTMLButtonElement;
+
+    // Sub-Tabs
+    const subSectionTabBtns = document.querySelectorAll('.sub-section-tab-btn');
+    const studioTabPanels = document.querySelectorAll('.studio-tab-panel');
+
+    // Catalog Table & Filters
     const catalogTbody = document.getElementById('catalog-tbody');
     const searchInput = document.getElementById('catalog-search-input') as HTMLInputElement;
     const catFilter = document.getElementById('catalog-cat-filter') as HTMLSelectElement;
     const btnTriggerNewProd = document.getElementById('btn-trigger-new-prod');
 
+    // Editor Form & Containers
     const editorForm = document.getElementById('product-editor-form') as HTMLFormElement;
-    const editorActionTitle = document.getElementById('editor-action-title');
-    const btnCancelEdit = document.getElementById('btn-cancel-edit');
-    const btnSaveProductSubmit = document.getElementById('btn-save-product-submit') as HTMLButtonElement;
-
     const specsContainer = document.getElementById('specs-rows-container');
     const btnAddSpecRow = document.getElementById('btn-add-spec-row');
     const faqContainer = document.getElementById('faq-rows-container');
     const btnAddFaqRow = document.getElementById('btn-add-faq-row');
     const comboSelect = document.getElementById('f-combo') as HTMLSelectElement;
 
+    // Media Elements
     const mainImgInput = document.getElementById('f-main-image') as HTMLInputElement;
-    const mainImgPreview = document.getElementById('main-img-preview-box');
-    const galleryImgInput = document.getElementById('f-gallery-images') as HTMLTextAreaElement;
-    const galleryImgPreview = document.getElementById('gallery-img-preview-box');
+    const mainPreviewFrame = document.getElementById('main-preview-frame');
+    const galleryThumbnailsStrip = document.getElementById('gallery-thumbnails-strip');
+    const galleryNewUrlInput = document.getElementById('gallery-new-url-input') as HTMLInputElement;
+    const btnAddGalleryItem = document.getElementById('btn-add-gallery-item');
+    const galleryRawInput = document.getElementById('f-gallery-images') as HTMLTextAreaElement;
 
-    // Toast Helper
+    // Toast Notification
     function showToast(msg: string, isError = false) {
       const toast = document.getElementById('admin-toast');
       if (!toast) return;
@@ -1211,10 +1682,10 @@ import '../../styles/global.css';
     function checkAuth() {
       const token = sessionStorage.getItem('skynodes_admin_token');
       if (token === 'pilot_authorized') {
-        authModal!.style.display = 'none';
+        if (authModal) authModal.style.display = 'none';
         loadProductsFromShopify();
       } else {
-        authModal!.style.display = 'flex';
+        if (authModal) authModal.style.display = 'flex';
       }
     }
 
@@ -1239,34 +1710,83 @@ import '../../styles/global.css';
       window.location.reload();
     });
 
-    // 2. Tab Navigation
-    function switchTab(mode: 'catalog' | 'editor') {
+    // 2. Main Mode Switching (Catalog vs Editor)
+    function switchMode(mode: 'catalog' | 'editor') {
       if (mode === 'catalog') {
-        viewCatalog?.classList.remove('editor-wrapper');
         viewCatalog!.style.display = 'block';
         viewEditor?.classList.remove('active');
         tabCatalogBtn?.classList.add('active');
         tabCreateBtn?.classList.remove('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         viewCatalog!.style.display = 'none';
         viewEditor?.classList.add('active');
         tabCatalogBtn?.classList.remove('active');
         tabCreateBtn?.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
 
-    tabCatalogBtn?.addEventListener('click', () => switchTab('catalog'));
+    tabCatalogBtn?.addEventListener('click', () => switchMode('catalog'));
+    btnBackToCatalog?.addEventListener('click', () => switchMode('catalog'));
+    btnCancelEdit?.addEventListener('click', () => switchMode('catalog'));
     tabCreateBtn?.addEventListener('click', () => {
       resetEditorForm();
-      switchTab('editor');
+      switchMode('editor');
     });
     btnTriggerNewProd?.addEventListener('click', () => {
       resetEditorForm();
-      switchTab('editor');
+      switchMode('editor');
     });
-    btnCancelEdit?.addEventListener('click', () => switchTab('catalog'));
 
-    // 3. Load Products from Server
+    // 3. Sub-Tab Switching inside Editor
+    function switchSubTab(targetId: string) {
+      subSectionTabBtns.forEach(btn => {
+        if (btn.getAttribute('data-target') === targetId) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      studioTabPanels.forEach(panel => {
+        if (panel.id === targetId) {
+          panel.classList.add('active');
+        } else {
+          panel.classList.remove('active');
+        }
+      });
+    }
+
+    subSectionTabBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const target = (e.currentTarget as HTMLElement).getAttribute('data-target');
+        if (target) switchSubTab(target);
+      });
+    });
+
+    // Next / Prev step navigation buttons
+    document.querySelectorAll('.btn-tab-nav-next').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const nextTarget = (e.currentTarget as HTMLElement).getAttribute('data-next');
+        if (nextTarget) {
+          switchSubTab(nextTarget);
+          window.scrollTo({ top: 120, behavior: 'smooth' });
+        }
+      });
+    });
+
+    document.querySelectorAll('.btn-tab-nav-prev').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const prevTarget = (e.currentTarget as HTMLElement).getAttribute('data-prev');
+        if (prevTarget) {
+          switchSubTab(prevTarget);
+          window.scrollTo({ top: 120, behavior: 'smooth' });
+        }
+      });
+    });
+
+    // 4. Load Products from Shopify
     async function loadProductsFromShopify() {
       if (!catalogTbody) return;
       try {
@@ -1314,63 +1834,62 @@ import '../../styles/global.css';
       if (current) comboSelect.value = current;
     }
 
-    // Render Table
+    // Render Catalog Table
     function renderCatalogTable(productsToRender: any[]) {
       if (!catalogTbody) return;
       if (productsToRender.length === 0) {
-        catalogTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2.5rem; color: #64748b;">No products match your filter.</td></tr>`;
+        catalogTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2.5rem; color: #64748b;">No products match your search or filter.</td></tr>`;
         return;
       }
 
       catalogTbody.innerHTML = productsToRender.map(p => {
         const img = p.images?.[0] || 'https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800';
         const isLowStock = p.stock <= 4;
-        const compareText = p.compareAtPrice > p.price ? `<span style="text-decoration: line-through; color: #94a3b8; font-size: 0.78rem; margin-left: 0.35rem;">₹${p.compareAtPrice.toLocaleString('en-IN')}</span>` : '';
+        const compareText = p.compareAtPrice > p.price ? `<span style="text-decoration: line-through; color: #94a3b8; font-size: 0.76rem; margin-left: 0.35rem;">₹${p.compareAtPrice.toLocaleString('en-IN')}</span>` : '';
 
         return `
           <tr>
             <td>
-              <div class="prod-cell-main">
-                <img src="${img}" class="prod-thumb-img" alt="${p.title}" />
+              <div class="prod-meta-cell">
+                <img src="${img}" class="prod-thumb-square" alt="${p.title}" />
                 <div>
-                  <span class="prod-title-text">${p.title}</span>
-                  <small style="color: #64748b; font-size: 0.72rem;">SKU: ${p.sku || 'N/A'} • HSN: ${p.parsedDetails?.hsnCode || '95030020'}</small>
+                  <span class="prod-title-line">${p.title}</span>
+                  <span class="prod-sub-line">SKU: ${p.sku || 'N/A'} • HSN: ${p.parsedDetails?.hsnCode || '95030020'}</span>
                 </div>
               </div>
             </td>
             <td>
-              <span class="badge-cat-pill">${p.category.toUpperCase()}</span>
+              <span class="category-tag-pill">${(p.category || 'GENERAL').toUpperCase()}</span>
             </td>
             <td>
               <strong style="color: #0f172a;">₹${p.price.toLocaleString('en-IN')}.00</strong>
               ${compareText}
             </td>
             <td>
-              <span class="${isLowStock ? 'stock-badge-low' : 'stock-badge-good'}">
+              <span class="stock-indicator-pill ${isLowStock ? 'low' : 'good'}">
                 ${p.stock} Units
               </span>
             </td>
             <td style="text-align: right;">
-              <div class="action-btns-group" style="justify-content: flex-end;">
-                <button class="btn-edit-prod" data-id="${p.id}">✏️ Edit</button>
-                <a href="/product/${p.handle || p.id}" target="_blank" class="btn-view-pdp">👁️ View</a>
-                <button class="btn-del-prod" data-id="${p.id}" data-name="${p.title}">🗑️</button>
+              <div class="action-buttons-inline">
+                <button class="btn-table-edit" data-id="${p.id}">✏️ Edit</button>
+                <a href="/product/${p.handle || p.id}" target="_blank" class="btn-table-view">👁️ View</a>
+                <button class="btn-table-del" data-id="${p.id}" data-name="${p.title}">🗑️</button>
               </div>
             </td>
           </tr>
         `;
       }).join('');
 
-      // Attach Edit Listeners
-      catalogTbody.querySelectorAll('.btn-edit-prod').forEach(btn => {
+      // Attach Listeners
+      catalogTbody.querySelectorAll('.btn-table-edit').forEach(btn => {
         btn.addEventListener('click', (e) => {
           const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
           if (id) loadProductIntoEditor(id);
         });
       });
 
-      // Attach Delete Listeners
-      catalogTbody.querySelectorAll('.btn-del-prod').forEach(btn => {
+      catalogTbody.querySelectorAll('.btn-table-del').forEach(btn => {
         btn.addEventListener('click', async (e) => {
           const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
           const name = (e.currentTarget as HTMLElement).getAttribute('data-name');
@@ -1392,7 +1911,7 @@ import '../../styles/global.css';
       });
     }
 
-    // Filter & Search Event Listeners
+    // Filter & Search
     function applyFilters() {
       const query = (searchInput.value || '').toLowerCase().trim();
       const cat = catFilter.value;
@@ -1409,85 +1928,125 @@ import '../../styles/global.css';
     searchInput?.addEventListener('input', applyFilters);
     catFilter?.addEventListener('change', applyFilters);
 
-    // 4. Editor Dynamic Rows (Specs & FAQs)
+    // 5. Dynamic Rows (Specs & FAQs)
     function addSpecRow(key = '', val = '') {
       if (!specsContainer) return;
       const row = document.createElement('div');
-      row.className = 'form-grid-2 spec-item-row';
-      row.style.marginBottom = '0.5rem';
+      row.className = 'dynamic-row-item spec-item-row';
       row.innerHTML = `
-        <input type="text" class="form-control spec-key-input" placeholder="Spec Name (e.g. Displacement / Power)" value="${key}" />
-        <div style="display:flex; gap:0.5rem;">
-          <input type="text" class="form-control spec-val-input" placeholder="Value (e.g. 7.45 cc / 1.65 hp)" value="${val}" style="flex:1;" />
-          <button type="button" class="btn-del-row" style="background:#fee2e2; border:1px solid #fca5a5; color:#dc2626; border-radius:6px; padding:0 0.6rem; cursor:pointer;">✕</button>
-        </div>
+        <input type="text" class="input-box spec-key-input" placeholder="Spec Name (e.g. Displacement / Power)" value="${key}" style="flex: 1;" />
+        <input type="text" class="input-box spec-val-input" placeholder="Value (e.g. 7.45 cc / 1.65 hp)" value="${val}" style="flex: 1;" />
+        <button type="button" class="btn-del-dynamic-row" title="Delete Spec Row">✕</button>
       `;
-      row.querySelector('.btn-del-row')?.addEventListener('click', () => row.remove());
+      row.querySelector('.btn-del-dynamic-row')?.addEventListener('click', () => row.remove());
       specsContainer.appendChild(row);
     }
 
     function addFaqRow(q = '', a = '') {
       if (!faqContainer) return;
       const row = document.createElement('div');
-      row.className = 'sub-card-box faq-item-row';
+      row.className = 'mini-sub-card faq-item-row';
+      row.style.marginBottom = '0.75rem';
       row.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
-          <strong style="font-size:0.75rem; color:#475569;">Question & Answer Pair</strong>
-          <button type="button" class="btn-del-faq" style="background:#fee2e2; border:none; color:#dc2626; border-radius:4px; font-size:0.7rem; padding:0.15rem 0.5rem; cursor:pointer;">Remove</button>
+          <span style="font-size:0.72rem; font-weight:800; color:#0f172a; text-transform:uppercase;">FAQ Question & Answer</span>
+          <button type="button" class="btn-del-dynamic-row" style="padding:0.2rem 0.5rem;" title="Delete FAQ">✕ Delete</button>
         </div>
-        <div class="form-group">
-          <input type="text" class="form-control faq-q-input" placeholder="Question (e.g. What type of fuel is recommended?)" value="${q}" />
-        </div>
-        <div class="form-group" style="margin-bottom:0;">
-          <textarea class="form-control faq-a-input" placeholder="Answer (e.g. We recommend high-quality hobby glow fuel with 10-20% nitro...)" style="min-height:60px;">${a}</textarea>
-        </div>
+        <input type="text" class="input-box faq-q-input" placeholder="Question (e.g. What fuel is recommended?)" value="${q}" style="margin-bottom:0.4rem;" />
+        <textarea class="input-box faq-a-input" placeholder="Answer..." style="min-height:60px;">${a}</textarea>
       `;
-      row.querySelector('.btn-del-faq')?.addEventListener('click', () => row.remove());
+      row.querySelector('.btn-del-dynamic-row')?.addEventListener('click', () => row.remove());
       faqContainer.appendChild(row);
     }
 
     btnAddSpecRow?.addEventListener('click', () => addSpecRow());
     btnAddFaqRow?.addEventListener('click', () => addFaqRow());
 
-    // Image Previews
+    // 6. Media Management (Primary Image + Gallery Strip)
+    function updatePrimaryPreview(url: string) {
+      if (!mainPreviewFrame) return;
+      if (url) {
+        mainPreviewFrame.innerHTML = `<img src="${url}" alt="Primary Image" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'primary-preview-placeholder\\'><span>⚠️</span><span>Invalid Image Link</span></div>';" />`;
+      } else {
+        mainPreviewFrame.innerHTML = `<div class="primary-preview-placeholder"><span>🖼️</span><span>No Main Image</span></div>`;
+      }
+    }
+
     mainImgInput?.addEventListener('input', () => {
-      const url = mainImgInput.value.trim();
-      if (mainImgPreview) {
-        mainImgPreview.innerHTML = url ? `<img src="${url}" class="img-preview-thumb" onerror="this.style.display='none'" />` : '';
+      updatePrimaryPreview(mainImgInput.value.trim());
+    });
+
+    function renderGalleryStrip() {
+      if (!galleryThumbnailsStrip) return;
+      if (galleryUrlsList.length === 0) {
+        galleryThumbnailsStrip.innerHTML = `<span style="font-size: 0.75rem; color: #94a3b8; font-style: italic;">No additional photos added yet.</span>`;
+        if (galleryRawInput) galleryRawInput.value = '';
+        return;
+      }
+
+      galleryThumbnailsStrip.innerHTML = galleryUrlsList.map((url, idx) => `
+        <div class="gallery-thumb-item">
+          <img src="${url}" alt="Gallery ${idx + 1}" onerror="this.style.opacity='0.3';" />
+          <button type="button" class="gallery-thumb-del-btn" data-index="${idx}" title="Remove photo">✕</button>
+        </div>
+      `).join('');
+
+      if (galleryRawInput) galleryRawInput.value = galleryUrlsList.join('\n');
+
+      galleryThumbnailsStrip.querySelectorAll('.gallery-thumb-del-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = parseInt((e.currentTarget as HTMLElement).getAttribute('data-index') || '-1', 10);
+          if (idx >= 0) {
+            galleryUrlsList.splice(idx, 1);
+            renderGalleryStrip();
+          }
+        });
+      });
+    }
+
+    btnAddGalleryItem?.addEventListener('click', () => {
+      const url = galleryNewUrlInput?.value.trim();
+      if (!url) return;
+      galleryUrlsList.push(url);
+      galleryNewUrlInput.value = '';
+      renderGalleryStrip();
+    });
+
+    galleryNewUrlInput?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        btnAddGalleryItem?.click();
       }
     });
 
-    galleryImgInput?.addEventListener('input', () => {
-      const urls = galleryImgInput.value.split('\n').map(u => u.trim()).filter(Boolean);
-      if (galleryImgPreview) {
-        galleryImgPreview.innerHTML = urls.map(u => `<img src="${u}" class="img-preview-thumb" onerror="this.style.display='none'" />`).join('');
-      }
-    });
-
-    // 5. Reset Editor Form
+    // 7. Reset Form
     function resetEditorForm() {
       currentEditingProductId = null;
       (document.getElementById('edit-product-id') as HTMLInputElement).value = '';
       if (editorActionTitle) editorActionTitle.textContent = '➕ Add New Product';
+      if (editorActionSubcrumb) editorActionSubcrumb.textContent = 'New Product';
       editorForm?.reset();
+
+      galleryUrlsList = [];
+      renderGalleryStrip();
+      updatePrimaryPreview('');
 
       if (specsContainer) specsContainer.innerHTML = '';
       if (faqContainer) faqContainer.innerHTML = '';
-      if (mainImgPreview) mainImgPreview.innerHTML = '';
-      if (galleryImgPreview) galleryImgPreview.innerHTML = '';
 
-      // Add default sample specs
+      // Defaults
       addSpecRow('Displacement', '7.45 cc (0.455 cu in)');
       addSpecRow('Power', '1.65 hp @ 16,000 RPM');
       addSpecRow('Weight', '378g (13.3 oz)');
       addSpecRow('Fuel', 'Nitro Glow (10-20% Nitro)');
       addSpecRow('Recommended Props', '10.5x6, 11x6, 12x4');
 
-      // Add default sample FAQ
       addFaqRow('What fuel is recommended?', 'We recommend high-quality hobby glow fuel containing 10% to 15% nitromethane with 18% to 20% synthetic or castor oil lubricant.');
+
+      switchSubTab('tab-panel-basics');
     }
 
-    // 6. Pre-fill Editor for Editing Existing Product
+    // 8. Load Existing Product into Editor
     function loadProductIntoEditor(productId: string) {
       const p = allCatalogProducts.find(item => String(item.id) === String(productId));
       if (!p) return;
@@ -1495,8 +2054,9 @@ import '../../styles/global.css';
       currentEditingProductId = p.id;
       (document.getElementById('edit-product-id') as HTMLInputElement).value = p.id;
       if (editorActionTitle) editorActionTitle.textContent = `✏️ Edit: ${p.title}`;
+      if (editorActionSubcrumb) editorActionSubcrumb.textContent = p.title;
 
-      // Basic fields
+      // Basics
       (document.getElementById('f-title') as HTMLInputElement).value = p.title || '';
       (document.getElementById('f-category') as HTMLSelectElement).value = p.category || 'engine';
       (document.getElementById('f-vendor') as HTMLInputElement).value = p.vendor || 'SKYNODES UAV';
@@ -1520,11 +2080,10 @@ import '../../styles/global.css';
       // Images
       const mainImg = p.images?.[0] || '';
       mainImgInput.value = mainImg;
-      if (mainImgPreview) mainImgPreview.innerHTML = mainImg ? `<img src="${mainImg}" class="img-preview-thumb" />` : '';
+      updatePrimaryPreview(mainImg);
 
-      const galleryImgs = (p.images || []).slice(1);
-      galleryImgInput.value = galleryImgs.join('\n');
-      if (galleryImgPreview) galleryImgPreview.innerHTML = galleryImgs.map((u: string) => `<img src="${u}" class="img-preview-thumb" />`).join('');
+      galleryUrlsList = (p.images || []).slice(1);
+      renderGalleryStrip();
 
       // Trust Badges
       const trust = d.trustBadges || [];
@@ -1533,7 +2092,7 @@ import '../../styles/global.css';
       (document.getElementById('f-trust-3') as HTMLInputElement).value = trust[2] || 'AMA Certified';
       (document.getElementById('f-trust-4') as HTMLInputElement).value = trust[3] || 'Assured Delivery';
 
-      // Notes in this set
+      // Notes in set
       const notes = d.notesInSet || [];
       (document.getElementById('f-note-1-name') as HTMLInputElement).value = notes[0]?.name || '';
       (document.getElementById('f-note-1-desc') as HTMLInputElement).value = notes[0]?.desc || '';
@@ -1579,34 +2138,38 @@ import '../../styles/global.css';
         addFaqRow('What fuel is recommended?', 'We recommend high-quality hobby glow fuel.');
       }
 
-      switchTab('editor');
+      switchSubTab('tab-panel-basics');
+      switchMode('editor');
     }
 
-    // 7. Save / Publish Product to Shopify
-    btnSaveProductSubmit?.addEventListener('click', async () => {
+    // 9. Save Product to Shopify REST API
+    async function handleSaveProduct() {
       const title = (document.getElementById('f-title') as HTMLInputElement)?.value.trim();
       const priceStr = (document.getElementById('f-price') as HTMLInputElement)?.value.trim();
 
       if (!title) {
-        alert('Please enter a Product Title.');
+        alert('Please enter a Product Title in Tab 1 (Basics & Pricing).');
+        switchSubTab('tab-panel-basics');
         document.getElementById('f-title')?.focus();
         return;
       }
       if (!priceStr || isNaN(parseFloat(priceStr))) {
-        alert('Please enter a valid Selling Price.');
+        alert('Please enter a valid Selling Price in Tab 1 (Basics & Pricing).');
+        switchSubTab('tab-panel-basics');
         document.getElementById('f-price')?.focus();
         return;
       }
 
-      btnSaveProductSubmit.disabled = true;
-      btnSaveProductSubmit.innerHTML = `<span>⏳</span> Syncing with Shopify...`;
+      const saveBtns = [btnSaveProductSubmit, btnSaveProductSubmitBottom].filter(Boolean);
+      saveBtns.forEach(b => {
+        b.disabled = true;
+        b.innerHTML = `<span>⏳</span> Syncing with Shopify...`;
+      });
 
       try {
         // Collect Images
         const mainImg = (document.getElementById('f-main-image') as HTMLInputElement)?.value.trim();
-        const galleryRaw = (document.getElementById('f-gallery-images') as HTMLTextAreaElement)?.value || '';
-        const galleryList = galleryRaw.split('\n').map(u => u.trim()).filter(Boolean);
-        const allImages = [mainImg, ...galleryList].filter(Boolean);
+        const allImages = [mainImg, ...galleryUrlsList].filter(Boolean);
 
         // Collect Trust Badges
         const trustBadges = [
@@ -1648,7 +2211,7 @@ import '../../styles/global.css';
           if (q && a) faqList.push({ q, a });
         });
 
-        // Parse YouTube ID if whole link given
+        // Parse YouTube ID
         let ytVal = (document.getElementById('f-video') as HTMLInputElement)?.value.trim();
         if (ytVal.includes('v=')) ytVal = ytVal.split('v=')[1]?.split('&')[0];
         else if (ytVal.includes('youtu.be/')) ytVal = ytVal.split('youtu.be/')[1]?.split('?')[0];
@@ -1693,19 +2256,24 @@ import '../../styles/global.css';
         if (resData.success) {
           showToast(currentEditingProductId ? '✅ Product updated & synced with Shopify!' : '🎉 New Product created & published live!');
           await loadProductsFromShopify();
-          switchTab('catalog');
+          switchMode('catalog');
         } else {
           alert('❌ Shopify Error: ' + (JSON.stringify(resData.error) || 'Failed to save product'));
         }
       } catch (err: any) {
         alert('❌ Network/System Error: ' + err.message);
       } finally {
-        btnSaveProductSubmit.disabled = false;
-        btnSaveProductSubmit.innerHTML = `<span>🚀</span> Save & Publish to Store`;
+        saveBtns.forEach(b => {
+          b.disabled = false;
+          b.innerHTML = `<span>🚀</span> Save & Publish to Store`;
+        });
       }
-    });
+    }
 
-    // Initialize on Load
+    btnSaveProductSubmit?.addEventListener('click', handleSaveProduct);
+    btnSaveProductSubmitBottom?.addEventListener('click', handleSaveProduct);
+
+    // Initial Auth Check
     checkAuth();
   </script>
 </body>
