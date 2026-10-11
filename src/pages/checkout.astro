@@ -816,6 +816,40 @@ import { PRODUCTS } from '../data/products';
         return { state: 'Other', isMaharashtra: false };
       }
 
+      function resolveGstJurisdiction(pincode: string, stateName: string, gstin?: string): {
+        isMaharashtra: boolean;
+        isInterState: boolean;
+        state: string;
+        placeOfSupply: string;
+        supplyType: string;
+      } {
+        const pinRes = getStateFromPincode(pincode);
+        const cleanState = (stateName || '').trim();
+        const cleanGstin = (gstin || '').trim().toUpperCase();
+
+        // 1. If Delivery PIN is in Maharashtra (40-44 except 403) OR State is Maharashtra -> 100% Maharashtra (Intra-State)
+        let isMH = pinRes.isMaharashtra || cleanState.toLowerCase().includes('maharashtra');
+
+        // 2. If neither PIN nor State is specified, but GSTIN starts with 27 -> Maharashtra
+        if (!isMH && cleanGstin.length >= 2 && cleanGstin.startsWith('27')) {
+          isMH = true;
+        }
+
+        const isInterState = !isMH;
+        let resolvedState = isMH ? 'Maharashtra' : (cleanState && !cleanState.toLowerCase().includes('maharashtra') ? cleanState : (pinRes.state !== 'Other' ? pinRes.state : 'Outside Maharashtra'));
+
+        const placeOfSupply = isMH ? 'Maharashtra (27)' : `${resolvedState} (Inter-State)`;
+        const supplyType = isMH ? 'Intra-State (CGST 9% + SGST 9%)' : 'Inter-State (IGST 18% Only)';
+
+        return {
+          isMaharashtra: isMH,
+          isInterState,
+          state: resolvedState,
+          placeOfSupply,
+          supplyType
+        };
+      }
+
       function updateTotalsWithDiscount() {
         const payMethod = getSelectedPaymentMethod();
         const totalDiscounts = appliedDiscountAmount;
@@ -843,15 +877,10 @@ import { PRODUCTS } from '../data/products';
         const pinInput = (document.getElementById('cust-pincode') as HTMLInputElement)?.value.trim() || '';
         const stateSelect = (document.getElementById('cust-state') as HTMLSelectElement);
         const gstinInput = (document.getElementById('cust-gstin') as HTMLInputElement)?.value.trim().toUpperCase() || '';
+        const selectedStateVal = stateSelect?.value || '';
 
-        const pinRes = getStateFromPincode(pinInput);
-        let isMH = pinRes.isMaharashtra;
-
-        if (gstinInput.length >= 2) {
-          isMH = gstinInput.startsWith('27');
-        } else if (!pinInput && stateSelect) {
-          isMH = stateSelect.value.toLowerCase().includes('maharashtra');
-        }
+        const jur = resolveGstJurisdiction(pinInput, selectedStateVal, gstinInput);
+        const isMH = jur.isMaharashtra;
 
         const cgstRow = document.getElementById('tax-tray-cgst-row');
         const sgstRow = document.getElementById('tax-tray-sgst-row');
@@ -885,7 +914,7 @@ import { PRODUCTS } from '../data/products';
           if (trayIgstVal) trayIgstVal.textContent = `₹${estGst.toLocaleString('en-IN')}.00`;
           if (trayIgstLabel) trayIgstLabel.textContent = `Integrated GST (IGST ${gstRatesText}):`;
           if (ruleEl) {
-            ruleEl.textContent = `Inter-State Supply (IGST Only - ${pinRes.state})`;
+            ruleEl.textContent = `Inter-State Supply (IGST Only - ${jur.state})`;
             ruleEl.style.color = '#b45309';
           }
         }
@@ -1100,6 +1129,28 @@ import { PRODUCTS } from '../data/products';
 
       initSavedAddressesOnCheckout();
 
+      function appendOrderToHistory(order: any) {
+        try {
+          const raw = localStorage.getItem('skynodes_orders_history');
+          let history: any[] = [];
+          if (raw) {
+            try {
+              const parsed = JSON.parse(raw);
+              if (Array.isArray(parsed)) {
+                history = parsed.filter(o => o && o.orderId !== '#SKY-INV-2026-8942' && o.orderId !== '#SKY-INV-2026-7819');
+              }
+            } catch (e) {
+              history = [];
+            }
+          }
+          history = history.filter(o => o && o.orderId !== order.orderId);
+          history.unshift(order);
+          localStorage.setItem('skynodes_orders_history', JSON.stringify(history));
+        } catch (err) {
+          console.warn('[Order History Save Warning]', err);
+        }
+      }
+
       placeOrderBtn?.addEventListener('click', async (e) => {
         e.preventDefault();
 
@@ -1158,22 +1209,9 @@ import { PRODUCTS } from '../data/products';
         const awb = `#AWB-987${Math.floor(100000 + Math.random() * 900000)}`;
         const todayDate = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 
-        const pinRes = getStateFromPincode(pincode);
-        let finalState = state;
-        let isMH = pinRes.isMaharashtra;
-
-        if (gstin && gstin.length >= 2) {
-          isMH = gstin.startsWith('27');
-        } else if (pincode && pincode.replace(/\D/g, '').length >= 2) {
-          isMH = pinRes.isMaharashtra;
-        } else if (state && state.toLowerCase().includes('maharashtra')) {
-          isMH = true;
-        }
-
-        const isInterState = !isMH;
-        if (isInterState && (finalState === 'Maharashtra' || !finalState)) {
-          finalState = pinRes.state !== 'Other' ? pinRes.state : 'Outside Maharashtra';
-        }
+        const jur = resolveGstJurisdiction(pincode, state, gstin);
+        const isInterState = jur.isInterState;
+        const finalState = jur.state;
 
         const baseOrder = {
           orderId,
@@ -1192,7 +1230,7 @@ import { PRODUCTS } from '../data/products';
             gstin
           },
           isInterState,
-          supplyType: isInterState ? 'Inter-State (IGST 18%)' : 'Intra-State (CGST 9% + SGST 9%)',
+          supplyType: jur.supplyType,
           items: hydrated,
           subtotal,
           gst,
@@ -1225,11 +1263,14 @@ import { PRODUCTS } from '../data/products';
 
           try {
             clearCart();
+            appendOrderToHistory(currentOrder);
             localStorage.setItem('skynodes_last_order', JSON.stringify(currentOrder));
             localStorage.removeItem('skynodes_cart_v2');
             localStorage.removeItem('skynodes_cart');
             window.dispatchEvent(new CustomEvent('cart-updated', { detail: [] }));
             if (email) localStorage.setItem('skynodes_pilot_email', email);
+            if (phone) localStorage.setItem('skynodes_pilot_phone', phone);
+            if (name) localStorage.setItem('skynodes_pilot_name', name);
             if (gstin) localStorage.setItem('skynodes_pilot_gstin', gstin);
             if (companyName) localStorage.setItem('skynodes_pilot_company', companyName);
           } catch (err) {}
@@ -1395,11 +1436,14 @@ import { PRODUCTS } from '../data/products';
                 }
 
                 clearCart();
+                appendOrderToHistory(currentOrder);
                 localStorage.setItem('skynodes_last_order', JSON.stringify(currentOrder));
                 localStorage.removeItem('skynodes_cart_v2');
                 localStorage.removeItem('skynodes_cart');
                 window.dispatchEvent(new CustomEvent('cart-updated', { detail: [] }));
                 if (email) localStorage.setItem('skynodes_pilot_email', email);
+                if (phone) localStorage.setItem('skynodes_pilot_phone', phone);
+                if (name) localStorage.setItem('skynodes_pilot_name', name);
                 if (gstin) localStorage.setItem('skynodes_pilot_gstin', gstin);
                 if (companyName) localStorage.setItem('skynodes_pilot_company', companyName);
 
@@ -1424,6 +1468,7 @@ import { PRODUCTS } from '../data/products';
                   });
                 } catch (e) {}
 
+                appendOrderToHistory(currentOrder);
                 localStorage.setItem('skynodes_last_order', JSON.stringify(currentOrder));
                 localStorage.removeItem('skynodes_cart');
                 window.dispatchEvent(new CustomEvent('cart-updated', { detail: [] }));

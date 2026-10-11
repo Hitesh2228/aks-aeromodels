@@ -64,6 +64,21 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
           <div class="card-right-col">
             <h2 class="card-right-title">Pilot Login Portal</h2>
 
+            <!-- Primary 1-Click Google Login -->
+            <button type="button" class="google-fast-btn hero-profile-google-btn" id="page-google-auth-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+              </svg>
+              <span>Instant 1-Click Login with Google</span>
+            </button>
+
+            <div class="auth-divider">
+              <span>OR LOGIN WITH MOBILE NUMBER</span>
+            </div>
+
             <form id="profile-page-login-form" class="card-form">
               <div class="intl-phone-wrapper">
                 <select id="page-user-country-code" class="country-code-picker">
@@ -103,16 +118,6 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
                   required 
                 />
               </div>
-
-              <button type="button" class="google-fast-btn" id="page-google-auth-btn">
-                <svg width="18" height="18" viewBox="0 0 24 24">
-                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-                </svg>
-                <span>Or Continue with Google</span>
-              </button>
 
               <button type="submit" class="card-submit-btn">LOGIN TO PILOT PORTAL</button>
             </form>
@@ -405,6 +410,38 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
     .flag-prefix { background: #f9fafb; border-right: 1px solid #e5e7eb; padding: 0.75rem 0.85rem; font-size: 0.85rem; font-weight: 700; color: #374151; display: flex; align-items: center; }
     .mobile-input-field { flex: 1; border: none; padding: 0.75rem 0.85rem; font-size: 0.9rem; outline: none; }
     .google-fast-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.6rem; background: #f9fafb; border: 1px solid #e5e7eb; padding: 0.75rem; border-radius: 6px; font-size: 0.82rem; font-weight: 700; color: #374151; cursor: pointer; }
+    .hero-profile-google-btn {
+      background: #ffffff;
+      border: 1.5px solid #d1d5db;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      padding: 0.85rem;
+      font-size: 0.88rem;
+      transition: all 0.2s ease;
+    }
+    .hero-profile-google-btn:hover {
+      background: #f9fafb;
+      border-color: #000000;
+      transform: translateY(-1px);
+    }
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 1.15rem 0 0.85rem;
+    }
+    .auth-divider::before,
+    .auth-divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .auth-divider span {
+      padding: 0 0.75rem;
+      font-size: 0.68rem;
+      color: #9ca3af;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
     .card-submit-btn { width: 100%; background: #000000; color: #ffffff; font-weight: 800; font-size: 0.9rem; padding: 0.85rem; border-radius: 6px; border: none; cursor: pointer; }
 
     /* Authenticated Profile Layout */
@@ -1126,72 +1163,109 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
         if (!userOrdersList) return;
         try {
           const rawHistory = localStorage.getItem('skynodes_orders_history');
-          let history = rawHistory ? JSON.parse(rawHistory) : [];
-
-          if (history.length === 0) {
-            history = [
-              {
-                orderId: '#SKY-INV-2026-8942',
-                date: '25 Aug 2026',
-                paymentMethod: 'PAID (ONLINE)',
-                status: 'DISPATCHED',
-                awb: '#AWB-9876543',
-                total: 38790,
-                customer: { name: localStorage.getItem('skynodes_pilot_name') || 'Customer', address: 'Devlali Camp, Nashik, MH' },
-                items: [
-                  { quantity: 1, product: { name: 'O.S. Max 0.46 AX II Nitro Engine', price: 18990 } },
-                  { quantity: 1, product: { name: 'Futaba 6K 6-Channel Radio System', price: 19800 } }
-                ]
-              },
-              {
-                orderId: '#SKY-INV-2026-7819',
-                date: '12 Aug 2026',
-                paymentMethod: 'CASH ON DELIVERY (COD)',
-                status: 'DELIVERED',
-                awb: '#AWB-9871122',
-                total: 84990,
-                customer: { name: localStorage.getItem('skynodes_pilot_name') || 'Customer', address: 'Devlali Camp, Nashik, MH' },
-                items: [
-                  { quantity: 1, product: { name: 'Seagull Decathlon 122" V2 ARF Airframe', price: 84990 } }
-                ]
+          let history: any[] = [];
+          if (rawHistory) {
+            try {
+              const parsed = JSON.parse(rawHistory);
+              if (Array.isArray(parsed)) {
+                history = parsed.filter(o => o && o.orderId !== '#SKY-INV-2026-8942' && o.orderId !== '#SKY-INV-2026-7819');
               }
-            ];
+            } catch (e) {
+              history = [];
+            }
           }
 
-          userOrdersList.innerHTML = history.map((ord: any, idx: number) => `
-            <div class="order-item">
-              <div class="order-header">
-                <div>
-                  <strong class="order-id">${ord.orderId}</strong>
-                  <span class="order-date">Date: ${ord.date} • AWB: ${ord.awb || '#AWB-TRACKING'}</span>
+          function displayOrderItems(orders: any[]) {
+            if (!userOrdersList) return;
+            if (!orders || orders.length === 0) {
+              userOrdersList.innerHTML = `
+                <div style="text-align: center; padding: 2.2rem 1.25rem; background: #fafafa; border: 1.5px dashed #e5e7eb; border-radius: 10px; margin-top: 0.5rem;">
+                  <span style="font-size: 2.2rem; display: block; margin-bottom: 0.5rem;">✈️</span>
+                  <h4 style="font-size: 0.95rem; font-weight: 800; color: #111827; margin: 0 0 0.35rem 0;">No Flight Orders Placed Yet</h4>
+                  <p style="font-size: 0.8rem; color: #6b7280; max-width: 400px; margin: 0 auto 1.2rem; line-height: 1.45;">
+                    Your account has no previous purchase records. When you order UAV airframes, engines, or electronics, your orders and GST invoices will be safely tracked here.
+                  </p>
+                  <a href="/shop" style="display: inline-block; background: #000000; color: #ffffff; font-size: 0.8rem; font-weight: 700; padding: 0.6rem 1.25rem; border-radius: 6px; text-decoration: none; transition: background 0.2s;">
+                    Explore UAV Catalog & Shop →
+                  </a>
                 </div>
-                <span class="${ord.paymentMethod?.includes('COD') ? 'status-badge-blue' : 'status-badge-green'}">${ord.paymentMethod?.includes('COD') ? 'PENDING COD' : 'DELIVERED'}</span>
-              </div>
-              <div class="order-details">
-                <p style="font-weight: 700; color: #111; margin-bottom: 0.3rem;">Items Ordered:</p>
-                <ul style="margin: 0 0 0.8rem 1.2rem; font-size: 0.8rem; color: #444;">
-                  ${ord.items ? ord.items.map((i: any) => `<li>${i.quantity}x ${i.product?.name || 'Equipment'} (₹${((i.product?.price || 0) * i.quantity).toLocaleString('en-IN')})</li>`).join('') : '<li>Aeromodelling Equipment</li>'}
-                </ul>
-                <div class="order-footer">
-                  <span class="order-price">Total: ₹${(ord.total || 0).toLocaleString('en-IN')}.00</span>
-                  <button class="btn-view-order-inv view-invoice-link" data-index="${idx}" style="background:none; border:none; cursor:pointer; font-weight:700;">View GST Invoice 📄</button>
-                </div>
-              </div>
-            </div>
-          `).join('');
+              `;
+              return;
+            }
 
-          userOrdersList.querySelectorAll('.btn-view-order-inv').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-              const index = parseInt((e.currentTarget as HTMLElement).getAttribute('data-index') || '0', 10);
-              const selectedOrder = history[index];
-              if (selectedOrder) {
-                localStorage.setItem('skynodes_last_order', JSON.stringify(selectedOrder));
-                window.location.href = '/invoice';
-              }
+            userOrdersList.innerHTML = orders.map((ord: any, idx: number) => `
+              <div class="order-item">
+                <div class="order-header">
+                  <div>
+                    <strong class="order-id">${ord.orderId}</strong>
+                    <span class="order-date">Date: ${ord.date} • AWB: ${ord.awb || '#AWB-TRACKING'}</span>
+                  </div>
+                  <span class="${ord.paymentMethod?.includes('COD') ? 'status-badge-blue' : 'status-badge-green'}">${ord.paymentMethod?.includes('COD') ? (ord.status || 'PENDING COD') : (ord.status || 'PAID & CONFIRMED')}</span>
+                </div>
+                <div class="order-details">
+                  <p style="font-weight: 700; color: #111; margin-bottom: 0.3rem;">Items Ordered:</p>
+                  <ul style="margin: 0 0 0.8rem 1.2rem; font-size: 0.8rem; color: #444;">
+                    ${ord.items && ord.items.length > 0 ? ord.items.map((i: any) => `<li>${i.quantity}x ${i.product?.name || 'Equipment'} (₹${((i.product?.price || 0) * i.quantity).toLocaleString('en-IN')})</li>`).join('') : '<li>Aeromodelling Equipment</li>'}
+                  </ul>
+                  <div class="order-footer">
+                    <span class="order-price">Total: ₹${(ord.total || 0).toLocaleString('en-IN')}.00</span>
+                    <button class="btn-view-order-inv view-invoice-link" data-index="${idx}" style="background:none; border:none; cursor:pointer; font-weight:700;">View GST Invoice 📄</button>
+                  </div>
+                </div>
+              </div>
+            `).join('');
+
+            userOrdersList.querySelectorAll('.btn-view-order-inv').forEach(btn => {
+              btn.addEventListener('click', (e) => {
+                const index = parseInt((e.currentTarget as HTMLElement).getAttribute('data-index') || '0', 10);
+                const selectedOrder = orders[index];
+                if (selectedOrder) {
+                  localStorage.setItem('skynodes_last_order', JSON.stringify(selectedOrder));
+                  window.location.href = '/invoice';
+                }
+              });
             });
-          });
+          }
 
-        } catch (e) {}
+          // 1. Render immediately from local history (zero delay)
+          displayOrderItems(history);
+
+          // 2. Fetch server-side orders from Shopify Admin in the background
+          const user = getLoggedInUser();
+          const email = user?.email || localStorage.getItem('skynodes_pilot_email') || '';
+          const phone = user?.phone || localStorage.getItem('skynodes_pilot_phone') || '';
+
+          if (email || phone) {
+            fetch(`/api/get-customer-orders?email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}`)
+              .then(res => res.json())
+              .then(data => {
+                if (data && data.success && Array.isArray(data.orders)) {
+                  const serverOrders = data.orders;
+                  const orderMap = new Map();
+
+                  // First add server-side orders
+                  serverOrders.forEach((so: any) => {
+                    if (so && so.orderId) orderMap.set(so.orderId, so);
+                  });
+
+                  // Then add any local orders not yet on server
+                  history.forEach((lo: any) => {
+                    if (lo && lo.orderId && !orderMap.has(lo.orderId)) {
+                      orderMap.set(lo.orderId, lo);
+                    }
+                  });
+
+                  const merged = Array.from(orderMap.values());
+                  localStorage.setItem('skynodes_orders_history', JSON.stringify(merged));
+                  displayOrderItems(merged);
+                }
+              })
+              .catch(err => console.warn('[Orders Fetch Warning]', err));
+          }
+
+        } catch (e) {
+          console.error('[renderOrders error]', e);
+        }
       }
 
       function checkAuth() {
@@ -1446,10 +1520,12 @@ import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
             checkAuth();
           },
           (err) => {
-            console.error('[Google Sign-In Error]', err);
+            console.warn('[Google Sign-In Error]', err);
+            alert('ℹ️ Google Sign-In is temporarily undergoing domain verification for skynodesuav.in. Please login with your Mobile Number below.');
           }
         );
       });
+
     }
 
     if (document.readyState === 'loading') {

@@ -51,6 +51,21 @@
 
         <!-- Mode 1: LOGIN FORM -->
         <form id="modal-login-form" class="modal-form auth-mode-panel active">
+          <!-- Primary Google 1-Click Login -->
+          <button type="button" class="google-fast-btn primary-google-btn" id="modal-google-login-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+            <span>Continue with Google (Instant 1-Click)</span>
+          </button>
+
+          <div class="auth-divider">
+            <span>OR SIGN IN WITH PASSWORD</span>
+          </div>
+
           <div class="form-input-group">
             <label class="form-label">Email or Phone Number</label>
             <input type="text" id="login-identifier" class="form-input-field" placeholder="Enter Email or 10-digit Phone" required />
@@ -64,22 +79,28 @@
             <input type="password" id="login-password" class="form-input-field" placeholder="Enter Password" required />
           </div>
 
-          <!-- Google 1-Click Option -->
-          <button type="button" class="google-fast-btn" id="modal-google-login-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24">
-              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-            </svg>
-            <span>Or Continue with Google</span>
-          </button>
+          <div id="login-error-alert" class="error-alert-box" style="display: none;"></div>
 
           <button type="submit" class="modal-submit-btn">LOGIN TO ACCOUNT</button>
         </form>
 
         <!-- Mode 2: SIGN UP FORM -->
         <form id="modal-signup-form" class="modal-form auth-mode-panel">
+          <!-- Primary Google 1-Click Sign Up -->
+          <button type="button" class="google-fast-btn primary-google-btn" id="modal-google-signup-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+            <span>Sign Up Instantly with Google</span>
+          </button>
+
+          <div class="auth-divider">
+            <span>OR REGISTER MANUALLY</span>
+          </div>
+
           <div class="form-input-group">
             <label class="form-label">Full Name</label>
             <input type="text" id="signup-fullname" class="form-input-field" placeholder="Enter Full Name" required />
@@ -130,25 +151,61 @@
             <input type="password" id="signup-password" class="form-input-field" placeholder="At least 6 characters" minlength="6" required />
           </div>
 
+          <div id="signup-error-alert" class="error-alert-box" style="display: none;"></div>
+
           <button type="submit" class="modal-submit-btn">CREATE PILOT ACCOUNT</button>
         </form>
 
         <!-- Mode 3: FORGOT PASSWORD FORM -->
         <form id="modal-forgot-form" class="modal-form auth-mode-panel">
-          <p class="forgot-instructions">Enter your registered email address or phone number below. We will send you an instant Password Reset OTP link.</p>
-          
+          <div class="forgot-hero-card">
+            <div class="forgot-key-icon">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </div>
+
+            <h3 class="auth-sub-heading" style="text-align: center; margin-bottom: 0.2rem;">Reset Pilot Password</h3>
+            <p class="forgot-instructions" style="text-align: center; max-width: 320px; margin: 0 auto 0.75rem;">
+              Verify your registered email and mobile number to set a new password.
+            </p>
+          </div>
+
           <div class="form-input-group">
-            <label class="form-label">Registered Email or Phone</label>
-            <input type="text" id="forgot-identifier" class="form-input-field" placeholder="Enter your email or phone" required />
+            <label class="form-label">Registered Email Address</label>
+            <input type="email" id="forgot-email" class="form-input-field" placeholder="pilot@skynodesuav.com" required />
           </div>
 
-          <button type="submit" class="modal-submit-btn">SEND RESET OTP LINK</button>
-
-          <div id="forgot-success-msg" class="success-alert-box" style="display: none;">
-            ✅ Reset OTP sent successfully! Check your email inbox or SMS.
+          <div class="form-input-group">
+            <label class="form-label">Registered Mobile Number (10 Digits)</label>
+            <input type="tel" id="forgot-phone" class="form-input-field" placeholder="88885 02568" pattern="[0-9\\s-]{10,15}" required />
           </div>
 
-          <button type="button" class="back-to-login-btn" id="back-from-forgot">← Back to Login</button>
+          <div class="form-input-group">
+            <label class="form-label">New Password</label>
+            <input type="password" id="forgot-new-password" class="form-input-field" placeholder="At least 6 characters" minlength="6" required />
+          </div>
+
+          <div class="form-input-group">
+            <label class="form-label">Confirm New Password</label>
+            <input type="password" id="forgot-confirm-password" class="form-input-field" placeholder="Re-type new password" minlength="6" required />
+          </div>
+
+          <div id="forgot-error-alert" class="error-alert-box" style="display: none;"></div>
+          <div id="forgot-success-alert" class="success-alert-box" style="display: none;"></div>
+
+          <button type="submit" class="modal-submit-btn" id="forgot-submit-btn">RESET PASSWORD</button>
+
+          <!-- WhatsApp Direct Pilot Support -->
+          <div class="forgot-support-box" style="margin-top: 1rem;">
+            <span>Need human pilot assistance?</span>
+            <a href="https://wa.me/917722009120?text=Hi%20SKYNODES%20UAV,%20I%20need%20help%20resetting%20my%20pilot%20account%20password." target="_blank" class="forgot-wa-link">
+              💬 WhatsApp Pilot Help: +91 7722009120
+            </a>
+          </div>
+
+          <button type="button" class="back-to-login-btn" id="back-from-forgot">← Back to Login with Password</button>
         </form>
 
         <p class="modal-terms-footnote">
@@ -435,10 +492,123 @@
     background: #222222;
   }
 
+  .auth-sub-heading {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #111111;
+    margin: 0 0 0.25rem 0;
+  }
+  .forgot-step-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
   .forgot-instructions {
     font-size: 0.82rem;
     color: #555555;
     line-height: 1.5;
+  }
+  .auth-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 0.85rem 0 0.5rem;
+  }
+  .auth-divider::before,
+  .auth-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .auth-divider span {
+    padding: 0 0.75rem;
+    font-size: 0.68rem;
+    color: #9ca3af;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  .primary-google-btn {
+    width: 100%;
+    background: #ffffff;
+    border: 1.5px solid #d1d5db;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    padding: 0.85rem;
+    font-size: 0.88rem;
+    transition: all 0.2s ease;
+  }
+  .primary-google-btn:hover {
+    background: #f9fafb;
+    border-color: #000000;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .forgot-hero-card {
+    text-align: center;
+    padding: 0.5rem 0 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .forgot-key-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #eff6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.25rem;
+  }
+  .hero-google-btn {
+    width: 100%;
+    background: #000000;
+    color: #ffffff;
+    border: none;
+    padding: 0.95rem;
+    font-size: 0.92rem;
+    font-weight: 800;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  .hero-google-btn:hover {
+    background: #222222;
+    transform: translateY(-1px);
+  }
+  .forgot-support-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.75rem 0.9rem;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 0.76rem;
+    color: #475569;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .forgot-wa-link {
+    color: #16a34a;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 0.82rem;
+  }
+  .forgot-wa-link:hover {
+    text-decoration: underline;
+  }
+  .error-alert-box {
+    background: #fef2f2;
+    border: 1px solid #ef4444;
+    color: #b91c1c;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.65rem 0.85rem;
+    border-radius: 6px;
+    line-height: 1.4;
   }
   .success-alert-box {
     background: #ecfdf5;
@@ -449,6 +619,7 @@
     padding: 0.75rem;
     border-radius: 6px;
     margin-top: 0.5rem;
+    line-height: 1.4;
   }
   .back-to-login-btn {
     background: none;
@@ -496,7 +667,42 @@
 </style>
 
 <script>
-  import { triggerGoogleSignIn } from '../lib/googleAuth';
+  import { triggerGoogleSignIn, saveLoggedInUser } from '../lib/googleAuth';
+
+  // Helper to sync user registration / login to Shopify Admin Customers API
+  async function syncCustomerToShopify(name: string, email?: string, phone?: string, password?: string) {
+    try {
+      await fetch('/api/sync-customer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, password })
+      });
+    } catch (e) {
+      console.warn('[Sync Customer to Shopify]', e);
+    }
+  }
+
+  // Local user store for credentials and password resets
+  interface LocalUser {
+    name: string;
+    email?: string;
+    phone?: string;
+    password: string;
+    createdAt: string;
+  }
+
+  function getLocalUsers(): LocalUser[] {
+    try {
+      const data = localStorage.getItem('skynodes_users_db');
+      return data ? JSON.parse(data) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveLocalUsers(users: LocalUser[]) {
+    localStorage.setItem('skynodes_users_db', JSON.stringify(users));
+  }
 
   function initLoginModal() {
     const modal = document.getElementById('bellavita-login-modal');
@@ -504,14 +710,20 @@
     const tabLogin = document.getElementById('tab-login-btn');
     const tabSignup = document.getElementById('tab-signup-btn');
 
-    const loginForm = document.getElementById('modal-login-form');
-    const signupForm = document.getElementById('modal-signup-form');
-    const forgotForm = document.getElementById('modal-forgot-form');
+    const loginForm = document.getElementById('modal-login-form') as HTMLFormElement | null;
+    const signupForm = document.getElementById('modal-signup-form') as HTMLFormElement | null;
+    const forgotForm = document.getElementById('modal-forgot-form') as HTMLFormElement | null;
+
+    const loginErrorAlert = document.getElementById('login-error-alert');
+    const signupErrorAlert = document.getElementById('signup-error-alert');
+    const forgotErrorAlert = document.getElementById('forgot-error-alert');
+    const forgotSuccessAlert = document.getElementById('forgot-success-alert');
 
     const triggerForgot = document.getElementById('trigger-forgot-btn');
     const backFromForgot = document.getElementById('back-from-forgot');
+
     const googleLoginBtn = document.getElementById('modal-google-login-btn');
-    const forgotSuccessMsg = document.getElementById('forgot-success-msg');
+    const googleSignupBtn = document.getElementById('modal-google-signup-btn');
 
     function openModal() {
       if (modal) {
@@ -534,6 +746,12 @@
 
       tabLogin?.classList.remove('active');
       tabSignup?.classList.remove('active');
+
+      // Clear alerts
+      if (loginErrorAlert) { loginErrorAlert.style.display = 'none'; loginErrorAlert.textContent = ''; }
+      if (signupErrorAlert) { signupErrorAlert.style.display = 'none'; signupErrorAlert.textContent = ''; }
+      if (forgotErrorAlert) { forgotErrorAlert.style.display = 'none'; forgotErrorAlert.textContent = ''; }
+      if (forgotSuccessAlert) { forgotSuccessAlert.style.display = 'none'; forgotSuccessAlert.textContent = ''; }
 
       if (mode === 'login') {
         loginForm?.classList.add('active');
@@ -563,67 +781,231 @@
     loginForm?.addEventListener('submit', (e) => {
       e.preventDefault();
       const identifier = (document.getElementById('login-identifier') as HTMLInputElement)?.value.trim();
-      if (identifier) {
-        localStorage.setItem('google_auth_logged_in', 'true');
-        if (identifier.includes('@')) {
-          localStorage.setItem('skynodes_pilot_email', identifier);
-          const autoName = identifier.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-          localStorage.setItem('skynodes_pilot_name', autoName);
-          localStorage.setItem('skynodes_pilot_avatar', `https://ui-avatars.com/api/?name=${encodeURIComponent(autoName)}&background=111111&color=ffffff&size=200`);
-        } else {
-          localStorage.setItem('skynodes_pilot_phone', identifier);
-          localStorage.setItem('skynodes_pilot_name', 'Pilot ' + identifier.slice(-4));
+      const password = (document.getElementById('login-password') as HTMLInputElement)?.value;
+
+      if (!identifier || !password) return;
+
+      const users = getLocalUsers();
+      const cleanIdent = identifier.toLowerCase();
+      const existingUser = users.find(u => 
+        (u.email && u.email.toLowerCase() === cleanIdent) ||
+        (u.phone && u.phone.replace(/[^0-9]/g, '').endsWith(cleanIdent.replace(/[^0-9]/g, '')))
+      );
+
+      // Verify password if user exists in local database
+      if (existingUser) {
+        if (existingUser.password !== password) {
+          if (loginErrorAlert) {
+            loginErrorAlert.textContent = '❌ Incorrect password. Please try again or click "Forgot Password?".';
+            loginErrorAlert.style.display = 'block';
+          }
+          return;
         }
-        window.dispatchEvent(new CustomEvent('user-logged-in'));
-        closeModal();
-        window.location.href = '/profile';
       }
+
+      // Success Login
+      const isEmail = identifier.includes('@');
+      let userName = existingUser?.name;
+      if (!userName) {
+        userName = isEmail 
+          ? identifier.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+          : 'Pilot ' + identifier.slice(-4);
+      }
+      const userEmail = isEmail ? identifier : (existingUser?.email || '');
+      const userPhone = !isEmail ? identifier : (existingUser?.phone || '');
+
+      saveLoggedInUser({
+        name: userName,
+        email: userEmail,
+        phone: userPhone,
+        picture: `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=111111&color=ffffff&size=200`
+      });
+
+      // Sync customer to Shopify Admin in background
+      syncCustomerToShopify(userName, userEmail, userPhone, password);
+
+      closeModal();
+      window.location.href = '/profile';
     });
 
     // Handle Sign Up Submit
     signupForm?.addEventListener('submit', (e) => {
       e.preventDefault();
       const name = (document.getElementById('signup-fullname') as HTMLInputElement)?.value.trim();
-      const email = (document.getElementById('signup-email') as HTMLInputElement)?.value.trim();
+      const email = (document.getElementById('signup-email') as HTMLInputElement)?.value.trim().toLowerCase();
       const signupCode = (document.getElementById('signup-phone-code') as HTMLSelectElement)?.value || '+91';
       let phoneInputVal = (document.getElementById('signup-phone') as HTMLInputElement)?.value.trim() || '';
       if (phoneInputVal.startsWith('+')) {
         phoneInputVal = phoneInputVal.replace(/^\+[0-9]{1,4}[\s-]*/, '');
       }
       const phone = phoneInputVal ? `${signupCode} ${phoneInputVal}` : '';
+      const password = (document.getElementById('signup-password') as HTMLInputElement)?.value;
 
-      if (name && email) {
-        localStorage.setItem('google_auth_logged_in', 'true');
-        localStorage.setItem('skynodes_pilot_name', name);
-        localStorage.setItem('skynodes_pilot_email', email);
-        localStorage.setItem('skynodes_pilot_phone', phone);
-        localStorage.setItem('skynodes_pilot_avatar', `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=111111&color=ffffff&size=200`);
-        window.dispatchEvent(new CustomEvent('user-logged-in'));
-        closeModal();
-        window.location.href = '/profile';
+      if (!name || !email || !password) return;
+
+      const users = getLocalUsers();
+      // Check if user already exists
+      const existing = users.find(u => u.email?.toLowerCase() === email);
+      if (existing) {
+        // Update password if existing
+        existing.password = password;
+        existing.name = name;
+        if (phone) existing.phone = phone;
+      } else {
+        users.push({
+          name,
+          email,
+          phone,
+          password,
+          createdAt: new Date().toISOString()
+        });
       }
+      saveLocalUsers(users);
+
+      saveLoggedInUser({
+        name,
+        email,
+        phone,
+        picture: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=111111&color=ffffff&size=200`
+      });
+
+      // Sync customer to Shopify Admin in background with password
+      syncCustomerToShopify(name, email, phone, password);
+
+      closeModal();
+      window.location.href = '/profile';
     });
 
-    // Handle Forgot Password Submit
-    forgotForm?.addEventListener('submit', (e) => {
+    // Handle Forgot Password Form Submit
+    forgotForm?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (forgotSuccessMsg) {
-        forgotSuccessMsg.style.display = 'block';
+      const forgotEmail = (document.getElementById('forgot-email') as HTMLInputElement)?.value.trim().toLowerCase();
+      const forgotPhone = (document.getElementById('forgot-phone') as HTMLInputElement)?.value.trim();
+      const newPassword = (document.getElementById('forgot-new-password') as HTMLInputElement)?.value;
+      const confirmPassword = (document.getElementById('forgot-confirm-password') as HTMLInputElement)?.value;
+      const submitBtn = document.getElementById('forgot-submit-btn') as HTMLButtonElement | null;
+
+      if (!forgotEmail || !forgotPhone || !newPassword || !confirmPassword) return;
+
+      if (forgotErrorAlert) { forgotErrorAlert.style.display = 'none'; forgotErrorAlert.textContent = ''; }
+      if (forgotSuccessAlert) { forgotSuccessAlert.style.display = 'none'; forgotSuccessAlert.textContent = ''; }
+
+      if (newPassword.length < 6) {
+        if (forgotErrorAlert) {
+          forgotErrorAlert.textContent = '❌ New password must be at least 6 characters.';
+          forgotErrorAlert.style.display = 'block';
+        }
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        if (forgotErrorAlert) {
+          forgotErrorAlert.textContent = '❌ New password and confirmation do not match.';
+          forgotErrorAlert.style.display = 'block';
+        }
+        return;
+      }
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'VERIFYING & RESETTING...';
+      }
+
+      try {
+        const res = await fetch('/api/forgot-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: forgotEmail,
+            phone: forgotPhone,
+            newPassword: newPassword
+          })
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (res.ok && data.success) {
+          // Update local user database
+          const users = getLocalUsers();
+          const cleanEmail = forgotEmail.toLowerCase();
+          const cleanPhone = forgotPhone.replace(/[^0-9]/g, '');
+          const existing = users.find(u => 
+            (u.email && u.email.toLowerCase() === cleanEmail) ||
+            (u.phone && u.phone.replace(/[^0-9]/g, '').endsWith(cleanPhone))
+          );
+          if (existing) {
+            existing.password = newPassword;
+            if (forgotPhone) existing.phone = forgotPhone;
+          } else {
+            users.push({
+              name: forgotEmail.split('@')[0],
+              email: forgotEmail,
+              phone: forgotPhone,
+              password: newPassword,
+              createdAt: new Date().toISOString()
+            });
+          }
+          saveLocalUsers(users);
+
+          if (forgotSuccessAlert) {
+            forgotSuccessAlert.textContent = '✅ Password successfully updated! Redirecting to login...';
+            forgotSuccessAlert.style.display = 'block';
+          }
+
+          setTimeout(() => {
+            switchMode('login');
+            const loginIdent = document.getElementById('login-identifier') as HTMLInputElement | null;
+            if (loginIdent) {
+              loginIdent.value = forgotEmail;
+            }
+            const passInput = document.getElementById('login-password') as HTMLInputElement | null;
+            passInput?.focus();
+            if (forgotSuccessAlert) { forgotSuccessAlert.style.display = 'none'; }
+          }, 1500);
+        } else {
+          if (forgotErrorAlert) {
+            forgotErrorAlert.textContent = '❌ ' + (data.error || 'The entered details could not be verified. Please check and try again.');
+            forgotErrorAlert.style.display = 'block';
+          }
+        }
+      } catch (err: any) {
+        if (forgotErrorAlert) {
+          forgotErrorAlert.textContent = '❌ Network error while resetting password. Please check your connection or contact WhatsApp help.';
+          forgotErrorAlert.style.display = 'block';
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'RESET PASSWORD';
+        }
       }
     });
 
-    // Handle Google Login
-    googleLoginBtn?.addEventListener('click', async () => {
+    // Unified Google 1-Click Authentication Handler
+    const handleGoogleAuth = async () => {
       await triggerGoogleSignIn(
         (user) => {
+          syncCustomerToShopify(user.name, user.email, user.phone);
           closeModal();
           window.location.href = '/profile';
         },
         (err) => {
-          console.error('[Google Sign-In Error]', err);
+          console.warn('[Google Sign-In Notice]', err);
+          if (loginErrorAlert) {
+            loginErrorAlert.textContent = 'ℹ️ Google Sign-In is temporarily being verified for this domain. Please login with your Email/Phone & Password below.';
+            loginErrorAlert.style.display = 'block';
+          }
+          if (signupErrorAlert) {
+            signupErrorAlert.textContent = 'ℹ️ Google Sign-In is temporarily being verified for this domain. Please sign up manually below.';
+            signupErrorAlert.style.display = 'block';
+          }
         }
       );
-    });
+    };
+
+    googleLoginBtn?.addEventListener('click', handleGoogleAuth);
+    googleSignupBtn?.addEventListener('click', handleGoogleAuth);
+
   }
 
   if (document.readyState === 'loading') {

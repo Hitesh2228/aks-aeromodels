@@ -1,0 +1,1712 @@
+---
+// SKYNODES UAV — Dedicated Product Management Studio
+import '../../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SKYNODES UAV — Product Commander Studio | Admin</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --admin-bg: #f8fafc;
+      --admin-surface: #ffffff;
+      --admin-border: #e2e8f0;
+      --admin-text-main: #0f172a;
+      --admin-text-muted: #64748b;
+      --admin-primary: #000000;
+      --admin-accent: #2563eb;
+      --admin-success: #059669;
+      --admin-warning: #d97706;
+      --admin-danger: #dc2626;
+      --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --font-display: 'Space Grotesk', system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--admin-bg);
+      color: var(--admin-text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    /* Auth Gate Modal */
+    #auth-gate-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100000;
+      padding: 1.5rem;
+    }
+    .auth-card {
+      background: var(--admin-surface);
+      border: 1px solid var(--admin-border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      text-align: center;
+    }
+    .auth-logo-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      background: #000000;
+      color: #ffffff;
+      border-radius: 16px;
+      font-size: 1.8rem;
+      margin-bottom: 1.25rem;
+    }
+    .auth-card h2 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      margin-bottom: 0.35rem;
+    }
+    .auth-card p {
+      font-size: 0.85rem;
+      color: var(--admin-text-muted);
+      margin-bottom: 1.5rem;
+    }
+    .auth-input-group {
+      margin-bottom: 1.25rem;
+      text-align: left;
+    }
+    .auth-input-group label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.4rem;
+    }
+    .auth-input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1.5px solid var(--admin-border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .auth-input:focus { border-color: var(--admin-primary); }
+    .auth-btn {
+      width: 100%;
+      background: var(--admin-primary);
+      color: #ffffff;
+      border: none;
+      padding: 0.85rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .auth-btn:hover { background: #1e293b; }
+    .auth-error {
+      color: var(--admin-danger);
+      font-size: 0.8rem;
+      margin-top: 0.75rem;
+      display: none;
+      font-weight: 600;
+    }
+
+    /* Top Navigation Bar */
+    .admin-header {
+      background: #000000;
+      color: #ffffff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e293b;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .admin-brand h1 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      letter-spacing: 0.04em;
+    }
+    .shopify-status-pill {
+      background: rgba(16, 185, 129, 0.2);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .shopify-status-pill::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: #10b981;
+      border-radius: 50%;
+    }
+    .admin-top-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .btn-top-view-site {
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: 6px;
+      background: #1e293b;
+      transition: all 0.2s;
+    }
+    .btn-top-view-site:hover { color: #ffffff; background: #334155; }
+    .btn-logout {
+      background: transparent;
+      border: 1px solid #475569;
+      color: #cbd5e1;
+      padding: 0.45rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-logout:hover { background: #dc2626; border-color: #dc2626; color: #ffffff; }
+
+    /* Admin Subheader & Tabs */
+    .admin-subbar {
+      background: var(--admin-surface);
+      border-bottom: 1px solid var(--admin-border);
+      padding: 0.75rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .nav-tabs {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .nav-tab-btn {
+      background: none;
+      border: none;
+      padding: 0.6rem 1.15rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--admin-text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+    .nav-tab-btn:hover { background: #f1f5f9; color: var(--admin-text-main); }
+    .nav-tab-btn.active {
+      background: #000000;
+      color: #ffffff;
+    }
+
+    /* Container */
+    .admin-container {
+      max-width: 1380px;
+      margin: 1.5rem auto 3rem;
+      padding: 0 1.5rem;
+    }
+
+    /* Stats Overview Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .stat-card {
+      background: var(--admin-surface);
+      border: 1px solid var(--admin-border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .stat-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--admin-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--admin-text-main);
+    }
+
+    /* Filter & Search Toolbar */
+    .table-toolbar {
+      background: var(--admin-surface);
+      border: 1px solid var(--admin-border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .search-box {
+      flex: 1;
+      min-width: 260px;
+      position: relative;
+    }
+    .search-input {
+      width: 100%;
+      padding: 0.6rem 0.9rem 0.6rem 2.2rem;
+      border: 1.5px solid var(--admin-border);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      outline: none;
+      font-family: inherit;
+    }
+    .search-icon {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--admin-text-muted);
+      font-size: 0.9rem;
+    }
+    .filter-group {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .filter-select {
+      padding: 0.6rem 0.9rem;
+      border: 1.5px solid var(--admin-border);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      background: var(--admin-surface);
+      outline: none;
+      font-family: inherit;
+      font-weight: 600;
+    }
+    .btn-create-new-prod {
+      background: #000000;
+      color: #ffffff;
+      border: none;
+      padding: 0.65rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background 0.2s;
+    }
+    .btn-create-new-prod:hover { background: #334155; }
+
+    /* Products Catalog Table */
+    .products-card-table {
+      background: var(--admin-surface);
+      border: 1px solid var(--admin-border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+    }
+    table.admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .admin-table th {
+      background: #f8fafc;
+      padding: 0.85rem 1.25rem;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--admin-text-muted);
+      border-bottom: 1px solid var(--admin-border);
+    }
+    .admin-table td {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--admin-border);
+      font-size: 0.85rem;
+      vertical-align: middle;
+    }
+    .admin-table tr:last-child td { border-bottom: none; }
+    .admin-table tr:hover { background: #fdfdfd; }
+
+    .prod-cell-main {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .prod-thumb-img {
+      width: 52px;
+      height: 52px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: #f1f5f9;
+      border: 1px solid var(--admin-border);
+    }
+    .prod-title-text {
+      font-weight: 700;
+      color: var(--admin-text-main);
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+    .badge-cat-pill {
+      font-size: 0.68rem;
+      font-weight: 700;
+      background: #eff6ff;
+      color: #2563eb;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    .stock-badge-good {
+      background: #ecfdf5;
+      color: #059669;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    .stock-badge-low {
+      background: #fffbeb;
+      color: #d97706;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    .action-btns-group {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .btn-edit-prod {
+      background: #f1f5f9;
+      color: #0f172a;
+      border: 1px solid #cbd5e1;
+      padding: 0.4rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-edit-prod:hover { background: #000000; color: #ffffff; border-color: #000000; }
+    .btn-view-pdp {
+      background: transparent;
+      color: #2563eb;
+      border: 1px solid #bfdbfe;
+      padding: 0.4rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .btn-view-pdp:hover { background: #eff6ff; }
+    .btn-del-prod {
+      background: transparent;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+      padding: 0.4rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-del-prod:hover { background: #fee2e2; }
+
+    /* EDITOR FORM STYLES */
+    .editor-wrapper {
+      display: none;
+    }
+    .editor-wrapper.active {
+      display: block;
+    }
+    .editor-sticky-header {
+      background: var(--admin-surface);
+      border: 1px solid var(--admin-border);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 4.8rem;
+      z-index: 40;
+    }
+    .editor-title-crumb {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+    .editor-title-sub {
+      font-size: 0.78rem;
+      color: var(--admin-text-muted);
+      display: block;
+    }
+    .editor-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+    .btn-cancel-editor {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 0.65rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-save-publish {
+      background: #000000;
+      color: #ffffff;
+      border: none;
+      padding: 0.65rem 1.5rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: all 0.2s;
+    }
+    .btn-save-publish:hover { background: #1e293b; transform: translateY(-1px); }
+
+    /* Form Section Cards */
+    .form-sections-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .editor-section-card {
+      background: var(--admin-surface);
+      border: 1px solid var(--admin-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+    .section-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 0.85rem;
+    }
+    .section-card-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--admin-text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .section-pdp-hint {
+      font-size: 0.75rem;
+      color: #2563eb;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-weight: 700;
+      display: inline-block;
+    }
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+    }
+    .form-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 0.85rem;
+    }
+    .form-group label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #334155;
+    }
+    .form-group .field-help {
+      font-size: 0.72rem;
+      color: #64748b;
+      margin-top: -0.2rem;
+    }
+    .form-control {
+      width: 100%;
+      padding: 0.7rem 0.85rem;
+      border: 1.5px solid var(--admin-border);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-control:focus { border-color: var(--admin-primary); }
+    textarea.form-control {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    /* Sub-cards in Editor */
+    .sub-card-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    .sub-card-title {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Image Preview Strip */
+    .img-preview-box {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      margin-top: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .img-preview-thumb {
+      width: 72px;
+      height: 72px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid var(--admin-border);
+      background: #ffffff;
+    }
+
+    /* Live Notification Toast */
+    #admin-toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #000000;
+      color: #ffffff;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      font-weight: 700;
+      font-size: 0.88rem;
+      z-index: 200000;
+      display: none;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    #admin-toast.success { background: #059669; }
+    #admin-toast.error { background: #dc2626; }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Secure Authentication Modal Gate -->
+  <div id="auth-gate-modal">
+    <div class="auth-card">
+      <div class="auth-logo-badge">✈️</div>
+      <h2>Commander Product Studio</h2>
+      <p>Secure Enterprise Catalog Management Portal for SKYNODES UAV (Way Point)</p>
+
+      <form id="admin-auth-form">
+        <div class="auth-input-group">
+          <label for="admin-passcode-input">Master Studio Passcode</label>
+          <input type="password" id="admin-passcode-input" class="auth-input" placeholder="Enter studio passcode..." required autofocus />
+        </div>
+        <button type="submit" class="auth-btn">🔐 Unlock Product Studio</button>
+        <div id="auth-error-msg" class="auth-error">❌ Incorrect Passcode. Please try again.</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Admin Header -->
+  <header class="admin-header">
+    <div class="admin-brand">
+      <h1>SKYNODES UAV <span>• Commander Studio</span></h1>
+      <span class="shopify-status-pill">Shopify Live Connected</span>
+    </div>
+    <div class="admin-top-actions">
+      <a href="/" target="_blank" class="btn-top-view-site">🌐 View Live Store ↗</a>
+      <button id="admin-logout-btn" class="btn-logout">🚪 Sign Out</button>
+    </div>
+  </header>
+
+  <!-- 3. Sub-bar & Mode Tabs -->
+  <div class="admin-subbar">
+    <div class="nav-tabs">
+      <button class="nav-tab-btn active" id="tab-catalog-btn">
+        <span>📦</span> Product Catalog (सर्व प्रॉडक्ट्स)
+      </button>
+      <button class="nav-tab-btn" id="tab-create-btn">
+        <span>➕</span> Add New Product (नवीन प्रॉडक्ट)
+      </button>
+    </div>
+    <div>
+      <span id="catalog-count-badge" style="font-size: 0.8rem; font-weight: 700; color: #64748b;">Loading products...</span>
+    </div>
+  </div>
+
+  <main class="admin-container">
+
+    <!-- VIEW 1: CATALOG OVERVIEW TABLE -->
+    <div id="view-catalog" class="catalog-wrapper">
+      
+      <!-- Quick Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-title">Total Active Products</span>
+          <span class="stat-value" id="stat-total-prods">0</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-title">Engines</span>
+          <span class="stat-value" id="stat-engines">0</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-title">Seagull Airframes</span>
+          <span class="stat-value" id="stat-airframes">0</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-title">Balsa Wood Sheets</span>
+          <span class="stat-value" id="stat-balsa">0</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-title">Radios & Accessories</span>
+          <span class="stat-value" id="stat-radios-acc">0</span>
+        </div>
+      </div>
+
+      <!-- Search & Filters -->
+      <div class="table-toolbar">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="catalog-search-input" class="search-input" placeholder="Search product by title, vendor, or SKU..." />
+        </div>
+        <div class="filter-group">
+          <select id="catalog-cat-filter" class="filter-select">
+            <option value="all">All Categories</option>
+            <option value="engine">Engines</option>
+            <option value="aeromodels">Seagull Aeromodels</option>
+            <option value="radio-receiver">Radio & Receiver</option>
+            <option value="balsa-wood">Balsa Wood</option>
+            <option value="accessories">Aeromodel Accessories</option>
+          </select>
+          <button class="btn-create-new-prod" id="btn-trigger-new-prod">
+            <span>➕</span> Add Product
+          </button>
+        </div>
+      </div>
+
+      <!-- Products Table -->
+      <div class="products-card-table">
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="width: 40%;">Product & Details</th>
+                <th style="width: 15%;">Category</th>
+                <th style="width: 15%;">Price (₹)</th>
+                <th style="width: 12%;">Stock</th>
+                <th style="width: 18%; text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="catalog-tbody">
+              <tr>
+                <td colspan="5" style="text-align: center; padding: 3rem; color: #64748b;">
+                  ⏳ Fetching real-time catalog from Shopify Admin...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 2: PRODUCT STUDIO EDITOR (CREATE / EDIT) -->
+    <div id="view-editor" class="editor-wrapper">
+      
+      <!-- Sticky Action Bar -->
+      <div class="editor-sticky-header">
+        <div>
+          <span class="editor-title-crumb" id="editor-action-title">➕ Add New Product</span>
+          <span class="editor-title-sub">Fill in the fields below. Every field maps directly to your PDP sections.</span>
+        </div>
+        <div class="editor-actions">
+          <button type="button" class="btn-cancel-editor" id="btn-cancel-edit">Cancel & Return</button>
+          <button type="button" class="btn-save-publish" id="btn-save-product-submit">
+            <span>🚀</span> Save & Publish to Store
+          </button>
+        </div>
+      </div>
+
+      <form id="product-editor-form">
+        <input type="hidden" id="edit-product-id" value="" />
+
+        <div class="form-sections-grid">
+
+          <!-- 1. Basic Essentials -->
+          <div class="editor-section-card">
+            <div class="section-card-header">
+              <span class="section-card-title">🏷️ 1. Basic Information (मूलभूत माहिती)</span>
+              <span class="section-pdp-hint">PDP: Top Header & Pricing Block</span>
+            </div>
+            
+            <div class="form-group">
+              <label for="f-title">Product Title / Name *</label>
+              <input type="text" id="f-title" class="form-control" placeholder="e.g. O.S. Max 0.46 AX II Nitro Engine" required />
+              <span class="field-help">हे PDP वरील मुख्य जाड अक्षरातील प्रॉडक्टचे नाव आहे.</span>
+            </div>
+
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label for="f-category">Category *</label>
+                <select id="f-category" class="form-control" required>
+                  <option value="engine">Engine (इंजिन)</option>
+                  <option value="aeromodels">Seagull Aeromodels (विमान/एअरफ्रेम)</option>
+                  <option value="radio-receiver">Radio & Receiver (रिमोट व रिसीव्हर)</option>
+                  <option value="balsa-wood">Balsa Wood (बाल्सा लाकूड)</option>
+                  <option value="accessories">Aeromodel Accessories (इतर साहित्य)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="f-vendor">Brand / Vendor</label>
+                <input type="text" id="f-vendor" class="form-control" placeholder="e.g. O.S. Engines Japan / Seagull Models" value="SKYNODES UAV" />
+              </div>
+              <div class="form-group">
+                <label for="f-sku">SKU Code</label>
+                <input type="text" id="f-sku" class="form-control" placeholder="e.g. ENG-1 / SEA-122" />
+              </div>
+            </div>
+
+            <div class="form-grid-4">
+              <div class="form-group">
+                <label for="f-price">Selling Price (₹) *</label>
+                <input type="number" id="f-price" class="form-control" placeholder="15899" required />
+                <span class="field-help">ग्राहक प्रत्यक्षात भरत असलेली रक्कम.</span>
+              </div>
+              <div class="form-group">
+                <label for="f-compare-price">MRP / Original Price (₹)</label>
+                <input type="number" id="f-compare-price" class="form-control" placeholder="18999" />
+                <span class="field-help">काट मारून दाखवण्यासाठी मूळ किंमत.</span>
+              </div>
+              <div class="form-group">
+                <label for="f-stock">Available Units (Stock)</label>
+                <input type="number" id="f-stock" class="form-control" placeholder="12" value="10" />
+              </div>
+              <div class="form-group">
+                <label for="f-gst">GST Slab Rate (%)</label>
+                <select id="f-gst" class="form-control">
+                  <option value="18" selected>18% (Standard RC)</option>
+                  <option value="12">12%</option>
+                  <option value="28">28%</option>
+                  <option value="5">5%</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="f-hsn">HSN Code</label>
+                <input type="text" id="f-hsn" class="form-control" placeholder="95030020" value="95030020" />
+                <span class="field-help">टॅक्स बिलावर छापला जाणारा HSN कोड (उदा. 95030020 किंवा 44123930).</span>
+              </div>
+              <div class="form-group">
+                <label for="f-warranty">Warranty Text</label>
+                <input type="text" id="f-warranty" class="form-control" placeholder="1-Year Official Manufacturer Warranty" value="1-Year Official Manufacturer Warranty" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Badges & Promos -->
+          <div class="editor-section-card">
+            <div class="section-card-header">
+              <span class="section-card-title">🏷️ 2. Badges & Featured Placement (बॅजेस व स्थान)</span>
+              <span class="section-pdp-hint">PDP: Top Badges & Home Slider</span>
+            </div>
+            <div class="form-grid-4">
+              <div class="form-group">
+                <label for="f-badge">Discount Badge Text</label>
+                <input type="text" id="f-badge" class="form-control" placeholder="e.g. 16% OFF / CRAZY DEAL" />
+              </div>
+              <div class="form-group" style="justify-content: center;">
+                <label style="display:flex; align-items:center; gap: 0.5rem; cursor:pointer;">
+                  <input type="checkbox" id="f-is-bestseller" />
+                  <span>⭐ Mark as Bestseller</span>
+                </label>
+              </div>
+              <div class="form-group" style="justify-content: center;">
+                <label style="display:flex; align-items:center; gap: 0.5rem; cursor:pointer;">
+                  <input type="checkbox" id="f-is-crazy" />
+                  <span>🔥 Mark as Crazy Deal</span>
+                </label>
+              </div>
+              <div class="form-group" style="justify-content: center;">
+                <label style="display:flex; align-items:center; gap: 0.5rem; cursor:pointer;">
+                  <input type="checkbox" id="f-is-hero" />
+                  <span>🎯 Show in Home Hero Slider</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Images -->
+          <div class="editor-section-card">
+            <div class="section-card-header">
+              <span class="section-card-title">🖼️ 3. Product Media & Gallery (फोटो गॅलरी)</span>
+              <span class="section-pdp-hint">PDP: Left Big Photo & Thumbnails</span>
+            </div>
+            <div class="form-group">
+              <label for="f-main-image">Primary Main Image URL *</label>
+              <input type="url" id="f-main-image" class="form-control" placeholder="https://..." required />
+              <span class="field-help">प्रॉडक्टचा मुख्य फोटो (कॅटलॉग आणि PDP च्या डाव्या बाजूला मोठा दिसणारा).</span>
+              <div class="img-preview-box" id="main-img-preview-box"></div>
+            </div>
+            <div class="form-group">
+              <label for="f-gallery-images">Additional Gallery Image URLs (One URL per line)</label>
+              <textarea id="f-gallery-images" class="form-control" placeholder="https://image2.jpg&#10;https://image3.jpg&#10;https://image4.jpg"></textarea>
+              <span class="field-help">एका खाली एक गॅलरीचे इतर फोटो पेस्ट करा.</span>
+              <div class="img-preview-box" id="gallery-img-preview-box"></div>
+            </div>
+          </div>
+
+          <!-- 4. Trust Badges (4 Points) -->
+          <div class="editor-section-card">
+            <div class="section-card-header">
+              <span class="section-card-title">🛡️ 4. Trust Badges (PDP वरील ४ विश्वासार्ह बॅजेस)</span>
+              <span class="section-pdp-hint">PDP: Right under 'Add to Cart'</span>
+            </div>
+            <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 1rem;">
+              हे PDP वर 'Add to Cart' च्या खाली ४ चिन्हांसह दिसतात.
+            </p>
+            <div class="form-grid-4">
+              <div class="form-group">
+                <label for="f-trust-1">Trust Point 1</label>
+                <input type="text" id="f-trust-1" class="form-control" value="Imported Quality" />
+              </div>
+              <div class="form-group">
+                <label for="f-trust-2">Trust Point 2</label>
+                <input type="text" id="f-trust-2" class="form-control" value="100% Genuine" />
+              </div>
+              <div class="form-group">
+                <label for="f-trust-3">Trust Point 3</label>
+                <input type="text" id="f-trust-3" class="form-control" value="AMA Certified" />
+              </div>
+              <div class="form-group">
+                <label for="f-trust-4">Trust Point 4</label>
+                <input type="text" id="f-trust-4" class="form-control" value="Assured Delivery" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Notes in This Set (4 Points) -->
+          <div class="editor-section-card">
+            <div class="section-card-header">
+              <span class="section-card-title">⚙️ 5. Notes in This Set (४ मुख्य तांत्रिक वैशिष्ट्ये)</span>
+              <span class="section-pdp-hint">PDP: 'Notes in This Set' Box</span>
+            </div>
+            <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 1rem;">
+              हे PDP वर 'Notes in This Set' या कार्डमध्ये ४ बॉक्समध्ये दिसतात (उदा. ABL Liner, Carburetor, Muffler इ.).
+            </p>
+            <div class="form-grid-2">
+              <div class="sub-card-box">
+                <span class="sub-card-title">Feature Point 1</span>
+                <div class="form-group">
+                  <label>Title</label>
+                  <input type="text" id="f-note-1-name" class="form-control" placeholder="e.g. ABL Liner" />
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <input type="text" id="f-note-1-desc" class="form-control" placeholder="e.g. Advanced Bimetallic Liner for high heat resistance" />
+                </div>
+              </div>
+              <div class="sub-card-box">
+                <span class="sub-card-title">Feature Point 2</span>
+                <div class="form-group">
+                  <label>Title</label>
+                  <input type="text" id="f-note-2-name" class="form-control" placeholder="e.g. Ball Bearings" />
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <input type="text" id="f-note-2-desc" class="form-control" placeholder="e.g. Dual precision bearings for smooth high RPM" />
+                </div>
+              </div>
+              <div class="sub-card-box">
+                <span class="sub-card-title">Feature Point 3</span>
+                <div class="form-group">
+                  <label>Title</label>
+                  <input type="text" id="f-note-3-name" class="form-control" placeholder="e.g. Power Carb" />
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <input type="text" id="f-note-3-desc" class="form-control" placeholder="e.g. 21J Dual-needle carburetor for crisp throttle response" />
+                </div>
+              </div>
+              <div class="sub-card-box">
+                <span class="sub-card-title">Feature Point 4</span>
+                <div class="form-group">
+                  <label>Title</label>
+                  <input type="text" id="f-note-4-name" class="form-control" placeholder="e.g. E-4050 Muffler" />
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <input type="text" id="f-note-4-desc" class="form-control" placeholder="e.g. High flow quiet silencer included in box" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. Where To Fly It (4 Points + Vibes) -->
+          <div class="editor-section-card">
+            <div class="section-card-header">
+              <span class="section-card-title">📍 6. Where To Fly It (४ उड्डाण ॲप्लिकेशन्स)</span>
+              <span class="section-pdp-hint">PDP: 'Where To Fly It' Box</span>
+            </div>
+            <div class="form-grid-4">
+              <div class="form-group">
+                <label for="f-fly-1">Application 1</label>
+                <input type="text" id="f-fly-1" class="form-control" value="Aerobatic Competitions" />
+              </div>
+              <div class="form-group">
+                <label for="f-fly-2">Application 2</label>
+                <input type="text" id="f-fly-2" class="form-control" value="Flight Training Clubs" />
+              </div>
+              <div class="form-group">
+                <label for="f-fly-3">Application 3</label>
+                <input type="text" id="f-fly-3" class="form-control" value="Scale Kit Building" />
+              </div>
+              <div class="form-group">
+                <label for="f-fly-4">Application 4</label>
+                <input type="text" id="f-fly-4" class="form-control" value="Pylon Racing" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="f-vibes">Flight Vibes Text</label>
+              <input type="text" id="f-vibes" class="form-control" value="Versatile, confident, bold, high-performance flight." />
+            </div>
+          </div>
+
+          <!-- 7. Highlights / Description -->
+          <div class="editor-section-card">
+            <div class="section-card-header">
+              <span class="section-card-title">📝 7. Product Highlights (सविस्तर माहिती)</span>
+              <span class="section-pdp-hint">PDP: 'Product Highlights' Accordion</span>
+            </div>
+            <div class="form-group">
+              <label for="f-desc">Detailed Product Description *</label>
+              <textarea id="f-desc" class="form-control" style="min-height: 140px;" placeholder="Write or paste detailed highlights and performance features..." required></textarea>
+            </div>
+          </div>
+
+          <!-- 8. Technical Specifications & Dimensions -->
+          <div class="editor-section-card">
+            <div class="section-card-header">
+              <span class="section-card-title">📊 8. Technical Specifications Table (तांत्रिक तक्ता)</span>
+              <span class="section-pdp-hint">PDP: 'Technical Specifications' Accordion</span>
+            </div>
+            <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 0.75rem;">
+              हे PDP वर 'Technical Specifications' या अकॉर्डियनमध्ये तक्त्याच्या स्वरूपात दिसते.
+            </p>
+            <div id="specs-rows-container">
+              <!-- Dynamically populated or manual rows -->
+            </div>
+            <button type="button" id="btn-add-spec-row" style="background:#f1f5f9; border:1px solid #cbd5e1; padding:0.4rem 0.8rem; border-radius:6px; font-size:0.78rem; font-weight:700; cursor:pointer;">
+              ➕ Add Specification Row
+            </button>
+          </div>
+
+          <!-- 9. Demonstration Video -->
+          <div class="editor-section-card">
+            <div class="section-card-header">
+              <span class="section-card-title">🎥 9. Demonstration Flight Video (YouTube)</span>
+              <span class="section-pdp-hint">PDP: 'Official Flight Test Video'</span>
+            </div>
+            <div class="form-group">
+              <label for="f-video">YouTube Video URL or Video ID</label>
+              <input type="text" id="f-video" class="form-control" placeholder="e.g. https://youtu.be/l4J81G3H5e0 or l4J81G3H5e0" />
+              <span class="field-help">फक्त YouTube व्हिडिओची लिंक किंवा ID पेस्ट करा.</span>
+            </div>
+          </div>
+
+          <!-- 10. FAQs -->
+          <div class="editor-section-card">
+            <div class="section-card-header">
+              <span class="section-card-title">❓ 10. Frequently Asked Questions (FAQ Builder)</span>
+              <span class="section-pdp-hint">PDP: 'FAQ' Accordion</span>
+            </div>
+            <div id="faq-rows-container">
+              <!-- Dynamically populated FAQ rows -->
+            </div>
+            <button type="button" id="btn-add-faq-row" style="background:#f1f5f9; border:1px solid #cbd5e1; padding:0.4rem 0.8rem; border-radius:6px; font-size:0.78rem; font-weight:700; cursor:pointer;">
+              ➕ Add Question & Answer
+            </button>
+          </div>
+
+          <!-- 11. Ingredients / Material Build -->
+          <div class="editor-section-card">
+            <div class="section-card-header">
+              <span class="section-card-title">🧱 11. All Ingredients & Material Build (साहित्य बनावट)</span>
+              <span class="section-pdp-hint">PDP: 'All Ingredients & Material Build'</span>
+            </div>
+            <div class="form-group">
+              <label for="f-material">Material Specifications</label>
+              <textarea id="f-material" class="form-control" placeholder="e.g. Contest grade balsa wood, aircraft grade aluminium, hardened alloy steel crankshaft..."></textarea>
+            </div>
+          </div>
+
+          <!-- 12. How to Use / Break-In Steps -->
+          <div class="editor-section-card">
+            <div class="section-card-header">
+              <span class="section-card-title">🛠️ 12. How To Use & Break-In Steps (वापरण्याच्या पायऱ्या)</span>
+              <span class="section-pdp-hint">PDP: 'How To Use & Break-In Steps'</span>
+            </div>
+            <div class="form-group">
+              <label for="f-howtouse">Step-by-Step Instructions</label>
+              <textarea id="f-howtouse" class="form-control" placeholder="e.g. Run 4-5 bench heat-cycles on rich needle setting before full throttle flying. Use 10-15% synthetic castor oil blend..."></textarea>
+            </div>
+          </div>
+
+          <!-- 13. Combo Paired Product -->
+          <div class="editor-section-card">
+            <div class="section-card-header">
+              <span class="section-card-title">🧩 13. Best Selling Combo (जोडीचे प्रॉडक्ट)</span>
+              <span class="section-pdp-hint">PDP: 'BEST SELLING COMBOS'</span>
+            </div>
+            <div class="form-group">
+              <label for="f-combo">Select Paired Product from Store</label>
+              <select id="f-combo" class="form-control">
+                <option value="">None (No paired combo)</option>
+              </select>
+              <span class="field-help">मुख्य प्रॉडक्टसोबत 'BEST SELLING COMBOS' मध्ये ग्राहकाला जोडीने दाखवण्यासाठी हे प्रॉडक्ट निवडा.</span>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+
+  </main>
+
+  <!-- Live Notification Toast -->
+  <div id="admin-toast"></div>
+
+  <script>
+    // Master Studio Passcode
+    const VALID_PASSCODE = 'skynodes@pilot2026';
+    const ALT_PASSCODE = 'admin@skynodes';
+
+    let allCatalogProducts: any[] = [];
+    let currentEditingProductId: string | null = null;
+
+    // DOM Elements
+    const authModal = document.getElementById('auth-gate-modal');
+    const authForm = document.getElementById('admin-auth-form');
+    const authInput = document.getElementById('admin-passcode-input') as HTMLInputElement;
+    const authError = document.getElementById('auth-error-msg');
+    const logoutBtn = document.getElementById('admin-logout-btn');
+
+    const tabCatalogBtn = document.getElementById('tab-catalog-btn');
+    const tabCreateBtn = document.getElementById('tab-create-btn');
+    const viewCatalog = document.getElementById('view-catalog');
+    const viewEditor = document.getElementById('view-editor');
+
+    const catalogTbody = document.getElementById('catalog-tbody');
+    const searchInput = document.getElementById('catalog-search-input') as HTMLInputElement;
+    const catFilter = document.getElementById('catalog-cat-filter') as HTMLSelectElement;
+    const btnTriggerNewProd = document.getElementById('btn-trigger-new-prod');
+
+    const editorForm = document.getElementById('product-editor-form') as HTMLFormElement;
+    const editorActionTitle = document.getElementById('editor-action-title');
+    const btnCancelEdit = document.getElementById('btn-cancel-edit');
+    const btnSaveProductSubmit = document.getElementById('btn-save-product-submit') as HTMLButtonElement;
+
+    const specsContainer = document.getElementById('specs-rows-container');
+    const btnAddSpecRow = document.getElementById('btn-add-spec-row');
+    const faqContainer = document.getElementById('faq-rows-container');
+    const btnAddFaqRow = document.getElementById('btn-add-faq-row');
+    const comboSelect = document.getElementById('f-combo') as HTMLSelectElement;
+
+    const mainImgInput = document.getElementById('f-main-image') as HTMLInputElement;
+    const mainImgPreview = document.getElementById('main-img-preview-box');
+    const galleryImgInput = document.getElementById('f-gallery-images') as HTMLTextAreaElement;
+    const galleryImgPreview = document.getElementById('gallery-img-preview-box');
+
+    // Toast Helper
+    function showToast(msg: string, isError = false) {
+      const toast = document.getElementById('admin-toast');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.className = isError ? 'error' : 'success';
+      toast.style.display = 'flex';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 4000);
+    }
+
+    // 1. Auth Management
+    function checkAuth() {
+      const token = sessionStorage.getItem('skynodes_admin_token');
+      if (token === 'pilot_authorized') {
+        authModal!.style.display = 'none';
+        loadProductsFromShopify();
+      } else {
+        authModal!.style.display = 'flex';
+      }
+    }
+
+    authForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = authInput.value.trim();
+      if (val === VALID_PASSCODE || val === ALT_PASSCODE) {
+        sessionStorage.setItem('skynodes_admin_token', 'pilot_authorized');
+        authModal!.style.display = 'none';
+        if (authError) authError.style.display = 'none';
+        showToast('🔓 Welcome to Commander Product Studio!');
+        loadProductsFromShopify();
+      } else {
+        if (authError) authError.style.display = 'block';
+        authInput.value = '';
+        authInput.focus();
+      }
+    });
+
+    logoutBtn?.addEventListener('click', () => {
+      sessionStorage.removeItem('skynodes_admin_token');
+      window.location.reload();
+    });
+
+    // 2. Tab Navigation
+    function switchTab(mode: 'catalog' | 'editor') {
+      if (mode === 'catalog') {
+        viewCatalog?.classList.remove('editor-wrapper');
+        viewCatalog!.style.display = 'block';
+        viewEditor?.classList.remove('active');
+        tabCatalogBtn?.classList.add('active');
+        tabCreateBtn?.classList.remove('active');
+      } else {
+        viewCatalog!.style.display = 'none';
+        viewEditor?.classList.add('active');
+        tabCatalogBtn?.classList.remove('active');
+        tabCreateBtn?.classList.add('active');
+      }
+    }
+
+    tabCatalogBtn?.addEventListener('click', () => switchTab('catalog'));
+    tabCreateBtn?.addEventListener('click', () => {
+      resetEditorForm();
+      switchTab('editor');
+    });
+    btnTriggerNewProd?.addEventListener('click', () => {
+      resetEditorForm();
+      switchTab('editor');
+    });
+    btnCancelEdit?.addEventListener('click', () => switchTab('catalog'));
+
+    // 3. Load Products from Server
+    async function loadProductsFromShopify() {
+      if (!catalogTbody) return;
+      try {
+        catalogTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 3rem; color: #64748b;">⏳ Fetching real-time catalog from Shopify Admin...</td></tr>`;
+        const res = await fetch('/api/admin/products');
+        const data = await res.json();
+
+        if (data.success && Array.isArray(data.products)) {
+          allCatalogProducts = data.products;
+          renderStats(allCatalogProducts);
+          populateComboDropdown(allCatalogProducts);
+          renderCatalogTable(allCatalogProducts);
+        } else {
+          catalogTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2rem; color: #dc2626;">❌ Failed to load products from Shopify: ${data.error || 'Server error'}</td></tr>`;
+        }
+      } catch (err: any) {
+        catalogTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2rem; color: #dc2626;">❌ Error connecting to server: ${err.message}</td></tr>`;
+      }
+    }
+
+    // Stats Rendering
+    function renderStats(list: any[]) {
+      const elTotal = document.getElementById('stat-total-prods');
+      const elEng = document.getElementById('stat-engines');
+      const elAir = document.getElementById('stat-airframes');
+      const elBalsa = document.getElementById('stat-balsa');
+      const elRad = document.getElementById('stat-radios-acc');
+      const elBadge = document.getElementById('catalog-count-badge');
+
+      if (elTotal) elTotal.textContent = list.length.toString();
+      if (elEng) elEng.textContent = list.filter(p => p.category === 'engine').length.toString();
+      if (elAir) elAir.textContent = list.filter(p => p.category === 'aeromodels').length.toString();
+      if (elBalsa) elBalsa.textContent = list.filter(p => p.category === 'balsa-wood').length.toString();
+      if (elRad) elRad.textContent = list.filter(p => p.category === 'radio-receiver' || p.category === 'accessories').length.toString();
+      if (elBadge) elBadge.textContent = `${list.length} Products Active in Store`;
+    }
+
+    // Populate Combo Dropdown
+    function populateComboDropdown(list: any[]) {
+      if (!comboSelect) return;
+      const current = comboSelect.value;
+      comboSelect.innerHTML = `<option value="">None (No paired combo)</option>` + list.map(p => 
+        `<option value="${p.id}">${p.title} (₹${p.price.toLocaleString('en-IN')})</option>`
+      ).join('');
+      if (current) comboSelect.value = current;
+    }
+
+    // Render Table
+    function renderCatalogTable(productsToRender: any[]) {
+      if (!catalogTbody) return;
+      if (productsToRender.length === 0) {
+        catalogTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2.5rem; color: #64748b;">No products match your filter.</td></tr>`;
+        return;
+      }
+
+      catalogTbody.innerHTML = productsToRender.map(p => {
+        const img = p.images?.[0] || 'https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=800';
+        const isLowStock = p.stock <= 4;
+        const compareText = p.compareAtPrice > p.price ? `<span style="text-decoration: line-through; color: #94a3b8; font-size: 0.78rem; margin-left: 0.35rem;">₹${p.compareAtPrice.toLocaleString('en-IN')}</span>` : '';
+
+        return `
+          <tr>
+            <td>
+              <div class="prod-cell-main">
+                <img src="${img}" class="prod-thumb-img" alt="${p.title}" />
+                <div>
+                  <span class="prod-title-text">${p.title}</span>
+                  <small style="color: #64748b; font-size: 0.72rem;">SKU: ${p.sku || 'N/A'} • HSN: ${p.parsedDetails?.hsnCode || '95030020'}</small>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="badge-cat-pill">${p.category.toUpperCase()}</span>
+            </td>
+            <td>
+              <strong style="color: #0f172a;">₹${p.price.toLocaleString('en-IN')}.00</strong>
+              ${compareText}
+            </td>
+            <td>
+              <span class="${isLowStock ? 'stock-badge-low' : 'stock-badge-good'}">
+                ${p.stock} Units
+              </span>
+            </td>
+            <td style="text-align: right;">
+              <div class="action-btns-group" style="justify-content: flex-end;">
+                <button class="btn-edit-prod" data-id="${p.id}">✏️ Edit</button>
+                <a href="/product/${p.handle || p.id}" target="_blank" class="btn-view-pdp">👁️ View</a>
+                <button class="btn-del-prod" data-id="${p.id}" data-name="${p.title}">🗑️</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      // Attach Edit Listeners
+      catalogTbody.querySelectorAll('.btn-edit-prod').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
+          if (id) loadProductIntoEditor(id);
+        });
+      });
+
+      // Attach Delete Listeners
+      catalogTbody.querySelectorAll('.btn-del-prod').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
+          const name = (e.currentTarget as HTMLElement).getAttribute('data-name');
+          if (confirm(`Are you sure you want to permanently delete "${name}" from Shopify?`)) {
+            try {
+              const res = await fetch(`/api/admin/products?id=${id}`, { method: 'DELETE' });
+              const resData = await res.json();
+              if (resData.success) {
+                showToast(`🗑️ "${name}" deleted successfully.`);
+                loadProductsFromShopify();
+              } else {
+                alert('Error deleting: ' + (resData.error || 'Server error'));
+              }
+            } catch (err: any) {
+              alert('Delete error: ' + err.message);
+            }
+          }
+        });
+      });
+    }
+
+    // Filter & Search Event Listeners
+    function applyFilters() {
+      const query = (searchInput.value || '').toLowerCase().trim();
+      const cat = catFilter.value;
+
+      const filtered = allCatalogProducts.filter(p => {
+        const matchesQuery = !query || p.title.toLowerCase().includes(query) || (p.sku && p.sku.toLowerCase().includes(query)) || (p.vendor && p.vendor.toLowerCase().includes(query));
+        const matchesCat = cat === 'all' || p.category === cat;
+        return matchesQuery && matchesCat;
+      });
+
+      renderCatalogTable(filtered);
+    }
+
+    searchInput?.addEventListener('input', applyFilters);
+    catFilter?.addEventListener('change', applyFilters);
+
+    // 4. Editor Dynamic Rows (Specs & FAQs)
+    function addSpecRow(key = '', val = '') {
+      if (!specsContainer) return;
+      const row = document.createElement('div');
+      row.className = 'form-grid-2 spec-item-row';
+      row.style.marginBottom = '0.5rem';
+      row.innerHTML = `
+        <input type="text" class="form-control spec-key-input" placeholder="Spec Name (e.g. Displacement / Power)" value="${key}" />
+        <div style="display:flex; gap:0.5rem;">
+          <input type="text" class="form-control spec-val-input" placeholder="Value (e.g. 7.45 cc / 1.65 hp)" value="${val}" style="flex:1;" />
+          <button type="button" class="btn-del-row" style="background:#fee2e2; border:1px solid #fca5a5; color:#dc2626; border-radius:6px; padding:0 0.6rem; cursor:pointer;">✕</button>
+        </div>
+      `;
+      row.querySelector('.btn-del-row')?.addEventListener('click', () => row.remove());
+      specsContainer.appendChild(row);
+    }
+
+    function addFaqRow(q = '', a = '') {
+      if (!faqContainer) return;
+      const row = document.createElement('div');
+      row.className = 'sub-card-box faq-item-row';
+      row.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+          <strong style="font-size:0.75rem; color:#475569;">Question & Answer Pair</strong>
+          <button type="button" class="btn-del-faq" style="background:#fee2e2; border:none; color:#dc2626; border-radius:4px; font-size:0.7rem; padding:0.15rem 0.5rem; cursor:pointer;">Remove</button>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control faq-q-input" placeholder="Question (e.g. What type of fuel is recommended?)" value="${q}" />
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <textarea class="form-control faq-a-input" placeholder="Answer (e.g. We recommend high-quality hobby glow fuel with 10-20% nitro...)" style="min-height:60px;">${a}</textarea>
+        </div>
+      `;
+      row.querySelector('.btn-del-faq')?.addEventListener('click', () => row.remove());
+      faqContainer.appendChild(row);
+    }
+
+    btnAddSpecRow?.addEventListener('click', () => addSpecRow());
+    btnAddFaqRow?.addEventListener('click', () => addFaqRow());
+
+    // Image Previews
+    mainImgInput?.addEventListener('input', () => {
+      const url = mainImgInput.value.trim();
+      if (mainImgPreview) {
+        mainImgPreview.innerHTML = url ? `<img src="${url}" class="img-preview-thumb" onerror="this.style.display='none'" />` : '';
+      }
+    });
+
+    galleryImgInput?.addEventListener('input', () => {
+      const urls = galleryImgInput.value.split('\n').map(u => u.trim()).filter(Boolean);
+      if (galleryImgPreview) {
+        galleryImgPreview.innerHTML = urls.map(u => `<img src="${u}" class="img-preview-thumb" onerror="this.style.display='none'" />`).join('');
+      }
+    });
+
+    // 5. Reset Editor Form
+    function resetEditorForm() {
+      currentEditingProductId = null;
+      (document.getElementById('edit-product-id') as HTMLInputElement).value = '';
+      if (editorActionTitle) editorActionTitle.textContent = '➕ Add New Product';
+      editorForm?.reset();
+
+      if (specsContainer) specsContainer.innerHTML = '';
+      if (faqContainer) faqContainer.innerHTML = '';
+      if (mainImgPreview) mainImgPreview.innerHTML = '';
+      if (galleryImgPreview) galleryImgPreview.innerHTML = '';
+
+      // Add default sample specs
+      addSpecRow('Displacement', '7.45 cc (0.455 cu in)');
+      addSpecRow('Power', '1.65 hp @ 16,000 RPM');
+      addSpecRow('Weight', '378g (13.3 oz)');
+      addSpecRow('Fuel', 'Nitro Glow (10-20% Nitro)');
+      addSpecRow('Recommended Props', '10.5x6, 11x6, 12x4');
+
+      // Add default sample FAQ
+      addFaqRow('What fuel is recommended?', 'We recommend high-quality hobby glow fuel containing 10% to 15% nitromethane with 18% to 20% synthetic or castor oil lubricant.');
+    }
+
+    // 6. Pre-fill Editor for Editing Existing Product
+    function loadProductIntoEditor(productId: string) {
+      const p = allCatalogProducts.find(item => String(item.id) === String(productId));
+      if (!p) return;
+
+      currentEditingProductId = p.id;
+      (document.getElementById('edit-product-id') as HTMLInputElement).value = p.id;
+      if (editorActionTitle) editorActionTitle.textContent = `✏️ Edit: ${p.title}`;
+
+      // Basic fields
+      (document.getElementById('f-title') as HTMLInputElement).value = p.title || '';
+      (document.getElementById('f-category') as HTMLSelectElement).value = p.category || 'engine';
+      (document.getElementById('f-vendor') as HTMLInputElement).value = p.vendor || 'SKYNODES UAV';
+      (document.getElementById('f-sku') as HTMLInputElement).value = p.sku || '';
+      (document.getElementById('f-price') as HTMLInputElement).value = p.price || 0;
+      (document.getElementById('f-compare-price') as HTMLInputElement).value = p.compareAtPrice || '';
+      (document.getElementById('f-stock') as HTMLInputElement).value = p.stock || 10;
+      (document.getElementById('f-desc') as HTMLTextAreaElement).value = p.description ? p.description.replace(/<[^>]*>/g, '') : '';
+
+      const d = p.parsedDetails || {};
+      (document.getElementById('f-gst') as HTMLSelectElement).value = (d.gstRate || 18).toString();
+      (document.getElementById('f-hsn') as HTMLInputElement).value = d.hsnCode || '95030020';
+      (document.getElementById('f-warranty') as HTMLInputElement).value = d.warrantyPeriod || '1-Year Official Warranty';
+
+      // Badges
+      (document.getElementById('f-badge') as HTMLInputElement).value = d.discountBadge || '';
+      (document.getElementById('f-is-bestseller') as HTMLInputElement).checked = !!d.isBestseller;
+      (document.getElementById('f-is-crazy') as HTMLInputElement).checked = !!d.isCrazyDeal;
+      (document.getElementById('f-is-hero') as HTMLInputElement).checked = !!d.isHero;
+
+      // Images
+      const mainImg = p.images?.[0] || '';
+      mainImgInput.value = mainImg;
+      if (mainImgPreview) mainImgPreview.innerHTML = mainImg ? `<img src="${mainImg}" class="img-preview-thumb" />` : '';
+
+      const galleryImgs = (p.images || []).slice(1);
+      galleryImgInput.value = galleryImgs.join('\n');
+      if (galleryImgPreview) galleryImgPreview.innerHTML = galleryImgs.map((u: string) => `<img src="${u}" class="img-preview-thumb" />`).join('');
+
+      // Trust Badges
+      const trust = d.trustBadges || [];
+      (document.getElementById('f-trust-1') as HTMLInputElement).value = trust[0] || 'Imported Quality';
+      (document.getElementById('f-trust-2') as HTMLInputElement).value = trust[1] || '100% Genuine';
+      (document.getElementById('f-trust-3') as HTMLInputElement).value = trust[2] || 'AMA Certified';
+      (document.getElementById('f-trust-4') as HTMLInputElement).value = trust[3] || 'Assured Delivery';
+
+      // Notes in this set
+      const notes = d.notesInSet || [];
+      (document.getElementById('f-note-1-name') as HTMLInputElement).value = notes[0]?.name || '';
+      (document.getElementById('f-note-1-desc') as HTMLInputElement).value = notes[0]?.desc || '';
+      (document.getElementById('f-note-2-name') as HTMLInputElement).value = notes[1]?.name || '';
+      (document.getElementById('f-note-2-desc') as HTMLInputElement).value = notes[1]?.desc || '';
+      (document.getElementById('f-note-3-name') as HTMLInputElement).value = notes[2]?.name || '';
+      (document.getElementById('f-note-3-desc') as HTMLInputElement).value = notes[2]?.desc || '';
+      (document.getElementById('f-note-4-name') as HTMLInputElement).value = notes[3]?.name || '';
+      (document.getElementById('f-note-4-desc') as HTMLInputElement).value = notes[3]?.desc || '';
+
+      // Where to fly
+      const fly = d.whereToFly || [];
+      (document.getElementById('f-fly-1') as HTMLInputElement).value = fly[0] || 'Aerobatic Competitions';
+      (document.getElementById('f-fly-2') as HTMLInputElement).value = fly[1] || 'Flight Training Clubs';
+      (document.getElementById('f-fly-3') as HTMLInputElement).value = fly[2] || 'Scale Kit Building';
+      (document.getElementById('f-fly-4') as HTMLInputElement).value = fly[3] || 'Pylon Racing';
+      (document.getElementById('f-vibes') as HTMLInputElement).value = d.vibesText || 'Versatile, confident, bold, high-performance flight.';
+
+      // Specs
+      if (specsContainer) specsContainer.innerHTML = '';
+      const specsObj = d.specs || {};
+      if (Object.keys(specsObj).length > 0) {
+        for (const [k, v] of Object.entries(specsObj)) {
+          addSpecRow(k, String(v));
+        }
+      } else {
+        addSpecRow('Displacement', '7.45 cc');
+        addSpecRow('Power', '1.65 hp');
+      }
+
+      // Video & Details
+      (document.getElementById('f-video') as HTMLInputElement).value = d.youtubeVideoId || '';
+      (document.getElementById('f-material') as HTMLTextAreaElement).value = d.materialText || '';
+      (document.getElementById('f-howtouse') as HTMLTextAreaElement).value = d.howToUseText || '';
+      if (comboSelect) comboSelect.value = d.comboId || '';
+
+      // FAQs
+      if (faqContainer) faqContainer.innerHTML = '';
+      const faqs = d.faqList || [];
+      if (faqs.length > 0) {
+        faqs.forEach((f: any) => addFaqRow(f.q, f.a));
+      } else {
+        addFaqRow('What fuel is recommended?', 'We recommend high-quality hobby glow fuel.');
+      }
+
+      switchTab('editor');
+    }
+
+    // 7. Save / Publish Product to Shopify
+    btnSaveProductSubmit?.addEventListener('click', async () => {
+      const title = (document.getElementById('f-title') as HTMLInputElement)?.value.trim();
+      const priceStr = (document.getElementById('f-price') as HTMLInputElement)?.value.trim();
+
+      if (!title) {
+        alert('Please enter a Product Title.');
+        document.getElementById('f-title')?.focus();
+        return;
+      }
+      if (!priceStr || isNaN(parseFloat(priceStr))) {
+        alert('Please enter a valid Selling Price.');
+        document.getElementById('f-price')?.focus();
+        return;
+      }
+
+      btnSaveProductSubmit.disabled = true;
+      btnSaveProductSubmit.innerHTML = `<span>⏳</span> Syncing with Shopify...`;
+
+      try {
+        // Collect Images
+        const mainImg = (document.getElementById('f-main-image') as HTMLInputElement)?.value.trim();
+        const galleryRaw = (document.getElementById('f-gallery-images') as HTMLTextAreaElement)?.value || '';
+        const galleryList = galleryRaw.split('\n').map(u => u.trim()).filter(Boolean);
+        const allImages = [mainImg, ...galleryList].filter(Boolean);
+
+        // Collect Trust Badges
+        const trustBadges = [
+          (document.getElementById('f-trust-1') as HTMLInputElement)?.value.trim(),
+          (document.getElementById('f-trust-2') as HTMLInputElement)?.value.trim(),
+          (document.getElementById('f-trust-3') as HTMLInputElement)?.value.trim(),
+          (document.getElementById('f-trust-4') as HTMLInputElement)?.value.trim()
+        ].filter(Boolean);
+
+        // Collect Notes in this set
+        const notesInSet = [
+          { name: (document.getElementById('f-note-1-name') as HTMLInputElement)?.value.trim(), desc: (document.getElementById('f-note-1-desc') as HTMLInputElement)?.value.trim() },
+          { name: (document.getElementById('f-note-2-name') as HTMLInputElement)?.value.trim(), desc: (document.getElementById('f-note-2-desc') as HTMLInputElement)?.value.trim() },
+          { name: (document.getElementById('f-note-3-name') as HTMLInputElement)?.value.trim(), desc: (document.getElementById('f-note-3-desc') as HTMLInputElement)?.value.trim() },
+          { name: (document.getElementById('f-note-4-name') as HTMLInputElement)?.value.trim(), desc: (document.getElementById('f-note-4-desc') as HTMLInputElement)?.value.trim() }
+        ].filter(n => n.name);
+
+        // Collect Where to fly
+        const whereToFly = [
+          (document.getElementById('f-fly-1') as HTMLInputElement)?.value.trim(),
+          (document.getElementById('f-fly-2') as HTMLInputElement)?.value.trim(),
+          (document.getElementById('f-fly-3') as HTMLInputElement)?.value.trim(),
+          (document.getElementById('f-fly-4') as HTMLInputElement)?.value.trim()
+        ].filter(Boolean);
+
+        // Collect Specs
+        const specs: Record<string, string> = {};
+        document.querySelectorAll('.spec-item-row').forEach(row => {
+          const k = (row.querySelector('.spec-key-input') as HTMLInputElement)?.value.trim();
+          const v = (row.querySelector('.spec-val-input') as HTMLInputElement)?.value.trim();
+          if (k && v) specs[k] = v;
+        });
+
+        // Collect FAQs
+        const faqList: Array<{ q: string; a: string }> = [];
+        document.querySelectorAll('.faq-item-row').forEach(row => {
+          const q = (row.querySelector('.faq-q-input') as HTMLInputElement)?.value.trim();
+          const a = (row.querySelector('.faq-a-input') as HTMLTextAreaElement)?.value.trim();
+          if (q && a) faqList.push({ q, a });
+        });
+
+        // Parse YouTube ID if whole link given
+        let ytVal = (document.getElementById('f-video') as HTMLInputElement)?.value.trim();
+        if (ytVal.includes('v=')) ytVal = ytVal.split('v=')[1]?.split('&')[0];
+        else if (ytVal.includes('youtu.be/')) ytVal = ytVal.split('youtu.be/')[1]?.split('?')[0];
+
+        const payload: any = {
+          id: currentEditingProductId || undefined,
+          title,
+          category: (document.getElementById('f-category') as HTMLSelectElement)?.value,
+          vendor: (document.getElementById('f-vendor') as HTMLInputElement)?.value.trim(),
+          price: parseFloat(priceStr),
+          compareAtPrice: parseFloat((document.getElementById('f-compare-price') as HTMLInputElement)?.value) || undefined,
+          sku: (document.getElementById('f-sku') as HTMLInputElement)?.value.trim(),
+          stock: parseInt((document.getElementById('f-stock') as HTMLInputElement)?.value, 10) || 10,
+          hsnCode: (document.getElementById('f-hsn') as HTMLInputElement)?.value.trim(),
+          gstRate: parseInt((document.getElementById('f-gst') as HTMLSelectElement)?.value, 10) || 18,
+          description: (document.getElementById('f-desc') as HTMLTextAreaElement)?.value.trim(),
+          images: allImages,
+          discountBadge: (document.getElementById('f-badge') as HTMLInputElement)?.value.trim(),
+          isBestseller: (document.getElementById('f-is-bestseller') as HTMLInputElement)?.checked,
+          isCrazyDeal: (document.getElementById('f-is-crazy') as HTMLInputElement)?.checked,
+          isHero: (document.getElementById('f-is-hero') as HTMLInputElement)?.checked,
+          trustBadges,
+          notesInSet,
+          whereToFly,
+          vibesText: (document.getElementById('f-vibes') as HTMLInputElement)?.value.trim(),
+          specs,
+          youtubeVideoId: ytVal,
+          faqList,
+          materialText: (document.getElementById('f-material') as HTMLTextAreaElement)?.value.trim(),
+          howToUseText: (document.getElementById('f-howtouse') as HTMLTextAreaElement)?.value.trim(),
+          comboId: (document.getElementById('f-combo') as HTMLSelectElement)?.value,
+          warrantyPeriod: (document.getElementById('f-warranty') as HTMLInputElement)?.value.trim()
+        };
+
+        const res = await fetch('/api/admin/save-product', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const resData = await res.json();
+        if (resData.success) {
+          showToast(currentEditingProductId ? '✅ Product updated & synced with Shopify!' : '🎉 New Product created & published live!');
+          await loadProductsFromShopify();
+          switchTab('catalog');
+        } else {
+          alert('❌ Shopify Error: ' + (JSON.stringify(resData.error) || 'Failed to save product'));
+        }
+      } catch (err: any) {
+        alert('❌ Network/System Error: ' + err.message);
+      } finally {
+        btnSaveProductSubmit.disabled = false;
+        btnSaveProductSubmit.innerHTML = `<span>🚀</span> Save & Publish to Store`;
+      }
+    });
+
+    // Initialize on Load
+    checkAuth();
+  </script>
+</body>
+</html>

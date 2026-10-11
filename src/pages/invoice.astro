@@ -1311,6 +1311,40 @@ const halfTax = Math.round((gstTax / 2) * 100) / 100;
       return { state: 'Other', isMaharashtra: false };
     }
 
+    function resolveGstJurisdiction(pincode: string, stateName: string, gstin?: string): {
+      isMaharashtra: boolean;
+      isInterState: boolean;
+      state: string;
+      placeOfSupply: string;
+      supplyType: string;
+    } {
+      const pinRes = getStateFromPincode(pincode);
+      const cleanState = (stateName || '').trim();
+      const cleanGstin = (gstin || '').trim().toUpperCase();
+
+      // 1. If Delivery PIN is in Maharashtra (40-44 except 403) OR State is Maharashtra -> 100% Maharashtra (Intra-State)
+      let isMH = pinRes.isMaharashtra || cleanState.toLowerCase().includes('maharashtra');
+
+      // 2. If neither PIN nor State is specified, but GSTIN starts with 27 -> Maharashtra
+      if (!isMH && cleanGstin.length >= 2 && cleanGstin.startsWith('27')) {
+        isMH = true;
+      }
+
+      const isInterState = !isMH;
+      let resolvedState = isMH ? 'Maharashtra' : (cleanState && !cleanState.toLowerCase().includes('maharashtra') ? cleanState : (pinRes.state !== 'Other' ? pinRes.state : 'Outside Maharashtra'));
+
+      const placeOfSupply = isMH ? 'Maharashtra (27)' : `${resolvedState} (Inter-State)`;
+      const supplyType = isMH ? 'Intra-State (CGST 9% + SGST 9%)' : 'Inter-State (IGST 18% Only)';
+
+      return {
+        isMaharashtra: isMH,
+        isInterState,
+        state: resolvedState,
+        placeOfSupply,
+        supplyType
+      };
+    }
+
     function hydrateInvoiceData() {
       const rawOrder = localStorage.getItem('skynodes_last_order');
       if (!rawOrder) return;
@@ -1334,38 +1368,19 @@ const halfTax = Math.round((gstTax / 2) * 100) / 100;
         const buyerStateRaw = order.customer?.state || '';
         const buyerGstin = order.customer?.gstin || '';
         
-        // Accurate Statutory GST Law Rule:
-        // Intra-State (CGST + SGST): PIN Code in Maharashtra (40-44 except 403), or State Maharashtra, or GSTIN starts with 27
-        // Inter-State (IGST Only): PIN Code out of Maharashtra, or State != Maharashtra, or GSTIN starts with != 27
-        const pinRes = getStateFromPincode(buyerPin);
-        let isMH = pinRes.isMaharashtra;
-
-        if (buyerGstin && buyerGstin.length >= 2) {
-          isMH = buyerGstin.startsWith('27');
-        } else if (order.isInterState !== undefined) {
-          isMH = !order.isInterState;
-        } else if (buyerPin && buyerPin.replace(/\D/g, '').length === 6) {
-          isMH = pinRes.isMaharashtra;
-        } else if (buyerStateRaw) {
-          isMH = buyerStateRaw.toLowerCase().includes('maharashtra');
-        }
-
-        const isInterState = !isMH;
-        const buyerState = isInterState 
-          ? (buyerStateRaw && !buyerStateRaw.toLowerCase().includes('maharashtra') ? buyerStateRaw : (pinRes.state !== 'Other' ? pinRes.state : 'Outside Maharashtra'))
-          : 'Maharashtra';
+        // Accurate Statutory GST Jurisdiction Check
+        const jur = resolveGstJurisdiction(buyerPin, buyerStateRaw, buyerGstin);
+        const isMH = jur.isMaharashtra;
+        const isInterState = jur.isInterState;
+        const buyerState = jur.state;
         
         if (invPosEl) {
-          invPosEl.textContent = isInterState 
-            ? `${buyerState} (Inter-State)` 
-            : `Maharashtra (27)`;
+          invPosEl.textContent = jur.placeOfSupply;
         }
 
         const invSupplyType = document.getElementById('inv-supply-type');
         if (invSupplyType) {
-          invSupplyType.textContent = isInterState 
-            ? 'Inter-State (IGST 18% Only)' 
-            : 'Intra-State (CGST 9% + SGST 9%)';
+          invSupplyType.textContent = jur.supplyType;
         }
 
         const invGstLabel = document.getElementById('inv-gst-label');

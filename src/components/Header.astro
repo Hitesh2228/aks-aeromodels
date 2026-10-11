@@ -1,5 +1,6 @@
 ---
 import LoginModal from './LoginModal.astro';
+import { MAIN_NAV_ITEMS } from '../data/navigation';
 ---
 
 <!-- Announcement Bar (Bellavita Top Strip) -->
@@ -78,14 +79,11 @@ import LoginModal from './LoginModal.astro';
   <!-- Category Nav Strip (Clean Luxury Navigation Links) -->
   <nav class="nav-strip">
     <div class="container nav-links">
-      <a href="/shop?category=all" class="nav-item">SHOP ALL</a>
-      <a href="/shop?filter=crazy-deals" class="nav-item highlight">CRAZY DEALS</a>
-      <a href="/shop?filter=bestsellers" class="nav-item">BESTSELLERS</a>
-      <a href="/shop?category=engine" class="nav-item">ENGINES</a>
-      <a href="/shop?category=aeromodels" class="nav-item">AEROMODELS</a>
-      <a href="/shop?category=radio-receiver" class="nav-item">RADIOS & RECEIVERS</a>
-      <a href="/shop?category=balsa-wood" class="nav-item">BALSA WOOD</a>
-      <a href="/shop?category=accessories" class="nav-item">ACCESSORIES</a>
+      {MAIN_NAV_ITEMS.map((item) => (
+        <a href={item.href} class={`nav-item ${item.highlight ? 'highlight' : ''}`}>
+          {item.label}
+        </a>
+      ))}
     </div>
   </nav>
 
