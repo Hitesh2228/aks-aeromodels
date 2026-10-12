@@ -331,27 +331,25 @@ import '../../styles/global.css';
     .stat-card-compact {
       background: var(--admin-surface);
       border: 1px solid var(--admin-border);
-      border-radius: 12px;
-      padding: 0.85rem 1.15rem;
-      box-shadow: var(--card-shadow);
+      border-radius: 14px;
+      padding: 1rem 1.25rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
       display: flex;
       flex-direction: column;
-      gap: 0.15rem;
       position: relative;
       overflow: hidden;
+      transition: all 0.2s ease;
     }
-    .stat-card-compact::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: #cbd5e1;
+    .stat-card-compact:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      transform: translateY(-1px);
     }
-    .stat-card-compact.highlight::before { background: var(--admin-crimson); }
-    .stat-card-compact.engines::before { background: #2563eb; }
-    .stat-card-compact.airframes::before { background: #059669; }
-    .stat-card-compact.balsa::before { background: #d97706; }
-    .stat-card-compact.radios::before { background: #7c3aed; }
+    .stat-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.35rem;
+    }
     .stat-card-compact .stat-label {
       font-size: 0.7rem;
       font-weight: 700;
@@ -359,11 +357,38 @@ import '../../styles/global.css';
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
+    .stat-icon-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .stat-icon-badge.badge-blue { background: #eff6ff; color: #2563eb; }
+    .stat-icon-badge.badge-emerald { background: #ecfdf5; color: #059669; }
+    .stat-icon-badge.badge-teal { background: #f0fdfa; color: #0d9488; }
+    .stat-icon-badge.badge-amber { background: #fffbeb; color: #d97706; }
+    .stat-icon-badge.badge-rose { background: #fff1f2; color: #e11d48; }
+    .stat-icon-badge.badge-purple { background: #faf5ff; color: #7c3aed; }
+    .stat-icon-badge.badge-crimson { background: #fff1f2; color: #9f1239; }
     .stat-card-compact .stat-num {
       font-family: var(--font-display);
-      font-size: 1.45rem;
+      font-size: 1.6rem;
       font-weight: 800;
       color: var(--admin-text-main);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    .stat-subtext {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--admin-text-subtle);
+      margin-top: 0.25rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     /* Category Filter Pills Bar */
@@ -713,35 +738,171 @@ import '../../styles/global.css';
     .order-status-pill {
       font-size: 0.72rem;
       font-weight: 700;
-      padding: 0.2rem 0.6rem;
+      padding: 0.22rem 0.65rem;
       border-radius: 20px;
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
       text-transform: capitalize;
+      letter-spacing: 0.02em;
     }
-    .order-status-pill.paid { background: #ecfdf5; color: #059669; }
+    .order-status-pill.paid { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
     .order-status-pill.paid::before { content: ''; width: 6px; height: 6px; background: #059669; border-radius: 50%; }
-    .order-status-pill.pending { background: #fffbeb; color: #d97706; }
+    .order-status-pill.pending { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
     .order-status-pill.pending::before { content: ''; width: 6px; height: 6px; background: #d97706; border-radius: 50%; }
-    .order-status-pill.fulfilled { background: #eff6ff; color: #2563eb; }
+    .order-status-pill.fulfilled { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
     .order-status-pill.fulfilled::before { content: ''; width: 6px; height: 6px; background: #2563eb; border-radius: 50%; }
-    .order-status-pill.unfulfilled { background: #fef2f2; color: #dc2626; }
+    .order-status-pill.unfulfilled { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
     .order-status-pill.unfulfilled::before { content: ''; width: 6px; height: 6px; background: #dc2626; border-radius: 50%; }
 
     .blog-status-pill {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 700;
-      padding: 0.18rem 0.55rem;
-      border-radius: 4px;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
       display: inline-flex;
       align-items: center;
       gap: 0.3rem;
       text-transform: uppercase;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.04em;
     }
-    .blog-status-pill.published { background: #ecfdf5; color: #059669; }
-    .blog-status-pill.draft { background: #f1f5f9; color: #64748b; }
+    .blog-status-pill.published { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
+    .blog-status-pill.published::before { content: ''; width: 5px; height: 5px; background: #059669; border-radius: 50%; }
+    .blog-status-pill.draft { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
+    .blog-status-pill.draft::before { content: ''; width: 5px; height: 5px; background: #94a3b8; border-radius: 50%; }
+
+    /* Orders Table Typography & Micro-Layout */
+    .order-ref-title {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #0f172a;
+      letter-spacing: -0.01em;
+    }
+    .order-date-text {
+      font-size: 0.72rem;
+      color: #64748b;
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .order-customer-name {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #0f172a;
+    }
+    .order-customer-contact {
+      font-size: 0.74rem;
+      color: #64748b;
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .order-b2b-badge {
+      font-size: 0.66rem;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      color: #1e40af;
+      font-weight: 700;
+      display: inline-block;
+      margin-top: 3px;
+    }
+    .order-item-chip {
+      display: flex;
+      align-items: baseline;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      line-height: 1.4;
+      margin-bottom: 2px;
+    }
+    .order-item-qty {
+      font-weight: 800;
+      font-size: 0.7rem;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 1px 5px;
+      border-radius: 3px;
+      border: 1px solid #e2e8f0;
+      flex-shrink: 0;
+    }
+    .order-item-title {
+      color: #334155;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 220px;
+    }
+    .order-more-items {
+      font-size: 0.72rem;
+      color: #64748b;
+      font-weight: 600;
+      margin-top: 1px;
+    }
+    .order-price-val {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: #0f172a;
+    }
+
+    /* Blog Specific Micro-Components */
+    .blog-tag-pill {
+      display: inline-block;
+      background: #f1f5f9;
+      color: #334155;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0;
+      margin-right: 0.25rem;
+      margin-bottom: 0.25rem;
+      white-space: nowrap;
+    }
+    .blog-tag-pill-more {
+      display: inline-block;
+      background: #eff6ff;
+      color: #2563eb;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      border: 1px solid #bfdbfe;
+      cursor: help;
+      margin-bottom: 0.25rem;
+      white-space: nowrap;
+    }
+    .blog-author-cell {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .blog-author-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      color: #475569;
+      font-size: 0.68rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #e2e8f0;
+      flex-shrink: 0;
+    }
+    .blog-author-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     /* Enterprise Admin Modal Overlays */
     .admin-modal-overlay {
@@ -1493,25 +1654,55 @@ import '../../styles/global.css';
       
       <!-- Metrics Overview -->
       <div class="stats-row">
-        <div class="stat-card-compact highlight">
-          <span class="stat-label">Total Active Products</span>
+        <div class="stat-card-compact">
+          <div class="stat-top-row">
+            <span class="stat-label">Total Active Products</span>
+            <div class="stat-icon-badge badge-crimson">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg>
+            </div>
+          </div>
           <span class="stat-num" id="stat-total-prods">0</span>
+          <div class="stat-subtext">Direct from Shopify Store</div>
         </div>
-        <div class="stat-card-compact engines">
-          <span class="stat-label">Nitro / Gas Engines</span>
+        <div class="stat-card-compact">
+          <div class="stat-top-row">
+            <span class="stat-label">Nitro / Gas Engines</span>
+            <div class="stat-icon-badge badge-blue">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="m12 8 2 4h-4l2 4"/></svg>
+            </div>
+          </div>
           <span class="stat-num" id="stat-engines">0</span>
+          <div class="stat-subtext">O.S. Max, DLE, Saito, NGH</div>
         </div>
-        <div class="stat-card-compact airframes">
-          <span class="stat-label">Seagull Airframes</span>
+        <div class="stat-card-compact">
+          <div class="stat-top-row">
+            <span class="stat-label">Seagull Airframes</span>
+            <div class="stat-icon-badge badge-emerald">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>
+            </div>
+          </div>
           <span class="stat-num" id="stat-airframes">0</span>
+          <div class="stat-subtext">ARF Scale Aeromodels & Kits</div>
         </div>
-        <div class="stat-card-compact balsa">
-          <span class="stat-label">Balsa Wood Sheets</span>
+        <div class="stat-card-compact">
+          <div class="stat-top-row">
+            <span class="stat-label">Balsa Wood Sheets</span>
+            <div class="stat-icon-badge badge-amber">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+            </div>
+          </div>
           <span class="stat-num" id="stat-balsa">0</span>
+          <div class="stat-subtext">Contest grade 1mm - 15mm</div>
         </div>
-        <div class="stat-card-compact radios">
-          <span class="stat-label">Radios & Accessories</span>
+        <div class="stat-card-compact">
+          <div class="stat-top-row">
+            <span class="stat-label">Radios & Accessories</span>
+            <div class="stat-icon-badge badge-purple">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19.1"/></svg>
+            </div>
+          </div>
           <span class="stat-num" id="stat-radios-acc">0</span>
+          <div class="stat-subtext">Futaba, Radiomaster, Servos</div>
         </div>
       </div>
 
@@ -2162,65 +2353,121 @@ import '../../styles/global.css';
     <!-- ==================== VIEW 4: STORE ORDERS CENTER ==================== -->
     <div id="view-orders" class="catalog-wrapper" style="display: none;">
       
-      <!-- Metrics Overview -->
-      <div class="stats-row">
-        <div class="stat-card-compact highlight">
-          <span class="stat-label">Total Store Orders</span>
-          <span class="stat-num" id="stat-total-orders">0</span>
+      <!-- Top Action Bar -->
+      <div class="studio-sticky-bar">
+        <div class="studio-title-block">
+          <div>
+            <div class="studio-breadcrumbs">Store Operations / Shopify Fulfillment Manifest</div>
+            <div class="studio-title-main" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              <span>Store Orders & Financial Manifest</span>
+            </div>
+          </div>
         </div>
-        <div class="stat-card-compact engines">
-          <span class="stat-label">Total Revenue</span>
-          <span class="stat-num" id="stat-revenue-orders">₹0</span>
-        </div>
-        <div class="stat-card-compact airframes">
-          <span class="stat-label">Paid Orders</span>
-          <span class="stat-num" id="stat-paid-orders">0</span>
-        </div>
-        <div class="stat-card-compact balsa">
-          <span class="stat-label">Pending / COD</span>
-          <span class="stat-num" id="stat-pending-orders">0</span>
-        </div>
-        <div class="stat-card-compact radios">
-          <span class="stat-label">Unfulfilled</span>
-          <span class="stat-num" id="stat-unfulfilled-orders">0</span>
-        </div>
-      </div>
-
-      <!-- Action & Filter Bar -->
-      <div class="catalog-toolbar">
-        <div class="search-box-wrapper">
-          <svg class="search-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-          <input type="text" id="orders-search-input" class="search-input" placeholder="Search orders by #INV, pilot name, phone, item..." />
-        </div>
-        <div class="catalog-actions-right">
+        <div class="studio-actions-block">
           <button type="button" class="btn-create-prod-primary" id="btn-refresh-orders" style="display: inline-flex; align-items: center; gap: 0.45rem;">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
-            <span>Refresh Orders</span>
+            <span>Sync Live Orders</span>
           </button>
         </div>
       </div>
 
-      <!-- Order Category Filter Pills -->
-      <div class="catalog-pills-bar">
+      <!-- Metrics Overview -->
+      <div class="stats-row">
+        <div class="stat-card-compact">
+          <div class="stat-top-row">
+            <span class="stat-label">Total Store Orders</span>
+            <div class="stat-icon-badge badge-blue">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            </div>
+          </div>
+          <span class="stat-num" id="stat-total-orders">0</span>
+          <div class="stat-subtext">Processed across storefront</div>
+        </div>
+        <div class="stat-card-compact">
+          <div class="stat-top-row">
+            <span class="stat-label">Total Revenue</span>
+            <div class="stat-icon-badge badge-emerald">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12M6 8h12M6 13l7.5 8M6 13h4.5a4.5 4.5 0 0 0 0-9H6"/></svg>
+            </div>
+          </div>
+          <span class="stat-num" id="stat-revenue-orders">₹0</span>
+          <div class="stat-subtext">Gross Shopify transaction volume</div>
+        </div>
+        <div class="stat-card-compact">
+          <div class="stat-top-row">
+            <span class="stat-label">Paid Orders</span>
+            <div class="stat-icon-badge badge-teal">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+          </div>
+          <span class="stat-num" id="stat-paid-orders">0</span>
+          <div class="stat-subtext">Cleared / settled payments</div>
+        </div>
+        <div class="stat-card-compact">
+          <div class="stat-top-row">
+            <span class="stat-label">Pending / COD</span>
+            <div class="stat-icon-badge badge-amber">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+          </div>
+          <span class="stat-num" id="stat-pending-orders">0</span>
+          <div class="stat-subtext">Cash on Delivery / verification</div>
+        </div>
+        <div class="stat-card-compact">
+          <div class="stat-top-row">
+            <span class="stat-label">Unfulfilled</span>
+            <div class="stat-icon-badge badge-rose">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg>
+            </div>
+          </div>
+          <span class="stat-num" id="stat-unfulfilled-orders">0</span>
+          <div class="stat-subtext" style="color: #e11d48; font-weight: 700;">Action required: Pack & dispatch</div>
+        </div>
+      </div>
+
+      <!-- Quick Category Filter Pills -->
+      <div class="catalog-filter-pills-bar" id="orders-pills-bar">
         <button type="button" class="cat-pill-btn active" data-order-cat="all">All Orders (<span id="pill-cnt-orders-all">0</span>)</button>
         <button type="button" class="cat-pill-btn" data-order-cat="paid">Paid (<span id="pill-cnt-orders-paid">0</span>)</button>
         <button type="button" class="cat-pill-btn" data-order-cat="pending">Pending / COD (<span id="pill-cnt-orders-pending">0</span>)</button>
-        <button type="button" class="cat-pill-btn" data-order-cat="unfulfilled">Unfulfilled (<span id="pill-cnt-orders-unfulfilled">0</span>)</button>
+        <button type="button" class="cat-pill-btn alert" data-order-cat="unfulfilled">Unfulfilled (<span id="pill-cnt-orders-unfulfilled">0</span>)</button>
         <button type="button" class="cat-pill-btn" data-order-cat="fulfilled">Fulfilled (<span id="pill-cnt-orders-fulfilled">0</span>)</button>
       </div>
 
-      <!-- Orders Table -->
-      <div class="catalog-table-card">
-        <div class="table-responsive">
-          <table class="catalog-data-table">
+      <!-- Search Toolbar -->
+      <div class="catalog-toolbar">
+        <div class="toolbar-left">
+          <div class="search-input-wrap">
+            <span class="search-icon-svg" style="display: flex; align-items: center;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            </span>
+            <input type="text" id="orders-search-input" class="search-input-field" placeholder="Search orders by #INV, pilot name, phone, item title..." />
+          </div>
+        </div>
+      </div>
+
+      <!-- Orders Table Container -->
+      <div class="table-container-card">
+        <div class="table-scroll">
+          <table class="compact-admin-table" style="min-width: 1060px;">
+            <colgroup>
+              <col style="width: 16%; min-width: 160px;" />
+              <col style="width: 18%; min-width: 180px;" />
+              <col style="width: 26%; min-width: 250px;" />
+              <col style="width: 14%; min-width: 140px;" />
+              <col style="width: 11%; min-width: 110px;" />
+              <col style="width: 10%; min-width: 100px;" />
+              <col style="width: 5%; min-width: 100px;" />
+            </colgroup>
             <thead>
               <tr>
-                <th style="min-width: 170px;">Order # & Date</th>
+                <th>Order # & Timestamp</th>
                 <th>Pilot / Customer</th>
                 <th>Items Ordered</th>
-                <th>Payment & Status</th>
+                <th>Payment & Gateway</th>
                 <th>Fulfillment</th>
-                <th>Total Amount</th>
+                <th>Total</th>
                 <th style="text-align: right;">Action</th>
               </tr>
             </thead>
@@ -2243,14 +2490,18 @@ import '../../styles/global.css';
       <div class="studio-sticky-bar">
         <div class="studio-title-block">
           <div>
-            <div class="studio-breadcrumbs">Storefront Content / Flight Journal & Guides</div>
+            <div class="studio-breadcrumbs">Storefront Content / Flight Journal & Technical Guides</div>
             <div class="studio-title-main" style="display: inline-flex; align-items: center; gap: 0.5rem;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10M6 14h6"/></svg>
               <span>Flight Blogs & Technical Articles</span>
             </div>
           </div>
         </div>
-        <div class="studio-actions-block">
+        <div class="studio-actions-block" style="display: flex; gap: 0.75rem;">
+          <button type="button" class="btn-create-prod-primary" id="btn-refresh-blogs" style="background: #334155; display: inline-flex; align-items: center; gap: 0.45rem;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+            <span>Refresh</span>
+          </button>
           <button type="button" class="btn-create-prod-primary" id="btn-trigger-new-blog">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
             <span>Create New Article</span>
@@ -2259,42 +2510,83 @@ import '../../styles/global.css';
       </div>
 
       <!-- Metrics Overview -->
-      <div class="stats-row">
-        <div class="stat-card-compact highlight">
-          <span class="stat-label">Total Articles</span>
+      <div class="stats-row" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+        <div class="stat-card-compact">
+          <div class="stat-top-row">
+            <span class="stat-label">Total Articles</span>
+            <div class="stat-icon-badge badge-blue">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10M6 14h6"/></svg>
+            </div>
+          </div>
           <span class="stat-num" id="stat-total-articles">0</span>
+          <div class="stat-subtext">Technical guides & flight notes</div>
         </div>
-        <div class="stat-card-compact engines">
-          <span class="stat-label">Published Articles</span>
+        <div class="stat-card-compact">
+          <div class="stat-top-row">
+            <span class="stat-label">Published Articles</span>
+            <div class="stat-icon-badge badge-emerald">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+          </div>
           <span class="stat-num" id="stat-published-articles">0</span>
+          <div class="stat-subtext">Live on skynodesuav.in/blog</div>
         </div>
-        <div class="stat-card-compact airframes">
-          <span class="stat-label">Drafts</span>
+        <div class="stat-card-compact">
+          <div class="stat-top-row">
+            <span class="stat-label">Drafts</span>
+            <div class="stat-icon-badge badge-amber">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+            </div>
+          </div>
           <span class="stat-num" id="stat-draft-articles">0</span>
+          <div class="stat-subtext">Unpublished work in progress</div>
+        </div>
+        <div class="stat-card-compact">
+          <div class="stat-top-row">
+            <span class="stat-label">Active Topics & Tags</span>
+            <div class="stat-icon-badge badge-purple">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
+            </div>
+          </div>
+          <span class="stat-num" id="stat-categories-count">0</span>
+          <div class="stat-subtext">Engine tuning, Airframes, Balsa...</div>
         </div>
       </div>
 
-      <!-- Action & Filter Bar -->
+      <!-- Quick Category Filter Pills -->
+      <div class="catalog-filter-pills-bar" id="blogs-pills-bar">
+        <button type="button" class="cat-pill-btn active" data-blog-cat="all">All Articles (<span id="pill-cnt-blogs-all">0</span>)</button>
+        <button type="button" class="cat-pill-btn" data-blog-cat="published">Published (<span id="pill-cnt-blogs-pub">0</span>)</button>
+        <button type="button" class="cat-pill-btn" data-blog-cat="draft">Drafts (<span id="pill-cnt-blogs-draft">0</span>)</button>
+      </div>
+
+      <!-- Search Toolbar -->
       <div class="catalog-toolbar">
-        <div class="search-box-wrapper">
-          <svg class="search-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-          <input type="text" id="blogs-search-input" class="search-input" placeholder="Search articles by headline, tag or author..." />
-        </div>
-        <div class="catalog-actions-right">
-          <button type="button" class="btn-create-prod-primary" id="btn-refresh-blogs" style="display: inline-flex; align-items: center; gap: 0.45rem;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
-            <span>Refresh Articles</span>
-          </button>
+        <div class="toolbar-left">
+          <div class="search-input-wrap">
+            <span class="search-icon-svg" style="display: flex; align-items: center;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            </span>
+            <input type="text" id="blogs-search-input" class="search-input-field" placeholder="Search articles by headline, tag or author..." />
+          </div>
         </div>
       </div>
 
-      <!-- Blogs Table Card -->
-      <div class="catalog-table-card">
-        <div class="table-responsive">
-          <table class="catalog-data-table">
+      <!-- Blogs Table Container -->
+      <div class="table-container-card">
+        <div class="table-scroll">
+          <table class="compact-admin-table" style="min-width: 1060px;">
+            <colgroup>
+              <col style="width: 40%; min-width: 360px;" />
+              <col style="width: 16%; min-width: 150px;" />
+              <col style="width: 18%; min-width: 160px;" />
+              <col style="width: 12%; min-width: 110px;" />
+              <col style="width: 8%; min-width: 80px;" />
+              <col style="width: 6%; min-width: 110px;" />
+            </colgroup>
             <thead>
               <tr>
-                <th style="min-width: 300px;">Article Headline</th>
+                <th>Article Headline & URL Slug</th>
                 <th>Author</th>
                 <th>Tags & Category</th>
                 <th>Published Date</th>
@@ -3890,36 +4182,64 @@ import '../../styles/global.css';
         const finStatus = (o.financialStatus || 'pending').toLowerCase();
         const fulStatus = (o.fulfillmentStatus || 'unfulfilled').toLowerCase();
 
-        const itemsSummary = (o.lineItems || []).map((li: any) => `<div style="font-size:0.78rem; line-height:1.3;">• ${li.title} <strong>(${li.quantity}x)</strong></div>`).join('');
+        const allItems = o.lineItems || [];
+        const visibleItems = allItems.slice(0, 2);
+        const remainingCount = allItems.length - 2;
+
+        let itemsSummary = visibleItems.map((li: any) => `
+          <div class="order-item-chip">
+            <span class="order-item-qty">${li.quantity}x</span>
+            <span class="order-item-title" title="${li.title}">${li.title}</span>
+          </div>
+        `).join('');
+
+        if (remainingCount > 0) {
+          const allTitles = allItems.map((li: any) => `${li.quantity}x ${li.title}`).join(', ');
+          itemsSummary += `<div class="order-more-items" title="${allTitles}">+${remainingCount} more item${remainingCount > 1 ? 's' : ''}</div>`;
+        }
+
+        if (!itemsSummary) {
+          itemsSummary = '<span style="color:#94a3b8; font-size:0.75rem;">No items recorded</span>';
+        }
+
+        const phoneDisplay = o.customer?.phone ? `
+          <div class="order-customer-contact">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; color:#64748b;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span>${o.customer.phone}</span>
+          </div>
+        ` : (o.customer?.email ? `<div class="order-customer-contact">${o.customer.email}</div>` : '');
 
         return `
           <tr>
             <td>
-              <div style="font-weight: 800; font-size: 0.88rem; color: #0f172a;">${o.name}</div>
-              <div style="font-size: 0.72rem; color: #64748b;">${dateStr}</div>
+              <div class="order-ref-title">${o.name}</div>
+              <div class="order-date-text">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span>${dateStr}</span>
+              </div>
             </td>
             <td>
-              <div style="font-weight: 700; font-size: 0.85rem; color: #0f172a;">${o.customer?.name || 'Pilot (Guest)'}</div>
-              <div style="font-size: 0.74rem; color: #64748b;">📞 ${o.customer?.phone || 'N/A'}</div>
-              ${o.b2bInfo ? `<span style="font-size:0.68rem; background:#f1f5f9; padding:0.1rem 0.35rem; border-radius:3px; color:#475569; font-weight:700;">B2B: ${o.b2bInfo}</span>` : ''}
+              <div class="order-customer-name">${o.customer?.name || 'Pilot (Guest)'}</div>
+              ${phoneDisplay}
+              ${o.b2bInfo ? `<span class="order-b2b-badge">B2B: ${o.b2bInfo}</span>` : ''}
             </td>
             <td>
-              <div style="max-width: 280px;">${itemsSummary || '<span style="color:#94a3b8;">No items</span>'}</div>
+              <div>${itemsSummary}</div>
             </td>
             <td>
               <span class="order-status-pill ${finStatus === 'paid' ? 'paid' : 'pending'}">${finStatus}</span>
-              <div style="font-size: 0.72rem; color: #64748b; margin-top: 0.2rem;">${o.paymentMethod || 'Online'}</div>
+              <div style="font-size: 0.72rem; color: #64748b; margin-top: 0.25rem;">${o.paymentMethod || 'Online'}</div>
             </td>
             <td>
               <span class="order-status-pill ${fulStatus === 'fulfilled' ? 'fulfilled' : 'unfulfilled'}">${fulStatus}</span>
             </td>
             <td>
-              <strong style="color: #0f172a; font-size: 0.95rem;">₹${Number(o.totalPrice).toLocaleString('en-IN')}.00</strong>
+              <span class="order-price-val">₹${Number(o.totalPrice).toLocaleString('en-IN')}.00</span>
             </td>
             <td style="text-align: right;">
               <button class="btn-table-edit btn-order-view-dossier" data-id="${o.id}">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                <span>View Details</span>
+                <span>Details</span>
               </button>
             </td>
           </tr>
@@ -4069,42 +4389,85 @@ import '../../styles/global.css';
       }
     }
 
+    let currentSelectedBlogFilter: string = 'all';
+
     function updateBlogsMetrics(articles: any[]) {
       const elTotal = document.getElementById('stat-total-articles');
       const elPub = document.getElementById('stat-published-articles');
       const elDraft = document.getElementById('stat-draft-articles');
+      const elCatCount = document.getElementById('stat-categories-count');
 
       const total = articles.length;
       const published = articles.filter(a => a.isPublished).length;
       const drafts = total - published;
 
+      const tagSet = new Set<string>();
+      articles.forEach(a => {
+        if (a.tags) {
+          a.tags.split(',').forEach((t: string) => {
+            const tr = t.trim();
+            if (tr) tagSet.add(tr);
+          });
+        }
+      });
+
       if (elTotal) elTotal.textContent = total.toString();
       if (elPub) elPub.textContent = published.toString();
       if (elDraft) elDraft.textContent = drafts.toString();
+      if (elCatCount) elCatCount.textContent = tagSet.size.toString();
+
+      const pAll = document.getElementById('pill-cnt-blogs-all');
+      const pPub = document.getElementById('pill-cnt-blogs-pub');
+      const pDraft = document.getElementById('pill-cnt-blogs-draft');
+      if (pAll) pAll.textContent = total.toString();
+      if (pPub) pPub.textContent = published.toString();
+      if (pDraft) pDraft.textContent = drafts.toString();
     }
 
     function applyBlogsFilters() {
       const query = (blogsSearchInput?.value || '').toLowerCase().trim();
+      const filter = currentSelectedBlogFilter;
+
       currentFilteredBlogs = allBlogs.filter(a => {
-        if (!query) return true;
-        return (a.title && a.title.toLowerCase().includes(query)) ||
-               (a.author && a.author.toLowerCase().includes(query)) ||
-               (a.tags && a.tags.toLowerCase().includes(query));
+        const matchesQuery = !query || 
+          (a.title && a.title.toLowerCase().includes(query)) ||
+          (a.author && a.author.toLowerCase().includes(query)) ||
+          (a.tags && a.tags.toLowerCase().includes(query));
+
+        if (!matchesQuery) return false;
+        if (filter === 'all') return true;
+        if (filter === 'published') return !!a.isPublished;
+        if (filter === 'draft') return !a.isPublished;
+        return true;
       });
+
       renderBlogsTable();
     }
 
     function renderBlogsTable() {
       if (!blogsTbody) return;
       if (currentFilteredBlogs.length === 0) {
-        blogsTbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:3rem; color:#64748b;">No flight articles match your search.</td></tr>`;
+        blogsTbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:3rem; color:#64748b;">No flight articles match your search or filter.</td></tr>`;
         return;
       }
 
       blogsTbody.innerHTML = currentFilteredBlogs.map(a => {
         const img = a.image || 'https://cdn.shopify.com/s/files/1/1026/5726/1844/files/sea-1-1.jpg?v=1791020060';
         const dateStr = a.publishedAt ? new Date(a.publishedAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Draft';
-        const tagsPills = (a.tags || 'Technical Guide').split(',').map((t: string) => `<span class="category-tag-pill" style="margin-right:0.25rem;">${t.trim()}</span>`).join('');
+        
+        const rawTags = (a.tags || 'Technical Guide').split(',').map((t: string) => t.trim()).filter(Boolean);
+        let tagsHtml = '';
+        if (rawTags.length <= 2) {
+          tagsHtml = rawTags.map((t: string) => `<span class="blog-tag-pill">${t}</span>`).join('');
+        } else {
+          const visible = rawTags.slice(0, 2);
+          const remaining = rawTags.length - 2;
+          const fullList = rawTags.join(', ');
+          tagsHtml = visible.map((t: string) => `<span class="blog-tag-pill">${t}</span>`).join('') +
+                     `<span class="blog-tag-pill-more" title="${fullList}">+${remaining} more</span>`;
+        }
+
+        const authorInitials = (a.author || 'FT').split(' ').map((n: string) => n[0]).slice(0, 2).join('').toUpperCase();
 
         return `
           <tr>
@@ -4118,28 +4481,31 @@ import '../../styles/global.css';
               </div>
             </td>
             <td>
-              <span style="font-size:0.8rem; font-weight:600; color:#0f172a;">${a.author || 'Flight Team'}</span>
+              <div class="blog-author-cell">
+                <span class="blog-author-avatar">${authorInitials}</span>
+                <span class="blog-author-name" title="${a.author || 'Flight Team'}">${a.author || 'Flight Team'}</span>
+              </div>
             </td>
             <td>
-              <div style="max-width: 220px;">${tagsPills}</div>
+              <div style="display: flex; flex-wrap: wrap; align-items: center;">${tagsHtml}</div>
             </td>
             <td>
-              <span style="font-size:0.78rem; color:#64748b;">${dateStr}</span>
+              <span style="font-size:0.78rem; color:#64748b; font-weight:600;">${dateStr}</span>
             </td>
             <td>
               <span class="blog-status-pill ${a.isPublished ? 'published' : 'draft'}">${a.isPublished ? 'Published' : 'Draft'}</span>
             </td>
             <td style="text-align: right;">
               <div class="action-buttons-inline">
-                <button class="btn-table-edit btn-blog-edit" data-id="${a.id}">
+                <button class="btn-table-edit btn-blog-edit" data-id="${a.id}" title="Edit Article">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
                   <span>Edit</span>
                 </button>
-                <a href="/blog/${a.handle || a.id}" target="_blank" class="btn-table-view">
+                <a href="/blog/${a.handle || a.id}" target="_blank" class="btn-table-view" title="View Article on Live Storefront">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                   <span>View</span>
                 </a>
-                <button class="btn-table-del btn-blog-del" data-id="${a.id}" data-title="${encodeURIComponent(a.title)}">
+                <button class="btn-table-del btn-blog-del" data-id="${a.id}" data-title="${encodeURIComponent(a.title)}" title="Delete Article">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
                 </button>
               </div>
@@ -4237,6 +4603,17 @@ import '../../styles/global.css';
       if (blogEditorModal) blogEditorModal.style.display = 'none';
     });
     blogsSearchInput?.addEventListener('input', applyBlogsFilters);
+
+    document.querySelectorAll('[data-blog-cat]').forEach(pill => {
+      pill.addEventListener('click', (e) => {
+        document.querySelectorAll('[data-blog-cat]').forEach(p => p.classList.remove('active'));
+        const target = e.currentTarget as HTMLElement;
+        target.classList.add('active');
+        currentSelectedBlogFilter = target.getAttribute('data-blog-cat') || 'all';
+        applyBlogsFilters();
+      });
+    });
+
     btnRefreshBlogs?.addEventListener('click', () => {
       showToast('Refreshing live flight articles from Shopify...');
       loadBlogsFromShopify();
