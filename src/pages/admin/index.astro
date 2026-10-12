@@ -808,8 +808,115 @@ import '../../styles/global.css';
       border-radius: 4px;
       color: #1e40af;
       font-weight: 700;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
       margin-top: 3px;
+    }
+    .order-b2c-badge {
+      font-size: 0.66rem;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      color: #64748b;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      margin-top: 3px;
+    }
+    .btn-table-whatsapp {
+      background: rgba(16, 185, 129, 0.08);
+      color: #059669;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: all 0.15s;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn-table-whatsapp:hover {
+      background: #059669;
+      color: #ffffff;
+      border-color: #059669;
+      box-shadow: 0 2px 6px rgba(5, 150, 105, 0.25);
+    }
+    .btn-table-dispatch {
+      background: #0f172a;
+      color: #ffffff;
+      border: 1px solid #0f172a;
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .btn-table-dispatch:hover {
+      background: #2563eb;
+      border-color: #2563eb;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+    }
+    .btn-table-fulfilled-done {
+      background: #eff6ff;
+      color: #2563eb;
+      border: 1px solid #bfdbfe;
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      white-space: nowrap;
+    }
+    .btn-table-fulfilled-done:hover {
+      background: #dbeafe;
+    }
+    .dossier-actions-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.85rem 1.15rem;
+      background: #f8fafc;
+      border: 1px solid var(--admin-border);
+      border-radius: 10px;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .dossier-channel-pill {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      text-transform: uppercase;
+    }
+    .dossier-channel-pill.b2b {
+      background: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+    }
+    .dossier-channel-pill.b2c {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
     }
     .order-item-chip {
       display: flex;
@@ -2372,8 +2479,8 @@ import '../../styles/global.css';
         </div>
       </div>
 
-      <!-- Metrics Overview -->
-      <div class="stats-row">
+      <!-- Metrics Overview (B2B vs B2C & Fulfillment Breakdown) -->
+      <div class="stats-row" style="grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));">
         <div class="stat-card-compact">
           <div class="stat-top-row">
             <span class="stat-label">Total Store Orders</span>
@@ -2384,55 +2491,72 @@ import '../../styles/global.css';
           <span class="stat-num" id="stat-total-orders">0</span>
           <div class="stat-subtext">Processed across storefront</div>
         </div>
+
         <div class="stat-card-compact">
           <div class="stat-top-row">
-            <span class="stat-label">Total Revenue</span>
+            <span class="stat-label">Total Gross Revenue</span>
             <div class="stat-icon-badge badge-emerald">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12M6 8h12M6 13l7.5 8M6 13h4.5a4.5 4.5 0 0 0 0-9H6"/></svg>
             </div>
           </div>
           <span class="stat-num" id="stat-revenue-orders">₹0</span>
-          <div class="stat-subtext">Gross Shopify transaction volume</div>
+          <div class="stat-subtext">Combined transaction value</div>
         </div>
+
         <div class="stat-card-compact">
           <div class="stat-top-row">
-            <span class="stat-label">Paid Orders</span>
+            <span class="stat-label">B2B Commercial Orders</span>
+            <div class="stat-icon-badge badge-purple">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </div>
+          </div>
+          <span class="stat-num" id="stat-b2b-orders">0</span>
+          <div class="stat-subtext" id="stat-b2b-revenue">₹0 • Corporate / GST</div>
+        </div>
+
+        <div class="stat-card-compact">
+          <div class="stat-top-row">
+            <span class="stat-label">B2C Retail Pilots</span>
             <div class="stat-icon-badge badge-teal">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             </div>
           </div>
-          <span class="stat-num" id="stat-paid-orders">0</span>
-          <div class="stat-subtext">Cleared / settled payments</div>
+          <span class="stat-num" id="stat-b2c-orders">0</span>
+          <div class="stat-subtext" id="stat-b2c-revenue">₹0 • Individual Pilots</div>
         </div>
+
         <div class="stat-card-compact">
           <div class="stat-top-row">
-            <span class="stat-label">Pending / COD</span>
-            <div class="stat-icon-badge badge-amber">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            </div>
-          </div>
-          <span class="stat-num" id="stat-pending-orders">0</span>
-          <div class="stat-subtext">Cash on Delivery / verification</div>
-        </div>
-        <div class="stat-card-compact">
-          <div class="stat-top-row">
-            <span class="stat-label">Unfulfilled</span>
+            <span class="stat-label">Pack & Dispatch Required</span>
             <div class="stat-icon-badge badge-rose">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg>
             </div>
           </div>
           <span class="stat-num" id="stat-unfulfilled-orders">0</span>
-          <div class="stat-subtext" style="color: #e11d48; font-weight: 700;">Action required: Pack & dispatch</div>
+          <div class="stat-subtext" style="color: #e11d48; font-weight: 700;">Action: Pack & ship to pilot</div>
+        </div>
+
+        <div class="stat-card-compact">
+          <div class="stat-top-row">
+            <span class="stat-label">Fulfilled & Dispatched</span>
+            <div class="stat-icon-badge badge-emerald">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="13" x="1" y="6" rx="2"/><path d="M17 9h4l2 3v7h-6V9Z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            </div>
+          </div>
+          <span class="stat-num" id="stat-fulfilled-orders">0</span>
+          <div class="stat-subtext">Dispatched to pilot destination</div>
         </div>
       </div>
 
-      <!-- Quick Category Filter Pills -->
+      <!-- Quick Channel & Status Filter Pills -->
       <div class="catalog-filter-pills-bar" id="orders-pills-bar">
         <button type="button" class="cat-pill-btn active" data-order-cat="all">All Orders (<span id="pill-cnt-orders-all">0</span>)</button>
-        <button type="button" class="cat-pill-btn" data-order-cat="paid">Paid (<span id="pill-cnt-orders-paid">0</span>)</button>
-        <button type="button" class="cat-pill-btn" data-order-cat="pending">Pending / COD (<span id="pill-cnt-orders-pending">0</span>)</button>
+        <button type="button" class="cat-pill-btn" data-order-cat="b2c">B2C Retail (<span id="pill-cnt-orders-b2c">0</span>)</button>
+        <button type="button" class="cat-pill-btn" data-order-cat="b2b">B2B Commercial (<span id="pill-cnt-orders-b2b">0</span>)</button>
         <button type="button" class="cat-pill-btn alert" data-order-cat="unfulfilled">Unfulfilled (<span id="pill-cnt-orders-unfulfilled">0</span>)</button>
         <button type="button" class="cat-pill-btn" data-order-cat="fulfilled">Fulfilled (<span id="pill-cnt-orders-fulfilled">0</span>)</button>
+        <button type="button" class="cat-pill-btn" data-order-cat="paid">Paid (<span id="pill-cnt-orders-paid">0</span>)</button>
+        <button type="button" class="cat-pill-btn" data-order-cat="pending">Pending / COD (<span id="pill-cnt-orders-pending">0</span>)</button>
       </div>
 
       <!-- Search Toolbar -->
@@ -2450,15 +2574,15 @@ import '../../styles/global.css';
       <!-- Orders Table Container -->
       <div class="table-container-card">
         <div class="table-scroll">
-          <table class="compact-admin-table" style="min-width: 1060px;">
+          <table class="compact-admin-table" style="min-width: 1120px;">
             <colgroup>
-              <col style="width: 16%; min-width: 160px;" />
+              <col style="width: 15%; min-width: 140px;" />
               <col style="width: 18%; min-width: 180px;" />
-              <col style="width: 26%; min-width: 250px;" />
-              <col style="width: 14%; min-width: 140px;" />
+              <col style="width: 21%; min-width: 200px;" />
+              <col style="width: 13%; min-width: 130px;" />
               <col style="width: 11%; min-width: 110px;" />
-              <col style="width: 10%; min-width: 100px;" />
-              <col style="width: 5%; min-width: 100px;" />
+              <col style="width: 8%; min-width: 90px;" />
+              <col style="width: 14%; min-width: 220px;" />
             </colgroup>
             <thead>
               <tr>
@@ -2468,7 +2592,7 @@ import '../../styles/global.css';
                 <th>Payment & Gateway</th>
                 <th>Fulfillment</th>
                 <th>Total</th>
-                <th style="text-align: right;">Action</th>
+                <th style="text-align: right;">Fulfillment & Actions</th>
               </tr>
             </thead>
             <tbody id="orders-tbody">
@@ -4114,15 +4238,130 @@ import '../../styles/global.css';
       }
     }
 
+    function formatWhatsAppPhone(rawPhone: string): string {
+      let digits = (rawPhone || '').replace(/\D/g, '');
+      if (digits.length === 10) return '91' + digits;
+      if (digits.length === 12 && digits.startsWith('91')) return digits;
+      if (digits.length > 10 && digits.startsWith('0')) return '91' + digits.substring(1);
+      if (digits.length > 0) return digits;
+      return '';
+    }
+
+    function generateWhatsAppDispatchMsg(o: any): string {
+      const name = o.customer?.name || 'Valued Pilot';
+      const itemsList = (o.lineItems || []).map((li: any) => `• ${li.quantity}x ${li.title}`).join('\n');
+      const city = o.shippingAddress?.city || o.shippingAddress?.province || '';
+      const destText = city ? `${city}, India` : (o.shippingAddress?.address1 ? o.shippingAddress.address1 : 'Pilot Shipping Address');
+      const finStatus = (o.financialStatus || 'Paid').toUpperCase();
+
+      return `Dear ${name},
+
+Greetings from SKYNODES UAV Flight Operations!
+
+We are pleased to inform you that your order #${o.name} has been safely packed and dispatched from our flight facility.
+
+Order Summary:
+• Order ID: #${o.name}
+${itemsList}
+• Total Amount: ₹${Number(o.totalPrice).toLocaleString('en-IN')} (${finStatus})
+• Destination: ${destText}
+
+Your shipment is en route. If you require real-time tracking assistance or technical flight support, simply reply directly to this message.
+
+Thank you for choosing SKYNODES UAV!
+Official Store: https://skynodesuav.in`;
+    }
+
+    function openWhatsAppDispatch(orderId: string) {
+      const o = allOrders.find(item => String(item.id) === String(orderId));
+      if (!o) return;
+
+      let phone = formatWhatsAppPhone(o.customer?.phone || '');
+      if (!phone) {
+        const input = prompt(`WhatsApp phone number for ${o.customer?.name || 'Pilot'} (${o.name}) not detected on file.\nPlease enter 10-digit mobile number:`, '');
+        if (!input) return;
+        phone = formatWhatsAppPhone(input);
+      }
+
+      if (!phone) {
+        alert('Invalid phone number provided. Could not open WhatsApp.');
+        return;
+      }
+
+      const msg = generateWhatsAppDispatchMsg(o);
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+      showToast(`WhatsApp dispatch chat opened for ${o.name}`);
+    }
+
+    async function handleToggleFulfillOrder(orderId: string, targetAction: 'fulfill' | 'unfulfill') {
+      const order = allOrders.find(item => String(item.id) === String(orderId));
+      if (!order) return;
+
+      try {
+        showToast(targetAction === 'fulfill' ? `Processing pack & dispatch for #${order.name}...` : `Reverting fulfillment for #${order.name}...`);
+        const res = await fetch('/api/admin/orders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderId, action: targetAction })
+        });
+        const data = await res.json();
+        if (data.success) {
+          order.fulfillmentStatus = targetAction === 'fulfill' ? 'fulfilled' : 'unfulfilled';
+          if (targetAction === 'fulfill') {
+            if (!order.tags) order.tags = 'Fulfilled, Dispatched';
+            else if (!order.tags.includes('Fulfilled')) order.tags += ', Fulfilled, Dispatched';
+          } else {
+            if (order.tags) {
+              order.tags = order.tags.replace(/Fulfilled/gi, '').replace(/Dispatched/gi, '').trim();
+            }
+          }
+
+          updateOrdersMetrics(allOrders);
+          applyOrdersFilters();
+
+          if (targetAction === 'fulfill') {
+            showToast(`Order #${order.name} packed & dispatched successfully!`);
+            // Update open modal if currently viewing this order
+            if (orderDetailModal && orderDetailModal.style.display !== 'none') {
+              openOrderDetailsModal(orderId);
+            }
+          } else {
+            showToast(`Order #${order.name} marked as unfulfilled.`);
+            if (orderDetailModal && orderDetailModal.style.display !== 'none') {
+              openOrderDetailsModal(orderId);
+            }
+          }
+        } else {
+          alert('Failed to update order fulfillment: ' + (data.error || 'Server error'));
+        }
+      } catch (err: any) {
+        alert('Network error updating fulfillment: ' + err.message);
+      }
+    }
+
     function updateOrdersMetrics(orders: any[]) {
       const elTotal = document.getElementById('stat-total-orders');
       const elRev = document.getElementById('stat-revenue-orders');
-      const elPaid = document.getElementById('stat-paid-orders');
-      const elPending = document.getElementById('stat-pending-orders');
+      const elB2B = document.getElementById('stat-b2b-orders');
+      const elB2BRev = document.getElementById('stat-b2b-revenue');
+      const elB2C = document.getElementById('stat-b2c-orders');
+      const elB2CRev = document.getElementById('stat-b2c-revenue');
       const elUnfulfilled = document.getElementById('stat-unfulfilled-orders');
+      const elFulfilled = document.getElementById('stat-fulfilled-orders');
 
       const totalCount = orders.length;
       const totalRev = orders.reduce((sum, o) => sum + (Number(o.totalPrice) || 0), 0);
+
+      const b2bOrders = orders.filter(o => o.isB2B || (o.channel || '').toUpperCase() === 'B2B');
+      const b2cOrders = orders.filter(o => !o.isB2B && (o.channel || '').toUpperCase() !== 'B2B');
+
+      const b2bCount = b2bOrders.length;
+      const b2bRev = b2bOrders.reduce((sum, o) => sum + (Number(o.totalPrice) || 0), 0);
+
+      const b2cCount = b2cOrders.length;
+      const b2cRev = b2cOrders.reduce((sum, o) => sum + (Number(o.totalPrice) || 0), 0);
+
       const paidCount = orders.filter(o => (o.financialStatus || '').toLowerCase() === 'paid').length;
       const pendingCount = orders.filter(o => (o.financialStatus || '').toLowerCase() === 'pending').length;
       const unfulfilledCount = orders.filter(o => (o.fulfillmentStatus || '').toLowerCase() !== 'fulfilled').length;
@@ -4130,21 +4369,28 @@ import '../../styles/global.css';
 
       if (elTotal) elTotal.textContent = totalCount.toString();
       if (elRev) elRev.textContent = `₹${totalRev.toLocaleString('en-IN')}`;
-      if (elPaid) elPaid.textContent = paidCount.toString();
-      if (elPending) elPending.textContent = pendingCount.toString();
+      if (elB2B) elB2B.textContent = b2bCount.toString();
+      if (elB2BRev) elB2BRev.textContent = `₹${b2bRev.toLocaleString('en-IN')} • Corporate / GST`;
+      if (elB2C) elB2C.textContent = b2cCount.toString();
+      if (elB2CRev) elB2CRev.textContent = `₹${b2cRev.toLocaleString('en-IN')} • Individual Pilots`;
       if (elUnfulfilled) elUnfulfilled.textContent = unfulfilledCount.toString();
+      if (elFulfilled) elFulfilled.textContent = fulfilledCount.toString();
 
       const pAll = document.getElementById('pill-cnt-orders-all');
-      const pPaid = document.getElementById('pill-cnt-orders-paid');
-      const pPending = document.getElementById('pill-cnt-orders-pending');
+      const pB2C = document.getElementById('pill-cnt-orders-b2c');
+      const pB2B = document.getElementById('pill-cnt-orders-b2b');
       const pUnf = document.getElementById('pill-cnt-orders-unfulfilled');
       const pFul = document.getElementById('pill-cnt-orders-fulfilled');
+      const pPaid = document.getElementById('pill-cnt-orders-paid');
+      const pPending = document.getElementById('pill-cnt-orders-pending');
 
       if (pAll) pAll.textContent = totalCount.toString();
-      if (pPaid) pPaid.textContent = paidCount.toString();
-      if (pPending) pPending.textContent = pendingCount.toString();
+      if (pB2C) pB2C.textContent = b2cCount.toString();
+      if (pB2B) pB2B.textContent = b2bCount.toString();
       if (pUnf) pUnf.textContent = unfulfilledCount.toString();
       if (pFul) pFul.textContent = fulfilledCount.toString();
+      if (pPaid) pPaid.textContent = paidCount.toString();
+      if (pPending) pPending.textContent = pendingCount.toString();
     }
 
     function applyOrdersFilters() {
@@ -4156,10 +4402,14 @@ import '../../styles/global.css';
           (o.name && o.name.toLowerCase().includes(query)) ||
           (o.customer?.name && o.customer.name.toLowerCase().includes(query)) ||
           (o.customer?.phone && o.customer.phone.toLowerCase().includes(query)) ||
+          (o.customer?.email && o.customer.email.toLowerCase().includes(query)) ||
+          (o.b2bInfo && o.b2bInfo.toLowerCase().includes(query)) ||
           (o.lineItems && o.lineItems.some((li: any) => li.title && li.title.toLowerCase().includes(query)));
 
         if (!matchesQuery) return false;
         if (filter === 'all') return true;
+        if (filter === 'b2c') return !o.isB2B && (o.channel || '').toUpperCase() !== 'B2B';
+        if (filter === 'b2b') return o.isB2B || (o.channel || '').toUpperCase() === 'B2B';
         if (filter === 'paid') return (o.financialStatus || '').toLowerCase() === 'paid';
         if (filter === 'pending') return (o.financialStatus || '').toLowerCase() === 'pending';
         if (filter === 'unfulfilled') return (o.fulfillmentStatus || '').toLowerCase() !== 'fulfilled';
@@ -4180,7 +4430,9 @@ import '../../styles/global.css';
       ordersTbody.innerHTML = currentFilteredOrders.map(o => {
         const dateStr = o.createdAt ? new Date(o.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : 'N/A';
         const finStatus = (o.financialStatus || 'pending').toLowerCase();
-        const fulStatus = (o.fulfillmentStatus || 'unfulfilled').toLowerCase();
+        const isFulfilled = (o.fulfillmentStatus || '').toLowerCase() === 'fulfilled';
+        const fulStatus = isFulfilled ? 'fulfilled' : 'unfulfilled';
+        const isB2B = o.isB2B || (o.channel || '').toUpperCase() === 'B2B';
 
         const allItems = o.lineItems || [];
         const visibleItems = allItems.slice(0, 2);
@@ -4209,6 +4461,30 @@ import '../../styles/global.css';
           </div>
         ` : (o.customer?.email ? `<div class="order-customer-contact">${o.customer.email}</div>` : '');
 
+        const channelBadge = isB2B
+          ? `<span class="order-b2b-badge" title="${o.b2bInfo || 'Commercial Tax Invoice'}"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> B2B Commercial</span>`
+          : `<span class="order-b2c-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> B2C Retail</span>`;
+
+        const dispatchBtn = isFulfilled
+          ? `<button class="btn-table-fulfilled-done btn-order-toggle-fulfill" data-id="${o.id}" data-action="unfulfill" title="Dispatched to pilot. Click to mark as unfulfilled if needed">
+               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+               <span>Dispatched</span>
+             </button>`
+          : `<button class="btn-table-dispatch btn-order-toggle-fulfill" data-id="${o.id}" data-action="fulfill" title="Action Required: Pack items and mark dispatched">
+               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg>
+               <span>Pack & Dispatch</span>
+             </button>`;
+
+        const whatsappBtn = `<button class="btn-table-whatsapp btn-order-whatsapp" data-id="${o.id}" title="Send official dispatch notification to customer on WhatsApp">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>WhatsApp</span>
+        </button>`;
+
+        const detailsBtn = `<button class="btn-table-edit btn-order-view-dossier" data-id="${o.id}">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span>Details</span>
+        </button>`;
+
         return `
           <tr>
             <td>
@@ -4221,7 +4497,7 @@ import '../../styles/global.css';
             <td>
               <div class="order-customer-name">${o.customer?.name || 'Pilot (Guest)'}</div>
               ${phoneDisplay}
-              ${o.b2bInfo ? `<span class="order-b2b-badge">B2B: ${o.b2bInfo}</span>` : ''}
+              <div style="margin-top: 2px;">${channelBadge}</div>
             </td>
             <td>
               <div>${itemsSummary}</div>
@@ -4236,11 +4512,12 @@ import '../../styles/global.css';
             <td>
               <span class="order-price-val">₹${Number(o.totalPrice).toLocaleString('en-IN')}.00</span>
             </td>
-            <td style="text-align: right;">
-              <button class="btn-table-edit btn-order-view-dossier" data-id="${o.id}">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                <span>Details</span>
-              </button>
+            <td style="text-align: right; white-space: nowrap;">
+              <div style="display: inline-flex; align-items: center; justify-content: flex-end; gap: 0.35rem;">
+                ${dispatchBtn}
+                ${whatsappBtn}
+                ${detailsBtn}
+              </div>
             </td>
           </tr>
         `;
@@ -4250,6 +4527,22 @@ import '../../styles/global.css';
         btn.addEventListener('click', (e) => {
           const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
           if (id) openOrderDetailsModal(id);
+        });
+      });
+
+      document.querySelectorAll('.btn-order-toggle-fulfill').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const el = e.currentTarget as HTMLElement;
+          const id = el.getAttribute('data-id');
+          const action = (el.getAttribute('data-action') || 'fulfill') as 'fulfill' | 'unfulfill';
+          if (id) handleToggleFulfillOrder(id, action);
+        });
+      });
+
+      document.querySelectorAll('.btn-order-whatsapp').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
+          if (id) openWhatsAppDispatch(id);
         });
       });
     }
@@ -4262,7 +4555,9 @@ import '../../styles/global.css';
 
       const dateStr = o.createdAt ? new Date(o.createdAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : 'N/A';
       const finStatus = (o.financialStatus || 'pending').toLowerCase();
-      const fulStatus = (o.fulfillmentStatus || 'unfulfilled').toLowerCase();
+      const isFulfilled = (o.fulfillmentStatus || '').toLowerCase() === 'fulfilled';
+      const fulStatus = isFulfilled ? 'fulfilled' : 'unfulfilled';
+      const isB2B = o.isB2B || (o.channel || '').toUpperCase() === 'B2B';
 
       const itemsRows = (o.lineItems || []).map((li: any) => `
         <tr>
@@ -4273,13 +4568,42 @@ import '../../styles/global.css';
         </tr>
       `).join('');
 
+      const phoneSvg = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:4px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`;
+
       orderModalContent.innerHTML = `
+        <div class="dossier-actions-bar">
+          <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+            <span class="dossier-channel-pill ${isB2B ? 'b2b' : 'b2c'}">
+              ${isB2B ? 'Commercial B2B' : 'Retail B2C'}
+            </span>
+            <span class="order-status-pill ${finStatus === 'paid' ? 'paid' : 'pending'}">${finStatus}</span>
+            <span class="order-status-pill ${fulStatus === 'fulfilled' ? 'fulfilled' : 'unfulfilled'}">${fulStatus}</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            ${isFulfilled ? `
+              <button class="btn-table-fulfilled-done modal-btn-dispatch" data-id="${o.id}" data-action="unfulfill" title="Click to undo fulfillment">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Dispatched (Undo)</span>
+              </button>
+            ` : `
+              <button class="btn-table-dispatch modal-btn-dispatch" data-id="${o.id}" data-action="fulfill">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg>
+                <span>Pack & Dispatch Order</span>
+              </button>
+            `}
+            <button class="btn-table-whatsapp modal-btn-whatsapp" data-id="${o.id}">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>Send WhatsApp Dispatch</span>
+            </button>
+          </div>
+        </div>
+
         <div class="order-dossier-grid">
           <div class="dossier-col">
             <h4>Customer / Pilot</h4>
             <p>${o.customer?.name || 'Pilot (Guest)'}</p>
             <p style="font-size:0.78rem; color:#475569;">${o.customer?.email || 'N/A'}</p>
-            <p style="font-size:0.78rem; color:#475569;">📞 ${o.customer?.phone || 'N/A'}</p>
+            <p style="font-size:0.78rem; color:#475569;">${phoneSvg} ${o.customer?.phone || 'N/A'}</p>
           </div>
           <div class="dossier-col">
             <h4>Shipping Destination</h4>
@@ -4342,6 +4666,22 @@ import '../../styles/global.css';
           </div>
         </div>
       `;
+
+      orderModalContent.querySelectorAll('.modal-btn-dispatch').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const el = e.currentTarget as HTMLElement;
+          const id = el.getAttribute('data-id');
+          const action = (el.getAttribute('data-action') || 'fulfill') as 'fulfill' | 'unfulfill';
+          if (id) handleToggleFulfillOrder(id, action);
+        });
+      });
+
+      orderModalContent.querySelectorAll('.modal-btn-whatsapp').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = (e.currentTarget as HTMLElement).getAttribute('data-id');
+          if (id) openWhatsAppDispatch(id);
+        });
+      });
 
       orderDetailModal.style.display = 'flex';
     }

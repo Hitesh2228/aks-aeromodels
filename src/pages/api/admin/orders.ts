@@ -83,6 +83,24 @@ export const GET: APIRoute = async () => {
         variantTitle: li.variant_title || ''
       }));
 
+      const tagsArr = typeof o.tags === 'string' 
+        ? o.tags.split(',').map((t: string) => t.trim()) 
+        : (Array.isArray(o.tags) ? o.tags : []);
+
+      const isFulfilled = Boolean(
+        (o.fulfillment_status && o.fulfillment_status.toLowerCase() === 'fulfilled') ||
+        tagsArr.includes('Fulfilled') ||
+        tagsArr.includes('Dispatched')
+      );
+
+      const isB2B = Boolean(
+        tagsArr.includes('B2B') ||
+        tagsArr.includes('B2B-Tax-Invoice') ||
+        tagsArr.includes('b2b') ||
+        meta.b2bInfo ||
+        (o.note && (o.note.includes('B2B') || o.note.toLowerCase().includes('gstin')))
+      );
+
       return {
         id: o.id,
         name: o.name || `#${o.order_number}`,
@@ -90,7 +108,9 @@ export const GET: APIRoute = async () => {
         createdAt: o.created_at,
         processedAt: o.processed_at,
         financialStatus: o.financial_status || 'pending',
-        fulfillmentStatus: o.fulfillment_status || 'unfulfilled',
+        fulfillmentStatus: isFulfilled ? 'fulfilled' : 'unfulfilled',
+        isB2B,
+        channel: isB2B ? 'B2B' : 'B2C',
         totalPrice: parseFloat(o.total_price || '0'),
         subtotalPrice: parseFloat(o.subtotal_price || '0'),
         totalTax: parseFloat(o.total_tax || '0'),
@@ -128,6 +148,95 @@ export const GET: APIRoute = async () => {
   } catch (err: any) {
     console.error('[API Admin Orders Error]', err);
     return new Response(JSON.stringify({ success: false, error: err.message, orders: [] }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+};
+
+export const POST: APIRoute = async ({ request }) => {
+  try {
+    const body = await request.json();
+    const { orderId, action, trackingNumber, carrier } = body;
+
+    if (!orderId) {
+      return new Response(JSON.stringify({ success: false, error: 'Missing orderId parameter' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    const getRes = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/orders/${orderId}.json`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN
+      }
+    });
+
+    if (!getRes.ok) {
+      return new Response(JSON.stringify({ success: false, error: 'Order not found on Shopify' }), {
+        status: 404,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    const orderData = await getRes.json();
+    const existingOrder = orderData.order;
+
+    let tags = (existingOrder.tags || '').split(',').map((t: string) => t.trim()).filter(Boolean);
+    let note = existingOrder.note || '';
+
+    if (action === 'fulfill' || action === 'dispatch') {
+      if (!tags.includes('Fulfilled')) tags.push('Fulfilled');
+      if (!tags.includes('Dispatched')) tags.push('Dispatched');
+      tags = tags.filter((t: string) => t !== 'Unfulfilled');
+
+      const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'medium', timeStyle: 'short' });
+      const dispatchNote = `[DISPATCHED: ${timestamp}${trackingNumber ? `, Tracking: ${trackingNumber} (${carrier || 'Courier'})` : ''}]`;
+      if (!note.includes('[DISPATCHED:')) {
+        note = note ? `${note}\n${dispatchNote}` : dispatchNote;
+      }
+    } else if (action === 'unfulfill') {
+      tags = tags.filter((t: string) => t !== 'Fulfilled' && t !== 'Dispatched');
+      if (!tags.includes('Unfulfilled')) tags.push('Unfulfilled');
+    }
+
+    const updateRes = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/orders/${orderId}.json`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN
+      },
+      body: JSON.stringify({
+        order: {
+          id: orderId,
+          tags: tags.join(', '),
+          note
+        }
+      })
+    });
+
+    if (!updateRes.ok) {
+      const errData = await updateRes.json().catch(() => ({}));
+      return new Response(JSON.stringify({ success: false, error: errData.errors || 'Failed to update order on Shopify' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    const updated = await updateRes.json();
+    return new Response(JSON.stringify({ 
+      success: true, 
+      message: action === 'fulfill' ? 'Order marked as Packed & Dispatched on Shopify!' : 'Order marked as Unfulfilled.',
+      order: updated.order 
+    }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+  } catch (err: any) {
+    console.error('[API Admin Orders POST Error]', err);
+    return new Response(JSON.stringify({ success: false, error: err.message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });
