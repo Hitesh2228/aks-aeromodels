@@ -4249,6 +4249,7 @@ import '../../styles/global.css';
 
     function generateWhatsAppDispatchMsg(o: any): string {
       const name = o.customer?.name || 'Valued Pilot';
+      const orderRef = (o.name || '').startsWith('#') ? o.name : '#' + (o.name || '');
       const itemsList = (o.lineItems || []).map((li: any) => `• ${li.quantity}x ${li.title}`).join('\n');
       const city = o.shippingAddress?.city || o.shippingAddress?.province || '';
       const destText = city ? `${city}, India` : (o.shippingAddress?.address1 ? o.shippingAddress.address1 : 'Pilot Shipping Address');
@@ -4258,10 +4259,10 @@ import '../../styles/global.css';
 
 Greetings from SKYNODES UAV Flight Operations!
 
-We are pleased to inform you that your order #${o.name} has been safely packed and dispatched from our flight facility.
+We are pleased to inform you that your order ${orderRef} has been safely packed and dispatched from our flight facility.
 
 Order Summary:
-• Order ID: #${o.name}
+• Order ID: ${orderRef}
 ${itemsList}
 • Total Amount: ₹${Number(o.totalPrice).toLocaleString('en-IN')} (${finStatus})
 • Destination: ${destText}
@@ -4276,9 +4277,10 @@ Official Store: https://skynodesuav.in`;
       const o = allOrders.find(item => String(item.id) === String(orderId));
       if (!o) return;
 
+      const orderRef = (o.name || '').startsWith('#') ? o.name : '#' + (o.name || '');
       let phone = formatWhatsAppPhone(o.customer?.phone || '');
       if (!phone) {
-        const input = prompt(`WhatsApp phone number for ${o.customer?.name || 'Pilot'} (${o.name}) not detected on file.\nPlease enter 10-digit mobile number:`, '');
+        const input = prompt(`WhatsApp phone number for ${o.customer?.name || 'Pilot'} (${orderRef}) not detected on file.\nPlease enter 10-digit mobile number:`, '');
         if (!input) return;
         phone = formatWhatsAppPhone(input);
       }
@@ -4291,15 +4293,16 @@ Official Store: https://skynodesuav.in`;
       const msg = generateWhatsAppDispatchMsg(o);
       const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
       window.open(url, '_blank');
-      showToast(`WhatsApp dispatch chat opened for ${o.name}`);
+      showToast(`WhatsApp dispatch chat opened for ${orderRef}`);
     }
 
     async function handleToggleFulfillOrder(orderId: string, targetAction: 'fulfill' | 'unfulfill') {
       const order = allOrders.find(item => String(item.id) === String(orderId));
       if (!order) return;
 
+      const orderRef = (order.name || '').startsWith('#') ? order.name : '#' + (order.name || '');
       try {
-        showToast(targetAction === 'fulfill' ? `Processing pack & dispatch for #${order.name}...` : `Reverting fulfillment for #${order.name}...`);
+        showToast(targetAction === 'fulfill' ? `Processing pack & dispatch for ${orderRef}...` : `Reverting fulfillment for ${orderRef}...`);
         const res = await fetch('/api/admin/orders', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -4321,13 +4324,13 @@ Official Store: https://skynodesuav.in`;
           applyOrdersFilters();
 
           if (targetAction === 'fulfill') {
-            showToast(`Order #${order.name} packed & dispatched successfully!`);
+            showToast(`Order ${orderRef} packed & dispatched successfully!`);
             // Update open modal if currently viewing this order
             if (orderDetailModal && orderDetailModal.style.display !== 'none') {
               openOrderDetailsModal(orderId);
             }
           } else {
-            showToast(`Order #${order.name} marked as unfulfilled.`);
+            showToast(`Order ${orderRef} marked as unfulfilled.`);
             if (orderDetailModal && orderDetailModal.style.display !== 'none') {
               openOrderDetailsModal(orderId);
             }
