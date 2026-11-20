@@ -204,15 +204,7 @@ const BANNERS = heroTaggedProducts.length > 0
         ))}
       </div>
 
-      <!-- Navigation Arrows -->
-      <button type="button" class="hero-arrow-btn prev" id="hero-prev-btn" aria-label="Previous Slide">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-      </button>
-      <button type="button" class="hero-arrow-btn next" id="hero-next-btn" aria-label="Next Slide">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-      </button>
-
-      <!-- Dots Indicators -->
+      <!-- Dots Indicators (Center Bottom Prominent Carousel Navigation) -->
       <div class="hero-dots-row" id="hero-dots-row">
         {BANNERS.map((_, idx) => (
           <button type="button" class={`hero-dot-btn ${idx === 0 ? 'active' : ''}`} data-idx={idx} aria-label={`Go to slide ${idx + 1}`}></button>
@@ -242,67 +234,42 @@ const BANNERS = heroTaggedProducts.length > 0
     overflow: hidden;
     border-radius: 12px;
   }
-  .hero-arrow-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: rgba(15, 23, 42, 0.7);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-  }
-  .hero-arrow-btn:hover {
-    background: #eab308;
-    color: #0b0d13;
-    border-color: #eab308;
-    transform: translateY(-50%) scale(1.08);
-  }
-  .hero-arrow-btn.prev { left: 1rem; }
-  .hero-arrow-btn.next { right: 1rem; }
-
   .hero-dots-row {
     position: absolute;
-    bottom: 0.85rem;
+    bottom: 1.15rem;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
     display: flex;
-    gap: 0.45rem;
+    gap: 0.65rem;
     align-items: center;
+    background: rgba(10, 15, 29, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 0.45rem 0.95rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
   }
   .hero-dot-btn {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    border: none;
+    background: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     cursor: pointer;
     padding: 0;
-    transition: all 0.25s ease;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .hero-dot-btn:hover {
+    background: rgba(255, 255, 255, 0.75);
+    transform: scale(1.15);
   }
   .hero-dot-btn.active {
-    background: #eab308;
-    width: 26px;
-    border-radius: 6px;
-    box-shadow: 0 0 10px rgba(234, 179, 8, 0.6);
-  }
-  @media (max-width: 768px) {
-    .hero-arrow-btn {
-      width: 36px;
-      height: 36px;
-    }
-    .hero-arrow-btn.prev { left: 0.35rem; }
-    .hero-arrow-btn.next { right: 0.35rem; }
+    background: #f59e0b;
+    border-color: #fbbf24;
+    width: 34px;
+    border-radius: 5px;
+    box-shadow: 0 0 14px rgba(245, 158, 11, 0.85), 0 0 4px #fbbf24;
   }
   .hero-slides-track {
     display: flex;
@@ -560,109 +527,84 @@ const BANNERS = heroTaggedProducts.length > 0
   }
 </style>
 
-<script>
-  function initHeroSlider() {
-    const track = document.getElementById('hero-track');
-    if (!track) return;
+<script is:inline>
+  (function () {
+    function initHeroSlider() {
+      const track = document.getElementById('hero-track');
+      if (!track) return;
 
-    const slides = track.querySelectorAll('.slide-item');
-    const totalSlides = slides.length;
-    if (totalSlides <= 1) return;
+      const slides = track.querySelectorAll('.slide-item');
+      const totalSlides = slides.length;
+      if (totalSlides <= 1) return;
 
-    const prevBtn = document.getElementById('hero-prev-btn');
-    const nextBtn = document.getElementById('hero-next-btn');
-    const dots = document.querySelectorAll('#hero-dots-row .hero-dot-btn');
+      const dots = document.querySelectorAll('#hero-dots-row .hero-dot-btn');
+      let currentIndex = 0;
+      let autoSlideTimer = null;
 
-    let currentIndex = 0;
-    let autoSlideInterval: any;
+      function goToSlide(index) {
+        if (index < 0) index = totalSlides - 1;
+        if (index >= totalSlides) index = 0;
+        currentIndex = index;
 
-    function goToSlide(index: number) {
-      if (index < 0) index = totalSlides - 1;
-      if (index >= totalSlides) index = 0;
-      currentIndex = index;
+        track.style.transform = `translate3d(-${currentIndex * 100}%, 0, 0)`;
 
-      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        slides.forEach((s, idx) => {
+          if (idx === currentIndex) s.classList.add('active');
+          else s.classList.remove('active');
+        });
 
-      slides.forEach((s, idx) => {
-        if (idx === currentIndex) s.classList.add('active');
-        else s.classList.remove('active');
-      });
-
-      dots.forEach((d, idx) => {
-        if (idx === currentIndex) d.classList.add('active');
-        else d.classList.remove('active');
-      });
-    }
-
-    function startAutoSlide() {
-      if (autoSlideInterval) clearInterval(autoSlideInterval);
-      autoSlideInterval = setInterval(() => {
-        goToSlide(currentIndex + 1);
-      }, 5000);
-    }
-
-    function stopAutoSlide() {
-      if (autoSlideInterval) clearInterval(autoSlideInterval);
-    }
-
-    prevBtn?.addEventListener('click', (e) => {
-      e.preventDefault();
-      stopAutoSlide();
-      goToSlide(currentIndex - 1);
-      startAutoSlide();
-    });
-
-    nextBtn?.addEventListener('click', (e) => {
-      e.preventDefault();
-      stopAutoSlide();
-      goToSlide(currentIndex + 1);
-      startAutoSlide();
-    });
-
-    dots.forEach(dot => {
-      dot.addEventListener('click', (e) => {
-        e.preventDefault();
-        stopAutoSlide();
-        const idx = parseInt(dot.getAttribute('data-idx') || '0', 10);
-        goToSlide(idx);
-        startAutoSlide();
-      });
-    });
-
-    // Pause on hover
-    track.addEventListener('mouseenter', stopAutoSlide);
-    track.addEventListener('mouseleave', startAutoSlide);
-
-    // Mobile Touch Swipe Support
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    track.addEventListener('touchstart', (e: any) => {
-      touchStartX = e.changedTouches[0].screenX;
-      stopAutoSlide();
-    }, { passive: true });
-
-    track.addEventListener('touchend', (e: any) => {
-      touchEndX = e.changedTouches[0].screenX;
-      const diff = touchEndX - touchStartX;
-      if (Math.abs(diff) > 40) {
-        if (diff < 0) {
-          goToSlide(currentIndex + 1); // Swipe Left -> Next
-        } else {
-          goToSlide(currentIndex - 1); // Swipe Right -> Prev
-        }
+        dots.forEach((d, idx) => {
+          if (idx === currentIndex) d.classList.add('active');
+          else d.classList.remove('active');
+        });
       }
+
+      function startAutoSlide() {
+        if (autoSlideTimer) clearInterval(autoSlideTimer);
+        autoSlideTimer = setInterval(() => {
+          goToSlide(currentIndex + 1);
+        }, 4500);
+      }
+
+      dots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+          e.preventDefault();
+          const idx = parseInt(dot.getAttribute('data-idx') || '0', 10);
+          goToSlide(idx);
+          startAutoSlide();
+        });
+      });
+
+      // Mobile Touch Swipe Support
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      track.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      track.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchEndX - touchStartX;
+        if (Math.abs(diff) > 40) {
+          if (diff < 0) {
+            goToSlide(currentIndex + 1);
+          } else {
+            goToSlide(currentIndex - 1);
+          }
+          startAutoSlide();
+        }
+      }, { passive: true });
+
+      goToSlide(0);
       startAutoSlide();
-    }, { passive: true });
+    }
 
-    goToSlide(0);
-    startAutoSlide();
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHeroSlider);
-  } else {
-    initHeroSlider();
-  }
-  document.addEventListener('astro:page-load', initHeroSlider);
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initHeroSlider);
+    } else {
+      initHeroSlider();
+    }
+    document.addEventListener('astro:page-load', initHeroSlider);
+  })();
 </script>

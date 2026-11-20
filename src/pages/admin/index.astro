@@ -1761,8 +1761,133 @@ import '../../styles/global.css';
       from { transform: translateY(20px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
-    #admin-toast.success { background: #064e3b; border-color: #059669; }
-    #admin-toast.error { background: #7f1d1d; border-color: #dc2626; }
+    /* ========================================================
+       PROMO COUPONS COMMANDER - UNICORN SAAS STYLING
+       ======================================================== */
+    .coupon-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .coupon-kpi-card {
+      background: #ffffff;
+      border: 1.5px solid var(--admin-border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.15rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .coupon-kpi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+    }
+    .coupon-kpi-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .coupon-kpi-num {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.1;
+    }
+    .coupon-kpi-label {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 0.25rem;
+    }
+
+    /* Executive iOS-style Animated Switch */
+    .ios-switch {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .ios-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+    .ios-switch-track {
+      position: relative;
+      width: 48px;
+      height: 26px;
+      background-color: #cbd5e1;
+      border-radius: 999px;
+      transition: background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.12);
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .ios-switch-thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.22);
+    }
+    .ios-switch input:checked + .ios-switch-track {
+      background-color: #10b981;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+    }
+    .ios-switch input:checked + .ios-switch-track .ios-switch-thumb {
+      transform: translateX(22px);
+    }
+    .ios-switch-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .ios-switch-label.label-active {
+      color: #059669;
+    }
+    .ios-switch-label.label-paused {
+      color: #64748b;
+    }
+
+    /* Master Switch Card */
+    .coupon-master-box {
+      background: #ffffff;
+      border: 1.5px solid var(--admin-border);
+      border-radius: 14px;
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 1.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    }
+
+    @media (max-width: 900px) {
+      .coupon-kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .coupon-master-box {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
   </style>
 </head>
 <body>
@@ -2854,42 +2979,100 @@ import '../../styles/global.css';
         </div>
       </div>
 
-      <!-- Master Activation Box -->
-      <div style="background: #ffffff; border: 1.5px solid var(--admin-border); border-radius: 12px; padding: 1.5rem 1.75rem; margin-bottom: 1.75rem; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
-        <div style="display: flex; align-items: center; gap: 1.25rem;">
-          <div style="width: 48px; height: 48px; border-radius: 12px; background: #eff6ff; border: 1px solid #bfdbfe; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+      <!-- Top KPI Summary Cards (Unicorn Standard) -->
+      <div class="coupon-kpi-grid">
+        <div class="coupon-kpi-card">
+          <div class="coupon-kpi-icon" style="background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
           </div>
           <div>
-            <div style="display: flex; align-items: center; gap: 0.75rem;">
-              <h3 style="font-size: 1.05rem; font-weight: 800; color: #0f172a;">Enable Promo Code Box at Checkout</h3>
+            <div class="coupon-kpi-num" id="kpi-coupon-total">0</div>
+            <div class="coupon-kpi-label">Total Coupons</div>
+          </div>
+        </div>
+
+        <div class="coupon-kpi-card">
+          <div class="coupon-kpi-icon" style="background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div>
+            <div class="coupon-kpi-num" id="kpi-coupon-active" style="color: #059669;">0</div>
+            <div class="coupon-kpi-label">Active & Usable</div>
+          </div>
+        </div>
+
+        <div class="coupon-kpi-card">
+          <div class="coupon-kpi-icon" style="background: #fffbeb; color: #d97706; border: 1px solid #fde68a;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="10" y1="15" x2="10" y2="9"/><line x1="14" y1="15" x2="14" y2="9"/></svg>
+          </div>
+          <div>
+            <div class="coupon-kpi-num" id="kpi-coupon-paused" style="color: #d97706;">0</div>
+            <div class="coupon-kpi-label">Paused Coupons</div>
+          </div>
+        </div>
+
+        <div class="coupon-kpi-card">
+          <div class="coupon-kpi-icon" style="background: #f8fafc; color: #64748b; border: 1px solid #e2e8f0;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div>
+            <div class="coupon-kpi-num" id="kpi-coupon-status" style="font-size: 1.05rem;">DISABLED</div>
+            <div class="coupon-kpi-label">Checkout Box Status</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Master Activation Box with Real Animated Switch -->
+      <div class="coupon-master-box">
+        <div style="display: flex; align-items: center; gap: 1.25rem;">
+          <div style="width: 52px; height: 52px; border-radius: 14px; background: #eff6ff; border: 1.5px solid #bfdbfe; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #2563eb;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+              <h3 style="font-size: 1.12rem; font-weight: 800; color: #0f172a; margin: 0;">Storewide Checkout Promo Code Box</h3>
               <span id="coupon-master-status-badge" class="badge-status-pill badge-draft">DISABLED BY CLIENT</span>
             </div>
-            <p style="font-size: 0.82rem; color: #64748b; margin-top: 0.25rem; line-height: 1.4;">
-              Master Control: When this switch is OFF, the coupon code box is completely hidden from the customer checkout page. Turn ON to enable coupons.
+            <p style="font-size: 0.84rem; color: #64748b; margin-top: 0.35rem; line-height: 1.45; max-width: 700px;">
+              <strong>Master Toggle:</strong> When OFF, the coupon code box is completely hidden from customers on the checkout page. Turn ON to enable pilots to apply active promo codes.
             </p>
           </div>
         </div>
         <div style="flex-shrink: 0;">
-          <label style="position: relative; display: inline-block; width: 54px; height: 28px; cursor: pointer;">
-            <input type="checkbox" id="coupon-master-toggle" style="opacity: 0; width: 0; height: 0;" />
-            <span style="position: absolute; cursor: pointer; inset: 0; background-color: #cbd5e1; border-radius: 34px; transition: .3s;" id="coupon-toggle-slider"></span>
+          <label class="ios-switch" style="cursor: pointer;">
+            <input type="checkbox" id="coupon-master-toggle" />
+            <span class="ios-switch-track" style="width: 54px; height: 30px;">
+              <span class="ios-switch-thumb" style="width: 24px; height: 24px;"></span>
+            </span>
+            <span id="coupon-master-toggle-label" class="ios-switch-label label-paused" style="font-size: 0.88rem; font-weight: 800; min-width: 50px;">OFF</span>
           </label>
         </div>
       </div>
 
       <!-- Coupons Table Card -->
       <div class="catalog-table-card">
+        <!-- Search & Filter Header -->
+        <div style="padding: 1rem 1.5rem; border-bottom: 1px solid var(--admin-border); display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+          <div style="display: flex; gap: 0.5rem;" id="coupon-filter-tabs">
+            <button type="button" class="order-filter-pill active" data-coupon-filter="all">All Coupons (<span id="tab-count-all">0</span>)</button>
+            <button type="button" class="order-filter-pill" data-coupon-filter="active">Active (<span id="tab-count-active">0</span>)</button>
+            <button type="button" class="order-filter-pill" data-coupon-filter="paused">Paused (<span id="tab-count-paused">0</span>)</button>
+          </div>
+          <div style="max-width: 300px; width: 100%;">
+            <input type="text" id="coupon-search-input" placeholder="Search coupon code or note..." style="width: 100%; padding: 0.45rem 0.75rem; border: 1.5px solid var(--admin-border); border-radius: 8px; font-size: 0.82rem; box-sizing: border-box;" />
+          </div>
+        </div>
+
         <div class="table-responsive">
           <table class="catalog-table">
             <colgroup>
-              <col style="width: 20%;" />
-              <col style="width: 15%;" />
-              <col style="width: 15%;" />
-              <col style="width: 15%;" />
-              <col style="width: 20%;" />
+              <col style="width: 18%;" />
+              <col style="width: 16%;" />
+              <col style="width: 14%;" />
+              <col style="width: 16%;" />
+              <col style="width: 18%;" />
               <col style="width: 10%;" />
-              <col style="width: 5%;" />
+              <col style="width: 8%;" />
             </colgroup>
             <thead>
               <tr>
@@ -2899,13 +3082,13 @@ import '../../styles/global.css';
                 <th>Min. Order Threshold</th>
                 <th>Description / Offer Details</th>
                 <th>Active Status</th>
-                <th style="text-align: right; padding-right: 1.15rem !important;">Action</th>
+                <th style="text-align: right; padding-right: 1.15rem !important;">Actions</th>
               </tr>
             </thead>
             <tbody id="coupons-tbody">
               <tr>
                 <td colspan="7" style="text-align: center; padding: 3rem; color: #64748b;">
-                  Loading store coupons...
+                  Loading store promo coupons...
                 </td>
               </tr>
             </tbody>
@@ -2917,9 +3100,9 @@ import '../../styles/global.css';
 
   </main>
 
-  <!-- ==================== COUPON EDITOR MODAL ==================== -->
+  <!-- ==================== COUPON EDITOR MODAL (Create & Edit) ==================== -->
   <div id="coupon-editor-modal" class="admin-modal-overlay">
-    <div class="admin-modal-box" style="max-width: 500px;">
+    <div class="admin-modal-box" style="max-width: 520px;">
       <div class="admin-modal-header">
         <div class="admin-modal-title">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
@@ -2929,10 +3112,11 @@ import '../../styles/global.css';
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
-      <div class="admin-modal-body" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+      <div class="admin-modal-body" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1.1rem;">
+        <input type="hidden" id="coupon-f-edit-idx" value="-1" />
         <div>
-          <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem;">Coupon Code *</label>
-          <input type="text" id="coupon-f-code" placeholder="e.g. SKY80 or DIWALI500" style="text-transform: uppercase; width: 100%; padding: 0.65rem 0.85rem; border: 1.5px solid var(--admin-border); border-radius: 8px; font-weight: 700; font-size: 0.92rem; box-sizing: border-box;" />
+          <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem;">Coupon Code * (Will auto-capitalize)</label>
+          <input type="text" id="coupon-f-code" placeholder="e.g. SKY80 or FESTIVE10" style="text-transform: uppercase; width: 100%; padding: 0.65rem 0.85rem; border: 1.5px solid var(--admin-border); border-radius: 8px; font-weight: 700; font-size: 0.95rem; box-sizing: border-box; font-family: monospace;" />
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
           <div>
@@ -2948,17 +3132,30 @@ import '../../styles/global.css';
           </div>
         </div>
         <div>
-          <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem;">Minimum Order Value (₹)</label>
+          <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem;">Minimum Order Threshold (₹)</label>
           <input type="number" id="coupon-f-min" placeholder="e.g. 499 (0 for no minimum)" min="0" value="0" style="width: 100%; padding: 0.65rem; border: 1.5px solid var(--admin-border); border-radius: 8px; font-size: 0.88rem; box-sizing: border-box;" />
         </div>
         <div>
           <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem;">Customer Description / Offer Note</label>
           <input type="text" id="coupon-f-desc" placeholder="e.g. ₹80 Instant Flat Discount on orders above ₹499" style="width: 100%; padding: 0.65rem; border: 1.5px solid var(--admin-border); border-radius: 8px; font-size: 0.88rem; box-sizing: border-box;" />
         </div>
+        <div style="background: #f8fafc; border: 1px solid var(--admin-border); border-radius: 8px; padding: 0.75rem 1rem; display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <div style="font-size: 0.82rem; font-weight: 700; color: #0f172a;">Active Status</div>
+            <div style="font-size: 0.75rem; color: #64748b;">Controls whether customers can redeem this coupon right now</div>
+          </div>
+          <label class="ios-switch">
+            <input type="checkbox" id="coupon-f-active" checked />
+            <span class="ios-switch-track">
+              <span class="ios-switch-thumb"></span>
+            </span>
+            <span id="coupon-f-active-label" class="ios-switch-label label-active">Active</span>
+          </label>
+        </div>
       </div>
       <div class="admin-modal-footer" style="display: flex; justify-content: flex-end; gap: 0.75rem;">
         <button type="button" class="btn-cancel-edit" id="btn-cancel-coupon-modal">Cancel</button>
-        <button type="button" class="btn-create-prod-primary" id="btn-save-coupon-item">Add Coupon</button>
+        <button type="button" class="btn-create-prod-primary" id="btn-save-coupon-item">Save Coupon</button>
       </div>
     </div>
   </div>
@@ -5316,8 +5513,44 @@ Official Store: https://skynodesuav.in`;
       }
     }
 
+    let couponActiveFilter = 'all';
+    let couponSearchQuery = '';
+
     function renderCouponsTable() {
-      if (couponMasterToggle) couponMasterToggle.checked = Boolean(couponsSettingsState.enabled);
+      const allCoupons = couponsSettingsState.coupons || [];
+      const totalCount = allCoupons.length;
+      const activeCount = allCoupons.filter(c => c.isActive !== false).length;
+      const pausedCount = allCoupons.filter(c => c.isActive === false).length;
+
+      // Update Top KPI metrics
+      const kpiTotal = document.getElementById('kpi-coupon-total');
+      const kpiActive = document.getElementById('kpi-coupon-active');
+      const kpiPaused = document.getElementById('kpi-coupon-paused');
+      const kpiStatus = document.getElementById('kpi-coupon-status');
+      const masterLabel = document.getElementById('coupon-master-toggle-label');
+
+      if (kpiTotal) kpiTotal.textContent = String(totalCount);
+      if (kpiActive) kpiActive.textContent = String(activeCount);
+      if (kpiPaused) kpiPaused.textContent = String(pausedCount);
+      if (kpiStatus) {
+        kpiStatus.textContent = couponsSettingsState.enabled ? 'ACTIVE' : 'DISABLED';
+        kpiStatus.style.color = couponsSettingsState.enabled ? '#059669' : '#dc2626';
+      }
+
+      const countAll = document.getElementById('tab-count-all');
+      const countActive = document.getElementById('tab-count-active');
+      const countPaused = document.getElementById('tab-count-paused');
+      if (countAll) countAll.textContent = String(totalCount);
+      if (countActive) countActive.textContent = String(activeCount);
+      if (countPaused) countPaused.textContent = String(pausedCount);
+
+      if (couponMasterToggle) {
+        couponMasterToggle.checked = Boolean(couponsSettingsState.enabled);
+      }
+      if (masterLabel) {
+        masterLabel.textContent = couponsSettingsState.enabled ? 'ON' : 'OFF';
+        masterLabel.className = `ios-switch-label ${couponsSettingsState.enabled ? 'label-active' : 'label-paused'}`;
+      }
       if (couponMasterStatusBadge) {
         if (couponsSettingsState.enabled) {
           couponMasterStatusBadge.className = 'badge-status-pill badge-active';
@@ -5329,70 +5562,129 @@ Official Store: https://skynodesuav.in`;
       }
 
       if (!couponsTbody) return;
-      if (!couponsSettingsState.coupons || couponsSettingsState.coupons.length === 0) {
+
+      // Filter coupons based on tab & search
+      const filtered = allCoupons.map((c, originalIdx) => ({ ...c, originalIdx })).filter(c => {
+        if (couponActiveFilter === 'active' && c.isActive === false) return false;
+        if (couponActiveFilter === 'paused' && c.isActive !== false) return false;
+        if (couponSearchQuery) {
+          const q = couponSearchQuery.toLowerCase();
+          const matchCode = (c.code || '').toLowerCase().includes(q);
+          const matchDesc = (c.description || '').toLowerCase().includes(q);
+          return matchCode || matchDesc;
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
         couponsTbody.innerHTML = `
           <tr>
             <td colspan="7" style="text-align: center; padding: 3rem; color: #64748b;">
-              No promo coupons configured yet. Click "+ Create New Coupon" to add discount codes.
+              ${totalCount === 0 
+                ? 'No promo coupons configured yet. Click "+ Create New Coupon" to add discount codes.' 
+                : 'No promo coupons matched your search or filter.'}
             </td>
           </tr>
         `;
         return;
       }
 
-      couponsTbody.innerHTML = couponsSettingsState.coupons.map((c, idx) => `
+      couponsTbody.innerHTML = filtered.map(c => `
         <tr>
           <td>
-            <strong style="color: #0f172a; font-family: monospace; font-size: 0.95rem; background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid #e2e8f0;">
-              ${c.code}
-            </strong>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <strong style="color: #0f172a; font-family: monospace; font-size: 0.95rem; background: #f8fafc; padding: 0.25rem 0.65rem; border-radius: 6px; border: 1.5px solid #cbd5e1; letter-spacing: 0.05em;">
+                ${c.code}
+              </strong>
+            </div>
           </td>
           <td>
-            <span style="font-size: 0.8rem; font-weight: 600; color: #475569;">
+            <span style="font-size: 0.8rem; font-weight: 700; color: #475569; background: #f1f5f9; padding: 0.2rem 0.55rem; border-radius: 4px;">
               ${c.type === 'percent' ? 'Percentage (% OFF)' : 'Flat Cash (₹ OFF)'}
             </span>
           </td>
           <td>
-            <strong style="color: #059669; font-size: 0.92rem;">
-              ${c.type === 'percent' ? `${c.value}%` : `₹${Number(c.value).toLocaleString('en-IN')}`}
+            <strong style="color: #059669; font-size: 1rem; font-weight: 800;">
+              ${c.type === 'percent' ? `${c.value}% OFF` : `₹${Number(c.value).toLocaleString('en-IN')} OFF`}
             </strong>
           </td>
           <td>
-            <span style="font-size: 0.82rem; color: #334155;">
+            <span style="font-size: 0.84rem; color: #334155; font-weight: 600;">
               ₹${Number(c.minOrder || 0).toLocaleString('en-IN')}
             </span>
           </td>
           <td>
-            <span style="font-size: 0.8rem; color: #64748b;">
-              ${c.description || '—'}
+            <span style="font-size: 0.82rem; color: #64748b; line-height: 1.35; display: block;">
+              ${c.description || 'Standard checkout offer'}
             </span>
           </td>
           <td>
-            <button type="button" class="btn-toggle-coupon-status" data-idx="${idx}" style="cursor: pointer; background: none; border: none; padding: 0;">
-              ${c.isActive !== false 
-                ? `<span class="badge-status-pill badge-active" style="cursor:pointer;">Active</span>` 
-                : `<span class="badge-status-pill badge-draft" style="cursor:pointer;">Paused</span>`}
-            </button>
+            <label class="ios-switch" title="Toggle Active/Paused for ${c.code}">
+              <input type="checkbox" class="coupon-item-toggle" data-idx="${c.originalIdx}" ${c.isActive !== false ? 'checked' : ''} />
+              <span class="ios-switch-track">
+                <span class="ios-switch-thumb"></span>
+              </span>
+              <span class="ios-switch-label ${c.isActive !== false ? 'label-active' : 'label-paused'}">
+                ${c.isActive !== false ? 'Active' : 'Paused'}
+              </span>
+            </label>
           </td>
           <td style="text-align: right; padding-right: 1.15rem !important;">
-            <button type="button" class="btn-table-action btn-action-delete btn-delete-coupon" data-idx="${idx}" title="Delete coupon">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-            </button>
+            <div style="display: inline-flex; gap: 0.45rem;">
+              <button type="button" class="btn-table-action btn-edit-coupon" data-idx="${c.originalIdx}" title="Edit Coupon details" style="color: #0284c7; background: #f0f9ff; border: 1px solid #bae6fd; padding: 0.35rem; border-radius: 6px; cursor: pointer;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              </button>
+              <button type="button" class="btn-table-action btn-action-delete btn-delete-coupon" data-idx="${c.originalIdx}" title="Delete coupon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+              </button>
+            </div>
           </td>
         </tr>
       `).join('');
 
-      couponsTbody.querySelectorAll('.btn-toggle-coupon-status').forEach(btn => {
-        btn.addEventListener('click', async (e) => {
-          const idx = Number((e.currentTarget as HTMLElement).getAttribute('data-idx'));
+      // Individual Toggle Switch Listener
+      couponsTbody.querySelectorAll('.coupon-item-toggle').forEach(chk => {
+        chk.addEventListener('change', async (e) => {
+          const input = e.target as HTMLInputElement;
+          const idx = Number(input.getAttribute('data-idx'));
           if (couponsSettingsState.coupons[idx]) {
-            couponsSettingsState.coupons[idx].isActive = !couponsSettingsState.coupons[idx].isActive;
+            couponsSettingsState.coupons[idx].isActive = input.checked;
             renderCouponsTable();
             await saveCouponsToShopify();
+            showToast(`Coupon "${couponsSettingsState.coupons[idx].code}" is now ${input.checked ? 'ACTIVE' : 'PAUSED'}.`);
           }
         });
       });
 
+      // Edit Coupon Listener
+      couponsTbody.querySelectorAll('.btn-edit-coupon').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = Number((e.currentTarget as HTMLElement).getAttribute('data-idx'));
+          const c = couponsSettingsState.coupons[idx];
+          if (!c) return;
+
+          (document.getElementById('coupon-f-edit-idx') as HTMLInputElement).value = String(idx);
+          (document.getElementById('modal-coupon-title') as HTMLElement).textContent = `Edit Promo Coupon (${c.code})`;
+          (document.getElementById('coupon-f-code') as HTMLInputElement).value = c.code;
+          (document.getElementById('coupon-f-type') as HTMLSelectElement).value = c.type || 'flat';
+          (document.getElementById('coupon-f-value') as HTMLInputElement).value = String(c.value);
+          (document.getElementById('coupon-f-min') as HTMLInputElement).value = String(c.minOrder || 0);
+          (document.getElementById('coupon-f-desc') as HTMLInputElement).value = c.description || '';
+          
+          const activeCheck = document.getElementById('coupon-f-active') as HTMLInputElement;
+          if (activeCheck) activeCheck.checked = c.isActive !== false;
+          
+          const activeLbl = document.getElementById('coupon-f-active-label');
+          if (activeLbl) {
+            activeLbl.textContent = c.isActive !== false ? 'Active' : 'Paused';
+            activeLbl.className = `ios-switch-label ${c.isActive !== false ? 'label-active' : 'label-paused'}`;
+          }
+
+          if (couponEditorModal) couponEditorModal.style.display = 'flex';
+        });
+      });
+
+      // Delete Coupon Listener
       couponsTbody.querySelectorAll('.btn-delete-coupon').forEach(btn => {
         btn.addEventListener('click', async (e) => {
           const idx = Number((e.currentTarget as HTMLElement).getAttribute('data-idx'));
@@ -5435,11 +5727,29 @@ Official Store: https://skynodesuav.in`;
       }
     }
 
+    // Coupon Filter Tabs Listener
+    document.querySelectorAll('[data-coupon-filter]').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('[data-coupon-filter]').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        couponActiveFilter = pill.getAttribute('data-coupon-filter') || 'all';
+        renderCouponsTable();
+      });
+    });
+
+    // Coupon Search Listener
+    const couponSearchInput = document.getElementById('coupon-search-input') as HTMLInputElement | null;
+    couponSearchInput?.addEventListener('input', () => {
+      couponSearchQuery = (couponSearchInput?.value || '').trim();
+      renderCouponsTable();
+    });
+
+    // Master Switch Listener
     couponMasterToggle?.addEventListener('change', async () => {
       couponsSettingsState.enabled = couponMasterToggle.checked;
       renderCouponsTable();
       await saveCouponsToShopify();
-      showToast(couponsSettingsState.enabled ? 'Promo coupons enabled at checkout!' : 'Promo coupons hidden from checkout.');
+      showToast(couponsSettingsState.enabled ? 'Promo coupon box is now VISIBLE at checkout!' : 'Promo coupon box is now HIDDEN from checkout.');
     });
 
     btnRefreshCoupons?.addEventListener('click', () => {
@@ -5449,12 +5759,81 @@ Official Store: https://skynodesuav.in`;
 
     btnSaveCouponsMaster?.addEventListener('click', saveCouponsToShopify);
 
+    // Modal Trigger (New Coupon)
     btnTriggerNewCoupon?.addEventListener('click', () => {
+      (document.getElementById('coupon-f-edit-idx') as HTMLInputElement).value = '-1';
+      (document.getElementById('modal-coupon-title') as HTMLElement).textContent = 'Create Promo Coupon';
       (document.getElementById('coupon-f-code') as HTMLInputElement).value = '';
       (document.getElementById('coupon-f-value') as HTMLInputElement).value = '';
       (document.getElementById('coupon-f-min') as HTMLInputElement).value = '0';
       (document.getElementById('coupon-f-desc') as HTMLInputElement).value = '';
+      
+      const activeCheck = document.getElementById('coupon-f-active') as HTMLInputElement;
+      if (activeCheck) activeCheck.checked = true;
+      const activeLbl = document.getElementById('coupon-f-active-label');
+      if (activeLbl) {
+        activeLbl.textContent = 'Active';
+        activeLbl.className = 'ios-switch-label label-active';
+      }
+
       if (couponEditorModal) couponEditorModal.style.display = 'flex';
+    });
+
+    // Modal active toggle label change
+    const couponFActive = document.getElementById('coupon-f-active') as HTMLInputElement | null;
+    couponFActive?.addEventListener('change', () => {
+      const activeLbl = document.getElementById('coupon-f-active-label');
+      if (activeLbl) {
+        activeLbl.textContent = couponFActive.checked ? 'Active' : 'Paused';
+        activeLbl.className = `ios-switch-label ${couponFActive.checked ? 'label-active' : 'label-paused'}`;
+      }
+    });
+
+    btnCloseCouponModal?.addEventListener('click', () => { if (couponEditorModal) couponEditorModal.style.display = 'none'; });
+    btnCancelCouponModal?.addEventListener('click', () => { if (couponEditorModal) couponEditorModal.style.display = 'none'; });
+
+    // Save/Update Coupon Item
+    btnSaveCouponItem?.addEventListener('click', async () => {
+      const editIdx = Number((document.getElementById('coupon-f-edit-idx') as HTMLInputElement)?.value || '-1');
+      const code = (document.getElementById('coupon-f-code') as HTMLInputElement).value.trim().toUpperCase();
+      const type = (document.getElementById('coupon-f-type') as HTMLSelectElement).value;
+      const value = Number((document.getElementById('coupon-f-value') as HTMLInputElement).value);
+      const minOrder = Number((document.getElementById('coupon-f-min') as HTMLInputElement).value) || 0;
+      const desc = (document.getElementById('coupon-f-desc') as HTMLInputElement).value.trim();
+      const isActive = (document.getElementById('coupon-f-active') as HTMLInputElement)?.checked ?? true;
+
+      if (!code || !value || value <= 0) {
+        showToast('Please enter a valid coupon code and discount value', true);
+        return;
+      }
+
+      const couponObj = {
+        code,
+        type: type === 'percent' ? 'percent' : 'flat',
+        value,
+        minOrder,
+        description: desc,
+        isActive
+      };
+
+      if (editIdx >= 0 && couponsSettingsState.coupons[editIdx]) {
+        // Update existing coupon
+        couponsSettingsState.coupons[editIdx] = couponObj;
+        showToast(`Coupon "${code}" updated successfully!`);
+      } else {
+        // Prevent duplicate codes
+        const exists = couponsSettingsState.coupons.some(c => c.code === code);
+        if (exists) {
+          showToast(`Coupon "${code}" already exists. Please edit it instead.`, true);
+          return;
+        }
+        couponsSettingsState.coupons.push(couponObj);
+        showToast(`Coupon "${code}" added and saved successfully!`);
+      }
+
+      if (couponEditorModal) couponEditorModal.style.display = 'none';
+      renderCouponsTable();
+      await saveCouponsToShopify();
     });
 
     btnCloseCouponModal?.addEventListener('click', () => { if (couponEditorModal) couponEditorModal.style.display = 'none'; });

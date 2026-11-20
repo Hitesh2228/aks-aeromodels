@@ -1471,7 +1471,12 @@ import { PRODUCTS } from '../data/products';
         // Strictly require verified Pilot Login or Sign-up before proceeding to payment
         const isLoggedIn = localStorage.getItem('google_auth_logged_in') === 'true';
         if (!isLoggedIn) {
-          alert('🔐 Pilot Authentication Required!\n\nYou must log in or create a pilot account to secure your aircraft order, GST billing, and priority dispatch tracking.\n\nOpening Pilot Portal...');
+          // Directly open luxury login/signup modal without browser alert
+          const authBanner = document.getElementById('checkout-auth-gate-banner');
+          if (authBanner) {
+            authBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            authBanner.style.animation = 'pulse 0.6s ease';
+          }
           window.dispatchEvent(new CustomEvent('open-login-modal'));
           return;
         }

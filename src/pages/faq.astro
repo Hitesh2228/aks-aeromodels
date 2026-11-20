@@ -14,681 +14,1230 @@ Astro.response.headers.set('X-Robots-Tag', 'all');
 const faqCategories = [
   {
     id: 'aircraft',
-    title: 'ARF Aircraft & Balsa Airframes',
-    icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3.5c-.5-.5-2.5 0-4 1.5L13.5 8.5 5.3 6.7c-.7-.1-1.3.3-1.5 1l-.4 1.5c-.2.7.1 1.4.7 1.8l4.9 3.5-2.5 2.5-2.8-.7c-.3-.1-.7 0-.9.3l-.8.8c-.3.3-.3.8 0 1.1l2.5 2.5 2.5 2.5c.3.3.8.3 1.1 0l.8-.8c.3-.2.4-.6.3-.9l-.7-2.8 2.5-2.5 3.5 4.9c.4.6 1.1.9 1.8.7l1.5-.4c.7-.2 1.1-.8 1-1.5z"/></svg>`,
+    title: 'ARF Aircraft & Giant Scale Airframes',
+    badge: 'AIRFRAMES',
+    description: 'Seagull Models ARF kits, laser-cut balsa structures & genuine replacement spares.',
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3.5c-.5-.5-2.5 0-4 1.5L13.5 8.5 5.3 6.7c-.7-.1-1.3.3-1.5 1l-.4 1.5c-.2.7.1 1.4.7 1.8l4.9 3.5-2.5 2.5-2.8-.7c-.3-.1-.7 0-.9.3l-.8.8c-.3.3-.3.8 0 1.1l2.5 2.5 2.5 2.5c.3.3.8.3 1.1 0l.8-.8c.3-.2.4-.6.3-.9l-.7-2.8 2.5-2.5 3.5 4.9c.4.6 1.1.9 1.8.7l1.5-.4c.7-.2 1.1-.8 1-1.5z"/></svg>`,
     items: [
       {
-        q: "What does 'ARF' mean in Seagull Aeromodels?",
-        a: "ARF stands for 'Almost Ready to Fly'. The airframe comes 90% pre-built at the factory using precision laser-cut contest balsa wood and aviation-grade plywood, fully covered in authentic German Oracover polyester film. You only need to install your preferred engine/motor, radio system, servos, and fuel tank/battery before taking off."
+        q: "What does 'ARF' mean in Seagull Models aircraft?",
+        takeaway: "ARF means 90% factory pre-built with genuine German Oracover film.",
+        a: "ARF stands for 'Almost Ready to Fly'. The aircraft airframe comes 90% pre-constructed at the factory using precision laser-cut contest balsa wood and aviation-grade plywood. All main components (wings, fuselage, tail surfaces) are professionally covered in authentic German Oracover polyester film. You only need to install your preferred engine or electric motor, servos, fuel system or flight battery, and receiver before flight."
       },
       {
-        q: "Are replacement parts (cowls, canopies, landing gear) available?",
-        a: "Yes. As the authorized distributor for Seagull Models in India, we provide genuine replacement parts including fiberglass cowls, clear molded canopies, anodized aluminum wing joiner tubes, and heavy-duty spring landing gears."
+        q: "Are genuine replacement parts (cowls, canopies, landing gears) available?",
+        takeaway: "Yes, 100% factory original spares are stocked for Seagull Models in India.",
+        a: "Yes. As the authorized distributor for Seagull Models in India, SKYNODES UAV stocks and provides genuine factory replacement parts. This includes fiberglass engine cowls, molded tinted canopies, heavy-duty oleo spring landing struts, aluminum wing joiner tubes, and factory decal sheets."
       },
       {
-        q: "How are AAA Contest Grade Balsa Sheets packaged?",
-        a: "Balsa sheets (100x1000mm) are highly delicate. We sandwich them between reinforced corrugated wooden support boards and wrap them in heavy-gauge bubble armor inside rigid export cartons to ensure zero warping, snapping, or edge crushing during transit."
+        q: "How does laser-cut balsa wood airframe compare to foam models?",
+        takeaway: "Superior torsional rigidity, true high-speed flight tracking, and lasting durability.",
+        a: "Unlike foam models which flex, warp in high heat, or deform at high airspeed, laser-cut balsa/ply airframes provide unmatched structural stiffness, precise aerobatic tracking, and high power-to-weight ratios. In the event of a hard landing, balsa airframes are easily repairable using standard CA glue and balsa strips."
       }
     ]
   },
   {
-    id: 'powerplants',
-    title: 'Engines, CDI & Futaba Radios',
-    icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+    id: 'engines',
+    title: 'Nitro & Gas Engines, CDI & Props',
+    badge: 'POWERPLANTS',
+    description: 'Factory-sealed O.S. Max & DLE powerplants, break-in protocols & carb tuning.',
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
     items: [
       {
-        q: "Are your O.S. Max and DLE engines 100% genuine?",
-        a: "Absolutely. Every O.S. Max Nitro and DLE Petrol engine sold on SKYNODES UAV is 100% factory-sealed, imported directly through verified channels, and accompanied by manufacturer test certificates, genuine silencers/mufflers, CDI electronic ignitions, and serial numbers."
+        q: "Are your O.S. Max and DLE engines 100% factory fresh and authentic?",
+        takeaway: "Every engine is 100% factory sealed with original manufacturer serial certificates.",
+        a: "Yes, without exception. Every single O.S. Max Nitro engine and DLE Petrol engine sold on SKYNODES UAV is brand new, factory sealed in original packaging, and sourced through official channels. Each powerplant includes the factory silencer/muffler, CDI electronic ignition system (for gas engines), spark plug or glow plug, and official test certificate."
       },
       {
-        q: "Do you offer technical guidance for engine break-in and carb tuning?",
-        a: "Yes! Our Chief Flight Engineers provide step-by-step break-in charts (nitro oil ratios, needle settings, break-in prop sizes) in our Flight Journal blog and direct 1-on-1 WhatsApp technical support."
+        q: "Do you offer technical guidance for engine break-in and tuning?",
+        takeaway: "Our Chief Flight Engineers provide break-in needle settings and WhatsApp support.",
+        a: "Yes! Correct bench break-in is essential for engine longevity and compression. We provide step-by-step fuel oil mixture charts (30:1 for DLE gas engines, 15%-20% synthetic/castor for O.S. nitro), needle settings, and recommended break-in prop sizes in our Flight Journal and directly via 1-on-1 WhatsApp technical support."
       },
       {
-        q: "Which frequency systems do your Futaba transmitters operate on?",
-        a: "All Futaba transmitters (such as the Futaba 6K and TM 18-R9001SB) operate on legal 2.4GHz T-FHSS / S-FHSS telemetry protocols with frequency-hopping spread spectrum (FHSS) to prevent RF interference during flight."
+        q: "How do electronic CDI ignitions function on DLE engines?",
+        takeaway: "Microprocessor-controlled auto-advance timing powered by 4.8V-8.4V receiver batteries.",
+        a: "DLE engines utilize modern microprocessor-controlled Capacitive Discharge Ignition (CDI) units. The Hall sensor on the crankcase detects magnet timing, and the CDI automatically advances timing with RPM. These units operate on a wide voltage range (4.8V to 8.4V), allowing direct connection to a 2S LiPo or LiFe battery without a voltage regulator."
+      }
+    ]
+  },
+  {
+    id: 'radios',
+    title: 'Futaba Transmitters & Telemetry',
+    badge: 'AVIONICS',
+    description: 'Legal 2.4GHz FHSS spread spectrum transmitters, S.Bus servos & receivers.',
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>`,
+    items: [
+      {
+        q: "Which frequency protocol do Futaba transmitters operate on in India?",
+        takeaway: "100% DGCA & WPC compliant 2.4GHz T-FHSS / S-FHSS frequency-hopping protocols.",
+        a: "All Futaba systems sold on SKYNODES UAV (including the Futaba 6K and 18-channel flagship systems) operate on legal 2.4GHz T-FHSS, S-FHSS, and FASSTest frequency-hopping spread spectrum protocols. This continuously hops across frequencies thousands of times per second, guaranteeing zero RF interference even at busy flying club airfields."
+      },
+      {
+        q: "What is the operational range of Futaba 2.4GHz systems?",
+        takeaway: "Full-range line-of-sight system exceeding 1.5 km for giant-scale and UAV platforms.",
+        a: "Futaba 2.4GHz systems are full-range telemetry systems. Standard ground-to-air operational range exceeds 1.5 to 2 kilometers line-of-sight, which is well beyond visual flight limits for giant scale models and commercial UAV airframes."
+      },
+      {
+        q: "What is Futaba S.Bus technology and why is it beneficial?",
+        takeaway: "Single serial cable connection for all servos, eliminating heavy wiring clutter.",
+        a: "Futaba S.Bus allows multiple digital servos to be connected to a single serial cable running down the fuselage or wing. Each servo is digitally addressed, eliminating messy multi-cable wire bundles, reducing airframe weight, and simplifying installation in complex giant-scale twins and scale warbirds."
+      }
+    ]
+  },
+  {
+    id: 'balsa',
+    title: 'Contest Grade Balsa Wood & Materials',
+    badge: 'RAW MATERIALS',
+    description: 'AAA contest density balsa planks, laser-cut sheets & rigid armor packaging.',
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`,
+    items: [
+      {
+        q: "How are AAA Contest Grade Balsa Sheets packaged to prevent snapping?",
+        takeaway: "Triple-layer armor: wooden support boards, bubble armor, and heavy export cartons.",
+        a: "Delicate 100x1000mm balsa sheets are vulnerable during logistics. To protect them completely, we sandwich every balsa order between reinforced corrugated wooden support boards and wrap them in heavy-gauge bubble armor inside rigid export cartons. This prevents all warping, bending, and edge-crushing during transit."
+      },
+      {
+        q: "Why is there a minimum 5-sheet order requirement for balsa sheets?",
+        takeaway: "Structural integrity: a stack of 5+ sheets provides rigid strength against bending.",
+        a: "Shipping 1 or 2 individual balsa sheets risks snapping in transit due to lack of pack thickness. A bundle of 5 or more sheets creates structural rigidity that travels safely across India. You can mix and match any thicknesses (e.g. 1.5mm, 2mm, 3mm, 5mm) to reach the 5-sheet minimum."
+      },
+      {
+        q: "What density grading do you supply for contest balsa wood?",
+        takeaway: "Lightweight contest density (6 to 9 lbs/cu.ft) and medium contest density.",
+        a: "We stock AAA Grade contest balsa wood carefully sorted by grain and density. Standard stock ranges between 6 to 9 lbs/cu.ft (lightweight A-grain for ribs and skins) and 10 to 14 lbs/cu.ft (B/C-grain for structural spars and firewall reinforcements)."
       }
     ]
   },
   {
     id: 'shipping',
     title: 'Pan-India Insured Express Shipping',
-    icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`,
+    badge: 'LOGISTICS',
+    description: '24-hour priority dispatch from Maharashtra with 100% transit guarantee.',
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`,
     items: [
       {
         q: "How long does delivery take across India?",
-        a: "Orders are safely packed and dispatched within 24 hours from our facility in Maharashtra. Metro cities (Mumbai, Pune, Delhi NCR, Bengaluru, Hyderabad, Chennai) receive deliveries within 2 to 4 business days. Regional and remote airstrip locations receive deliveries within 4 to 6 business days."
+        takeaway: "Orders dispatch in 24 hours. Metro: 2-4 business days. Regional: 4-6 business days.",
+        a: "All in-stock orders are packed and dispatched within 24 hours from our facility in Maharashtra. Metro cities (Mumbai, Pune, Delhi NCR, Bengaluru, Hyderabad, Chennai) typically receive delivery within 2 to 4 business days. Regional flying clubs and remote airstrip locations receive delivery in 4 to 6 business days via Blue Dart, DTDC, and Delhivery Air Express."
       },
       {
-        q: "Are shipments insured against transit loss or damage?",
-        a: "Yes. All high-value RC planes, engines, and avionics shipments are covered under our comprehensive transit guarantee. If your shipment incurs any damage during transit, we replace or rectify it immediately upon video verification."
+        q: "What is your 100% Transit Replacement Guarantee?",
+        takeaway: "If any aircraft or engine arrives damaged in transit, we replace it immediately.",
+        a: "Every high-value RC shipment is insured. If your package arrives damaged, simply take a short unboxing video and send it to our WhatsApp helpline (+91-7722009120) within 24 hours. We arrange an immediate replacement or free replacement parts without prolonged claims."
       },
       {
-        q: "Will I receive tracking information on WhatsApp and SMS?",
-        a: "Yes! As soon as your order is dispatched, our automated dispatch system sends you the airway bill (AWB) tracking number and live tracking link directly on WhatsApp and email."
+        q: "Will I receive real-time tracking updates?",
+        takeaway: "Automated live tracking links sent to your WhatsApp and Email upon dispatch.",
+        a: "Yes. As soon as your aircraft or hardware is dispatched, you receive an automated message with your AWB tracking number and direct tracking URL to monitor your consignment step-by-step until safe touchdown."
       }
     ]
   },
   {
-    id: 'billing',
-    title: 'GST Tax Invoices & Payment Security',
-    icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18M9 21V9"/></svg>`,
+    id: 'b2b',
+    title: 'Commercial, Defense & GST Invoicing',
+    badge: 'ENTERPRISE',
+    description: 'Official 18% & 28% GST tax invoices, corporate POs & flying club supplies.',
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
     items: [
       {
-        q: "Can I get a GST Tax Invoice with Input Tax Credit (ITC) for my business?",
-        a: "Yes. We supply aerospace institutes, defense contractors, drone labs, universities, and registered businesses with official GST invoices containing your registered Company Name, GSTIN, and correct HSN codes (e.g. HSN 9503, 8407, 8526). Simply check 'Business / GST Invoice' during checkout."
+        q: "Can I receive an official GST Tax Invoice with Input Tax Credit (ITC)?",
+        takeaway: "Yes, select 'Buying for Business / Flying Club' at checkout to input your GSTIN.",
+        a: "Yes. During checkout, enable the 'Buying for Business / Flying Club? (Add GSTIN for Tax Credit)' toggle. Enter your Registered Company Name and 15-digit GSTIN. An official GST Tax Invoice with HSN/SAC codes will be generated automatically for 100% Input Tax Credit (ITC) claiming."
       },
       {
-        q: "What payment methods are supported?",
-        a: "We support 100% encrypted online payments via Razorpay Gateway: UPI (Google Pay, PhonePe, Paytm, BHIM), all major Credit/Debit Cards (Visa, Mastercard, RuPay, Amex), NetBanking across 50+ Indian banks, and low-cost EMI options."
+        q: "Do you supply engineering colleges, aeronautical labs, and defense projects?",
+        takeaway: "Yes, we handle institutional quotations, bulk balsa orders, and official POs.",
+        a: "Yes. SKYNODES UAV regularly supplies universities (IITs, NITs, Aeronautical Engineering departments), commercial UAV developers, and defense contractors with bulk balsa planks, telemetry gear, and high-thrust gas engines. Contact our B2B commercial desk on WhatsApp or email for institutional proforma invoices."
       },
       {
-        q: "Is there any extra benefit for prepaid online payments?",
-        a: "Yes! All prepaid orders enjoy an instant 5% prepaid pilot discount applied automatically at checkout, plus priority 24h express dispatch."
+        q: "What online payment methods are accepted?",
+        takeaway: "100% secure instant UPI, QR Code, Net Banking, and Credit/Debit Cards via Razorpay.",
+        a: "We accept all major secure digital payment methods powered by Razorpay: Instant UPI (Google Pay, PhonePe, Paytm, BHIM), Net Banking across 50+ Indian banks, and all Visa, MasterCard, and RuPay Credit/Debit cards."
       }
     ]
   }
 ];
 
-// Generate JSON-LD FAQPage Schema for Google SEO & AI Overviews
-const allFaqItems = faqCategories.flatMap(c => c.items);
-const faqPageSchema = {
+const totalFaqCount = faqCategories.reduce((acc, cat) => acc + cat.items.length, 0);
+
+// Google Structured Data for FAQPage Schema
+const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": allFaqItems.map(item => ({
-    "@type": "Question",
-    "name": item.q,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.a
-    }
-  }))
+  "mainEntity": faqCategories.flatMap(cat => 
+    cat.items.map(item => ({
+      "@type": "Question",
+      "name": item.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `${item.takeaway} ${item.a}`
+      }
+    }))
+  )
 };
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <GoogleTagManagerHead />
-  <FaviconAndSeoHead />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Frequently Asked Questions (FAQ) | SKYNODES UAV</title>
-  <meta name="description" content="Find answers to common questions about Seagull RC aeromodels, O.S. & DLE engines, Futaba transmitters, shipping, GST tax invoices, and technical flight support." />
+  <title>Pilot Help Center & Technical FAQs | SKYNODES UAV</title>
+  <meta name="description" content="Explore expert technical FAQs for SKYNODES UAV: Seagull Models ARF aircraft kits, O.S. Max nitro & DLE petrol engine tuning, Futaba 2.4GHz telemetry, balsa wood packaging, and pan-India insured shipping." />
   <link rel="canonical" href="https://www.skynodesuav.in/faq" />
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <FaviconAndSeoHead />
+  <GoogleTagManagerHead />
 
-  <script type="application/ld+json" set:html={JSON.stringify(faqPageSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 </head>
-<body class="bellavita-page-body">
+
+<body class="faq-page-body">
   <GoogleTagManagerBody />
-
   <Header />
-
-  <main class="faq-main-wrapper">
-    <div class="container">
-      
-      <!-- Top Hero Header -->
-      <header class="faq-hero-header">
-        <div class="faq-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          <span>PILOT KNOWLEDGE BASE</span>
-        </div>
-        <h1 class="faq-main-title">Frequently Asked Questions</h1>
-        <p class="faq-subtitle">Everything you need to know about our aeromodels, powerplants, radios, pan-India logistics, and GST tax billing.</p>
-
-        <!-- Live FAQ Search Bar -->
-        <div class="faq-search-bar">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-          <input type="text" id="faq-search-input" placeholder="Search questions (e.g. ARF, DLE 65, break-in, shipping, GST)..." aria-label="Search FAQs" />
-          <button type="button" id="faq-clear-btn" style="display: none;" aria-label="Clear Search">✕</button>
-        </div>
-      </header>
-
-      <!-- Category Navigation Pills -->
-      <div class="faq-cat-nav" id="faq-cat-nav">
-        <button type="button" class="cat-pill active" data-category="all">All Topics ({allFaqItems.length})</button>
-        {faqCategories.map(cat => (
-          <button type="button" class="cat-pill" data-category={cat.id}>
-            <span class="cat-icon" set:html={cat.icon} />
-            <span>{cat.title}</span>
-          </button>
-        ))}
-      </div>
-
-      <!-- FAQ Accordion Container -->
-      <div class="faq-sections-list" id="faq-sections-list">
-        {faqCategories.map(cat => (
-          <section class="faq-category-card" data-cat-id={cat.id}>
-            <div class="cat-card-header">
-              <span class="cat-card-icon" set:html={cat.icon} />
-              <h2 class="cat-card-title">{cat.title}</h2>
-            </div>
-            <div class="cat-accordion-group">
-              {cat.items.map((item, idx) => (
-                <div class="faq-acc-item" data-question={item.q.toLowerCase()} data-answer={item.a.toLowerCase()}>
-                  <button type="button" class="faq-acc-trigger" aria-expanded={idx === 0 ? "true" : "false"}>
-                    <span class="faq-q-text">{item.q}</span>
-                    <span class="faq-chevron">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                    </span>
-                  </button>
-                  <div class="faq-acc-panel" style={idx === 0 ? "max-height: 500px;" : "max-height: 0;"}>
-                    <div class="faq-a-content">
-                      <p>{item.a}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        ))}
-      </div>
-
-      <!-- No Results Notice -->
-      <div id="faq-no-results" class="faq-no-results" style="display: none;">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-        <h3>No matching questions found</h3>
-        <p>Try searching with another keyword or connect directly with our flight operations engineers.</p>
-        <button type="button" class="btn-reset-search" id="btn-reset-faq-search">View All Questions</button>
-      </div>
-
-      <!-- Still Have Questions Contact Card -->
-      <div class="faq-contact-box">
-        <div class="contact-box-left">
-          <div class="contact-pilot-badge">OFFICIAL FLIGHT OPERATIONS</div>
-          <h3>Still have questions or need custom technical guidance?</h3>
-          <p>Our chief pilots and engine specialists are available 10:00 AM - 7:00 PM (Mon-Sun) to assist with model selection, radio binding, and spare parts.</p>
-        </div>
-        <div class="contact-box-actions">
-          <a href="https://wa.me/917722009120?text=Hi%20SKYNODES%20UAV,%20I%20have%20a%20technical%20question%20about%20your%20products." target="_blank" rel="noopener noreferrer" class="btn-faq-whatsapp">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            <span>Chat on WhatsApp</span>
-          </a>
-          <a href="/contact" class="btn-faq-contact">
-            <span>Contact Support Desk →</span>
-          </a>
-        </div>
-      </div>
-
-    </div>
-  </main>
-
-  <Footer />
   <CartDrawer />
   <LoginModal />
   <MobileBottomNav />
 
+  <main class="faq-command-hub">
+    
+    <!-- 1. Executive Hero Header (Unicorn Aerospace Theme) -->
+    <section class="faq-hero-banner">
+      <div class="faq-hero-container">
+        <div class="faq-status-pill">
+          <span class="pulse-green-dot"></span>
+          <span>PILOT COMMAND & TECHNICAL KNOWLEDGE BASE</span>
+        </div>
+
+        <h1 class="faq-hero-title">
+          How Can We Assist Your Flight?
+        </h1>
+        <p class="faq-hero-subtitle">
+          Official engineering guides, ARF assembly protocols, engine break-in tuning, and insured Pan-India dispatch answers.
+        </p>
+
+        <!-- Command Search Console -->
+        <div class="faq-search-wrapper">
+          <div class="faq-search-box">
+            <span class="faq-search-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            </span>
+            <input 
+              type="text" 
+              id="faq-search-input" 
+              placeholder="Search across all technical questions, engines, balsa, shipping..." 
+              autocomplete="off"
+            />
+            <button type="button" id="faq-clear-btn" class="faq-clear-search" style="display: none;" aria-label="Clear Search">✕</button>
+            <span class="search-kbd-hint">/</span>
+          </div>
+
+          <!-- Quick Topic Pills -->
+          <div class="faq-quick-tags">
+            <span class="quick-tags-label">Popular Topics:</span>
+            <button type="button" class="quick-tag-chip" data-query="ARF">✈️ ARF Assembly</button>
+            <button type="button" class="quick-tag-chip" data-query="DLE">⚡ DLE & Nitro Tuning</button>
+            <button type="button" class="quick-tag-chip" data-query="Futaba">📻 Futaba 2.4GHz</button>
+            <button type="button" class="quick-tag-chip" data-query="balsa">🪵 Balsa Packaging</button>
+            <button type="button" class="quick-tag-chip" data-query="shipping">🚚 Express Shipping</button>
+            <button type="button" class="quick-tag-chip" data-query="GSTIN">🏢 GST Tax Credit</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Category Navigation Bar & Overview Grid -->
+    <section class="faq-content-section">
+      <div class="container">
+        
+        <!-- Live Category Filter Bar -->
+        <div class="faq-category-nav-wrap">
+          <div class="faq-category-nav" id="faq-cat-nav">
+            <button type="button" class="cat-nav-pill active" data-category="all">
+              <span>All Questions</span>
+              <span class="cat-pill-count">{totalFaqCount}</span>
+            </button>
+            {faqCategories.map(cat => (
+              <button type="button" class="cat-nav-pill" data-category={cat.id}>
+                <span>{cat.badge}</span>
+                <span class="cat-pill-count">{cat.items.length}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- Search Status Bar -->
+        <div id="faq-search-status-bar" class="faq-search-status" style="display: none;">
+          <span>Showing results for "<strong id="faq-search-query-text"></strong>"</span>
+          <button type="button" id="btn-reset-search" class="btn-reset-link">Clear Filter</button>
+        </div>
+
+        <!-- 3. Accordion Categories List -->
+        <div class="faq-categories-container" id="faq-categories-container">
+          {faqCategories.map(cat => (
+            <div class="faq-category-group" data-cat-id={cat.id}>
+              
+              <!-- Category Header Card -->
+              <div class="faq-group-header">
+                <div class="group-header-left">
+                  <div class="group-icon-badge" set:html={cat.icon} />
+                  <div>
+                    <div class="group-badge-tag">{cat.badge}</div>
+                    <h2 class="group-title">{cat.title}</h2>
+                    <p class="group-desc">{cat.description}</p>
+                  </div>
+                </div>
+                <div class="group-counter-pill">
+                  {cat.items.length} Articles
+                </div>
+              </div>
+
+              <!-- Accordion Items List -->
+              <div class="faq-accordion-stack">
+                {cat.items.map((item, itemIdx) => (
+                  <div class="faq-item-card" data-question={item.q.toLowerCase()} data-answer={item.a.toLowerCase()} data-takeaway={item.takeaway.toLowerCase()}>
+                    <button type="button" class="faq-item-trigger" aria-expanded={itemIdx === 0 ? "true" : "false"}>
+                      <span class="faq-item-question">
+                        {item.q}
+                      </span>
+                      <span class="faq-item-chevron">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                      </span>
+                    </button>
+                    <div class="faq-item-panel" style={itemIdx === 0 ? "max-height: 500px;" : "max-height: 0px;"}>
+                      <div class="faq-item-content">
+                        <!-- Key Takeaway Callout Box -->
+                        <div class="takeaway-callout">
+                          <span class="takeaway-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                          </span>
+                          <span class="takeaway-text">
+                            <strong>Key Takeaway:</strong> {item.takeaway}
+                          </span>
+                        </div>
+
+                        <!-- Full Explanation Text -->
+                        <p class="faq-item-body">
+                          {item.a}
+                        </p>
+
+                        <!-- Micro Feedback Row -->
+                        <div class="faq-feedback-row">
+                          <span class="feedback-prompt">Was this technical answer helpful?</span>
+                          <div class="feedback-actions">
+                            <button type="button" class="btn-feedback" data-vote="yes" title="Helpful">
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                              <span>Yes</span>
+                            </button>
+                            <button type="button" class="btn-feedback" data-vote="no" title="Needs improvement">
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+                              <span>No</span>
+                            </button>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+            </div>
+          ))}
+
+          <!-- No Results Fallback Card -->
+          <div id="faq-no-results" class="faq-no-results-card" style="display: none;">
+            <div class="no-results-radar-icon">
+              <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            </div>
+            <h3>No Technical Records Found</h3>
+            <p>We couldn't find any questions matching your query. Our Chief Flight Engineers are on standby on WhatsApp to assist with your specific model or technical setup.</p>
+            <div class="no-results-buttons">
+              <button type="button" id="btn-reset-search-2" class="btn-reset-filter-action">Clear Search Query</button>
+              <a href="https://wa.me/917722009120?text=Hi%20SKYNODES%20UAV,%20I%20have%20a%20technical%20question%20regarding:" target="_blank" rel="noopener noreferrer" class="btn-ask-engineer">
+                Ask Chief Flight Engineer
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 4. Direct VIP Flight Hotline Banner -->
+        <div class="faq-vip-hotline-card">
+          <div class="hotline-left">
+            <div class="hotline-badge">
+              <span class="pulse-green-dot"></span>
+              <span>1-ON-1 TECHNICAL ESCALATION</span>
+            </div>
+            <h3 class="hotline-title">Need Custom Airframe Specs or Engine Break-in Support?</h3>
+            <p class="hotline-desc">
+              Speak directly with our Chief Flight Engineers in Maharashtra for setup advice, CG balancing, break-in prop selection, and club bulk orders.
+            </p>
+          </div>
+          <div class="hotline-right">
+            <a href="https://wa.me/917722009120?text=Hi%20SKYNODES%20UAV%20Flight%20Engineer,%20I%20need%20technical%20assistance%20with%20my%20aircraft:" target="_blank" rel="noopener noreferrer" class="btn-hotline-whatsapp">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>WhatsApp Flight Engineer</span>
+            </a>
+            <a href="/contact" class="btn-hotline-contact">
+              <span>Hangar Support Desk →</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <Footer />
+
   <style>
-    .faq-main-wrapper {
-      padding: 3rem 0 5rem;
+    /* ========================================================
+       FAQ COMMAND HUB - WORLD-CLASS AEROSPACE STYLING
+       ======================================================== */
+    .faq-page-body {
+      background: #060911;
+      color: #f1f5f9;
+      font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .faq-command-hub {
       min-height: 80vh;
-      background: #08090c;
-      color: #f8fafc;
+      background: linear-gradient(180deg, #070b14 0%, #0a0f1d 40%, #060911 100%);
     }
 
-    .faq-hero-header {
+    /* 1. Hero Header Banner */
+    .faq-hero-banner {
+      position: relative;
+      padding: 4.5rem 1.5rem 3.5rem;
+      background: radial-gradient(circle at 50% 0%, rgba(30, 41, 59, 0.7) 0%, rgba(7, 11, 20, 0.95) 70%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       text-align: center;
-      max-width: 760px;
-      margin: 0 auto 2.5rem;
+      overflow: hidden;
     }
 
-    .faq-badge {
+    .faq-hero-banner::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 300px;
+      background: radial-gradient(ellipse at center, rgba(245, 158, 11, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
+      pointer-events: none;
+    }
+
+    .faq-hero-container {
+      max-width: 820px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .faq-status-pill {
       display: inline-flex;
       align-items: center;
-      gap: 0.45rem;
-      background: rgba(245, 158, 11, 0.12);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      color: #fbbf24;
+      gap: 0.5rem;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      padding: 0.35rem 0.95rem;
       font-size: 0.72rem;
       font-weight: 800;
-      letter-spacing: 0.08em;
-      padding: 0.35rem 0.85rem;
-      border-radius: 9999px;
-      margin-bottom: 1rem;
+      letter-spacing: 0.1em;
+      color: #cbd5e1;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
 
-    .faq-main-title {
-      font-family: var(--font-display);
-      font-size: clamp(2rem, 4vw, 2.8rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
+    .pulse-green-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+      animation: pulseGreen 2s infinite;
+    }
+
+    @keyframes pulseGreen {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .faq-hero-title {
+      font-family: var(--font-display, inherit);
+      font-size: 2.75rem;
+      font-weight: 900;
       color: #ffffff;
+      letter-spacing: -0.02em;
       line-height: 1.15;
-      margin-bottom: 0.85rem;
+      margin: 0 0 1rem;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.5);
     }
 
-    .faq-subtitle {
-      font-size: 1rem;
+    .faq-hero-subtitle {
+      font-size: 1.05rem;
       color: #94a3b8;
       line-height: 1.6;
-      margin-bottom: 1.75rem;
+      margin: 0 0 2.25rem;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    /* Search Bar */
-    .faq-search-bar {
-      position: relative;
-      max-width: 620px;
+    /* Command Search Console */
+    .faq-search-wrapper {
+      max-width: 680px;
       margin: 0 auto;
+    }
+
+    .faq-search-box {
+      position: relative;
       display: flex;
       align-items: center;
-      background: #11141f;
-      border: 1.5px solid rgba(255, 255, 255, 0.12);
-      border-radius: 12px;
-      padding: 0.65rem 1.15rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-      transition: all 0.2s;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(255, 255, 255, 0.16);
+      border-radius: 14px;
+      padding: 0.35rem 0.5rem 0.35rem 1.1rem;
+      transition: all 0.25s ease;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
     }
 
-    .faq-search-bar:focus-within {
+    .faq-search-box:focus-within {
       border-color: #f59e0b;
-      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+      box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.2), 0 12px 35px rgba(0,0,0,0.5);
+      background: rgba(15, 23, 42, 0.95);
     }
 
-    .faq-search-bar svg {
+    .faq-search-icon {
       color: #94a3b8;
-      flex-shrink: 0;
+      display: flex;
+      align-items: center;
       margin-right: 0.75rem;
     }
 
-    .faq-search-bar input {
-      width: 100%;
+    .faq-search-box input {
+      flex: 1;
       background: transparent;
       border: none;
       outline: none;
       color: #ffffff;
-      font-size: 0.95rem;
-      font-family: inherit;
+      font-size: 0.96rem;
+      padding: 0.65rem 0;
     }
 
-    .faq-search-bar input::placeholder {
+    .faq-search-box input::placeholder {
       color: #64748b;
     }
 
-    #faq-clear-btn {
-      background: none;
+    .faq-clear-search {
+      background: rgba(255, 255, 255, 0.1);
       border: none;
-      color: #94a3b8;
+      color: #cbd5e1;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
       cursor: pointer;
-      font-size: 1rem;
-      padding: 0 0.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      margin-right: 0.5rem;
+      transition: background 0.2s;
     }
 
-    /* Category Navigation */
-    .faq-cat-nav {
+    .faq-clear-search:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+    }
+
+    .search-kbd-hint {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      color: #94a3b8;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      user-select: none;
+    }
+
+    /* Quick Topic Tags */
+    .faq-quick-tags {
       display: flex;
+      align-items: center;
       justify-content: center;
       gap: 0.5rem;
       flex-wrap: wrap;
-      margin-bottom: 2.5rem;
+      margin-top: 1.25rem;
     }
 
-    .cat-pill {
-      background: #11141f;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+    .quick-tags-label {
+      font-size: 0.76rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .quick-tag-chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      color: #cbd5e1;
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 0.3rem 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quick-tag-chip:hover {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: #f59e0b;
+      color: #fbbf24;
+      transform: translateY(-1px);
+    }
+
+    /* 2. Content Section */
+    .faq-content-section {
+      padding: 3rem 0 5rem;
+    }
+
+    /* Category Navigation Bar */
+    .faq-category-nav-wrap {
+      margin-bottom: 2.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+    }
+
+    .faq-category-nav {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cat-nav-pill {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      padding: 0.55rem 1.15rem;
       color: #94a3b8;
       font-size: 0.82rem;
       font-weight: 700;
-      padding: 0.55rem 1.15rem;
-      border-radius: 9999px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 0.45rem;
-      transition: all 0.2s;
+      gap: 0.55rem;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
     }
 
-    .cat-pill:hover {
-      background: #181d2e;
-      color: #f8fafc;
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .cat-pill.active {
-      background: #f59e0b;
-      color: #0b0d13;
-      border-color: #f59e0b;
-      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
-    }
-
-    /* Sections List */
-    .faq-sections-list {
-      max-width: 860px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .faq-category-card {
-      background: #10131d;
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      border-radius: 14px;
-      padding: 1.5rem 1.75rem;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-    }
-
-    .cat-card-header {
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.85rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .cat-card-icon {
-      color: #f59e0b;
-      display: flex;
-      align-items: center;
-    }
-
-    .cat-card-title {
-      font-family: var(--font-display);
-      font-size: 1.15rem;
-      font-weight: 800;
+    .cat-nav-pill:hover {
       color: #ffffff;
-      letter-spacing: -0.01em;
+      border-color: rgba(255, 255, 255, 0.25);
+      background: rgba(30, 41, 59, 0.7);
     }
 
-    .cat-accordion-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
+    .cat-nav-pill.active {
+      background: #f59e0b;
+      border-color: #f59e0b;
+      color: #0f172a;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);
     }
 
-    .faq-acc-item {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+    .cat-pill-count {
+      background: rgba(0, 0, 0, 0.25);
+      padding: 0.15rem 0.45rem;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 800;
+    }
+
+    .cat-nav-pill.active .cat-pill-count {
+      background: #0f172a;
+      color: #f59e0b;
+    }
+
+    /* Search Status */
+    .faq-search-status {
+      max-width: 900px;
+      margin: 0 auto 1.5rem;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
       border-radius: 10px;
-      overflow: hidden;
-      transition: all 0.2s;
-    }
-
-    .faq-acc-item:hover {
-      border-color: rgba(255, 255, 255, 0.15);
-      background: rgba(255, 255, 255, 0.035);
-    }
-
-    .faq-acc-trigger {
-      width: 100%;
-      text-align: left;
-      padding: 1.1rem 1.25rem;
-      background: none;
-      border: none;
-      cursor: pointer;
+      padding: 0.75rem 1.25rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 1rem;
-      color: #f8fafc;
-      font-family: inherit;
+      color: #cbd5e1;
+      font-size: 0.85rem;
     }
 
-    .faq-q-text {
-      font-size: 0.95rem;
+    .btn-reset-link {
+      background: transparent;
+      border: none;
+      color: #f59e0b;
       font-weight: 700;
-      line-height: 1.4;
-      color: #ffffff;
+      cursor: pointer;
+      text-decoration: underline;
     }
 
-    .faq-chevron {
-      color: #94a3b8;
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      flex-shrink: 0;
+    /* Categories Container */
+    .faq-categories-container {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    .faq-category-group {
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Group Header */
+    .faq-group-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.75rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      gap: 1.5rem;
+    }
+
+    .group-header-left {
+      display: flex;
+      gap: 1.15rem;
+      align-items: flex-start;
+    }
+
+    .group-icon-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: #f59e0b;
       display: flex;
       align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
 
-    .faq-acc-trigger[aria-expanded="true"] .faq-chevron {
+    .group-badge-tag {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #f59e0b;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+
+    .group-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0 0 0.35rem;
+      letter-spacing: -0.01em;
+    }
+
+    .group-desc {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    .group-counter-pill {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      padding: 0.3rem 0.85rem;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #cbd5e1;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Accordion Stack */
+    .faq-accordion-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .faq-item-card {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .faq-item-card:hover {
+      border-color: rgba(245, 158, 11, 0.35);
+      background: rgba(15, 23, 42, 0.9);
+      transform: translateY(-1px);
+    }
+
+    .faq-item-trigger {
+      width: 100%;
+      background: transparent;
+      border: none;
+      padding: 1.15rem 1.35rem;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      gap: 1.25rem;
+    }
+
+    .faq-item-question {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #f8fafc;
+      line-height: 1.45;
+      letter-spacing: -0.01em;
+      transition: color 0.2s;
+    }
+
+    .faq-item-card:hover .faq-item-question {
+      color: #fbbf24;
+    }
+
+    .faq-item-chevron {
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s;
+      flex-shrink: 0;
+    }
+
+    .faq-item-trigger[aria-expanded="true"] .faq-item-chevron {
       transform: rotate(180deg);
       color: #f59e0b;
     }
 
-    .faq-acc-panel {
+    .faq-item-panel {
       overflow: hidden;
-      transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .faq-a-content {
-      padding: 0 1.25rem 1.25rem 1.25rem;
-      color: #cbd5e1;
+    .faq-item-content {
+      padding: 0 1.35rem 1.35rem;
+    }
+
+    /* Key Takeaway Callout Box */
+    .takeaway-callout {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-left: 3px solid #f59e0b;
+      border-radius: 8px;
+      padding: 0.65rem 0.95rem;
+      margin-bottom: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .takeaway-icon {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .takeaway-text {
+      font-size: 0.84rem;
+      color: #fde68a;
+      line-height: 1.4;
+    }
+
+    .faq-item-body {
       font-size: 0.88rem;
+      color: #cbd5e1;
       line-height: 1.65;
+      margin: 0 0 1.15rem;
     }
 
-    /* No Results Notice */
-    .faq-no-results {
-      text-align: center;
-      padding: 4rem 1.5rem;
-      background: #10131d;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px;
-      max-width: 600px;
-      margin: 2rem auto;
+    /* Micro Feedback */
+    .faq-feedback-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 0.85rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      flex-wrap: wrap;
+      gap: 0.75rem;
     }
 
-    .faq-no-results h3 {
-      font-size: 1.25rem;
+    .feedback-prompt {
+      font-size: 0.74rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .feedback-actions {
+      display: flex;
+      gap: 0.45rem;
+    }
+
+    .btn-feedback {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      color: #94a3b8;
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s;
+    }
+
+    .btn-feedback:hover {
+      background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
-      margin: 1rem 0 0.5rem;
     }
 
-    .faq-no-results p {
+    .btn-feedback.voted {
+      background: #065f46;
+      border-color: #10b981;
+      color: #a7f3d0;
+      cursor: default;
+    }
+
+    /* No Results Fallback Card */
+    .faq-no-results-card {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1.5px dashed rgba(245, 158, 11, 0.3);
+      border-radius: 16px;
+      padding: 3.5rem 2rem;
+      text-align: center;
+    }
+
+    .no-results-radar-icon {
+      margin-bottom: 1rem;
+    }
+
+    .faq-no-results-card h3 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0 0 0.5rem;
+    }
+
+    .faq-no-results-card p {
       color: #94a3b8;
       font-size: 0.9rem;
-      margin-bottom: 1.5rem;
+      max-width: 500px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.5;
     }
 
-    .btn-reset-search {
-      background: #f59e0b;
-      color: #0b0d13;
-      border: none;
-      font-weight: 800;
-      font-size: 0.85rem;
-      padding: 0.65rem 1.45rem;
+    .no-results-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-filter-action {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 8px;
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.65rem 1.25rem;
       cursor: pointer;
     }
 
-    /* Contact Card */
-    .faq-contact-box {
-      max-width: 860px;
-      margin: 3.5rem auto 0;
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(17, 20, 31, 0.9) 100%);
-      border: 1.5px solid rgba(245, 158, 11, 0.3);
-      border-radius: 16px;
-      padding: 2.25rem;
+    .btn-ask-engineer {
+      background: #10b981;
+      border-radius: 8px;
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 800;
+      padding: 0.65rem 1.35rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    /* 4. VIP Flight Hotline Banner */
+    .faq-vip-hotline-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border: 1.5px solid rgba(245, 158, 11, 0.35);
+      border-radius: 20px;
+      padding: 2.25rem 2.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 2rem;
-      flex-wrap: wrap;
+      margin-top: 3.5rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     }
 
-    .contact-box-left {
-      max-width: 520px;
-    }
-
-    .contact-pilot-badge {
+    .hotline-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      border-radius: 999px;
+      padding: 0.25rem 0.75rem;
       font-size: 0.68rem;
       font-weight: 800;
+      color: #fbbf24;
       letter-spacing: 0.08em;
-      color: #f59e0b;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
     }
 
-    .contact-box-left h3 {
-      font-family: var(--font-display);
+    .hotline-title {
       font-size: 1.35rem;
       font-weight: 800;
       color: #ffffff;
-      margin-bottom: 0.5rem;
+      margin: 0 0 0.5rem;
     }
 
-    .contact-box-left p {
-      color: #94a3b8;
-      font-size: 0.85rem;
+    .hotline-desc {
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      margin: 0;
       line-height: 1.5;
+      max-width: 580px;
     }
 
-    .contact-box-actions {
+    .hotline-right {
       display: flex;
-      gap: 0.75rem;
+      gap: 0.85rem;
       flex-wrap: wrap;
+      flex-shrink: 0;
     }
 
-    .btn-faq-whatsapp {
+    .btn-hotline-whatsapp {
       background: #10b981;
       color: #ffffff;
-      padding: 0.75rem 1.35rem;
-      border-radius: 8px;
-      font-size: 0.85rem;
+      padding: 0.85rem 1.45rem;
+      border-radius: 10px;
+      font-size: 0.88rem;
       font-weight: 800;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 0.45rem;
-      transition: all 0.2s;
+      gap: 0.55rem;
+      transition: all 0.25s;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
     }
 
-    .btn-faq-whatsapp:hover {
+    .btn-hotline-whatsapp:hover {
       background: #059669;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45);
     }
 
-    .btn-faq-contact {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+    .btn-hotline-contact {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1.5px solid rgba(255, 255, 255, 0.16);
       color: #ffffff;
-      padding: 0.75rem 1.35rem;
-      border-radius: 8px;
-      font-size: 0.85rem;
+      padding: 0.85rem 1.35rem;
+      border-radius: 10px;
+      font-size: 0.88rem;
       font-weight: 700;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      transition: all 0.2s;
+      transition: all 0.25s;
     }
 
-    .btn-faq-contact:hover {
-      background: rgba(255, 255, 255, 0.15);
+    .btn-hotline-contact:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
     }
 
-    @media (max-width: 768px) {
-      .faq-main-wrapper {
-        padding: 2rem 0 4rem;
+    @media (max-width: 900px) {
+      .faq-hero-title {
+        font-size: 2rem;
       }
-      .faq-category-card {
-        padding: 1.25rem 1rem;
-      }
-      .faq-contact-box {
+      .faq-group-header {
         flex-direction: column;
         align-items: flex-start;
-        padding: 1.5rem;
       }
-      .contact-box-actions {
+      .faq-vip-hotline-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.75rem 1.5rem;
+      }
+      .hotline-right {
         width: 100%;
       }
-      .btn-faq-whatsapp, .btn-faq-contact {
+      .btn-hotline-whatsapp, .btn-hotline-contact {
         width: 100%;
         justify-content: center;
       }
     }
   </style>
 
-  <script>
-    function initFaqPage() {
-      const triggers = document.querySelectorAll('.faq-acc-trigger');
-      triggers.forEach(trig => {
-        trig.addEventListener('click', () => {
-          const isExpanded = trig.getAttribute('aria-expanded') === 'true';
-          const panel = trig.nextElementSibling as HTMLElement;
-          if (!panel) return;
+  <script is:inline>
+    (function () {
+      function setupFaqEngine() {
+        const triggers = document.querySelectorAll('.faq-item-trigger');
+        triggers.forEach(trig => {
+          trig.addEventListener('click', () => {
+            const isExpanded = trig.getAttribute('aria-expanded') === 'true';
+            const panel = trig.nextElementSibling;
+            if (!panel) return;
 
-          if (isExpanded) {
-            trig.setAttribute('aria-expanded', 'false');
-            panel.style.maxHeight = '0';
+            if (isExpanded) {
+              trig.setAttribute('aria-expanded', 'false');
+              panel.style.maxHeight = '0px';
+            } else {
+              trig.setAttribute('aria-expanded', 'true');
+              panel.style.maxHeight = `${panel.scrollHeight + 80}px`;
+            }
+          });
+        });
+
+        // Category Navigation Filter
+        const catPills = document.querySelectorAll('.cat-nav-pill');
+        const catGroups = document.querySelectorAll('.faq-category-group');
+        const searchInput = document.getElementById('faq-search-input');
+        const clearBtn = document.getElementById('faq-clear-btn');
+        const statusBar = document.getElementById('faq-search-status-bar');
+        const queryText = document.getElementById('faq-search-query-text');
+        const resetBtn = document.getElementById('btn-reset-search');
+        const resetBtn2 = document.getElementById('btn-reset-search-2');
+        const noResults = document.getElementById('faq-no-results');
+
+        let currentCat = 'all';
+
+        function applyFilters() {
+          const query = (searchInput?.value || '').toLowerCase().trim();
+          if (clearBtn) clearBtn.style.display = query ? 'flex' : 'none';
+
+          if (query) {
+            if (statusBar && queryText) {
+              statusBar.style.display = 'flex';
+              queryText.textContent = query;
+            }
           } else {
-            trig.setAttribute('aria-expanded', 'true');
-            panel.style.maxHeight = `${panel.scrollHeight + 50}px`;
+            if (statusBar) statusBar.style.display = 'none';
+          }
+
+          let totalVisibleItems = 0;
+
+          catGroups.forEach(group => {
+            const groupCatId = group.getAttribute('data-cat-id');
+            const matchesCat = currentCat === 'all' || groupCatId === currentCat;
+
+            if (!matchesCat) {
+              group.style.display = 'none';
+              return;
+            }
+
+            const items = group.querySelectorAll('.faq-item-card');
+            let groupVisibleItems = 0;
+
+            items.forEach(item => {
+              const q = item.getAttribute('data-question') || '';
+              const a = item.getAttribute('data-answer') || '';
+              const t = item.getAttribute('data-takeaway') || '';
+
+              if (!query || q.includes(query) || a.includes(query) || t.includes(query)) {
+                item.style.display = 'block';
+                groupVisibleItems++;
+                totalVisibleItems++;
+              } else {
+                item.style.display = 'none';
+              }
+            });
+
+            group.style.display = groupVisibleItems > 0 ? 'block' : 'none';
+          });
+
+          if (noResults) {
+            noResults.style.display = totalVisibleItems === 0 ? 'block' : 'none';
+          }
+        }
+
+        catPills.forEach(pill => {
+          pill.addEventListener('click', () => {
+            catPills.forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            currentCat = pill.getAttribute('data-category') || 'all';
+            applyFilters();
+          });
+        });
+
+        searchInput?.addEventListener('input', applyFilters);
+
+        // Quick topic chip click
+        document.querySelectorAll('.quick-tag-chip').forEach(chip => {
+          chip.addEventListener('click', () => {
+            const query = chip.getAttribute('data-query') || '';
+            if (searchInput) {
+              searchInput.value = query;
+              applyFilters();
+              searchInput.focus();
+            }
+          });
+        });
+
+        // Slash shortcut to focus search
+        window.addEventListener('keydown', (e) => {
+          if (e.key === '/' && document.activeElement !== searchInput) {
+            e.preventDefault();
+            searchInput?.focus();
+            searchInput?.select();
           }
         });
-      });
 
-      // Category filter pills
-      const catPills = document.querySelectorAll('.cat-pill');
-      const catCards = document.querySelectorAll('.faq-category-card');
-      const noResults = document.getElementById('faq-no-results');
+        function clearSearch() {
+          if (searchInput) searchInput.value = '';
+          applyFilters();
+        }
 
-      catPills.forEach(pill => {
-        pill.addEventListener('click', () => {
-          catPills.forEach(p => p.classList.remove('active'));
-          pill.classList.add('active');
-          const targetCat = pill.getAttribute('data-category') || 'all';
+        clearBtn?.addEventListener('click', clearSearch);
+        resetBtn?.addEventListener('click', clearSearch);
+        resetBtn2?.addEventListener('click', clearSearch);
 
-          catCards.forEach(card => {
-            const cardCat = card.getAttribute('data-cat-id');
-            if (targetCat === 'all' || cardCat === targetCat) {
-              (card as HTMLElement).style.display = 'block';
-            } else {
-              (card as HTMLElement).style.display = 'none';
+        // Feedback buttons
+        document.querySelectorAll('.btn-feedback').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const parent = btn.closest('.feedback-actions');
+            if (parent) {
+              parent.querySelectorAll('.btn-feedback').forEach(b => b.classList.remove('voted'));
+              btn.classList.add('voted');
+              btn.innerHTML = `<span>✓ Recorded</span>`;
             }
           });
         });
-      });
-
-      // Search filtering
-      const searchInput = document.getElementById('faq-search-input') as HTMLInputElement | null;
-      const clearBtn = document.getElementById('faq-clear-btn');
-      const resetBtn = document.getElementById('btn-reset-faq-search');
-
-      function filterFaqs() {
-        const query = (searchInput?.value || '').toLowerCase().trim();
-        if (clearBtn) clearBtn.style.display = query ? 'inline-block' : 'none';
-
-        let totalVisible = 0;
-
-        catCards.forEach(card => {
-          const items = card.querySelectorAll('.faq-acc-item');
-          let cardVisibleCount = 0;
-
-          items.forEach(item => {
-            const qText = item.getAttribute('data-question') || '';
-            const aText = item.getAttribute('data-answer') || '';
-            if (!query || qText.includes(query) || aText.includes(query)) {
-              (item as HTMLElement).style.display = 'block';
-              cardVisibleCount++;
-              totalVisible++;
-            } else {
-              (item as HTMLElement).style.display = 'none';
-            }
-          });
-
-          (card as HTMLElement).style.display = cardVisibleCount > 0 ? 'block' : 'none';
-        });
-
-        if (noResults) noResults.style.display = totalVisible === 0 ? 'block' : 'none';
       }
 
-      searchInput?.addEventListener('input', filterFaqs);
-      clearBtn?.addEventListener('click', () => {
-        if (searchInput) searchInput.value = '';
-        filterFaqs();
-        searchInput?.focus();
-      });
-      resetBtn?.addEventListener('click', () => {
-        if (searchInput) searchInput.value = '';
-        filterFaqs();
-      });
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initFaqPage);
-    } else {
-      initFaqPage();
-    }
-    document.addEventListener('astro:page-load', initFaqPage);
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupFaqEngine);
+      } else {
+        setupFaqEngine();
+      }
+      document.addEventListener('astro:page-load', setupFaqEngine);
+    })();
   </script>
 </body>
 </html>
