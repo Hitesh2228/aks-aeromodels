@@ -1838,6 +1838,10 @@ import '../../styles/global.css';
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
         <span>Store Navigation</span>
       </button>
+      <button class="mode-tab-btn" id="tab-coupons-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        <span>Promo Coupons</span>
+      </button>
     </div>
     <div class="subbar-meta">
       <span id="catalog-count-badge" class="catalog-count-pill">Loading catalog...</span>
@@ -2820,7 +2824,144 @@ import '../../styles/global.css';
       </div>
     </div>
 
+    <!-- ==================== VIEW 6: PROMO COUPONS MANAGEMENT ==================== -->
+    <div id="view-coupons" class="catalog-wrapper" style="display: none;">
+      
+      <!-- Top Action Bar -->
+      <div class="studio-sticky-bar">
+        <div class="studio-title-block">
+          <div>
+            <div class="studio-breadcrumbs">Store Promotions / Checkout Discounts</div>
+            <div class="studio-title-main" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+              <span>Promo Coupons & Checkout Discount Management</span>
+            </div>
+          </div>
+        </div>
+        <div class="studio-actions-block" style="display: flex; gap: 0.75rem;">
+          <button type="button" class="btn-create-prod-primary" id="btn-refresh-coupons" style="background: #334155; display: inline-flex; align-items: center; gap: 0.45rem;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+            <span>Refresh</span>
+          </button>
+          <button type="button" class="btn-create-prod-primary" id="btn-trigger-new-coupon" style="background: #0284c7; display: inline-flex; align-items: center; gap: 0.45rem;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            <span>+ Create New Coupon</span>
+          </button>
+          <button type="button" class="btn-create-prod-primary" id="btn-save-coupons-master">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            <span>Save to Store</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Master Activation Box -->
+      <div style="background: #ffffff; border: 1.5px solid var(--admin-border); border-radius: 12px; padding: 1.5rem 1.75rem; margin-bottom: 1.75rem; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+        <div style="display: flex; align-items: center; gap: 1.25rem;">
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: #eff6ff; border: 1px solid #bfdbfe; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <h3 style="font-size: 1.05rem; font-weight: 800; color: #0f172a;">Enable Promo Code Box at Checkout</h3>
+              <span id="coupon-master-status-badge" class="badge-status-pill badge-draft">DISABLED BY CLIENT</span>
+            </div>
+            <p style="font-size: 0.82rem; color: #64748b; margin-top: 0.25rem; line-height: 1.4;">
+              Master Control: When this switch is OFF, the coupon code box is completely hidden from the customer checkout page. Turn ON to enable coupons.
+            </p>
+          </div>
+        </div>
+        <div style="flex-shrink: 0;">
+          <label style="position: relative; display: inline-block; width: 54px; height: 28px; cursor: pointer;">
+            <input type="checkbox" id="coupon-master-toggle" style="opacity: 0; width: 0; height: 0;" />
+            <span style="position: absolute; cursor: pointer; inset: 0; background-color: #cbd5e1; border-radius: 34px; transition: .3s;" id="coupon-toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Coupons Table Card -->
+      <div class="catalog-table-card">
+        <div class="table-responsive">
+          <table class="catalog-table">
+            <colgroup>
+              <col style="width: 20%;" />
+              <col style="width: 15%;" />
+              <col style="width: 15%;" />
+              <col style="width: 15%;" />
+              <col style="width: 20%;" />
+              <col style="width: 10%;" />
+              <col style="width: 5%;" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Coupon Code</th>
+                <th>Discount Type</th>
+                <th>Discount Value</th>
+                <th>Min. Order Threshold</th>
+                <th>Description / Offer Details</th>
+                <th>Active Status</th>
+                <th style="text-align: right; padding-right: 1.15rem !important;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="coupons-tbody">
+              <tr>
+                <td colspan="7" style="text-align: center; padding: 3rem; color: #64748b;">
+                  Loading store coupons...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
   </main>
+
+  <!-- ==================== COUPON EDITOR MODAL ==================== -->
+  <div id="coupon-editor-modal" class="admin-modal-overlay">
+    <div class="admin-modal-box" style="max-width: 500px;">
+      <div class="admin-modal-header">
+        <div class="admin-modal-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+          <span id="modal-coupon-title">Create Promo Coupon</span>
+        </div>
+        <button type="button" class="admin-modal-close" id="btn-close-coupon-modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="admin-modal-body" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+        <div>
+          <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem;">Coupon Code *</label>
+          <input type="text" id="coupon-f-code" placeholder="e.g. SKY80 or DIWALI500" style="text-transform: uppercase; width: 100%; padding: 0.65rem 0.85rem; border: 1.5px solid var(--admin-border); border-radius: 8px; font-weight: 700; font-size: 0.92rem; box-sizing: border-box;" />
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div>
+            <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem;">Discount Type</label>
+            <select id="coupon-f-type" style="width: 100%; padding: 0.65rem; border: 1.5px solid var(--admin-border); border-radius: 8px; font-size: 0.88rem; background: #fff; box-sizing: border-box;">
+              <option value="flat">Flat Cash (₹ OFF)</option>
+              <option value="percent">Percentage (% OFF)</option>
+            </select>
+          </div>
+          <div>
+            <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem;">Discount Value *</label>
+            <input type="number" id="coupon-f-value" placeholder="e.g. 80 or 10" min="1" style="width: 100%; padding: 0.65rem; border: 1.5px solid var(--admin-border); border-radius: 8px; font-size: 0.88rem; box-sizing: border-box;" />
+          </div>
+        </div>
+        <div>
+          <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem;">Minimum Order Value (₹)</label>
+          <input type="number" id="coupon-f-min" placeholder="e.g. 499 (0 for no minimum)" min="0" value="0" style="width: 100%; padding: 0.65rem; border: 1.5px solid var(--admin-border); border-radius: 8px; font-size: 0.88rem; box-sizing: border-box;" />
+        </div>
+        <div>
+          <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem;">Customer Description / Offer Note</label>
+          <input type="text" id="coupon-f-desc" placeholder="e.g. ₹80 Instant Flat Discount on orders above ₹499" style="width: 100%; padding: 0.65rem; border: 1.5px solid var(--admin-border); border-radius: 8px; font-size: 0.88rem; box-sizing: border-box;" />
+        </div>
+      </div>
+      <div class="admin-modal-footer" style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+        <button type="button" class="btn-cancel-edit" id="btn-cancel-coupon-modal">Cancel</button>
+        <button type="button" class="btn-create-prod-primary" id="btn-save-coupon-item">Add Coupon</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ==================== ORDER DETAILS MODAL ==================== -->
   <div id="order-detail-modal" class="admin-modal-overlay">
@@ -2952,12 +3093,31 @@ import '../../styles/global.css';
     const tabNavBtn = document.getElementById('tab-nav-btn');
     const tabOrdersBtn = document.getElementById('tab-orders-btn');
     const tabBlogsBtn = document.getElementById('tab-blogs-btn');
+    const tabCouponsBtn = document.getElementById('tab-coupons-btn');
 
     const viewCatalog = document.getElementById('view-catalog');
     const viewEditor = document.getElementById('view-editor');
     const viewNavigation = document.getElementById('view-navigation');
     const viewOrders = document.getElementById('view-orders');
     const viewBlogs = document.getElementById('view-blogs');
+    const viewCoupons = document.getElementById('view-coupons');
+
+    // Promo Coupons DOM Elements & State
+    const couponsTbody = document.getElementById('coupons-tbody');
+    const btnRefreshCoupons = document.getElementById('btn-refresh-coupons');
+    const btnTriggerNewCoupon = document.getElementById('btn-trigger-new-coupon');
+    const btnSaveCouponsMaster = document.getElementById('btn-save-coupons-master');
+    const couponMasterToggle = document.getElementById('coupon-master-toggle') as HTMLInputElement;
+    const couponMasterStatusBadge = document.getElementById('coupon-master-status-badge');
+    const couponEditorModal = document.getElementById('coupon-editor-modal');
+    const btnCloseCouponModal = document.getElementById('btn-close-coupon-modal');
+    const btnCancelCouponModal = document.getElementById('btn-cancel-coupon-modal');
+    const btnSaveCouponItem = document.getElementById('btn-save-coupon-item');
+
+    let couponsSettingsState: { enabled: boolean; coupons: any[] } = {
+      enabled: false,
+      coupons: []
+    };
 
     // Orders DOM Elements
     const ordersTbody = document.getElementById('orders-tbody');
@@ -3054,6 +3214,7 @@ import '../../styles/global.css';
         loadNavigationFromShopify();
         loadOrdersFromShopify();
         loadBlogsFromShopify();
+        loadCouponsFromShopify();
       } else {
         if (authModal) authModal.style.display = 'flex';
       }
@@ -3071,6 +3232,7 @@ import '../../styles/global.css';
         loadNavigationFromShopify();
         loadOrdersFromShopify();
         loadBlogsFromShopify();
+        loadCouponsFromShopify();
       } else {
         if (authError) authError.style.display = 'block';
         authInput.value = '';
@@ -3083,19 +3245,21 @@ import '../../styles/global.css';
       window.location.reload();
     });
 
-    // 2. Main Mode Switching (5 Modes: Catalog, Editor, Navigation, Orders, Blogs)
-    function switchMode(mode: 'catalog' | 'editor' | 'navigation' | 'orders' | 'blogs') {
+    // 2. Main Mode Switching (6 Modes: Catalog, Editor, Navigation, Orders, Blogs, Coupons)
+    function switchMode(mode: 'catalog' | 'editor' | 'navigation' | 'orders' | 'blogs' | 'coupons') {
       if (viewCatalog) viewCatalog.style.display = 'none';
       if (viewEditor) viewEditor.classList.remove('active');
       if (viewNavigation) viewNavigation.classList.remove('active');
       if (viewOrders) viewOrders.style.display = 'none';
       if (viewBlogs) viewBlogs.style.display = 'none';
+      if (viewCoupons) viewCoupons.style.display = 'none';
 
       tabCatalogBtn?.classList.remove('active');
       tabCreateBtn?.classList.remove('active');
       tabNavBtn?.classList.remove('active');
       tabOrdersBtn?.classList.remove('active');
       tabBlogsBtn?.classList.remove('active');
+      tabCouponsBtn?.classList.remove('active');
 
       if (mode === 'catalog') {
         if (viewCatalog) viewCatalog.style.display = 'block';
@@ -3115,6 +3279,10 @@ import '../../styles/global.css';
         if (viewBlogs) viewBlogs.style.display = 'block';
         tabBlogsBtn?.classList.add('active');
         renderBlogsTable();
+      } else if (mode === 'coupons') {
+        if (viewCoupons) viewCoupons.style.display = 'block';
+        tabCouponsBtn?.classList.add('active');
+        renderCouponsTable();
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -3133,6 +3301,7 @@ import '../../styles/global.css';
     tabNavBtn?.addEventListener('click', () => switchMode('navigation'));
     tabOrdersBtn?.addEventListener('click', () => switchMode('orders'));
     tabBlogsBtn?.addEventListener('click', () => switchMode('blogs'));
+    tabCouponsBtn?.addEventListener('click', () => switchMode('coupons'));
 
     // 3. Sub-Tab Switching inside Editor
     function switchSubTab(targetId: string) {
@@ -5130,6 +5299,193 @@ Official Store: https://skynodesuav.in`;
         showToast('Network error deleting article', true);
       }
     }
+
+    // ==========================================
+    // 7. PROMO COUPONS CONTROLLER & MANAGEMENT
+    // ==========================================
+    async function loadCouponsFromShopify() {
+      try {
+        const res = await fetch('/api/admin/coupons');
+        const data = await res.json();
+        if (data.success && data.settings) {
+          couponsSettingsState = data.settings;
+          renderCouponsTable();
+        }
+      } catch (err) {
+        console.error('[loadCouponsFromShopify error]', err);
+      }
+    }
+
+    function renderCouponsTable() {
+      if (couponMasterToggle) couponMasterToggle.checked = Boolean(couponsSettingsState.enabled);
+      if (couponMasterStatusBadge) {
+        if (couponsSettingsState.enabled) {
+          couponMasterStatusBadge.className = 'badge-status-pill badge-active';
+          couponMasterStatusBadge.textContent = 'ACTIVE AT CHECKOUT';
+        } else {
+          couponMasterStatusBadge.className = 'badge-status-pill badge-draft';
+          couponMasterStatusBadge.textContent = 'DISABLED BY CLIENT';
+        }
+      }
+
+      if (!couponsTbody) return;
+      if (!couponsSettingsState.coupons || couponsSettingsState.coupons.length === 0) {
+        couponsTbody.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align: center; padding: 3rem; color: #64748b;">
+              No promo coupons configured yet. Click "+ Create New Coupon" to add discount codes.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      couponsTbody.innerHTML = couponsSettingsState.coupons.map((c, idx) => `
+        <tr>
+          <td>
+            <strong style="color: #0f172a; font-family: monospace; font-size: 0.95rem; background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid #e2e8f0;">
+              ${c.code}
+            </strong>
+          </td>
+          <td>
+            <span style="font-size: 0.8rem; font-weight: 600; color: #475569;">
+              ${c.type === 'percent' ? 'Percentage (% OFF)' : 'Flat Cash (₹ OFF)'}
+            </span>
+          </td>
+          <td>
+            <strong style="color: #059669; font-size: 0.92rem;">
+              ${c.type === 'percent' ? `${c.value}%` : `₹${Number(c.value).toLocaleString('en-IN')}`}
+            </strong>
+          </td>
+          <td>
+            <span style="font-size: 0.82rem; color: #334155;">
+              ₹${Number(c.minOrder || 0).toLocaleString('en-IN')}
+            </span>
+          </td>
+          <td>
+            <span style="font-size: 0.8rem; color: #64748b;">
+              ${c.description || '—'}
+            </span>
+          </td>
+          <td>
+            <button type="button" class="btn-toggle-coupon-status" data-idx="${idx}" style="cursor: pointer; background: none; border: none; padding: 0;">
+              ${c.isActive !== false 
+                ? `<span class="badge-status-pill badge-active" style="cursor:pointer;">Active</span>` 
+                : `<span class="badge-status-pill badge-draft" style="cursor:pointer;">Paused</span>`}
+            </button>
+          </td>
+          <td style="text-align: right; padding-right: 1.15rem !important;">
+            <button type="button" class="btn-table-action btn-action-delete btn-delete-coupon" data-idx="${idx}" title="Delete coupon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+
+      couponsTbody.querySelectorAll('.btn-toggle-coupon-status').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          const idx = Number((e.currentTarget as HTMLElement).getAttribute('data-idx'));
+          if (couponsSettingsState.coupons[idx]) {
+            couponsSettingsState.coupons[idx].isActive = !couponsSettingsState.coupons[idx].isActive;
+            renderCouponsTable();
+            await saveCouponsToShopify();
+          }
+        });
+      });
+
+      couponsTbody.querySelectorAll('.btn-delete-coupon').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          const idx = Number((e.currentTarget as HTMLElement).getAttribute('data-idx'));
+          const code = couponsSettingsState.coupons[idx]?.code;
+          if (confirm(`Are you sure you want to delete promo coupon "${code}"?`)) {
+            couponsSettingsState.coupons.splice(idx, 1);
+            renderCouponsTable();
+            await saveCouponsToShopify();
+            showToast(`Coupon "${code}" deleted successfully.`);
+          }
+        });
+      });
+    }
+
+    async function saveCouponsToShopify() {
+      if (btnSaveCouponsMaster) {
+        btnSaveCouponsMaster.disabled = true;
+        btnSaveCouponsMaster.innerHTML = `<span class="spin-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></span><span>Saving...</span>`;
+      }
+      try {
+        couponsSettingsState.enabled = couponMasterToggle ? couponMasterToggle.checked : false;
+        const res = await fetch('/api/admin/coupons', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(couponsSettingsState)
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast(data.message || 'Coupons configuration saved successfully!');
+        } else {
+          showToast(data.error || 'Failed to save coupons', true);
+        }
+      } catch (e) {
+        showToast('Network error saving coupons', true);
+      } finally {
+        if (btnSaveCouponsMaster) {
+          btnSaveCouponsMaster.disabled = false;
+          btnSaveCouponsMaster.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg><span>Save to Store</span>`;
+        }
+      }
+    }
+
+    couponMasterToggle?.addEventListener('change', async () => {
+      couponsSettingsState.enabled = couponMasterToggle.checked;
+      renderCouponsTable();
+      await saveCouponsToShopify();
+      showToast(couponsSettingsState.enabled ? 'Promo coupons enabled at checkout!' : 'Promo coupons hidden from checkout.');
+    });
+
+    btnRefreshCoupons?.addEventListener('click', () => {
+      showToast('Refreshing promo coupons...');
+      loadCouponsFromShopify();
+    });
+
+    btnSaveCouponsMaster?.addEventListener('click', saveCouponsToShopify);
+
+    btnTriggerNewCoupon?.addEventListener('click', () => {
+      (document.getElementById('coupon-f-code') as HTMLInputElement).value = '';
+      (document.getElementById('coupon-f-value') as HTMLInputElement).value = '';
+      (document.getElementById('coupon-f-min') as HTMLInputElement).value = '0';
+      (document.getElementById('coupon-f-desc') as HTMLInputElement).value = '';
+      if (couponEditorModal) couponEditorModal.style.display = 'flex';
+    });
+
+    btnCloseCouponModal?.addEventListener('click', () => { if (couponEditorModal) couponEditorModal.style.display = 'none'; });
+    btnCancelCouponModal?.addEventListener('click', () => { if (couponEditorModal) couponEditorModal.style.display = 'none'; });
+
+    btnSaveCouponItem?.addEventListener('click', async () => {
+      const code = (document.getElementById('coupon-f-code') as HTMLInputElement).value.trim().toUpperCase();
+      const type = (document.getElementById('coupon-f-type') as HTMLSelectElement).value;
+      const value = Number((document.getElementById('coupon-f-value') as HTMLInputElement).value);
+      const minOrder = Number((document.getElementById('coupon-f-min') as HTMLInputElement).value) || 0;
+      const desc = (document.getElementById('coupon-f-desc') as HTMLInputElement).value.trim();
+
+      if (!code || !value || value <= 0) {
+        showToast('Please enter a valid coupon code and discount value', true);
+        return;
+      }
+
+      couponsSettingsState.coupons.push({
+        code,
+        type: type === 'percent' ? 'percent' : 'flat',
+        value,
+        minOrder,
+        description: desc,
+        isActive: true
+      });
+
+      if (couponEditorModal) couponEditorModal.style.display = 'none';
+      renderCouponsTable();
+      await saveCouponsToShopify();
+      showToast(`Coupon "${code}" added and saved successfully!`);
+    });
 
     // Initial Auth Check
     checkAuth();

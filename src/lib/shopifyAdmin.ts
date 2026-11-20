@@ -1223,5 +1223,119 @@ export async function saveStoreNavigation(items: StoreNavItem[]): Promise<{ succ
   }
 }
 
+// ----------------------------------------------------
+// DYNAMIC PROMO COUPONS MANAGEMENT (SHOPIFY METAFIELDS)
+// ----------------------------------------------------
+export interface StoreCoupon {
+  code: string;
+  type: 'flat' | 'percent';
+  value: number;
+  minOrder: number;
+  description?: string;
+  isActive: boolean;
+}
+
+export interface CouponSettings {
+  enabled: boolean;
+  coupons: StoreCoupon[];
+}
+
+export const DEFAULT_COUPON_SETTINGS: CouponSettings = {
+  enabled: false, // Default false as per user requirement
+  coupons: [
+    {
+      code: 'SKY80',
+      type: 'flat',
+      value: 80,
+      minOrder: 499,
+      description: '₹80 OFF on orders above ₹499',
+      isActive: true
+    },
+    {
+      code: 'PILOT10',
+      type: 'percent',
+      value: 10,
+      minOrder: 999,
+      description: '10% OFF on orders above ₹999',
+      isActive: true
+    }
+  ]
+};
+
+export async function getStoreCoupons(): Promise<CouponSettings> {
+  try {
+    const res = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/metafields.json?namespace=skynodes_system`, {
+      headers: {
+        'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN,
+        'Content-Type': 'application/json'
+      }
+    });
+    if (!res.ok) throw new Error(`Shopify API error: ${res.status}`);
+    const data = await res.json();
+    const found = data.metafields?.find((m: any) => m.key === 'store_coupons');
+    if (found && found.value) {
+      const parsed = JSON.parse(found.value);
+      if (typeof parsed === 'object') {
+        return {
+          enabled: Boolean(parsed.enabled),
+          coupons: Array.isArray(parsed.coupons) ? parsed.coupons : []
+        };
+      }
+    }
+  } catch (err) {
+    console.warn('[Shopify Admin] Failed to fetch coupons metafield, using default:', err);
+  }
+  return DEFAULT_COUPON_SETTINGS;
+}
+
+export async function saveStoreCoupons(settings: CouponSettings): Promise<{ success: boolean; error?: string }> {
+  try {
+    const listRes = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/metafields.json?namespace=skynodes_system`, {
+      headers: { 'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN }
+    });
+    const listData = await listRes.json();
+    const existing = listData.metafields?.find((m: any) => m.key === 'store_coupons');
+
+    if (existing && existing.id) {
+      const putRes = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/metafields/${existing.id}.json`, {
+        method: 'PUT',
+        headers: {
+          'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          metafield: {
+            id: existing.id,
+            value: JSON.stringify(settings)
+          }
+        })
+      });
+      if (!putRes.ok) throw new Error(`Shopify PUT error: ${putRes.status}`);
+      return { success: true };
+    } else {
+      const postRes = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/metafields.json`, {
+        method: 'POST',
+        headers: {
+          'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          metafield: {
+            namespace: 'skynodes_system',
+            key: 'store_coupons',
+            value: JSON.stringify(settings),
+            type: 'json'
+          }
+        })
+      });
+      if (!postRes.ok) throw new Error(`Shopify POST error: ${postRes.status}`);
+      return { success: true };
+    }
+  } catch (err: any) {
+    console.error('[saveStoreCoupons Exception]', err);
+    return { success: false, error: err.message };
+  }
+}
+
 
 

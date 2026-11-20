@@ -21,21 +21,41 @@
 
         <div class="modal-feature-cards">
           <div class="modal-feat-card">
-            <div class="star-icon">⚡</div>
-            <div class="feat-title">Fast Express Shipping</div>
-            <div class="feat-desc">24h dispatch across India</div>
+            <div class="feat-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.3c.4-.2.6-.6.5-1.1z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="feat-title">Fast Express Shipping</div>
+              <div class="feat-desc">Priority 24h dispatch across India</div>
+            </div>
           </div>
 
           <div class="modal-feat-card">
-            <div class="star-icon">🔒</div>
-            <div class="feat-title">Shopify Secure Gateway</div>
-            <div class="feat-desc">Direct 100% encrypted checkout</div>
+            <div class="feat-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="M9 12l2 2 4-4"/>
+              </svg>
+            </div>
+            <div>
+              <div class="feat-title">Shopify Secure Gateway</div>
+              <div class="feat-desc">256-bit SSL encrypted transactions</div>
+            </div>
           </div>
 
           <div class="modal-feat-card">
-            <div class="star-icon">🏅</div>
-            <div class="feat-title">Official Pilot Rewards</div>
-            <div class="feat-desc">Earn points on every order</div>
+            <div class="feat-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="6"/>
+                <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
+              </svg>
+            </div>
+            <div>
+              <div class="feat-title">Official Pilot Club Rewards</div>
+              <div class="feat-desc">Priority flight support & pilot discounts</div>
+            </div>
           </div>
         </div>
       </div>
@@ -240,14 +260,15 @@
 
   .login-modal-box {
     position: relative;
-    background: #000000;
-    border-radius: 14px;
-    width: 840px;
+    background: #090d16;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    width: 860px;
     max-width: 95vw;
     max-height: 90vh;
     overflow-y: auto;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    transform: translateY(20px) scale(0.95);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(245, 158, 11, 0.05);
+    transform: translateY(20px) scale(0.96);
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .login-modal-overlay.is-active .login-modal-box {
@@ -256,18 +277,28 @@
 
   .modal-close-btn {
     position: absolute;
-    top: 1rem;
+    top: 1.1rem;
     right: 1.25rem;
     z-index: 10;
-    background: transparent;
-    border: none;
-    color: #888888;
-    font-size: 1.4rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
     cursor: pointer;
     line-height: 1;
-    transition: color 0.2s;
+    transition: all 0.2s;
   }
-  .modal-close-btn:hover { color: #ffffff; }
+  .modal-close-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: #ef4444;
+    color: #ef4444;
+  }
 
   .login-modal-grid {
     display: grid;
@@ -275,13 +306,13 @@
   }
 
   .modal-left-col {
-    background: #000000;
+    background: linear-gradient(165deg, #070a12 0%, #0d121f 100%);
     color: #ffffff;
     padding: 3rem 2.25rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border-right: 1px solid #1f1f1f;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .brand-header-wrap {
@@ -299,43 +330,64 @@
   }
   .powered-tag {
     font-size: 0.65rem;
-    background: rgba(255, 255, 255, 0.15);
-    color: #eab308;
-    padding: 0.2rem 0.5rem;
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    color: #f59e0b;
+    padding: 0.2rem 0.55rem;
     border-radius: 4px;
     font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
 
   .modal-left-headline {
     font-family: var(--font-display);
-    font-size: 1.4rem;
+    font-size: 1.45rem;
     font-weight: 800;
     line-height: 1.25;
     margin-bottom: 2.5rem;
-    color: #ffffff;
+    color: #f8fafc;
   }
 
   .modal-feature-cards {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.9rem;
+  }
+  .feat-icon-box {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
   }
   .modal-feat-card {
-    border: 1px solid #2a2a2a;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 10px;
     padding: 0.85rem 1.15rem;
     background: rgba(255, 255, 255, 0.03);
     text-align: left;
+    transition: border-color 0.2s, background 0.2s;
   }
-  .star-icon { font-size: 1.1rem; margin-bottom: 0.2rem; }
+  .modal-feat-card:hover {
+    border-color: rgba(245, 158, 11, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+  }
   .feat-title { font-size: 0.85rem; font-weight: 800; color: #ffffff; }
-  .feat-desc { font-size: 0.72rem; color: #888888; margin-top: 0.1rem; }
+  .feat-desc { font-size: 0.72rem; color: #94a3b8; margin-top: 0.1rem; }
 
-  /* Right Column (White #ffffff) */
+  /* Right Column (Unified Dark Aerospace) */
   .modal-right-col {
-    background: #ffffff;
-    color: #1a1a1a;
-    padding: 2.5rem 2.25rem;
+    background: #0c101c;
+    color: #f8fafc;
+    padding: 2.75rem 2.25rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -344,8 +396,8 @@
   /* Auth Mode Tabs Header */
   .auth-tabs-header {
     display: flex;
-    gap: 1rem;
-    border-bottom: 2px solid #f0f0f0;
+    gap: 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     margin-bottom: 1.75rem;
   }
   .auth-tab-btn {
@@ -354,23 +406,28 @@
     font-family: var(--font-display);
     font-size: 1.05rem;
     font-weight: 700;
-    color: #888888;
-    padding-bottom: 0.5rem;
+    color: #64748b;
+    padding-bottom: 0.65rem;
     cursor: pointer;
-    transition: color 0.2s, border-color 0.2s;
+    transition: color 0.2s;
     position: relative;
+    letter-spacing: 0.03em;
+  }
+  .auth-tab-btn:hover {
+    color: #94a3b8;
   }
   .auth-tab-btn.active {
-    color: #000000;
+    color: #f59e0b;
   }
   .auth-tab-btn.active::after {
     content: '';
     position: absolute;
-    bottom: -2px;
+    bottom: -1px;
     left: 0;
     width: 100%;
     height: 3px;
-    background: #000000;
+    background: linear-gradient(90deg, #f59e0b, #fbbf24);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
     border-radius: 2px;
   }
 
@@ -386,7 +443,7 @@
   .form-input-group {
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
+    gap: 0.4rem;
   }
   .label-row {
     display: flex;
@@ -396,30 +453,39 @@
   .form-label {
     font-size: 0.78rem;
     font-weight: 700;
-    color: #333333;
+    color: #94a3b8;
+    letter-spacing: 0.02em;
   }
   .link-btn {
     background: none;
     border: none;
     font-size: 0.72rem;
-    color: #2563eb;
+    color: #f59e0b;
     font-weight: 700;
     cursor: pointer;
     padding: 0;
+    transition: color 0.2s;
   }
-  .link-btn:hover { text-decoration: underline; }
+  .link-btn:hover { color: #fbbf24; text-decoration: underline; }
 
   .form-input-field {
     width: 100%;
-    padding: 0.75rem 0.85rem;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
+    padding: 0.75rem 0.9rem;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
     font-size: 0.88rem;
+    color: #ffffff;
     outline: none;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+  }
+  .form-input-field::placeholder {
+    color: #475569;
   }
   .form-input-field:focus {
-    border-color: #000000;
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
   }
 
   .google-fast-btn {
@@ -427,41 +493,44 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.6rem;
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
-    padding: 0.75rem;
-    border-radius: 6px;
-    font-size: 0.82rem;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
     font-weight: 700;
-    color: #374151;
+    color: #f1f5f9;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s ease;
   }
-  .google-fast-btn:hover { background: #f3f4f6; }
+  .google-fast-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(245, 158, 11, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
 
-  
   .intl-phone-wrapper {
     display: flex;
     align-items: stretch;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
     overflow: hidden;
-    background: #ffffff;
+    background: rgba(15, 23, 42, 0.7);
     transition: border-color 0.2s, box-shadow 0.2s;
   }
   .intl-phone-wrapper:focus-within {
-    border-color: #000000;
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08);
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
   }
   .country-code-picker {
-    background: #f9fafb;
+    background: #0f172a;
     border: none;
-    border-right: 1px solid #e5e7eb;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
     padding: 0.65rem 0.5rem;
     font-size: 0.82rem;
     font-weight: 700;
-    color: #1f2937;
+    color: #cbd5e1;
     outline: none;
     cursor: pointer;
     max-width: 140px;
@@ -472,31 +541,35 @@
     border-radius: 0 !important;
     box-shadow: none !important;
     padding: 0.65rem 0.75rem !important;
-    outline: none !important;
+    background: transparent !important;
   }
 
   .modal-submit-btn {
     width: 100%;
-    background: #000000;
-    color: #ffffff;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: #000000;
     font-weight: 800;
     font-size: 0.9rem;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     padding: 0.85rem;
-    border-radius: 6px;
+    border-radius: 8px;
     border: none;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(245, 158, 11, 0.25);
+    text-transform: uppercase;
   }
   .modal-submit-btn:hover {
-    background: #222222;
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+    transform: translateY(-1px);
   }
 
   .auth-sub-heading {
     font-family: var(--font-display);
     font-size: 1.15rem;
     font-weight: 800;
-    color: #111111;
+    color: #ffffff;
     margin: 0 0 0.25rem 0;
   }
   .forgot-step-box {
@@ -506,7 +579,7 @@
   }
   .forgot-instructions {
     font-size: 0.82rem;
-    color: #555555;
+    color: #94a3b8;
     line-height: 1.5;
   }
   .auth-divider {
@@ -519,30 +592,30 @@
   .auth-divider::after {
     content: '';
     flex: 1;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
   .auth-divider span {
     padding: 0 0.75rem;
     font-size: 0.68rem;
-    color: #9ca3af;
+    color: #64748b;
     font-weight: 700;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
   }
 
   .primary-google-btn {
     width: 100%;
-    background: #ffffff;
-    border: 1.5px solid #d1d5db;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     padding: 0.85rem;
     font-size: 0.88rem;
     transition: all 0.2s ease;
   }
   .primary-google-btn:hover {
-    background: #f9fafb;
-    border-color: #000000;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(245, 158, 11, 0.4);
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
   }
 
   .forgot-hero-card {
@@ -554,45 +627,35 @@
     gap: 0.75rem;
   }
   .forgot-key-icon {
-    width: 60px;
-    height: 60px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
-    background: #eff6ff;
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.25);
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 0.25rem;
   }
-  .hero-google-btn {
-    width: 100%;
-    background: #000000;
-    color: #ffffff;
-    border: none;
-    padding: 0.95rem;
-    font-size: 0.92rem;
-    font-weight: 800;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-  .hero-google-btn:hover {
-    background: #222222;
-    transform: translateY(-1px);
+  .forgot-key-icon svg {
+    stroke: #f59e0b;
   }
   .forgot-support-box {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 8px;
     padding: 0.75rem 0.9rem;
     width: 100%;
     box-sizing: border-box;
     text-align: center;
     font-size: 0.76rem;
-    color: #475569;
+    color: #94a3b8;
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
   }
   .forgot-wa-link {
-    color: #16a34a;
+    color: #22c55e;
     font-weight: 700;
     text-decoration: none;
     font-size: 0.82rem;
@@ -601,9 +664,9 @@
     text-decoration: underline;
   }
   .error-alert-box {
-    background: #fef2f2;
-    border: 1px solid #ef4444;
-    color: #b91c1c;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
     font-size: 0.8rem;
     font-weight: 600;
     padding: 0.65rem 0.85rem;
@@ -611,9 +674,9 @@
     line-height: 1.4;
   }
   .success-alert-box {
-    background: #ecfdf5;
-    border: 1px solid #10b981;
-    color: #065f46;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #6ee7b7;
     font-size: 0.82rem;
     font-weight: 700;
     padding: 0.75rem;
@@ -626,22 +689,29 @@
     border: none;
     font-size: 0.8rem;
     font-weight: 700;
-    color: #111111;
+    color: #94a3b8;
     cursor: pointer;
     text-align: center;
     margin-top: 0.5rem;
+    transition: color 0.2s;
+  }
+  .back-to-login-btn:hover {
+    color: #f59e0b;
   }
 
   .modal-terms-footnote {
     font-size: 0.72rem;
-    color: #9ca3af;
+    color: #64748b;
     text-align: center;
     margin-top: 1.5rem;
     line-height: 1.4;
   }
   .modal-terms-footnote a {
-    color: #6b7280;
+    color: #94a3b8;
     text-decoration: underline;
+  }
+  .modal-terms-footnote a:hover {
+    color: #f59e0b;
   }
 
   @media (max-width: 768px) {

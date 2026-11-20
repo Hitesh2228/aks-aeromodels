@@ -5,7 +5,7 @@ import { PRODUCTS } from '../data/products';
 
 <BaseLayout 
   title="Checkout & Payment | SKYNODESUAV" 
-  description="Complete your order with 100% SSL payment security. Support UPI, Credit/Debit Cards, NetBanking, and Cash on Delivery."
+  description="Complete your order with 100% SSL payment security. Support UPI, Credit/Debit Cards, and NetBanking."
   bodyClass="bellavita-page-body"
 >
   <script is:inline src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -20,6 +20,38 @@ import { PRODUCTS } from '../data/products';
         
         <!-- Balsa Wood Minimum Order Quantity Alert Container -->
         <div id="checkout-balsa-moq-alert" style="display: none;"></div>
+
+        <!-- Pilot Authentication Status Gate Banner -->
+        <div id="checkout-auth-gate-banner" class="checkout-auth-banner-box">
+          <div class="auth-banner-inner">
+            <div class="auth-banner-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </div>
+            <div class="auth-banner-text">
+              <strong>Pilot Account Authentication Required</strong>
+              <span>Please sign in or register to complete your order, track priority dispatch, and get your GST tax invoice.</span>
+            </div>
+          </div>
+          <button type="button" id="btn-checkout-login-trigger" class="btn-checkout-auth-action">
+            SIGN IN / REGISTER AS PILOT ➔
+          </button>
+        </div>
+
+        <div id="checkout-auth-logged-banner" class="checkout-logged-banner-box" style="display: none;">
+          <div class="logged-banner-inner">
+            <div class="logged-badge-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div>
+              <span class="logged-badge-tag">AUTHENTICATED PILOT</span>
+              <strong id="checkout-pilot-info-display" class="logged-pilot-name">Capt. Pilot</strong>
+            </div>
+          </div>
+          <button type="button" id="btn-checkout-switch-account" class="btn-switch-account-link">Switch Account</button>
+        </div>
 
         <!-- Step 1: Shipping Address & B2B GST Info -->
         <section class="checkout-card glass-panel">
@@ -145,14 +177,6 @@ import { PRODUCTS } from '../data/products';
                 <small>Direct Bank Transfer</small>
               </div>
             </label>
-
-            <label class="pay-option-card">
-              <input type="radio" name="pay-method" value="cod" />
-              <div class="pay-content">
-                <strong>💵 Cash on Delivery (COD)</strong>
-                <small>Pay cash upon delivery at your doorstep</small>
-              </div>
-            </label>
           </div>
 
           <button id="place-order-btn" class="btn-primary btn-place-order" style="margin-top: 2rem; width: 100%;">
@@ -178,20 +202,32 @@ import { PRODUCTS } from '../data/products';
             <!-- Hydrated by JS -->
           </div>
 
-          <!-- Promo Coupon Code Box -->
-          <div class="promo-coupon-box">
-            <div class="promo-title-line">🏷️ HAVE A PROMO CODE / COUPON?</div>
-            <div class="promo-input-group">
-              <input type="text" id="coupon-code-input" placeholder="e.g. SKY80 or PILOT10" class="promo-code-input" />
+          <!-- Promo Coupon Code Box (Manageable via /admin) -->
+          <div class="promo-coupon-box" id="promo-coupon-box" style="display: none;">
+            <div class="promo-title-line">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+              <span>HAVE A PROMO CODE / COUPON?</span>
+            </div>
+
+            <div class="promo-input-group" id="promo-input-group">
+              <input type="text" id="coupon-code-input" placeholder="Enter coupon code" class="promo-code-input" />
               <button type="button" id="apply-coupon-btn" class="btn-apply-coupon">APPLY</button>
             </div>
-            
-            <div class="suggested-coupons-wrap" style="margin-top: 0.6rem;">
-              <span style="font-size: 0.68rem; color: #666; font-weight: 600;">Click to apply:</span>
-              <div class="suggested-coupon-pills">
-                <button type="button" class="coupon-chip-btn" data-code="SKY80">SKY80 (₹80 OFF on ₹499+)</button>
-                <button type="button" class="coupon-chip-btn" data-code="PILOT10">PILOT10 (10% OFF on ₹999+)</button>
+
+            <!-- Applied Coupon Active Pill with REMOVE button -->
+            <div id="applied-coupon-pill-wrap" class="applied-coupon-pill-wrap" style="display: none;">
+              <div class="applied-coupon-pill">
+                <span class="pill-tag-icon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                <span class="pill-code-text" id="applied-coupon-pill-text">SKY80 Applied</span>
+                <button type="button" id="btn-remove-coupon" class="btn-remove-coupon" title="Remove coupon discount">✕ REMOVE</button>
               </div>
+            </div>
+            
+            <div class="suggested-coupons-wrap" id="suggested-coupons-wrap" style="display: none; margin-top: 0.6rem;">
+              <span style="font-size: 0.68rem; color: #666; font-weight: 600;">Available pilot offers:</span>
+              <div class="suggested-coupon-pills" id="suggested-coupon-pills"></div>
             </div>
 
             <div id="coupon-discount-notice" class="coupon-notice-badge" style="display: none;"></div>
@@ -257,10 +293,6 @@ import { PRODUCTS } from '../data/products';
                 </div>
               </div>
             </div>
-          </div>
-
-          <div class="guarantee-box" style="margin-top: 1.5rem; font-size: 0.75rem; color: #666; background: #fdf8f4; padding: 0.75rem; border-radius: 4px; border: 1px solid #f3e5d8;">
-            🛡️ <strong>100% Transit Protection:</strong> If any part arrives damaged, we replace it instantly for free.
           </div>
         </div>
       </aside>
@@ -638,12 +670,171 @@ import { PRODUCTS } from '../data/products';
       border: 1px solid #fecaca;
     }
 
+    /* Pilot Auth Gate Banners */
+    .checkout-auth-banner-box {
+      background: #0d121f;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      border-radius: 10px;
+      padding: 1.1rem 1.4rem;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.25rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+    .auth-banner-inner {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .auth-banner-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .auth-banner-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .auth-banner-text strong {
+      color: #ffffff;
+      font-size: 0.95rem;
+      letter-spacing: 0.01em;
+    }
+    .auth-banner-text span {
+      color: #94a3b8;
+      font-size: 0.8rem;
+      line-height: 1.4;
+    }
+    .btn-checkout-auth-action {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: #000000;
+      font-weight: 800;
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+      border: none;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      box-shadow: 0 2px 10px rgba(245, 158, 11, 0.25);
+    }
+    .btn-checkout-auth-action:hover {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      transform: translateY(-1px);
+    }
+
+    .checkout-logged-banner-box {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 10px;
+      padding: 0.85rem 1.25rem;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+    .logged-banner-inner {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .logged-badge-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #dcfce7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logged-badge-tag {
+      display: block;
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: #166534;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .logged-pilot-name {
+      font-size: 0.92rem;
+      color: #14532d;
+    }
+    .btn-switch-account-link {
+      background: none;
+      border: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #166534;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* Applied Coupon Pill */
+    .applied-coupon-pill-wrap {
+      margin-top: 0.5rem;
+    }
+    .applied-coupon-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-radius: 8px;
+      padding: 0.6rem 0.85rem;
+    }
+    .pill-tag-icon {
+      display: flex;
+      align-items: center;
+      color: #059669;
+      margin-right: 0.4rem;
+    }
+    .pill-code-text {
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: #065f46;
+      flex: 1;
+    }
+    .btn-remove-coupon {
+      background: #fee2e2;
+      border: 1px solid #fca5a5;
+      color: #b91c1c;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-remove-coupon:hover {
+      background: #fecaca;
+    }
+
     @media (max-width: 900px) {
       .checkout-layout {
         grid-template-columns: 1fr;
       }
       .form-row-2, .form-row-3 {
         grid-template-columns: 1fr;
+      }
+      .checkout-auth-banner-box {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .btn-checkout-auth-action {
+        width: 100%;
+        text-align: center;
       }
     }
   </style>
@@ -770,14 +961,21 @@ import { PRODUCTS } from '../data/products';
 
       let appliedDiscountAmount = 0;
       let appliedCouponCode = '';
+      let storeCouponSettings: any = null;
 
+      const promoCouponBox = document.getElementById('promo-coupon-box');
+      const promoInputGroup = document.getElementById('promo-input-group');
       const couponInput = document.getElementById('coupon-code-input') as HTMLInputElement;
       const applyCouponBtn = document.getElementById('apply-coupon-btn');
       const couponNotice = document.getElementById('coupon-discount-notice');
       const couponDiscountRow = document.getElementById('coupon-discount-row');
       const couponDiscountEl = document.getElementById('chk-coupon-discount');
       const couponLabelEl = document.getElementById('chk-coupon-label');
-      const chipBtns = document.querySelectorAll('.coupon-chip-btn');
+      const appliedCouponPillWrap = document.getElementById('applied-coupon-pill-wrap');
+      const appliedCouponPillText = document.getElementById('applied-coupon-pill-text');
+      const btnRemoveCoupon = document.getElementById('btn-remove-coupon');
+      const suggestedWrap = document.getElementById('suggested-coupons-wrap');
+      const suggestedPills = document.getElementById('suggested-coupon-pills');
 
       function getSelectedPaymentMethod(): string {
         const checked = document.querySelector('input[name="pay-method"]:checked') as HTMLInputElement | null;
@@ -988,56 +1186,71 @@ import { PRODUCTS } from '../data/products';
         });
       });
 
+      function removeCoupon() {
+        appliedDiscountAmount = 0;
+        appliedCouponCode = '';
+        if (couponInput) couponInput.value = '';
+        if (appliedCouponPillWrap) appliedCouponPillWrap.style.display = 'none';
+        if (promoInputGroup) promoInputGroup.style.display = 'flex';
+        if (couponNotice) {
+          couponNotice.style.display = 'none';
+          couponNotice.textContent = '';
+        }
+        updateTotalsWithDiscount();
+      }
+
       function applyCoupon(code: string) {
         const cleanCode = code.trim().toUpperCase();
-        if (!cleanCode) return;
+        if (!cleanCode) {
+          removeCoupon();
+          return;
+        }
 
-        if (cleanCode === 'SKY80') {
-          const MIN_ORDER = 499;
-          if (rawSubtotal < MIN_ORDER) {
-            appliedDiscountAmount = 0;
-            appliedCouponCode = '';
-            if (couponNotice) {
-              couponNotice.style.display = 'block';
-              couponNotice.className = 'coupon-notice-badge error';
-              couponNotice.textContent = `⚠️ Coupon SKY80 is valid on orders above ₹${MIN_ORDER}. (Add ₹${(MIN_ORDER - rawSubtotal).toLocaleString('en-IN')} more to apply).`;
-            }
-          } else {
-            appliedDiscountAmount = 80;
-            appliedCouponCode = 'SKY80';
-            if (couponNotice) {
-              couponNotice.style.display = 'block';
-              couponNotice.className = 'coupon-notice-badge success';
-              couponNotice.textContent = '🎉 Coupon SKY80 Applied! ₹80 Instant Discount Granted.';
-            }
-          }
-        } else if (cleanCode === 'PILOT10') {
-          const MIN_ORDER = 999;
-          if (rawSubtotal < MIN_ORDER) {
-            appliedDiscountAmount = 0;
-            appliedCouponCode = '';
-            if (couponNotice) {
-              couponNotice.style.display = 'block';
-              couponNotice.className = 'coupon-notice-badge error';
-              couponNotice.textContent = `⚠️ Coupon PILOT10 is valid on orders above ₹${MIN_ORDER}. (Add ₹${(MIN_ORDER - rawSubtotal).toLocaleString('en-IN')} more to apply).`;
-            }
-          } else {
-            appliedDiscountAmount = Math.round(rawSubtotal * 0.10);
-            appliedCouponCode = 'PILOT10';
-            if (couponNotice) {
-              couponNotice.style.display = 'block';
-              couponNotice.className = 'coupon-notice-badge success';
-              couponNotice.textContent = `🎉 Coupon PILOT10 Applied! 10% Off (Saved ₹${appliedDiscountAmount.toLocaleString('en-IN')}).`;
-            }
-          }
-        } else {
+        const allCoupons = storeCouponSettings?.coupons || [
+          { code: 'SKY80', type: 'flat', value: 80, minOrder: 499, isActive: true },
+          { code: 'PILOT10', type: 'percent', value: 10, minOrder: 999, isActive: true }
+        ];
+
+        const found = allCoupons.find((c: any) => c.code.toUpperCase() === cleanCode && c.isActive);
+        if (!found) {
           appliedDiscountAmount = 0;
           appliedCouponCode = '';
           if (couponNotice) {
             couponNotice.style.display = 'block';
             couponNotice.className = 'coupon-notice-badge error';
-            couponNotice.textContent = '❌ Invalid Coupon Code. Try SKY80 or PILOT10.';
+            couponNotice.textContent = `❌ Invalid Coupon Code "${cleanCode}".`;
           }
+          if (appliedCouponPillWrap) appliedCouponPillWrap.style.display = 'none';
+          if (promoInputGroup) promoInputGroup.style.display = 'flex';
+          updateTotalsWithDiscount();
+          return;
+        }
+
+        if (rawSubtotal < (found.minOrder || 0)) {
+          appliedDiscountAmount = 0;
+          appliedCouponCode = '';
+          if (couponNotice) {
+            couponNotice.style.display = 'block';
+            couponNotice.className = 'coupon-notice-badge error';
+            couponNotice.textContent = `⚠️ Coupon ${found.code} is valid on orders above ₹${found.minOrder}. (Add ₹${((found.minOrder || 0) - rawSubtotal).toLocaleString('en-IN')} more to apply).`;
+          }
+          if (appliedCouponPillWrap) appliedCouponPillWrap.style.display = 'none';
+          if (promoInputGroup) promoInputGroup.style.display = 'flex';
+        } else {
+          appliedCouponCode = found.code;
+          appliedDiscountAmount = found.type === 'percent'
+            ? Math.round(rawSubtotal * (found.value / 100))
+            : found.value;
+          if (couponNotice) {
+            couponNotice.style.display = 'block';
+            couponNotice.className = 'coupon-notice-badge success';
+            couponNotice.textContent = `🎉 Coupon ${found.code} Applied! Saved ₹${appliedDiscountAmount.toLocaleString('en-IN')}.`;
+          }
+          if (appliedCouponPillWrap && appliedCouponPillText) {
+            appliedCouponPillText.textContent = `${found.code} (-₹${appliedDiscountAmount.toLocaleString('en-IN')} OFF)`;
+            appliedCouponPillWrap.style.display = 'block';
+          }
+          if (promoInputGroup) promoInputGroup.style.display = 'none';
         }
         updateTotalsWithDiscount();
       }
@@ -1046,15 +1259,56 @@ import { PRODUCTS } from '../data/products';
         if (couponInput) applyCoupon(couponInput.value);
       });
 
-      chipBtns.forEach(chip => {
-        chip.addEventListener('click', (e) => {
-          const code = (e.currentTarget as HTMLElement).getAttribute('data-code');
-          if (code) {
-            if (couponInput) couponInput.value = code;
-            applyCoupon(code);
-          }
-        });
+      btnRemoveCoupon?.addEventListener('click', removeCoupon);
+
+      couponInput?.addEventListener('input', () => {
+        if (couponInput.value.trim() === '' && appliedCouponCode) {
+          removeCoupon();
+        }
       });
+
+      // Fetch dynamic coupon settings from /api/admin/coupons
+      async function fetchAndInitCoupons() {
+        try {
+          const res = await fetch('/api/admin/coupons');
+          const data = await res.json();
+          if (data && data.success && data.settings) {
+            storeCouponSettings = data.settings;
+            if (!storeCouponSettings.enabled || !storeCouponSettings.coupons || storeCouponSettings.coupons.length === 0) {
+              if (promoCouponBox) promoCouponBox.style.display = 'none';
+              return;
+            }
+            if (promoCouponBox) promoCouponBox.style.display = 'block';
+            const activeCoupons = storeCouponSettings.coupons.filter((c: any) => c.isActive);
+            if (suggestedWrap && suggestedPills) {
+              if (activeCoupons.length > 0) {
+                suggestedWrap.style.display = 'block';
+                suggestedPills.innerHTML = activeCoupons.map((c: any) => `
+                  <button type="button" class="coupon-chip-btn" data-code="${c.code}">
+                    ${c.code} (${c.type === 'percent' ? `${c.value}% OFF` : `₹${c.value} OFF`} on ₹${c.minOrder}+)
+                  </button>
+                `).join('');
+                suggestedPills.querySelectorAll('.coupon-chip-btn').forEach(btn => {
+                  btn.addEventListener('click', (e) => {
+                    const code = (e.currentTarget as HTMLElement).getAttribute('data-code');
+                    if (code) {
+                      if (couponInput) couponInput.value = code;
+                      applyCoupon(code);
+                    }
+                  });
+                });
+              } else {
+                suggestedWrap.style.display = 'none';
+              }
+            }
+          } else {
+            if (promoCouponBox) promoCouponBox.style.display = 'none';
+          }
+        } catch (err) {
+          if (promoCouponBox) promoCouponBox.style.display = 'none';
+        }
+      }
+      fetchAndInitCoupons();
 
       updateTotalsWithDiscount();
 
@@ -1127,6 +1381,58 @@ import { PRODUCTS } from '../data/products';
         } catch (e) {}
       }
 
+      // Pilot Account Auth Gate Check & Dynamic Autofill
+      const authGateBanner = document.getElementById('checkout-auth-gate-banner');
+      const authLoggedBanner = document.getElementById('checkout-auth-logged-banner');
+      const pilotInfoDisplay = document.getElementById('checkout-pilot-info-display');
+      const btnCheckoutLoginTrigger = document.getElementById('btn-checkout-login-trigger');
+      const btnCheckoutSwitchAccount = document.getElementById('btn-checkout-switch-account');
+
+      function syncCheckoutAuth() {
+        const isLoggedIn = localStorage.getItem('google_auth_logged_in') === 'true';
+        const pilotName = localStorage.getItem('skynodes_pilot_name') || '';
+        const pilotEmail = localStorage.getItem('skynodes_pilot_email') || '';
+        const pilotPhone = localStorage.getItem('skynodes_pilot_phone') || '';
+
+        if (isLoggedIn) {
+          if (authGateBanner) authGateBanner.style.display = 'none';
+          if (authLoggedBanner) authLoggedBanner.style.display = 'flex';
+          if (pilotInfoDisplay) {
+            pilotInfoDisplay.textContent = pilotName 
+              ? `${pilotName} (${pilotEmail || pilotPhone})`
+              : (pilotEmail || pilotPhone || 'Pilot Authenticated');
+          }
+          if (placeOrderBtn) {
+            placeOrderBtn.textContent = 'PROCEED TO SECURE PAYMENT ➔';
+          }
+          // Pre-populate shipping address fields if currently empty
+          const nameInput = document.getElementById('cust-name') as HTMLInputElement;
+          const emailInput = document.getElementById('cust-email') as HTMLInputElement;
+          const phoneInput = document.getElementById('cust-phone') as HTMLInputElement;
+          if (nameInput && !nameInput.value && pilotName) nameInput.value = pilotName;
+          if (emailInput && !emailInput.value && pilotEmail) emailInput.value = pilotEmail;
+          if (phoneInput && !phoneInput.value && pilotPhone) phoneInput.value = pilotPhone.replace(/^\+91[\s-]*/, '');
+        } else {
+          if (authGateBanner) authGateBanner.style.display = 'flex';
+          if (authLoggedBanner) authLoggedBanner.style.display = 'none';
+          if (placeOrderBtn) {
+            placeOrderBtn.textContent = '🔒 SIGN IN AS PILOT TO PAY ➔';
+          }
+        }
+      }
+
+      syncCheckoutAuth();
+
+      btnCheckoutLoginTrigger?.addEventListener('click', () => {
+        window.dispatchEvent(new CustomEvent('open-login-modal'));
+      });
+      btnCheckoutSwitchAccount?.addEventListener('click', () => {
+        window.dispatchEvent(new CustomEvent('open-login-modal'));
+      });
+      window.addEventListener('user-logged-in', () => {
+        syncCheckoutAuth();
+      });
+
       initSavedAddressesOnCheckout();
 
       function appendOrderToHistory(order: any) {
@@ -1162,6 +1468,14 @@ import { PRODUCTS } from '../data/products';
           return;
         }
 
+        // Strictly require verified Pilot Login or Sign-up before proceeding to payment
+        const isLoggedIn = localStorage.getItem('google_auth_logged_in') === 'true';
+        if (!isLoggedIn) {
+          alert('🔐 Pilot Authentication Required!\n\nYou must log in or create a pilot account to secure your aircraft order, GST billing, and priority dispatch tracking.\n\nOpening Pilot Portal...');
+          window.dispatchEvent(new CustomEvent('open-login-modal'));
+          return;
+        }
+
         const name = (document.getElementById('cust-name') as HTMLInputElement)?.value.trim();
         const phone = (document.getElementById('cust-phone') as HTMLInputElement)?.value.trim();
         const email = (document.getElementById('cust-email') as HTMLInputElement)?.value.trim();
@@ -1181,14 +1495,6 @@ import { PRODUCTS } from '../data/products';
 
         if (isB2B && (!companyName || !gstin)) {
           alert('🏢 B2B Invoice Option Selected:\nPlease enter both Company Name and 15-Digit GSTIN Number.');
-          return;
-        }
-
-        // Require Login or Sign-up before final order confirmation
-        const isLoggedIn = localStorage.getItem('google_auth_logged_in') === 'true' || Boolean(email && phone);
-        if (!isLoggedIn) {
-          alert('🔐 Account Login or Sign Up required to complete your order!\n\nOpening Pilot Portal...');
-          window.dispatchEvent(new CustomEvent('open-login-modal'));
           return;
         }
 
@@ -1238,46 +1544,6 @@ import { PRODUCTS } from '../data/products';
           appliedCouponCode,
           appliedDiscountAmount
         };
-
-        if (payMethodVal === 'cod') {
-          placeOrderBtn.setAttribute('disabled', 'true');
-          placeOrderBtn.textContent = '⏳ Recording Order in System...';
-
-          const currentOrder = {
-            ...baseOrder,
-            paymentMethod: 'CASH ON DELIVERY (COD)',
-            status: 'PENDING (COD UPON DELIVERY)',
-            merchant: 'WAY POINT',
-            isPaid: false
-          };
-
-          try {
-            await fetch('/api/create-shopify-order', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(currentOrder)
-            });
-          } catch (e) {
-            console.error('[Shopify Sync Error]', e);
-          }
-
-          try {
-            clearCart();
-            appendOrderToHistory(currentOrder);
-            localStorage.setItem('skynodes_last_order', JSON.stringify(currentOrder));
-            localStorage.removeItem('skynodes_cart_v2');
-            localStorage.removeItem('skynodes_cart');
-            window.dispatchEvent(new CustomEvent('cart-updated', { detail: [] }));
-            if (email) localStorage.setItem('skynodes_pilot_email', email);
-            if (phone) localStorage.setItem('skynodes_pilot_phone', phone);
-            if (name) localStorage.setItem('skynodes_pilot_name', name);
-            if (gstin) localStorage.setItem('skynodes_pilot_gstin', gstin);
-            if (companyName) localStorage.setItem('skynodes_pilot_company', companyName);
-          } catch (err) {}
-
-          window.location.href = '/invoice';
-          return;
-        }
 
         // Online Payment via Razorpay Gateway (Settled to Way Point)
         if (total <= 0) {

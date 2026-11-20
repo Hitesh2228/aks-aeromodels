@@ -146,19 +146,6 @@ Astro.response.headers.set('X-Robots-Tag', 'all');
       <button type="button" id="reset-filter-btn" class="btn-reset">SHOW ALL ARTICLES</button>
     </div>
 
-    <!-- Newsletter / Flight Club Banner -->
-    <section class="blog-newsletter-banner">
-      <div class="newsletter-content">
-        <span class="nl-badge">SKYNODES PILOT COMMUNITY</span>
-        <h3>Stay Ahead in Model Aviation & Technical Tuning</h3>
-        <p>Get master pilot build logs, engine telemetry guides, and exclusive discount drops delivered directly to your inbox.</p>
-        <form class="nl-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing to SKYNODES Flight Dispatch!');">
-          <input type="email" placeholder="Enter your pilot email address..." required class="nl-input" />
-          <button type="submit" class="nl-submit">JOIN DISPATCH ➔</button>
-        </form>
-      </div>
-    </section>
-
   </main>
 
   <CartDrawer />
@@ -500,73 +487,7 @@ Astro.response.headers.set('X-Robots-Tag', 'all');
       cursor: pointer;
     }
 
-    /* Newsletter Banner */
-    .blog-newsletter-banner {
-      background: linear-gradient(135deg, #2b050d 0%, #4a0e17 50%, #31060e 100%);
-      color: #ffffff;
-      padding: 3.5rem 2rem;
-      border-radius: 14px;
-      text-align: center;
-      box-shadow: 0 15px 40px rgba(43, 5, 13, 0.25);
-    }
-    .newsletter-content { max-width: 620px; margin: 0 auto; }
-    .nl-badge {
-      display: inline-block;
-      font-size: 0.7rem;
-      font-weight: 800;
-      color: #eab308;
-      background: rgba(234, 179, 8, 0.15);
-      border: 1px solid rgba(234, 179, 8, 0.3);
-      padding: 0.3rem 0.75rem;
-      border-radius: 999px;
-      margin-bottom: 1rem;
-      letter-spacing: 0.08em;
-    }
-    .newsletter-content h3 {
-      font-family: var(--font-display);
-      font-size: 1.8rem;
-      font-weight: 800;
-      margin-bottom: 0.75rem;
-    }
-    .newsletter-content p {
-      color: #cbd5e1;
-      font-size: 0.92rem;
-      line-height: 1.6;
-      margin-bottom: 1.75rem;
-    }
-    .nl-form {
-      display: flex;
-      gap: 0.5rem;
-      max-width: 480px;
-      margin: 0 auto;
-    }
-    .nl-input {
-      flex: 1;
-      padding: 0.85rem 1.25rem;
-      border-radius: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(255, 255, 255, 0.1);
-      color: #ffffff;
-      font-size: 0.9rem;
-      outline: none;
-    }
-    .nl-input::placeholder { color: #94a3b8; }
-    .nl-submit {
-      background: #eab308;
-      color: #111111;
-      font-weight: 800;
-      padding: 0.85rem 1.5rem;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-      font-size: 0.85rem;
-      letter-spacing: 0.03em;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-    .nl-submit:hover {
-      background: #ffffff;
-    }
+
 
     @media (max-width: 900px) {
       .featured-card {

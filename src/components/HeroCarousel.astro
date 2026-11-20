@@ -204,6 +204,21 @@ const BANNERS = heroTaggedProducts.length > 0
         ))}
       </div>
 
+      <!-- Navigation Arrows -->
+      <button type="button" class="hero-arrow-btn prev" id="hero-prev-btn" aria-label="Previous Slide">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <button type="button" class="hero-arrow-btn next" id="hero-next-btn" aria-label="Next Slide">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+
+      <!-- Dots Indicators -->
+      <div class="hero-dots-row" id="hero-dots-row">
+        {BANNERS.map((_, idx) => (
+          <button type="button" class={`hero-dot-btn ${idx === 0 ? 'active' : ''}`} data-idx={idx} aria-label={`Go to slide ${idx + 1}`}></button>
+        ))}
+      </div>
+
     </div>
 
   </div>
@@ -227,8 +242,67 @@ const BANNERS = heroTaggedProducts.length > 0
     overflow: hidden;
     border-radius: 12px;
   }
-  .hero-nav-arrow, .hero-dots-pagination {
-    display: none !important;
+  .hero-arrow-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  }
+  .hero-arrow-btn:hover {
+    background: #eab308;
+    color: #0b0d13;
+    border-color: #eab308;
+    transform: translateY(-50%) scale(1.08);
+  }
+  .hero-arrow-btn.prev { left: 1rem; }
+  .hero-arrow-btn.next { right: 1rem; }
+
+  .hero-dots-row {
+    position: absolute;
+    bottom: 0.85rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    gap: 0.45rem;
+    align-items: center;
+  }
+  .hero-dot-btn {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.25s ease;
+  }
+  .hero-dot-btn.active {
+    background: #eab308;
+    width: 26px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(234, 179, 8, 0.6);
+  }
+  @media (max-width: 768px) {
+    .hero-arrow-btn {
+      width: 36px;
+      height: 36px;
+    }
+    .hero-arrow-btn.prev { left: 0.35rem; }
+    .hero-arrow-btn.next { right: 0.35rem; }
   }
   .hero-slides-track {
     display: flex;
@@ -487,13 +561,17 @@ const BANNERS = heroTaggedProducts.length > 0
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  function initHeroSlider() {
     const track = document.getElementById('hero-track');
     if (!track) return;
 
     const slides = track.querySelectorAll('.slide-item');
     const totalSlides = slides.length;
     if (totalSlides <= 1) return;
+
+    const prevBtn = document.getElementById('hero-prev-btn');
+    const nextBtn = document.getElementById('hero-next-btn');
+    const dots = document.querySelectorAll('#hero-dots-row .hero-dot-btn');
 
     let currentIndex = 0;
     let autoSlideInterval: any;
@@ -504,18 +582,52 @@ const BANNERS = heroTaggedProducts.length > 0
       currentIndex = index;
 
       track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+      slides.forEach((s, idx) => {
+        if (idx === currentIndex) s.classList.add('active');
+        else s.classList.remove('active');
+      });
+
+      dots.forEach((d, idx) => {
+        if (idx === currentIndex) d.classList.add('active');
+        else d.classList.remove('active');
+      });
     }
 
     function startAutoSlide() {
       if (autoSlideInterval) clearInterval(autoSlideInterval);
       autoSlideInterval = setInterval(() => {
         goToSlide(currentIndex + 1);
-      }, 4500);
+      }, 5000);
     }
 
     function stopAutoSlide() {
       if (autoSlideInterval) clearInterval(autoSlideInterval);
     }
+
+    prevBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      stopAutoSlide();
+      goToSlide(currentIndex - 1);
+      startAutoSlide();
+    });
+
+    nextBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      stopAutoSlide();
+      goToSlide(currentIndex + 1);
+      startAutoSlide();
+    });
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', (e) => {
+        e.preventDefault();
+        stopAutoSlide();
+        const idx = parseInt(dot.getAttribute('data-idx') || '0', 10);
+        goToSlide(idx);
+        startAutoSlide();
+      });
+    });
 
     // Pause on hover
     track.addEventListener('mouseenter', stopAutoSlide);
@@ -532,11 +644,6 @@ const BANNERS = heroTaggedProducts.length > 0
 
     track.addEventListener('touchend', (e: any) => {
       touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
-      startAutoSlide();
-    }, { passive: true });
-
-    function handleSwipe() {
       const diff = touchEndX - touchStartX;
       if (Math.abs(diff) > 40) {
         if (diff < 0) {
@@ -545,8 +652,17 @@ const BANNERS = heroTaggedProducts.length > 0
           goToSlide(currentIndex - 1); // Swipe Right -> Prev
         }
       }
-    }
+      startAutoSlide();
+    }, { passive: true });
 
+    goToSlide(0);
     startAutoSlide();
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeroSlider);
+  } else {
+    initHeroSlider();
+  }
+  document.addEventListener('astro:page-load', initHeroSlider);
 </script>
