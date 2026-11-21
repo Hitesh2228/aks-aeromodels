@@ -2,12 +2,48 @@
 import Header from '../components/Header.astro';
 import CartDrawer from '../components/CartDrawer.astro';
 import Footer from '../components/Footer.astro';
+import MobileBottomNav from '../components/MobileBottomNav.astro';
 import '../styles/global.css';
 import GoogleTagManagerHead from '../components/GoogleTagManagerHead.astro';
 import GoogleTagManagerBody from '../components/GoogleTagManagerBody.astro';
 import FaviconAndSeoHead from '../components/FaviconAndSeoHead.astro';
 
 Astro.response.headers.set('X-Robots-Tag', 'all');
+
+const aboutSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "SKYNODES UAV",
+    "legalName": "SKYNODES UAV",
+    "url": "https://www.skynodesuav.in",
+    "logo": "https://www.skynodesuav.in/favicon-512x512.png",
+    "description": "Authorized Indian distributor and precision aeromodelling specialist for Japanese O.S. Engines, DLE Gas Motors, Seagull Models ARF, Futaba 2.4GHz Telemetry, and AAA Contest Grade Balsa Wood.",
+    "telephone": "+91-7722009120",
+    "email": "support@skynodesuav.in",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Devlali Camp, near HP Petrol Pump",
+      "addressLocality": "Nashik",
+      "addressRegion": "Maharashtra",
+      "postalCode": "422502",
+      "addressCountry": "IN"
+    },
+    "founder": {
+      "@type": "Person",
+      "name": "Hitesh F. Kasture"
+    },
+    "knowsAbout": [
+      "RC Aircraft Engineering",
+      "O.S. Max Nitro Engines",
+      "DLE Petrol Engine Carburetor Tuning",
+      "Futaba S.Bus Telemetry Systems",
+      "Contest Grade AAA Balsa Wood Fabrication",
+      "Unmanned Aerial Vehicle (UAV) Airframe Systems"
+    ]
+  }
+};
 ---
 
 <!DOCTYPE html>
@@ -17,97 +53,349 @@ Astro.response.headers.set('X-Robots-Tag', 'all');
   <FaviconAndSeoHead />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Us | SKYNODESUAV</title>
-  <meta name="description" content="Learn about SKYNODESUAV's history, mission, and commitment to providing world-class RC aviation hardware across India." />
+  <title>About SKYNODES UAV | India's Authorized Aeromodelling & Scale UAV Destination</title>
+  <meta name="description" content="Discover SKYNODES UAV's aviation heritage in Devlali Camp, Nashik. Authorized Indian supplier for O.S. Engines, DLE Gas Motors, Seagull Models ARF, Futaba 2.4GHz radios, and AAA Balsa Wood with GST ITC invoicing." />
   <link rel="canonical" href="https://www.skynodesuav.in/about" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+
+  <!-- OpenGraph Metadata -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="About SKYNODES UAV | India's Authorized Aeromodelling & Scale UAV Destination" />
+  <meta property="og:description" content="Precision RC flight hardware, authorized Japanese & international manufacturer distribution, in-house bench tuning support, and 100% rigid transit guarantee." />
+  <meta property="og:url" content="https://www.skynodesuav.in/about" />
+  <meta property="og:image" content="https://www.skynodesuav.in/images/products/sea-1-1.jpg" />
+
+  <script type="application/ld+json" set:html={JSON.stringify(aboutSchema)} />
 </head>
 <body class="bellavita-about-body">
   <GoogleTagManagerBody />
 
   <Header />
 
+  <!-- Breadcrumbs -->
+  <nav class="breadcrumb-strip" aria-label="Breadcrumb">
+    <div class="container">
+      <a href="/">Home</a> <span>›</span> <span class="active">About Us</span>
+    </div>
+  </nav>
+
   <main class="container about-container reveal-on-scroll">
     <div class="about-hero-box">
-      <h1 class="section-title">ABOUT SKYNODESUAV</h1>
-      <p class="section-subtitle">Pioneering Contest-Grade RC Aviation & Drone Systems in India</p>
+      <div class="about-badge">ESTABLISHED AVIATION HERITAGE</div>
+      <h1 class="section-title">ABOUT SKYNODES UAV</h1>
+      <p class="section-subtitle">Pioneering Contest-Grade RC Aviation, Aeromodelling Systems & Scale UAV Engineering in India</p>
+    </div>
+
+    <!-- Stats Counter Bar -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-number">15,000+</span>
+        <span class="stat-label">Airframes & Spares Delivered</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">100%</span>
+        <span class="stat-label">Factory Genuine & Sealed</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">24 Hours</span>
+        <span class="stat-label">Priority Express Dispatch</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">18% GST</span>
+        <span class="stat-label">Input Tax Credit Invoicing</span>
+      </div>
     </div>
 
     <div class="about-grid">
-      <div class="about-card">
-        <h2>OUR MISSION</h2>
+      
+      <!-- Card 1: Our Aviation Roots -->
+      <article class="about-card">
+        <div class="card-icon-tag">📍 NASHIK AVIATION HERITAGE</div>
+        <h2>OUR MISSION & FOUNDATION</h2>
         <p>
-          Founded by passionate RC aviators and aeronautical engineers, <strong>SKYNODESUAV</strong> was built to eliminate the scarcity of genuine, high-grade radio control flight equipment in India.
+          Headquartered in the historic military and aerospace corridor of <strong>Devlali Camp, Nashik (Maharashtra)</strong>, <strong>SKYNODES UAV</strong> was established by seasoned aeromodelling competition pilots and aeronautical engineers. For years, Indian aeromodellers, STEM university laboratories, and defense UAV developers faced crippling shortages of genuine flight hardware, exorbitant import duties, damaged balsa consignments, and zero technical support.
         </p>
         <p>
-          From giant scale 3D aerobatic ARF airframes to precision contest-grade AAA Balsa Wood sheets, O.S. Engines, DLE Gas power plants, and Futaba telemetry systems, we import and distribute 100% authentic equipment direct from factory manufacturers.
+          We engineered SKYNODES UAV to solve this permanently. By forging direct, authorized relationships with the world's leading manufacturers, we maintain a live, factory-sealed inventory in Maharashtra, dispatched within 24 hours to flight fields and research labs across India.
         </p>
+      </article>
 
-        <div class="stats-grid">
-          <div class="stat-card">
-            <span class="stat-number">15,000+</span>
-            <span class="stat-label">Orders Delivered</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-number">33+</span>
-            <span class="stat-label">Curated Products</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-number">100%</span>
-            <span class="stat-label">Genuine Guarantee</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-number">4.9★</span>
-            <span class="stat-label">Customer Rating</span>
-          </div>
-        </div>
+      <!-- Card 2: Authorized Brand Partnerships -->
+      <article class="about-card">
+        <div class="card-icon-tag">🏆 OFFICIAL DISTRIBUTION</div>
+        <h2>AUTHORIZED MANUFACTURER CHANNELS</h2>
+        <p>
+          Every engine, airframe, and radio in our hangar is 100% authentic, backed by original factory serial numbers, inspection certificates, and warranty:
+        </p>
+        <ul class="about-features-list">
+          <li><strong>O.S. Engines Japan:</strong> World-renowned 2-stroke glow engines (.46 AX II, .65 AX) engineered with Advanced Bimetallic Liner (ABL) technology and 40K carburetors for rock-solid idle.</li>
+          <li><strong>DLE Gasoline Engines:</strong> Giant-scale electronic CDI powerplants (20cc, 35RA, 55cc Twin, 65cc) delivering unmatched thrust-to-weight ratios and Walbro diaphragm carburetors.</li>
+          <li><strong>Seagull Models ARF:</strong> Museum-scale Almost-Ready-to-Fly aircraft hand-built from laser-cut contest balsa and aviation plywood, finished in genuine German Oracover polyester film.</li>
+          <li><strong>Futaba 2.4GHz Telemetry:</strong> DGCA & WPC compliant computerized transmitters (Futaba 6K, TM-18) with S.Bus digital bus architecture and zero-glitch frequency hopping.</li>
+        </ul>
+      </article>
+
+      <!-- Card 3: Rigid Armor Packaging -->
+      <article class="about-card">
+        <div class="card-icon-tag">🛡️ 100% TRANSIT GUARANTEE</div>
+        <h2>TRIPLE-LAYER RIGID ARMOR PACKAGING</h2>
+        <p>
+          Unlike conventional hobby sellers who ship delicate AAA contest balsa sheets or giant scale fiberglass cowls with "order at own risk" disclaimers, SKYNODES UAV engineers custom transit armor:
+        </p>
+        <p>
+          Every order of 100x1000mm balsa wood is sandwiched between heavy-duty wooden support boards, cushioned with high-density air-bubble barriers, and encased inside reinforced export-grade corrugated cartons. If any component arrives cracked or warped, our <strong>100% Transit Guarantee</strong> provides an immediate, hassle-free replacement.
+        </p>
+      </article>
+
+      <!-- Card 4: Technical Support & B2B Invoicing -->
+      <article class="about-card">
+        <div class="card-icon-tag">⚙️ BENCH TUNING & INSTITUTIONAL PO</div>
+        <h2>TECHNICAL FLIGHT DESK & GST INVOICING</h2>
+        <p>
+          Aeromodelling requires technical precision. Our in-house team provides verified bench break-in protocols, fuel/oil mixture specifications (30:1 for DLE gas, 15%-20% castor/synthetic for O.S. nitro), propeller pairing charts, and 1-on-1 WhatsApp technical guidance.
+        </p>
+        <p>
+          For aeronautical colleges (IITs, NITs), DRDO/defense UAV projects, and registered aeromodelling clubs, we provide automated <strong>18% GST Input Tax Credit (ITC) commercial invoices</strong>, formal proforma quotations, and institutional purchase order (PO) processing.
+        </p>
+      </article>
+
+    </div>
+
+    <!-- Official Pilot Contact Banner -->
+    <div class="about-contact-banner">
+      <div class="banner-content">
+        <h3>Need Technical Guidance or an Institutional Proforma Quote?</h3>
+        <p>Connect directly with our Chief Flight Engineers in Devlali Camp, Nashik for airframe recommendations, engine break-in needle settings, or bulk institutional orders.</p>
+      </div>
+      <div class="banner-actions">
+        <a href="https://wa.me/917722009120?text=Hello%20SKYNODES%20UAV%20Flight%20Desk,%20I%20need%20technical%20guidance" class="btn-about-wa" target="_blank" rel="noopener noreferrer">
+          Chat on WhatsApp: +91-7722009120
+        </a>
+        <a href="/contact" class="btn-about-contact">Official Contact Desk →</a>
       </div>
     </div>
   </main>
 
   <CartDrawer />
+  <MobileBottomNav />
   <Footer />
 
   <style>
-    .page-padding {
-      padding: 4rem 1.25rem;
+    .breadcrumb-strip {
+      background: transparent;
+      padding: 1.25rem 0 0.5rem;
+      font-size: 0.78rem;
+      color: #777777;
     }
-    .about-hero {
-      padding: 3.5rem 2.5rem;
-      border-radius: var(--radius-lg);
-      max-width: 960px;
+    .breadcrumb-strip a { color: #666666; text-decoration: none; }
+    .breadcrumb-strip a:hover { color: #111111; }
+    .breadcrumb-strip span { margin: 0 0.35rem; color: #aaaaaa; }
+    .breadcrumb-strip .active { color: #111111; font-weight: 600; }
+
+    .about-container {
+      max-width: 1100px;
       margin: 0 auto;
+      padding: 2rem 1.5rem 5rem;
     }
-    .about-content p {
+    .about-hero-box {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .about-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      color: #3b0811;
+      background: #f4ece1;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+      border: 1px solid #e2d7c5;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 2.3rem;
+      font-weight: 800;
+      color: #1a1a1a;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.75rem;
+    }
+    .section-subtitle {
       font-size: 1.05rem;
-      color: var(--text-secondary);
-      line-height: 1.8;
-      margin-bottom: 1.5rem;
+      color: #666666;
+      max-width: 720px;
+      margin: 0 auto;
+      line-height: 1.6;
     }
 
+    /* Stats Grid */
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1.5rem;
-      margin-top: 3rem;
-      border-top: 1px solid var(--border-subtle);
-      padding-top: 2.5rem;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 3rem;
+      background: #ffffff;
+      padding: 1.75rem 1.5rem;
+      border-radius: 12px;
+      border: 1px solid #e8e2d8;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
     }
     .stat-card {
       text-align: center;
+      border-right: 1px solid #f0e9df;
+    }
+    .stat-card:last-child {
+      border-right: none;
     }
     .stat-number {
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: var(--accent-gold);
       font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 800;
+      color: #3b0811;
       display: block;
+      margin-bottom: 0.25rem;
     }
     .stat-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #777777;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* About Cards Grid */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.75rem;
+      margin-bottom: 3.5rem;
+    }
+    .about-card {
+      background: #ffffff;
+      padding: 2.25rem;
+      border-radius: 12px;
+      border: 1px solid #e8e2d8;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+      display: flex;
+      flex-direction: column;
+    }
+    .card-icon-tag {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #3b0811;
+      margin-bottom: 0.75rem;
+    }
+    .about-card h2 {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #1a1a1a;
+      margin-bottom: 1rem;
+      letter-spacing: 0.02em;
+    }
+    .about-card p {
+      font-size: 0.94rem;
+      color: #555555;
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+    .about-card p:last-child {
+      margin-bottom: 0;
+    }
+    .about-features-list {
+      margin: 0.5rem 0 0 1.25rem;
+      padding: 0;
+      font-size: 0.92rem;
+      color: #555555;
+      line-height: 1.7;
+    }
+    .about-features-list li {
+      margin-bottom: 0.65rem;
+    }
+
+    /* Contact Banner */
+    .about-contact-banner {
+      background: linear-gradient(135deg, #2d060c 0%, #3b0811 100%);
+      color: #ffffff;
+      padding: 2.5rem 2rem;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      box-shadow: 0 10px 30px rgba(59, 8, 17, 0.2);
+    }
+    .banner-content h3 {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+      color: #f7ede2;
+    }
+    .banner-content p {
+      font-size: 0.92rem;
+      color: #dfcfc4;
+      line-height: 1.6;
+      max-width: 620px;
+    }
+    .banner-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      min-width: 260px;
+    }
+    .btn-about-wa {
+      background: #25D366;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.88rem;
+      padding: 0.85rem 1.25rem;
+      border-radius: 6px;
+      text-align: center;
+      transition: opacity 0.2s;
+    }
+    .btn-about-wa:hover {
+      opacity: 0.92;
+    }
+    .btn-about-contact {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
       font-size: 0.85rem;
-      color: var(--text-muted);
+      padding: 0.75rem 1.25rem;
+      border-radius: 6px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      transition: background 0.2s;
+    }
+    .btn-about-contact:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    @media (max-width: 860px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem 1rem;
+      }
+      .stat-card:nth-child(2) {
+        border-right: none;
+      }
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+      .about-contact-banner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .banner-actions {
+        width: 100%;
+      }
     }
   </style>
 

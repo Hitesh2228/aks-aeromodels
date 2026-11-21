@@ -54,6 +54,7 @@ ${blogs
 - Flight Academy Blog: ${baseUrl}/blog
 - RealFlight Simulator: ${baseUrl}/flight-simulator
 - About Us: ${baseUrl}/about
+- Pilot Help Center & FAQs: ${baseUrl}/faq
 - Contact & Support: ${baseUrl}/contact
 - HTML Directory: ${baseUrl}/sitemap
 - XML Sitemap: ${baseUrl}/sitemap.xml

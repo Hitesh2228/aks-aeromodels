@@ -149,7 +149,7 @@ const usageLocations = product.whereToFly && product.whereToFly.length > 0
 
 const trustBadgesList = product.trustBadges && product.trustBadges.length >= 4
   ? product.trustBadges.slice(0, 4)
-  : ['Imported Quality', '100% Genuine', 'AMA Certified', 'Assured Delivery'];
+  : ['100% Factory Sealed', 'Official Warranty', 'Rigid Armor Shipping', 'GST ITC Invoice'];
 
 // Reviews Schema mapping
 const reviewsListSchema = pilotReviews.map(r => ({
@@ -518,9 +518,9 @@ const faqSchema = (product.faqList && product.faqList.length > 0) ? {
           </div>
         </div>
 
-        <!-- Notes in This Set Section (Exact PDF Style) -->
+        <!-- Technical Highlights & Aero Specs Section -->
         <div class="notes-in-set-block">
-          <h3 class="block-heading">Notes in This Set</h3>
+          <h3 class="block-heading">Technical Highlights & Aero Specs</h3>
           <div class="notes-grid-4" id="pdp-notes-grid">
             {notesInSet.map(note => (
               <div class="note-item-card">
@@ -532,7 +532,7 @@ const faqSchema = (product.faqList && product.faqList.length > 0) ? {
           </div>
         </div>
 
-        <!-- Where To Fly Applications ("Where To Wear It" -> PDF Style) -->
+        <!-- Where To Fly Applications -->
         <div class="where-to-fly-block">
           <h3 class="block-heading">Where To Fly It</h3>
           <div class="where-grid-2" id="pdp-where-grid">
@@ -543,7 +543,7 @@ const faqSchema = (product.faqList && product.faqList.length > 0) ? {
               </div>
             ))}
           </div>
-          <p class="vibes-line" id="pdp-vibes-line">Vibes: <em id="pdp-vibes-text">{product.vibesText || 'Versatile, confident, bold, high-performance flight.'}</em></p>
+          <p class="vibes-line" id="pdp-vibes-line">Flight Envelope: <em id="pdp-vibes-text">{product.vibesText || 'High-performance scale aerobatics, club training & competition flight.'}</em></p>
         </div>
 
         <!-- Interactive Clean Expandable Accordions (PDF Minimal Line Style) -->
@@ -617,12 +617,12 @@ const faqSchema = (product.faqList && product.faqList.length > 0) ? {
 
           <div class="pdf-acc-row">
             <button type="button" class="pdf-acc-header">
-              <span>All Ingredients & Material Build</span>
+              <span>Aero Materials & Structural Build</span>
               <span class="pdf-acc-icon">+</span>
             </button>
             <div class="pdf-acc-content">
               <p class="acc-paragraph" id="pdp-material-content">
-                {product.materialText || 'Contest grade balsa wood, aircraft grade aluminum, hardened alloy steel crankshaft, and high temperature ABL cylinder liner.'}
+                {product.materialText || 'Contest grade AAA balsa wood, aircraft grade 6061-T6 aluminum, hardened alloy steel crankshaft, and high temperature ABL cylinder liner.'}
               </p>
             </div>
           </div>

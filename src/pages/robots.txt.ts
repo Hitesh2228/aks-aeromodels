@@ -18,6 +18,7 @@ Allow: /product/
 Allow: /blog/
 Allow: /about
 Allow: /contact
+Allow: /faq
 Allow: /flight-simulator
 Allow: /sitemap
 Allow: /llms.txt

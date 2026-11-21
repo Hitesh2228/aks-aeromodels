@@ -31,6 +31,7 @@ export const GET: APIRoute = async () => {
     { url: '/shop', priority: '0.9', changefreq: 'daily', title: 'Shop All Aeromodelling Products' },
     { url: '/blog', priority: '0.9', changefreq: 'daily', title: 'RC Flight Academy & Technical Engineering Guides' },
     { url: '/flight-simulator', priority: '0.8', changefreq: 'weekly', title: 'RealFlight Evolution Simulator Experience' },
+    { url: '/faq', priority: '0.8', changefreq: 'weekly', title: 'Pilot Help Center & Technical FAQs' },
     { url: '/about', priority: '0.7', changefreq: 'monthly', title: 'About SKYNODES UAV India' },
     { url: '/contact', priority: '0.7', changefreq: 'monthly', title: 'Contact SKYNODES UAV Pilot Support & FAQ' },
     { url: '/sitemap', priority: '0.6', changefreq: 'weekly', title: 'SKYNODES UAV Complete Site Directory' },

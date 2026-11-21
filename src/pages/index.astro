@@ -8,20 +8,94 @@ import ShopByNotes from '../components/ShopByNotes.astro';
 import WhyChooseUs from '../components/WhyChooseUs.astro';
 import CustomerReviews from '../components/CustomerReviews.astro';
 
-// Organization JSON-LD Schema
-const orgSchema = {
+// Comprehensive Schema.org Entity Knowledge Graph for Google & AI Engines
+const pageGraphSchema = {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "SKYNODESUAV",
-  "url": "https://www.skynodesuav.in",
-  "logo": "https://www.skynodesuav.in/favicon-512x512.png",
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "telephone": "+91-9810154380",
-    "contactType": "customer service",
-    "areaServed": "IN",
-    "availableLanguage": ["English", "Hindi"]
-  }
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.skynodesuav.in/#organization",
+      "name": "SKYNODES UAV",
+      "legalName": "SKYNODES UAV",
+      "url": "https://www.skynodesuav.in",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.skynodesuav.in/favicon-512x512.png",
+        "width": 512,
+        "height": 512
+      },
+      "description": "Authorized Indian distributor and specialist retailer for O.S. Engines Japan, DLE Engines, Seagull Models ARF, Futaba 2.4GHz Radios, and AAA Contest Grade Balsa Wood.",
+      "telephone": "+91-7722009120",
+      "email": "support@skynodesuav.in",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Devlali Camp, near HP Petrol Pump",
+        "addressLocality": "Nashik",
+        "addressRegion": "Maharashtra",
+        "postalCode": "422502",
+        "addressCountry": "IN"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "+91-7722009120",
+          "contactType": "technical support & sales desk",
+          "areaServed": "IN",
+          "availableLanguage": ["English", "Hindi", "Marathi"]
+        }
+      ]
+    },
+    {
+      "@type": "HobbyShop",
+      "@id": "https://www.skynodesuav.in/#hobbyshop",
+      "name": "SKYNODES UAV Aeromodelling & Scale Flight Store",
+      "image": "https://www.skynodesuav.in/images/products/sea-1-1.jpg",
+      "url": "https://www.skynodesuav.in",
+      "telephone": "+91-7722009120",
+      "priceRange": "₹₹",
+      "currenciesAccepted": "INR",
+      "paymentAccepted": "UPI, Credit Card, Debit Card, Net Banking",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Devlali Camp, near HP Petrol Pump",
+        "addressLocality": "Nashik",
+        "addressRegion": "Maharashtra",
+        "postalCode": "422502",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 19.9248,
+        "longitude": 73.8344
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          "opens": "10:00",
+          "closes": "19:00"
+        }
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.skynodesuav.in/#website",
+      "url": "https://www.skynodesuav.in",
+      "name": "SKYNODES UAV",
+      "description": "High-Performance RC Flight Systems, Engines, Aeromodels & Materials in India",
+      "publisher": {
+        "@id": "https://www.skynodesuav.in/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://www.skynodesuav.in/shop?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
 };
 
 // Edge CDN Cache Control (Instant Shopify live sync with short 30s edge revalidation)
@@ -30,9 +104,18 @@ Astro.response.headers.set('X-Robots-Tag', 'all');
 
 // LCP Hero Banner 0 Preload
 const heroLcpImage = "https://cdn.shopify.com/s/files/1/1026/5726/1844/files/eng-1-1.jpg?v=1791020055";
+
+const homeTitle = "SKYNODES UAV | Buy RC Engines, Aeromodels, Futaba Radios & Balsa Wood in India";
+const homeDesc = "India's authorized online store for Japanese O.S. Max Nitro Engines, DLE Petrol Motors, Seagull ARF Scale Aircraft, Futaba 2.4GHz Telemetry, and AAA Balsa Wood. 100% Genuine, Pan-India Dispatch & GST Invoices.";
 ---
 
-<BaseLayout schema={orgSchema} preloadImage={heroLcpImage} canonicalUrl="https://www.skynodesuav.in/">
+<BaseLayout 
+  title={homeTitle}
+  description={homeDesc}
+  schema={pageGraphSchema} 
+  preloadImage={heroLcpImage} 
+  canonicalUrl="https://www.skynodesuav.in/"
+>
   <main>
     <HeroCarousel />
     <CategoryGrid />
