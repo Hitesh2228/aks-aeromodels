@@ -47,31 +47,75 @@ if (!relatedProduct) {
   });
 }
 
-// JSON-LD Article Schema
+// Comprehensive Enterprise JSON-LD Article Schema
 const articleSchema = {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": post.title,
-  "description": post.excerpt,
-  "image": [post.image],
-  "datePublished": post.publishedAt || "2026-08-01",
-  "author": {
-    "@type": "Person",
-    "name": post.author,
-    "jobTitle": post.authorRole || "Flight Instructor"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "SKYNODES UAV India",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://www.skynodesuav.in/favicon.svg"
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `https://www.skynodesuav.in/blog/${post.slug}#article`,
+      "isPartOf": {
+        "@type": "Blog",
+        "@id": "https://www.skynodesuav.in/blog/#blog",
+        "name": "SKYNODES UAV RC Flight Academy"
+      },
+      "headline": post.title,
+      "description": post.excerpt,
+      "image": [post.image],
+      "datePublished": post.publishedAt || "2026-08-01",
+      "dateModified": post.publishedAt || "2026-10-15",
+      "inLanguage": "en-IN",
+      "author": {
+        "@type": "Person",
+        "name": post.author,
+        "jobTitle": post.authorRole || "Flight Instructor",
+        "worksFor": {
+          "@id": "https://www.skynodesuav.in/#organization"
+        }
+      },
+      "publisher": {
+        "@id": "https://www.skynodesuav.in/#organization"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": `https://www.skynodesuav.in/blog/${post.slug}`
+      },
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [".briefing-title", ".pilot-briefing p", ".kt-list li"]
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `https://www.skynodesuav.in/blog/${post.slug}#breadcrumb`,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.skynodesuav.in"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Flight Academy Blog",
+          "item": "https://www.skynodesuav.in/blog"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": post.category,
+          "item": `https://www.skynodesuav.in/blog`
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": post.title,
+          "item": `https://www.skynodesuav.in/blog/${post.slug}`
+        }
+      ]
     }
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": `https://www.skynodesuav.in/blog/${post.slug}`
-  }
+  ]
 };
 
 Astro.response.headers.set('X-Robots-Tag', 'all');
@@ -705,6 +749,33 @@ Astro.response.headers.set('X-Robots-Tag', 'all');
       background: #fffbeb;
       border: 1px solid #fde68a;
       color: #78350f;
+    }
+
+    /* AEO / AI Overview FAQ Blocks */
+    :global(.aeo-faq-block) {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin: 2rem 0 2.5rem;
+    }
+    :global(.aeo-faq-item) {
+      background: #faf7f2;
+      border: 1px solid #ebdccb;
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+    }
+    :global(.aeo-faq-item h4) {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: #3b0811;
+      margin-bottom: 0.5rem;
+      font-family: inherit;
+    }
+    :global(.aeo-faq-item p) {
+      font-size: 0.95rem;
+      color: #444444;
+      line-height: 1.65;
+      margin-bottom: 0 !important;
     }
 
     /* Related Equipment Widget */

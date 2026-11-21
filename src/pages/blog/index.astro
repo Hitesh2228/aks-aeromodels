@@ -18,6 +18,58 @@ const categories = ['ALL', ...Array.from(new Set(posts.map(p => p.category)))];
 const featuredPost = posts[0];
 const standardPosts = posts.slice(1);
 
+// Schema.org CollectionPage & Blog Entity Graph
+const blogCollectionSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://www.skynodesuav.in/blog/#webpage",
+      "url": "https://www.skynodesuav.in/blog",
+      "name": "RC Flight Academy, Aeromodelling Guides & Technical Tutorials | SKYNODES UAV",
+      "description": "Masterclass technical tutorials on O.S. Max nitro engine tuning, DLE gasoline engines, Futaba 2.4GHz telemetry, Seagull Models ARF aircraft, and AAA balsa wood scratch building in India.",
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.skynodesuav.in"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "RC Flight Academy & Blog",
+            "item": "https://www.skynodesuav.in/blog"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "Blog",
+      "@id": "https://www.skynodesuav.in/blog/#blog",
+      "name": "SKYNODES UAV RC Flight Academy",
+      "url": "https://www.skynodesuav.in/blog",
+      "publisher": {
+        "@id": "https://www.skynodesuav.in/#organization"
+      },
+      "blogPost": posts.map(p => ({
+        "@type": "BlogPosting",
+        "headline": p.title,
+        "description": p.excerpt,
+        "url": `https://www.skynodesuav.in/blog/${p.slug}`,
+        "datePublished": p.publishedAt || "2026-08-01",
+        "image": p.image,
+        "author": {
+          "@type": "Person",
+          "name": p.author
+        }
+      }))
+    }
+  ]
+};
+
 Astro.response.headers.set('X-Robots-Tag', 'all');
 ---
 
@@ -28,12 +80,21 @@ Astro.response.headers.set('X-Robots-Tag', 'all');
   <FaviconAndSeoHead />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RC Flight Blog & Tutorials | SKYNODES UAV India</title>
-  <meta name="description" content="Technical aeromodelling tutorials, engine tuning guides, Seagull ARF setup, and scale flight techniques from master pilots." />
+  <title>RC Flight Academy, Aeromodelling Guides & Engine Tuning Tutorials | SKYNODES UAV India</title>
+  <meta name="description" content="Explore masterclass aeromodelling tutorials, O.S. Max nitro and DLE gas engine break-in guides, Futaba 2.4GHz telemetry, Seagull ARF setup, and AAA balsa wood engineering by SKYNODES UAV flight specialists." />
   <link rel="canonical" href="https://www.skynodesuav.in/blog" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+
+  <!-- OpenGraph Metadata -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="RC Flight Academy & Aeromodelling Technical Guides | SKYNODES UAV India" />
+  <meta property="og:description" content="Master nitro and gas engine tuning, radio telemetry, balsa scratch building, and scale flight dynamics from India's authorized aeromodelling specialists." />
+  <meta property="og:url" content="https://www.skynodesuav.in/blog" />
+  <meta property="og:image" content="https://cdn.shopify.com/s/files/1/1026/5726/1844/files/sea-1-1.jpg?v=1791020060" />
+
+  <script type="application/ld+json" set:html={JSON.stringify(blogCollectionSchema)} />
 </head>
 <body class="bellavita-page-body">
   <GoogleTagManagerBody />

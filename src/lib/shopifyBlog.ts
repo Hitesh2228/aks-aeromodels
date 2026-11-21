@@ -73,11 +73,11 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
       const matchingFallback = FALLBACK_POSTS.find(fp => fp.slug === sp.slug);
       if (matchingFallback) {
         return {
-          ...matchingFallback,
           ...sp,
-          contentHtml: sp.contentHtml || matchingFallback.contentHtml,
+          ...matchingFallback,
           title: sp.title || matchingFallback.title,
           excerpt: sp.excerpt || matchingFallback.excerpt,
+          contentHtml: matchingFallback.contentHtml || sp.contentHtml,
           image: sp.image || matchingFallback.image,
           keyTakeaways: matchingFallback.keyTakeaways,
           relatedProductId: matchingFallback.relatedProductId || sp.relatedProductId,
