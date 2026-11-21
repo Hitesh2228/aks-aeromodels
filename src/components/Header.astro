@@ -272,13 +272,23 @@ const navItems = await getStoreNavigation();
   /* Brand Logo */
   .brand-logo {
     text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
   .brand-name {
-    font-family: 'Outfit', var(--font-display), -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-family: 'Outfit', sans-serif !important;
     font-size: 1.65rem;
     font-weight: 800 !important;
     letter-spacing: 0.12em;
     color: #111111;
+    display: inline-block;
+    line-height: 1.1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "kern" 1;
+    font-kerning: normal;
   }
 
   /* Header Actions Right (Clearance from Desktop Edge) */
@@ -373,17 +383,21 @@ const navItems = await getStoreNavigation();
   }
   .nav-item {
     font-size: 0.78rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.06em;
-    color: #333333;
+    color: #444444;
     text-decoration: none;
     white-space: nowrap;
-    transition: color 0.2s ease;
+    transition: color 0.15s ease;
+    position: relative;
+    padding-bottom: 2px;
+  }
+  .nav-item:hover {
+    color: #000000;
   }
   .nav-item.active {
     color: #000000 !important;
-    font-weight: 800 !important;
-    position: relative;
+    font-weight: 700 !important;
   }
   .nav-item.active::after {
     content: '';
