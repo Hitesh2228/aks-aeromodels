@@ -9,12 +9,13 @@
     <div class="footer-exclusive-block">
       <h4 class="exclusive-title">EXCLUSIVE</h4>
       
-      <form class="exclusive-newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed successfully to SKYNODESUAV updates!');">
+      <form class="exclusive-newsletter-form" id="footer-newsletter-form">
         <div class="email-input-wrapper">
-          <input type="email" placeholder="Enter email here" required class="exclusive-input" />
-          <button type="submit" class="exclusive-submit-btn" aria-label="Submit Email">→</button>
+          <input type="email" id="footer-newsletter-email" placeholder="Enter email here" required class="exclusive-input" />
+          <button type="submit" id="footer-newsletter-btn" class="exclusive-submit-btn" aria-label="Submit Email">→</button>
         </div>
       </form>
+      <div id="footer-newsletter-status" class="footer-newsletter-status" style="display: none;"></div>
 
       <p class="exclusive-desc">
         Sign up here to get the latest news, updates and special offers delivered to your inbox.
@@ -359,10 +360,22 @@
       height: 44px !important;
     }
   }
+
+  .footer-newsletter-status {
+    margin-top: 0.75rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #14b8a6;
+    background: rgba(20, 184, 166, 0.12);
+    border: 1px solid rgba(20, 184, 166, 0.35);
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    animation: fadeIn 0.3s ease;
+  }
 </style>
 
 <script>
-  function initFooterAccordions() {
+  function initFooterControls() {
     const accBlocks = document.querySelectorAll('.footer-acc-block');
 
     accBlocks.forEach(block => {
@@ -385,12 +398,69 @@
         }
       });
     });
+
+    // Newsletter Submission
+    const newsletterForm = document.getElementById('footer-newsletter-form') as HTMLFormElement;
+    const emailInput = document.getElementById('footer-newsletter-email') as HTMLInputElement;
+    const submitBtn = document.getElementById('footer-newsletter-btn') as HTMLButtonElement;
+    const statusBox = document.getElementById('footer-newsletter-status');
+
+    if (newsletterForm && emailInput) {
+      newsletterForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = emailInput.value.trim();
+        if (!email) return;
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = '...';
+        }
+
+        try {
+          const res = await fetch('/api/inquiries', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              type: 'newsletter',
+              email
+            })
+          });
+
+          const data = await res.json();
+          if (data.success) {
+            emailInput.value = '';
+            if (statusBox) {
+              statusBox.style.display = 'block';
+              statusBox.textContent = '✓ Subscribed! Welcome to SKYNODES VIP updates.';
+              setTimeout(() => {
+                if (statusBox) statusBox.style.display = 'none';
+              }, 6000);
+            }
+          } else {
+            if (statusBox) {
+              statusBox.style.display = 'block';
+              statusBox.textContent = data.error || 'Subscription error. Please retry.';
+            }
+          }
+        } catch (err) {
+          if (statusBox) {
+            statusBox.style.display = 'block';
+            statusBox.textContent = 'Network error. Please try again.';
+          }
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = '→';
+          }
+        }
+      });
+    }
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initFooterAccordions);
+    document.addEventListener('DOMContentLoaded', initFooterControls);
   } else {
-    initFooterAccordions();
+    initFooterControls();
   }
-  document.addEventListener('astro:page-load', initFooterAccordions);
+  document.addEventListener('astro:page-load', initFooterControls);
 </script>

@@ -104,10 +104,10 @@ const navItems = await getStoreNavigation();
   </nav>
 
   <!-- Sub-ticker (Bellavita Countdown Strip) -->
-  <div class="sub-ticker-strip">
+  <div class="sub-ticker-strip" id="sub-ticker-strip">
     <div class="container sub-ticker-flex">
-      <div class="ticker-message">
-        <span class="yellow-dot">●</span> <strong>Buzz Offer Ends</strong> — Extra ₹80 OFF on all orders!
+      <div class="ticker-message" id="ticker-message">
+        <span class="yellow-dot">●</span> <strong id="ticker-highlight">Buzz Offer Ends</strong> <span id="ticker-text-content">— Extra ₹80 OFF on all orders!</span>
       </div>
       <div class="countdown-widget" id="header-countdown-widget">
         <span class="time-box" id="countdown-days">02</span> <small>Days</small>
@@ -274,9 +274,9 @@ const navItems = await getStoreNavigation();
     text-decoration: none;
   }
   .brand-name {
-    font-family: var(--font-display);
+    font-family: 'Outfit', var(--font-display), -apple-system, BlinkMacSystemFont, sans-serif !important;
     font-size: 1.65rem;
-    font-weight: 700;
+    font-weight: 800 !important;
     letter-spacing: 0.12em;
     color: #111111;
   }
@@ -565,9 +565,9 @@ const navItems = await getStoreNavigation();
     border-bottom: 1px solid #eaeaea;
   }
   .drawer-brand {
-    font-family: var(--font-display);
+    font-family: 'Outfit', var(--font-display), -apple-system, BlinkMacSystemFont, sans-serif !important;
     font-size: 1.3rem;
-    font-weight: 700;
+    font-weight: 800 !important;
     letter-spacing: 0.1em;
     color: #111111;
   }
@@ -1018,50 +1018,49 @@ const navItems = await getStoreNavigation();
     }
     highlightActiveNav();
 
-    // Auto-Repeating Buzz Offer Countdown Timer (Days - Hrs - Min - Sec)
-    function initBuzzCountdown() {
+    // Dynamic Buzz Offer Strip & Countdown Timer (Synced with Admin Metafield)
+    async function initBuzzCountdown() {
+      const stripEl = document.getElementById('sub-ticker-strip');
+      const highlightEl = document.getElementById('ticker-highlight');
+      const textEl = document.getElementById('ticker-text-content');
       const daysEl = document.getElementById('countdown-days');
       const hoursEl = document.getElementById('countdown-hours');
       const minsEl = document.getElementById('countdown-mins');
       const secsEl = document.getElementById('countdown-secs');
 
-      if (!daysEl && !hoursEl && !minsEl && !secsEl) return;
+      if (!stripEl) return;
 
-      const STORAGE_KEY = 'skynode_buzz_countdown_target_v1';
-      // 2 Days, 14 Hours, 35 Minutes, 19 Seconds cycle in milliseconds
-      const CYCLE_MS = (2 * 24 * 3600 + 14 * 3600 + 35 * 60 + 19) * 1000;
+      // Default fallback target
+      let targetTime = Date.now() + (2 * 24 * 3600 + 14 * 3600 + 35 * 60 + 19) * 1000;
 
-      function getValidTarget(): number {
-        const now = Date.now();
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) {
-          const parsed = parseInt(stored, 10);
-          if (!isNaN(parsed) && parsed > now) {
-            return parsed;
+      try {
+        const res = await fetch('/api/announcement');
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.announcement) {
+            const ann = data.announcement;
+            if (ann.enabled === false) {
+              stripEl.style.display = 'none';
+              return;
+            }
+            stripEl.style.display = '';
+            if (highlightEl && ann.highlightText) highlightEl.textContent = ann.highlightText;
+            if (textEl && ann.text) textEl.textContent = ' — ' + ann.text;
+            if (ann.endDate) {
+              const parsedDate = new Date(ann.endDate).getTime();
+              if (!isNaN(parsedDate)) {
+                targetTime = parsedDate;
+              }
+            }
           }
         }
-        // When zero reached or expired, auto-repeat with fresh cycle
-        const newTarget = now + CYCLE_MS;
-        try {
-          localStorage.setItem(STORAGE_KEY, String(newTarget));
-        } catch (e) {}
-        return newTarget;
+      } catch (err) {
+        console.warn('[Header] Using local announcement defaults:', err);
       }
-
-      let targetTime = getValidTarget();
 
       function updateTimerDisplay() {
         const now = Date.now();
-        let remaining = targetTime - now;
-
-        // Auto-repeat when counter reaches zero
-        if (remaining <= 0) {
-          targetTime = now + CYCLE_MS;
-          try {
-            localStorage.setItem(STORAGE_KEY, String(targetTime));
-          } catch (e) {}
-          remaining = targetTime - now;
-        }
+        let remaining = Math.max(0, targetTime - now);
 
         const d = Math.floor(remaining / (1000 * 60 * 60 * 24));
         const h = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));

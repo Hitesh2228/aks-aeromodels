@@ -1337,5 +1337,235 @@ export async function saveStoreCoupons(settings: CouponSettings): Promise<{ succ
   }
 }
 
+// ----------------------------------------------------
+// STORE ANNOUNCEMENT & BUZZ OFFER STRIP MANAGEMENT
+// ----------------------------------------------------
+export interface StoreAnnouncement {
+  enabled: boolean;
+  highlightText: string;
+  text: string;
+  endDate: string; // ISO String
+}
+
+export const DEFAULT_ANNOUNCEMENT: StoreAnnouncement = {
+  enabled: true,
+  highlightText: 'Buzz Offer Ends',
+  text: 'Extra ₹80 OFF on all orders!',
+  endDate: new Date(Date.now() + 2 * 86400000 + 14 * 3600000 + 35 * 60000).toISOString()
+};
+
+export async function getStoreAnnouncement(): Promise<StoreAnnouncement> {
+  try {
+    const res = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/metafields.json?namespace=skynodes_system`, {
+      headers: {
+        'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN,
+        'Content-Type': 'application/json'
+      }
+    });
+    if (!res.ok) throw new Error(`Shopify API error: ${res.status}`);
+    const data = await res.json();
+    const found = data.metafields?.find((m: any) => m.key === 'store_announcement');
+    if (found && found.value) {
+      const parsed = JSON.parse(found.value);
+      if (typeof parsed === 'object') {
+        return {
+          enabled: Boolean(parsed.enabled),
+          highlightText: String(parsed.highlightText || 'Buzz Offer Ends'),
+          text: String(parsed.text || 'Extra ₹80 OFF on all orders!'),
+          endDate: String(parsed.endDate || DEFAULT_ANNOUNCEMENT.endDate)
+        };
+      }
+    }
+  } catch (err) {
+    console.warn('[Shopify Admin] Failed to fetch announcement metafield, using default:', err);
+  }
+  return DEFAULT_ANNOUNCEMENT;
+}
+
+export async function saveStoreAnnouncement(settings: StoreAnnouncement): Promise<{ success: boolean; error?: string }> {
+  try {
+    const listRes = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/metafields.json?namespace=skynodes_system`, {
+      headers: { 'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN }
+    });
+    const listData = await listRes.json();
+    const existing = listData.metafields?.find((m: any) => m.key === 'store_announcement');
+
+    if (existing && existing.id) {
+      const putRes = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/metafields/${existing.id}.json`, {
+        method: 'PUT',
+        headers: {
+          'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          metafield: {
+            id: existing.id,
+            value: JSON.stringify(settings),
+            type: 'json'
+          }
+        })
+      });
+      if (!putRes.ok) throw new Error(`Shopify PUT error: ${putRes.status}`);
+      return { success: true };
+    } else {
+      const postRes = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/metafields.json`, {
+        method: 'POST',
+        headers: {
+          'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          metafield: {
+            namespace: 'skynodes_system',
+            key: 'store_announcement',
+            value: JSON.stringify(settings),
+            type: 'json'
+          }
+        })
+      });
+      if (!postRes.ok) throw new Error(`Shopify POST error: ${postRes.status}`);
+      return { success: true };
+    }
+  } catch (err: any) {
+    console.error('[saveStoreAnnouncement Exception]', err);
+    return { success: false, error: err.message };
+  }
+}
+
+// ----------------------------------------------------
+// CUSTOMER INQUIRIES & LEADS MANAGEMENT
+// ----------------------------------------------------
+export interface StoreInquiry {
+  id: string;
+  timestamp: string;
+  type: 'contact' | 'newsletter';
+  name?: string;
+  email: string;
+  phone?: string;
+  topic?: string;
+  message?: string;
+  status: 'new' | 'contacted' | 'resolved';
+}
+
+export async function getStoreInquiries(): Promise<StoreInquiry[]> {
+  try {
+    const res = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/metafields.json?namespace=skynodes_system`, {
+      headers: {
+        'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN,
+        'Content-Type': 'application/json'
+      }
+    });
+    if (!res.ok) throw new Error(`Shopify API error: ${res.status}`);
+    const data = await res.json();
+    const found = data.metafields?.find((m: any) => m.key === 'store_inquiries');
+    if (found && found.value) {
+      const parsed = JSON.parse(found.value);
+      if (Array.isArray(parsed)) {
+        return parsed;
+      }
+    }
+  } catch (err) {
+    console.warn('[Shopify Admin] Failed to fetch inquiries metafield:', err);
+  }
+  return [];
+}
+
+export async function saveStoreInquiry(inquiryData: Omit<StoreInquiry, 'id' | 'timestamp' | 'status'>): Promise<{ success: boolean; inquiry?: StoreInquiry; error?: string }> {
+  try {
+    const existingInquiries = await getStoreInquiries();
+    const newInquiry: StoreInquiry = {
+      ...inquiryData,
+      id: `SKY-INQ-${Math.floor(1000 + Math.random() * 9000)}`,
+      timestamp: new Date().toISOString(),
+      status: 'new'
+    };
+
+    // Prepend new inquiry
+    const updated = [newInquiry, ...existingInquiries].slice(0, 200); // retain latest 200
+
+    const listRes = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/metafields.json?namespace=skynodes_system`, {
+      headers: { 'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN }
+    });
+    const listData = await listRes.json();
+    const existing = listData.metafields?.find((m: any) => m.key === 'store_inquiries');
+
+    if (existing && existing.id) {
+      const putRes = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/metafields/${existing.id}.json`, {
+        method: 'PUT',
+        headers: {
+          'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          metafield: {
+            id: existing.id,
+            value: JSON.stringify(updated),
+            type: 'json'
+          }
+        })
+      });
+      if (!putRes.ok) throw new Error(`Shopify PUT error: ${putRes.status}`);
+    } else {
+      const postRes = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/metafields.json`, {
+        method: 'POST',
+        headers: {
+          'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          metafield: {
+            namespace: 'skynodes_system',
+            key: 'store_inquiries',
+            value: JSON.stringify(updated),
+            type: 'json'
+          }
+        })
+      });
+      if (!postRes.ok) throw new Error(`Shopify POST error: ${postRes.status}`);
+    }
+
+    return { success: true, inquiry: newInquiry };
+  } catch (err: any) {
+    console.error('[saveStoreInquiry Exception]', err);
+    return { success: false, error: err.message };
+  }
+}
+
+export async function updateInquiryStatus(inquiryId: string, status: 'new' | 'contacted' | 'resolved'): Promise<{ success: boolean; error?: string }> {
+  try {
+    const existingInquiries = await getStoreInquiries();
+    const index = existingInquiries.findIndex(i => i.id === inquiryId);
+    if (index === -1) return { success: false, error: 'Inquiry not found' };
+
+    existingInquiries[index].status = status;
+
+    const listRes = await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/metafields.json?namespace=skynodes_system`, {
+      headers: { 'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN }
+    });
+    const listData = await listRes.json();
+    const existing = listData.metafields?.find((m: any) => m.key === 'store_inquiries');
+
+    if (existing && existing.id) {
+      await fetch(`https://${SHOPIFY_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/metafields/${existing.id}.json`, {
+        method: 'PUT',
+        headers: {
+          'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          metafield: {
+            id: existing.id,
+            value: JSON.stringify(existingInquiries),
+            type: 'json'
+          }
+        })
+      });
+    }
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err.message };
+  }
+}
+
 
 

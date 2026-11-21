@@ -204,13 +204,13 @@ const BANNERS = heroTaggedProducts.length > 0
         ))}
       </div>
 
-      <!-- Dots Indicators (Center Bottom Prominent Carousel Navigation) -->
-      <div class="hero-dots-row" id="hero-dots-row">
-        {BANNERS.map((_, idx) => (
-          <button type="button" class={`hero-dot-btn ${idx === 0 ? 'active' : ''}`} data-idx={idx} aria-label={`Go to slide ${idx + 1}`}></button>
-        ))}
-      </div>
+    </div>
 
+    <!-- Dots Indicators (Center Bottom Prominent Carousel Navigation) -->
+    <div class="hero-dots-row" id="hero-dots-row">
+      {BANNERS.map((_, idx) => (
+        <button type="button" class={`hero-dot-btn ${idx === 0 ? 'active' : ''}`} data-idx={idx} aria-label={`Go to slide ${idx + 1}`}></button>
+      ))}
     </div>
 
   </div>
@@ -235,20 +235,19 @@ const BANNERS = heroTaggedProducts.length > 0
     border-radius: 12px;
   }
   .hero-dots-row {
-    position: absolute;
-    bottom: 1.15rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
+    margin: 1.25rem auto 0;
     display: flex;
+    justify-content: center;
     gap: 0.65rem;
     align-items: center;
+    width: fit-content;
     background: rgba(10, 15, 29, 0.7);
     backdrop-filter: blur(10px);
-    padding: 0.45rem 0.95rem;
+    padding: 0.45rem 1rem;
     border-radius: 999px;
     border: 1px solid rgba(255, 255, 255, 0.18);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+    z-index: 10;
   }
   .hero-dot-btn {
     width: 10px;

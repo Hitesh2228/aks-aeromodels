@@ -109,39 +109,59 @@ Astro.response.headers.set('X-Robots-Tag', 'all');
       <!-- Contact Form Right -->
       <div class="contact-form-card glass-panel">
         <h2 class="form-title">SEND US A MESSAGE</h2>
-        <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent successfully! Our technical team will reach out within 2 hours.');">
+
+        <!-- Luxury Success Box -->
+        <div id="contact-success-box" class="contact-success-banner" style="display: none;">
+          <div class="success-icon-badge">✓</div>
+          <h3 class="success-title">MESSAGE RECEIVED</h3>
+          <p class="success-desc">
+            Your inquiry ticket <strong id="success-ticket-id">#SKY-INQ-1042</strong> has been logged into our Commander Operations desk.
+          </p>
+          <div class="success-timeline">
+            <span>⏱️ Priority Response Time: <strong>Within 2 Hours</strong></span>
+            <span>📱 Channel: <strong>WhatsApp / Phone Call</strong></span>
+          </div>
+          <button type="button" class="btn-send-another" id="btn-send-another">
+            ← Send Another Query
+          </button>
+        </div>
+
+        <form class="contact-form" id="contact-form">
           <div class="form-group">
-            <label>Your Full Name *</label>
-            <input type="text" placeholder="e.g. Rahul Verma" required class="form-input" />
+            <label for="contact-name">Your Full Name *</label>
+            <input type="text" id="contact-name" placeholder="e.g. Rahul Verma" required class="form-input" />
           </div>
 
           <div class="form-group">
-            <label>Email Address *</label>
-            <input type="email" placeholder="name@domain.com" required class="form-input" />
+            <label for="contact-email">Email Address *</label>
+            <input type="email" id="contact-email" placeholder="name@domain.com" required class="form-input" />
           </div>
 
           <div class="form-group">
-            <label>Phone Number / WhatsApp</label>
-            <input type="tel" placeholder="+91 77220 09120" class="form-input" />
+            <label for="contact-phone">Phone Number / WhatsApp *</label>
+            <input type="tel" id="contact-phone" placeholder="+91 98765 43210" required class="form-input" />
           </div>
 
           <div class="form-group">
-            <label>Inquiry Topic</label>
-            <select class="form-input">
-              <option>Engine Technical Query</option>
-              <option>Seagull ARF Specs</option>
-              <option>Futaba Radio Pairing</option>
-              <option>Order & Shipping Status</option>
-              <option>GST Bulk Billing</option>
+            <label for="contact-topic">Inquiry Topic</label>
+            <select id="contact-topic" class="form-input">
+              <option value="Engine Technical Query">Engine Technical Query</option>
+              <option value="Seagull ARF Specs">Seagull ARF Specs</option>
+              <option value="Futaba Radio Pairing">Futaba Radio Pairing</option>
+              <option value="Order & Shipping Status">Order & Shipping Status</option>
+              <option value="GST Bulk Billing">GST Bulk Billing</option>
+              <option value="Custom UAV Payload">Custom UAV Payload</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label>Message Detail *</label>
-            <textarea rows="4" placeholder="Describe your flight query..." required class="form-input"></textarea>
+            <label for="contact-message">Message Detail *</label>
+            <textarea id="contact-message" rows="4" placeholder="Describe your flight query..." required class="form-input"></textarea>
           </div>
 
-          <button type="submit" class="btn-primary" style="width: 100%;">SEND MESSAGE <span>→</span></button>
+          <button type="submit" id="contact-submit-btn" class="btn-primary" style="width: 100%;">
+            <span>SEND MESSAGE</span> <span>→</span>
+          </button>
         </form>
       </div>
 
@@ -258,12 +278,169 @@ Astro.response.headers.set('X-Robots-Tag', 'all');
       background: #ffffff;
     }
 
+    .contact-success-banner {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      border: 1.5px solid #14b8a6;
+      border-radius: var(--radius-md);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      color: #ffffff;
+      animation: fadeIn 0.3s ease-in-out;
+      margin-bottom: 1.5rem;
+    }
+    .success-icon-badge {
+      width: 52px;
+      height: 52px;
+      background: #14b8a6;
+      color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      font-weight: 800;
+      margin: 0 auto 1rem;
+      box-shadow: 0 0 20px rgba(20, 184, 166, 0.4);
+    }
+    .success-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.5rem;
+      color: #ffffff;
+    }
+    .success-desc {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+    }
+    .success-desc strong {
+      color: #fbbf24;
+      font-family: monospace;
+      font-size: 1.05rem;
+    }
+    .success-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.85rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+    .success-timeline strong {
+      color: #ffffff;
+    }
+    .btn-send-another {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+      padding: 0.6rem 1.25rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-send-another:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #ffffff;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     @media (max-width: 900px) {
       .contact-grid {
         grid-template-columns: 1fr;
       }
     }
   </style>
+
+  <script>
+    function initContactForm() {
+      const form = document.getElementById('contact-form') as HTMLFormElement;
+      const successBox = document.getElementById('contact-success-box');
+      const ticketEl = document.getElementById('success-ticket-id');
+      const submitBtn = document.getElementById('contact-submit-btn');
+      const sendAnotherBtn = document.getElementById('btn-send-another');
+
+      if (!form) return;
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const name = (document.getElementById('contact-name') as HTMLInputElement)?.value.trim();
+        const email = (document.getElementById('contact-email') as HTMLInputElement)?.value.trim();
+        const phone = (document.getElementById('contact-phone') as HTMLInputElement)?.value.trim();
+        const topic = (document.getElementById('contact-topic') as HTMLSelectElement)?.value;
+        const message = (document.getElementById('contact-message') as HTMLTextAreaElement)?.value.trim();
+
+        if (!name || !email || !message) return;
+
+        if (submitBtn) {
+          submitBtn.setAttribute('disabled', 'true');
+          submitBtn.innerHTML = `<span>DISPATCHING INQUIRY...</span>`;
+        }
+
+        try {
+          const res = await fetch('/api/inquiries', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              type: 'contact',
+              name,
+              email,
+              phone,
+              topic,
+              message
+            })
+          });
+
+          const data = await res.json();
+          if (data.success) {
+            form.reset();
+            form.style.display = 'none';
+            if (successBox) {
+              if (ticketEl && data.inquiry?.id) ticketEl.textContent = '#' + data.inquiry.id;
+              successBox.style.display = 'block';
+            }
+          } else {
+            alert('Could not submit inquiry: ' + (data.error || 'Server error. Please call +91 7722009120 directly.'));
+          }
+        } catch (err) {
+          alert('Network communication error. Please contact WhatsApp +91 7722009120 directly.');
+        } finally {
+          if (submitBtn) {
+            submitBtn.removeAttribute('disabled');
+            submitBtn.innerHTML = `<span>SEND MESSAGE</span> <span>→</span>`;
+          }
+        }
+      });
+
+      sendAnotherBtn?.addEventListener('click', () => {
+        if (successBox) successBox.style.display = 'none';
+        if (form) {
+          form.style.display = 'block';
+          form.reset();
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initContactForm);
+    } else {
+      initContactForm();
+    }
+    document.addEventListener('astro:page-load', initContactForm);
+  </script>
 
 </body>
 </html>
