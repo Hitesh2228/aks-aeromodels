@@ -1,0 +1,576 @@
+{
+  "sitemapUrls": {
+    "total": 76,
+    "passed": 76,
+    "failed": 0,
+    "urls": [
+      {
+        "url": "https://www.skynodesuav.in/",
+        "status": 200,
+        "duration": 104,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/shop",
+        "status": 200,
+        "duration": 760,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/about",
+        "status": 200,
+        "duration": 1024,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/flight-simulator",
+        "status": 200,
+        "duration": 1075,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/contact",
+        "status": 200,
+        "duration": 1078,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/faq",
+        "status": 200,
+        "duration": 1182,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/blog",
+        "status": 200,
+        "duration": 1353,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/sitemap",
+        "status": 200,
+        "duration": 693,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/profile",
+        "status": 200,
+        "duration": 370,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/pricing-policy",
+        "status": 200,
+        "duration": 469,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/privacy",
+        "status": 200,
+        "duration": 417,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/terms",
+        "status": 200,
+        "duration": 400,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/shop?category=engine",
+        "status": 200,
+        "duration": 451,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/shop?category=aeromodels",
+        "status": 200,
+        "duration": 456,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/shop?category=radio-receiver",
+        "status": 200,
+        "duration": 443,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/shop?category=balsa-wood",
+        "status": 200,
+        "duration": 470,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/shop?filter=crazy-deals",
+        "status": 200,
+        "duration": 412,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/shop?category=accessories",
+        "status": 200,
+        "duration": 527,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/shop?filter=bestsellers",
+        "status": 200,
+        "duration": 437,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/acc-11",
+        "status": 200,
+        "duration": 422,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/skynodes-skymaster-55cc-twin-gas-engine",
+        "status": 200,
+        "duration": 496,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/acc-15",
+        "status": 200,
+        "duration": 429,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/bal-7",
+        "status": 200,
+        "duration": 537,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/acc-14",
+        "status": 200,
+        "duration": 493,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/acc-13",
+        "status": 200,
+        "duration": 536,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/acc-9",
+        "status": 200,
+        "duration": 365,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/acc-12",
+        "status": 200,
+        "duration": 570,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/acc-8",
+        "status": 200,
+        "duration": 523,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/acc-7",
+        "status": 200,
+        "duration": 425,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/acc-6",
+        "status": 200,
+        "duration": 498,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/acc-4",
+        "status": 200,
+        "duration": 402,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/acc-3",
+        "status": 200,
+        "duration": 395,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/acc-2",
+        "status": 200,
+        "duration": 410,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/acc-5",
+        "status": 200,
+        "duration": 551,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/acc-1",
+        "status": 200,
+        "duration": 422,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/bal-9",
+        "status": 200,
+        "duration": 359,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/bal-8",
+        "status": 200,
+        "duration": 388,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/bal-6",
+        "status": 200,
+        "duration": 357,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/bal-5",
+        "status": 200,
+        "duration": 410,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/bal-3",
+        "status": 200,
+        "duration": 445,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/bal-4",
+        "status": 200,
+        "duration": 657,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/bal-2",
+        "status": 200,
+        "duration": 771,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/bal-1",
+        "status": 200,
+        "duration": 619,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/sea-12",
+        "status": 200,
+        "duration": 603,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/sea-10",
+        "status": 200,
+        "duration": 533,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/sea-9",
+        "status": 200,
+        "duration": 404,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/sea-8",
+        "status": 200,
+        "duration": 421,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/sea-7",
+        "status": 200,
+        "duration": 437,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/sea-2",
+        "status": 200,
+        "duration": 407,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/sea-6",
+        "status": 200,
+        "duration": 516,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/sea-1",
+        "status": 200,
+        "duration": 531,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/sea-3",
+        "status": 200,
+        "duration": 682,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/sea-5",
+        "status": 200,
+        "duration": 709,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/rad-3",
+        "status": 200,
+        "duration": 353,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/rad-2",
+        "status": 200,
+        "duration": 344,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/rad-1",
+        "status": 200,
+        "duration": 406,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/eng-4",
+        "status": 200,
+        "duration": 398,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/eng-2",
+        "status": 200,
+        "duration": 398,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/eng-3",
+        "status": 200,
+        "duration": 418,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/eng-1",
+        "status": 200,
+        "duration": 369,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/acc-10",
+        "status": 200,
+        "duration": 421,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/sea-4",
+        "status": 200,
+        "duration": 570,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/eng-5",
+        "status": 200,
+        "duration": 431,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/product/sea-11",
+        "status": 200,
+        "duration": 522,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/blog/rc-flight-line-pit-box-essentials",
+        "status": 200,
+        "duration": 680,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/blog/dle-65cc-gas-engine-tuning-guide",
+        "status": 200,
+        "duration": 799,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/blog/thick-balsa-wood-carving-and-formers-guide",
+        "status": 200,
+        "duration": 787,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/blog/futaba-sbus-digital-servos-guide",
+        "status": 200,
+        "duration": 573,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/blog/seagull-pilatus-pc9-scale-turboprop-guide",
+        "status": 200,
+        "duration": 522,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/blog/cg-balancing-and-lateral-trimming",
+        "status": 200,
+        "duration": 514,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/blog/gas-vs-nitro-vs-electric-powerplants",
+        "status": 200,
+        "duration": 529,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/blog/giant-scale-decathlon-122-build-review",
+        "status": 200,
+        "duration": 940,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/blog/choosing-first-seagull-trainer",
+        "status": 200,
+        "duration": 519,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/blog/balsa-wood-density-guide",
+        "status": 200,
+        "duration": 525,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/blog/futaba-telemetry-setup-guide",
+        "status": 200,
+        "duration": 723,
+        "pass": true
+      },
+      {
+        "url": "https://www.skynodesuav.in/blog/how-to-break-in-nitro-engine",
+        "status": 200,
+        "duration": 568,
+        "pass": true
+      }
+    ]
+  },
+  "apiChecks": {
+    "passed": 3,
+    "failed": 1,
+    "details": [
+      {
+        "test": "GET /api/inquiries",
+        "status": 200,
+        "count": 0,
+        "pass": true
+      },
+      {
+        "test": "POST /api/inquiries (Empty Body Validation)",
+        "status": 400,
+        "pass": true
+      },
+      {
+        "test": "GET /api/admin/announcement",
+        "status": 200,
+        "highlight": "Buzz Offer Ends",
+        "pass": true
+      }
+    ]
+  },
+  "schemaAndSeo": {
+    "passed": 7,
+    "failed": 1,
+    "details": [
+      {
+        "page": "Home Page",
+        "schemas": [
+          "Organization",
+          "WebSite"
+        ],
+        "pass": true
+      },
+      {
+        "page": "Shop Catalog",
+        "schemas": [
+          "ItemList"
+        ],
+        "pass": true
+      },
+      {
+        "page": "Seagull Aircraft PDP",
+        "schemas": [
+          "Product",
+          "BreadcrumbList"
+        ],
+        "pass": true
+      },
+      {
+        "page": "OS Engine PDP",
+        "schemas": [
+          "Product",
+          "BreadcrumbList"
+        ],
+        "pass": true
+      },
+      {
+        "page": "Balsa Wood Sheet PDP",
+        "schemas": [
+          "Product",
+          "BreadcrumbList"
+        ],
+        "pass": true
+      },
+      {
+        "page": "Flight Blog Directory",
+        "missing": [
+          "ItemList"
+        ],
+        "aeoPassed": true,
+        "pass": false
+      },
+      {
+        "page": "Nitro Engine Tuning Blog",
+        "schemas": [
+          "BlogPosting",
+          "BreadcrumbList"
+        ],
+        "pass": true
+      },
+      {
+        "page": "Interactive FAQ Page",
+        "schemas": [
+          "FAQPage"
+        ],
+        "pass": true
+      }
+    ]
+  },
+  "businessRules": {
+    "passed": 1,
+    "failed": 4,
+    "details": [
+      {
+        "rule": "100% Transit Protection Text Removed",
+        "pass": true
+      }
+    ]
+  },
+  "imagesCdn": {
+    "passed": 5,
+    "failed": 1,
+    "details": []
+  },
+  "llmsGrounding": {
+    "passed": 0,
+    "failed": 1,
+    "details": []
+  }
+}

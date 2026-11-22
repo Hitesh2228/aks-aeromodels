@@ -21,11 +21,13 @@ export const GET: APIRoute = async () => {
 
 - Website: ${baseUrl}
 - Official Contact / WhatsApp: +91 7722009120
+- Headquarters & Warehouse: Devlali Camp, Near HP Petrol Pump, Nashik, Maharashtra, India 422 502
+- Authorized Distribution & Supply: Seagull Models Vietnam, O.S. Engines Japan (O.S. Max), DLE Gas Engines, Futaba Radio Systems
 - Shipping: Pan-India Express Delivery within 24-48 Hours
 - GST Invoicing: 100% Tax Compliant B2B & Personal GST Invoices
 
 ## About SKYNODES UAV
-SKYNODES UAV is an Indian precision aerospace and aeromodelling company offering competition-grade nitro engines, electronic CDI gasoline engines, 2.4GHz Futaba radio control telemetry transmitters, balsa wood scratch building materials, ARF scale aeromodels from Seagull Models, and flight line field accessories.
+SKYNODES UAV is an Indian precision aerospace and aeromodelling company based in Devlali Camp, Nashik, Maharashtra. Offering competition-grade O.S. Engines Japan nitro engines, electronic CDI gasoline engines from DLE, 2.4GHz Futaba radio control telemetry transmitters, balsa wood scratch building materials, ARF scale aeromodels from Seagull Models, and flight line field accessories.
 
 ## Key Product Categories
 1. **Engines & Powerplants**: O.S. Max nitro glow engines (0.46 AX II, 65AX, 75AX ABL) and DLE electronic ignition gas engines (20cc, 65cc).
